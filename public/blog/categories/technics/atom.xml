@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Technics | Bill's Blog]]></title>
+  <link href="http://ibillxia.github.com/blog/categories/technics/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.com/"/>
+  <updated>2013-10-22T22:35:17+08:00</updated>
+  <id>http://ibillxia.github.com/</id>
+  <author>
+    <name><![CDATA[Bill Xia]]></name>
+    <email><![CDATA[ibillxia@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Linux的OSS和ALSA声音系统简介及其比较]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it%27s-comparision/"/>
+    <updated>2013-09-08T19:46:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it's-comparision</id>
+    <content type="html"><![CDATA[<h2>概述</h2>
+
+
+<p>昨天想在Ubuntu上用一下HTK工具包来绘制语音信号的频谱图和提取MFCC的结果，但由于前段时间把Ubuntu升级到13.04，系统的声卡驱动
+是ALSA（Advanced Linux Sound Architecture，高级Linux声音体系），而不是HTK中所使用的OSS（Open Sound System，开放声音系统）。
+网上查阅了大半天，按照 http://forum.ubuntu.org.cn/viewtopic.php?t=316792 中提供的方法用OSS4来替换ALSA，结果OSS4没替换成功，
+而原来的ALSA也不好使了，真坑爹啊！到现在还没办法完全复原，现在只能通过alsamixer来设置音量了，系统的音量设置根本无法用，而且
+声音设置中的输入设备和输出设备都是空的，捣鼓了半天也没还原回来唉，整个人都快崩溃了，都是由于对Linux不熟悉才被虐至如此地步，得恶补啊！！！
+下面本文就主要介绍一下OSS和ALSA，并将二者进行比较。</p>
+
+
+
+
+<p>在介绍OSS和ALSA之前，先介绍一下音频设备的一些基础知识。</br>
+数字音频设备，有时也称codec，PCM，DSP，ADC/DAC设备，用来播放或录制数字化的声音。它的指标主要有：采样速率（电话为8K，DVD为96K）、
+channel数目（单声道，立体声）、采样分辨率（8-bit，16-bit）等。</br>
+mixer（混频器）：用来控制多个输入、输出的音量，也控制输入（microphone，line-in，CD）之间的切换。</br>
+synthesizer（合成器）：通过一些预先定义好的波形来合成声音，有时用在游戏中声音效果的产生。</br>
+MIDI接口：MIDI接口是为了连接舞台上的synthesizer、键盘、道具、灯光控制器的一种串行接口。</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<h2>OSS开放声音系统简介</h2>
+
+
+<p>Open Sound System是一个类Unix和POSIX兼容系统上一个可选的声音架构。OSSv3是Linux下原始的声音系统并集成在内核里，但是OSSv4
+在2002年OSS成为商业软件时它地位被ALSA所取代。OSSv4在2007年又成为了开源软件，4Front Technologies以GPL协议发布了它的源码。</p>
+
+
+
+
+<p>OSS（Open Sound System）是unix平台上一个统一的音频接口。以前，每个Unix厂商都会提供一个自己专有的API，用来处理音频。这就
+意味着为一种Unix平台编写的音频处理应用程序，在移植到另外一种Unix平台上时，必须要重写。不仅如此，在一种平台上具备的功能，
+可能在另外一个平台上无法实现。但是，OSS出现以后情况就大不一样了，只要音频处理应用程序按照OSS的API来编写，那么在移植到另外
+一个平台时，只需要重新编译即可。因此，OSS提供了源代码级的可移植性。</p>
+
+
+
+
+<p>同时，很多的Unix工作站中，只能提供录音与放音的功能。有了OSS后，给这些工作站带来了MIDI功能，加上音频流、语音识别/生成、
+计算机电话（CT）、JAVA以及其它的多媒体技术，在Unix工作站中，同样可以享受到同Windows、Macintosh环境一样的音频世界。另外，
+OSS还提供了与视频和动画播放同步的音频能力，这对在Unix中实现动画、游戏提供了帮助。</p>
+
+
+
+
+<p>在Unix系统中，所有的设备都被统一成文件，通过对文件的访问方式（首先open，然后read/write，同时可以使用ioctl读取/设置参数，
+最后close）来访问设备.在OSS中，主要有以下的几种设备文件：</br>
+/dev/mixer：访问声卡中内置的mixer，调整音量大小，选择音源。</br>
+/dev/sndstat：测试声卡，执行cat /dev/sndstat会显示声卡驱动的信息。</br>
+/dev/dsp、/dev/dspW、/dev/audio：读这个设备就相当于录音，写这个设备就相当于放音。/dev/dsp与/dev/audio之间的区别在于采样的编码
+不同，/dev/audio使用μ律编码，/dev/dsp使用8-bit（无符号）线性编码，/dev/dspW使用16-bit（有符号）线形编码。/dev/audio主要是为了
+与SunOS兼容，所以尽量不要使用。</br>
+/dev/sequencer：访问声卡内置的，或者连接在MIDI接口的synthesizer。</p>
+
+
+
+
+<p>OSS为音频编程提供三种设备，分别是/dev/dsp，/dev/dspW和/dev/audio，用户可以直接使用Unix的命令来放音和录音，命令cat /dev/dsp >xyz
+可用来录音，录音的结果放在xyz文件中；命令cat xyz >/dev/dsp播放声音文件xyz。如果通过编程的方式来使用这些设备，那么Unix平台通过
+文件系统提供了统一的访问接口。程序员可以通过文件的操作函数直接控制这些设备，这些操作函数包括：open、close、read、write、ioctl等。</p>
+
+
+
+
+<h2>ALSA高级Linux声音系统简介</h2>
+
+
+<p>高级Linux声音体系（英语：Advanced Linux Sound Architecture，缩写为ALSA）是Linux内核中，为声卡提供的驱动组件，以替代原先的
+OSS（开放声音系统）。一部分的目的是支持声卡的自动配置，以及完美的处理系统中的多个声音设备，这些目的大多都已达到。另一个声音
+框架JACK使用ALSA提供低延迟的专业级音频编辑和混音能力。</p>
+
+
+
+
+<p>这个项目开始于为1998年Gravis Ultrasound所开发的驱动，它一直作为一个单独的软件包开发，直到2002年他被引进入Linux内核的开发
+版本(2.5.4-2.5.5)。从2.6版本开始ALSA成为Linux内核中默认的标准音频驱动程序集，OSS则被标记为废弃。</p>
+
+
+
+
+<p>ALSA由许多声卡的声卡驱动程序组成，同时它也提供一个称为libasound的API库。应用程序开发者应该使用libasound而不是内核中的ALSA接口。
+因为libasound提供最高级并且编程方便的编程接口。并且提供一个设备逻辑命名功能，这样开发者甚至不需要知道类似设备文件这样的低层接口。
+相反，OSS/Free驱动是在内核系统调用级上编程，它要求开发者提供设备文件名并且利用ioctrl来实现相应的功能。为了向后兼容，ALSA提供内核
+模块来模拟OSS，这样之前的许多在OSS基础上开发的应用程序不需要任何改动就可以在ALSA上运行。另外，libaoss库也可以模拟OSS，而它不需要
+内核模块。另外，ALSA还包含插件功能，使用插件可以扩展新的声卡驱动，包括完全用软件实现的虚拟声卡。ALSA提供一系列基于命令行的工具集，
+比如混音器(mixer)，音频文件播放器(aplay)，以及控制特定声卡特定属性的工具。</p>
+
+
+
+
+<p>ALSA API主要分为以下几种接口：</br>
+控制接口：提供灵活的方式管理注册的声卡和对存在的声卡进行查询。</br>
+PCM接口：提供管理数字音频的捕捉和回放。</br>
+原始MIDI接口: 支持 MIDI (Musical Instrument Digital Interface)，一种标准电子音乐指令集。这些API提供访问声卡上的MIDI总线。
+这些原始借口直接工作在 The MIDI事件上，程序员只需要管理协议和时间。</br>
+记时接口: 为支持声音的同步事件提供访问声卡上的定时器。</br>
+音序器接口：一个比原始MIDI接口高级的MIDI编程和声音同步高层接口。它可以处理很多的MIDI协议和定时器。</br>
+混音器接口：控制发送信号和控制声音大小的声卡上的设备。</p>
+
+
+
+
+<p>API库使用逻辑设备名而不是设备文件。设备名字可以是真实的硬件名字也可以是插件名字。硬件名字使用hw:i,j这样的格式。其中i是卡号，
+j是这块声卡上的设备号。第一个声音设备是hw:0,0.这个别名默认引用第一块声音设备并且在本文示例中一真会被用到。插件使用另外的唯一名字。
+比如plughw:,表示一个插件，这个插件不提供对硬件设备的访问，而是提供像采样率转换这样的软件特性，硬件本身并不支持这样的特性。</p>
+
+
+
+
+<h2>OSS与ALSA的优缺点比较</h2>
+
+
+<p>ALSA是一个完全开放源代码的音频驱动程序集，除了像OSS那样提供了一组内核驱动程序模块之外，ALSA还专门为简化应用程序的编写提供了
+相应的函数库，与OSS提供的基于ioctl的原始编程接口相比，ALSA函数库使用起来要更加方便一些。利用该函数库，开发人员可以方便快捷的
+开发出自己的应用程序，细节则留给函数库内部处理。当然ALSA也提供了类似于OSS的系统接口，不过ALSA的开发者建议应用程序开发者使用
+音频函数库而不是驱动程序的API。Ubuntu默认使用ALSA作为底层声音驱动，程序则与PulseAudio交互，这是一个很不错的方案。</p>
+
+
+
+
+<p>下面来比较一下OSS和ALSA的优缺点：</br>
+<strong>(1)OSS的优点（对用户来说）</strong></br>
+在内核空间（kernel space）里面包含了一个透明软件混音器(vmix)。这样多个程序就可以同时使用声音设备而且没有任何问题。</br>
+这个混音器可以让你单独调节各个程序的音量。</br>
+对某些老声卡有着更好的支持比如创新（Creative）的X-Fi。</br>
+声音程序的初始反应时间一般更好。</br>
+对使用OSS的应用程序接口（API）的程序有更好的支持，很多程序都支持OSS的API，而不需要ALSA的模拟。</br>
+
+<strong>(2)OSS的优点（对开发者来说）</strong></br>
+清晰的API文档，更易于使用。</br>
+支持用户空间的声音驱动。</br>
+可移植性强，OSS也可以在BSDs和Solaris下运行。</br>
+本身可以跨平台，可以更方便移植到新的操作系统。</br>
+
+<strong>(3)ALSA的优点</strong></br>
+ALSA对USB音频设备支持更好，而OSS的输出还在试验中，输入还未实现。</br>
+ALSA支持蓝牙声音设备。</br>
+ALSA支持AC'97和HDAudio dial-up soft-modems (比如Si3055)。</br>
+ALSA对MIDI支持得更好，但用OSS你只能通过软件合成器（如timidity和fluidsynth）来使用MIDI。</br>
+ALSA对待机支持更好，而用OSS，你需要在待机前使用soundoff来停止OSS驱动，在恢复后使用soundon来启动OSS。</br>
+OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也就是说在某些型号的主板上，你可能需要在插入耳机的
+时候手动关闭外置扬声器。而ALSA没这个问题。
+</p>
+
+
+
+
+<h2>参考资料</h2>
+
+
+<p>[1]Archlinux上介绍OSS的Wiki：https://wiki.archlinux.org/index.php/OSS_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29 </br>
+[2]Archlinux上介绍ALSA的Wiki：https://wiki.archlinux.org/index.php/Advanced_Linux_Sound_Architecture_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87) </br>
+[3]OSS--跨平台的音频接口简介: http://www.ibm.com/developerworks/cn/linux/l-ossapi/ </br>
+[4]Linux ALSA声卡驱动之一：ALSA架构简介: http://blog.csdn.net/droidphone/article/details/6271122 </br>
+[5]Linux ALSA声卡编程简介: http://enmind.blog.163.com/blog/static/164138001201092334620355/</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[2013IDF声龙语音识别技术演示]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/04/10/Intel-Developer-Forum-2013-Nuance-Dragon-Presentation/"/>
+    <updated>2013-04-10T12:57:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/04/10/Intel-Developer-Forum-2013-Nuance-Dragon-Presentation</id>
+    <content type="html"><![CDATA[<p>2013英特尔信息技术峰会(Intel Developer Forum, IDF)上，来自Nuance的声龙语音合成和识别技术的演示，中文语音识别不给力，
+笑点频出啊，哈哈</p>
+
+
+
+
+<p><iframe height=560 width=780 src="http://player.youku.com/embed/XNTQwNjQ0MjUy" frameborder=0 allowfullscreen></iframe></p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[EFI和操作系统]]></title>
+    <link href="http://ibillxia.github.com/blog/2012/09/23/EFI-and-operating-system/"/>
+    <updated>2012-09-23T23:03:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2012/09/23/EFI-and-operating-system</id>
+    <content type="html"><![CDATA[<p>前两天在98上看到一个帖子 windows 8 没法和linux共存？ 里面有一个概念就是EFI</p>
+
+<h2>什么是EFI？</h2>
+
+
+<p>EFI英文全称为Extensible Firmware Interface，中文译为可扩展固件接口，其主要目的是为了提供一组在 OS 加载之前（启动前）在
+所有平台上一致的、正确指定的启动服务。EFI最初由Intel开发，并在2002年12月所发布1.1版，后来在2005年Intel将此规范交由UEFI论坛
+来推广与发展，并更名为Unified EFI(UEFI)。</p>
+
+
+
+
+<p>EFI是一种个人电脑系统规格，用来定义操作系统与系统固件之间的软件界面，为替代BIOS的升级方案。可扩展固件接口（EFI）负责
+加电自检（POST）、连系操作系统以及提供连接操作系统与硬件的接口。UEFI在EFI基础上增加与改进了加密编码（cryptography）、
+网络认证（network authentication）与用户界面架构（User Interface Architecture）等方面的内容。EFI在软件层次中的位置如下图</br>
+<img src="/images/2012/IMAG2012092301.png">
+</p>
+
+
+
+
+<!-- more -->
+
+
+<h2>为什么有EFI？</h2>
+
+
+<p>EFI技术源于英特尔安腾处理器（Itanium）平台的推出。安腾处理器是英特尔瞄准服务器高端市场投入近十年研发力量设计产生的
+与x86系列完全不同的64位新架构。在x86系列处理器进入32位的时代，由于兼容性的原因，新的处理器(80386)保留了16位的运行方式(实模式)，
+此后多次处理器的升级换代都保留了这种运行方式。甚至在含64位扩展技术的至强系列处理器中，处理器加电启动时仍然会切换到16位的
+实模式下运行。英特尔将这种情况归咎于BIOS技术的发展缓慢。</p>
+
+
+
+
+<p>为什么这么说呢？因为自从PC兼容机厂商通过净室的方式复制出第一套BIOS源程序，BIOS就以16位汇编代码，寄存器参数调用方式，
+静态链接，以及1MB以下内存固定编址的形式存在了十几年。虽然由于各大BIOS厂商近年来的努力，有许多新元素添加到产品中，
+如PnP BIOS，ACPI，传统USB设备支持等等，但BIOS的根本性质没有得到任何改变。这迫使英特尔在开发新的处理器时，都必须考虑加进
+使性能大大降低的兼容模式。有人曾打了一个比喻：这就像保时捷新一代的全自排跑车，被人套上去一个蹩脚打档器。正是在这种背景下，
+Intel发展了EFI技术。</p>
+
+
+
+
+<h2>EFI与操作系统又有什么关系呢？</h2>
+
+
+<p>上文提到EFI是BIOS的升级版，那么EFI与OS的关系是不是也和BIOS与OS的关系一样呢？</br>
+要回答这个问题，我们首先得将EFI与BIOS进行一个详细的比较：</br>
+（1）EFI运行于32位或64位模式，突破传统的BIOS的16位实模式，达到处理器的最大寻址；</br>
+（2）EFI利用加载驱动的形式，识别及操作硬件，不同于BIOS利用挂载真实模式中断的方式增加硬件功能；</br>
+（3）EFI大部分（99%）是用模块化的C语言编写的，较BIOS而言更易于实现，容错和纠错特性更强，更易于扩展；</br>
+（4）EFI系统下的驱动并不是由可以直接运行在CPU上的代码组成的，而是用EFI Byte Code编写而成的（有点像Java
+的Byte Code），这是一组专用于EFI驱动的虚拟机器语言，必须在EFI驱动运行环境（Driver Execution Environment，或DXE）
+下被解释运行，这就保证了充分的向下兼容性；</br>
+（5）UEFI内置图形驱动功能，可以提供一个高分辨率的彩色图形环境，用户进入后能用鼠标点击调整配置，一切就像操作Windows
+系统下的应用软件一样简单。BIOS将不再是高手才能玩转的工具，光这一点就足以让很多菜鸟朋友心仪不已了。</br>
+（6）强大的可扩展性是UEFI的另一大优点。我们都知道，当电脑出现故障导致无法进入操作系统时，我们往往要借助其他工具才能
+解决问题，BIOS在诊断系统故障方面的作用实是在太小了。不过，UEFI将不会重蹈BIOS功能单一的覆辙！UEFI使用模块化设计，它在
+逻辑上分为硬件控制与OS（操作系统）软件管理两部分，硬件控制为所有UEFI版本所共有，而OS软件管理其实是一个可编程的开放接口。
+借助这个接口，主板厂商可以实现各种丰富的功能。比如我们熟悉的各种备份及诊断功能可通过UEFI加以实现，主板或固件厂商可以
+将它们作为自身产品的一大卖点。如果你更习惯让别人来维护机器，UEFI也可提供强大的联网功能，其他用户可以对你的主机进行
+可靠的远程故障诊断，而这一切并不需要进入操作系统！
+</p>
+
+
+
+
+<p>由以上比较可知，EFI在开机时的作用和BIOS一样，就是初始化PC，但在细节上却有很多不一样。BIOS对PC的初始化，只是按照
+一定的顺序对硬件通电，简单地检查硬件是否能工作，而EFI不但检查硬件的完好性，还会加载硬件在EFI中的驱动程序，不用操作
+系统负责驱动的加载工作。 对于很多非专业人士而言，EFI的最革命之处，就在于颠 覆了BIOS的界面概念，让操作界面和Windows
+一样易于上手。在EFI的操作界面中，鼠标成为了替代键盘的输入工具，各功能调节的模块也做的和Windows程序一样，可以说，EFI
+就是一个小型化的Windows系统。</p>
+
+
+
+
+<p>说EFI是一个小型化的Windows系统，毫不夸张。EFI在概念上非常类似于一个低阶的操作系统，并且具有操控所有硬件资源的能力。
+不少人感觉它的不断发展将有可能代替现代的操作系统。事实上，EFI的缔造者们在第一版规范出台时就将EFI的能力限制于不足以
+威胁操作系统的统治地位。首先，它只是硬件和预启动软件间的接口规范；其次，EFI环境下不提供中断的机制，也就是说每个EFI
+驱动程序必须用轮询(polling)的方式来检查硬件状态，并且需要以解释的方式运行，较操作系统下的机械码驱动效率更低；再则，
+EFI系统不提供复杂的缓存器保护功能，它只具备简单的缓存器管理机制，具体来说就是指运行在x86处理器的段保护模式下，以最大
+寻址能力为限把缓存器分为一个平坦的段(Segment)，所有的程序都有权限访问任何一段位置，并不提供真实的保护服务。当EFI所有
+组件加载完毕时，系统可以开启一个类似于操作系统Shell的命令解释环境，在这里，用户可以调入执行任何EFI应用程序，这些程序
+可以是硬件检测及除错软件，引导管理，设置软件，操作系统引导软件等等。理论上来说，对于EFI应用程序的功能并没有任何限制，
+任何人都可以编写这类软件，并且效果较以前MS-DOS下的软件更华丽，功能更强大。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[盘点10大生不逢时科技创业公司：创意过于超前]]></title>
+    <link href="http://ibillxia.github.com/blog/2011/05/07/10-born-at-the-wrong-time-companies-innovation-too-advanced/"/>
+    <updated>2011-05-07T18:00:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2011/05/07/10-born-at-the-wrong-time-companies-innovation-too-advanced</id>
+    <content type="html"><![CDATA[<p>据国外媒体报道，有句形容创业公司的老话说，“太早也是个错误。” 这绝对是个事实，在很多伟大的科技公司成立之前，相同的创意已经存在，
+但是因为时机不对，结果没有形成气候。下文将点评10大生不逢时的科技创业公司，这些公司的项目是创新的，但是因为出现得太早，市场尚未做
+好准备，所以最终失败。</p>
+
+
+<center><img src="/images/2011/IMAG2011050701.jpg"></center>
+
+
+<p>同类型的公司在数年后取得辉煌成绩，产生数亿美元价值，曾经创立这10大创业公司的企业家难免懊恼不已，因为这些创意和产品都是他们曾
+经历的。但是，这就是人生。以下是10大生不逢时的科技创业公司：</p>
+
+
+
+
+<h4>1.SixDegrees.com</h4>
+
+
+<p>这是第一个为用户提供社交体验的网站，该网站想揭示的原理是：最多通过6个人你就能够认识世界上任何一个人。在1997年成立以后，该网站
+经历了一段时间的高速增长，但是由于人们对社交网站还不适应，所以最终淡出人们视线。</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<h4>2. AskJeeves</h4>
+
+
+<p>搜索引擎AskJeeves拥有的很多技术非常先进，比如谷歌后来非常关注的语义搜索以及通过超链接为网页排名等。很多相同的技术后来都成为了
+谷歌的秘密武器。但是，这些技术在AskJeeves的时代看起来并不怎么样。</p>
+
+
+
+
+<h4>3. Webvan</h4>
+
+
+<p>网络杂货零售商Webvan最初引起了多家风投机构注意，用户在网上订购杂货，该公司通过自有物流体配送给到户。原本这家公司可以成长为一颗
+耀眼的电子商务公司，但是Webvan想建立最完美配送体系并积极扩张、收购，在仓库和基础设施上投入大笔资金，最终因为烧钱太快让位于后来者。</p>
+
+
+
+
+<h4>4. Pets.com</h4>
+
+
+<p>宠物用品网站Pets.com本来是伟大的。如今宠物用品市场是一个数十亿美元的大市场，Pets.com的失败在于创立在互联网泡沫最疯狂的时期，结果可想而知。</p>
+
+
+
+
+<h4>5. Dodgeball</h4>
+
+
+<p>移动社交网络Dodgeball出现的时候人们对这一概念一无所知，该服务可以用短消息信息告知你朋友所在的位置。丹尼斯-克罗利(Dennis Crowley)的
+创立这个基于地理位置的社交网络之所以没有成功原因有二：1. 没有iPhone；2.没有Facebook。没有iPhone意味着只能通过短消息进行，没有Facebook
+意味着很少有人能理解不断更新的意义。丹尼斯-克罗利后来创立的Foursquare则赶上了好时候。</p>
+
+
+
+
+<h4>6. GO Corporation</h4>
+
+
+<p>GO Corporation可以被称为是Palm的前身，甚至可以说是iPhone和iPad的前辈。GO Corporation公司拥有自己的移动操作系统，以及用笔输入的
+电脑产品，首次采用触摸板作为主要输入设备。GO Corporation唯一的错误就是出现得太早了。</p>
+
+
+
+
+<h4>7. LetsBuyIt.com</h4>
+
+
+<p>LetsBuyIt.com是一款早期的团购服务，但是不是专注于本地商户，而是大公司的产品。而且当时社交网络还没有出现，不利于交易信息传播。
+所以，如今很多人都没有听说过LetsBuyIt.com，Groupon却成为了有史以来增长最快的公司。</p>
+
+
+
+
+<h4>8. LoudCloud</h4>
+
+
+<p>LoudCloud开始研究云计算的时候，人们都还以为“云”是天上飘的云。这家公司也许太“有远见”了，做着亚马逊和其它公司今天才做的事情：
+为创业公司和大公司提供云计算服务。当时的市场尚未形成，结果可想而知。</p>
+
+
+
+
+<h4>9. WebTV</h4>
+
+
+<p>WebTV向人们推销一个概念：互联网电视。这家公司的财务状况良好，还被微软收购。但是推广互联网电视概念时却遇阻。或许是太早了，或许
+消费者还不想让互联网连入自己的电视。</p>
+
+
+
+
+<h4>10. NextNewNetwork</h4>
+
+
+<p>NextNewNetwork希望成为网络MTV，后来被谷歌以不高的价格收购。这对一家希望成为网络MTV的公司而言是个悲惨的结局。也许有一天，会真
+的出现一家成功的网络MTV公司。</p>
+
+
+
+
+<p>原文链接：http://www.techweb.com.cn/world/2011-05-05/1029692.shtml</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[我是如何理解微博的 ]]></title>
+    <link href="http://ibillxia.github.com/blog/2011/04/17/my-understanding-of-micro-blog/"/>
+    <updated>2011-04-17T13:31:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2011/04/17/my-understanding-of-micro-blog</id>
+    <content type="html"><![CDATA[<h3>微博首先是媒体</h3>
+
+
+<center><img src="/images/2011/IMAG2011041701.jpg"></center>
+
+
+<p>但更确切点说，它是自媒体。它即是名人、权威们的自媒体，也是草根们的自媒体。在中国，草根现在靠着微薄，也有了些话语权，但声音还比较稚嫩，
+分贝也不够大，但无论如何，跟着意见领袖们起起哄是必须地，支持也好，反对也罢，声音还是比从前大多了。要注意的是，一个草根的声音很小，但草根
+们的声音一旦被叠加，再加上从众效应，其力量可能超乎我们想象，这时自媒体会变成众媒体（与传统的公众媒体是有区别的）。众媒体是个双刃剑，其好
+处是，多数时候，这个众媒体可能代表大多数的声音，但另一方面，作为自媒体，微博毕竟是个性化的，即使看不清真相，也能知道看问题有不同的角度。
+而当其成为众媒体时，其声音可能是趋同的，一旦人们形成某种较特殊的群体心理，个性将开始湮没、理性将开始丧失，这就有点危险，尤其在中国。</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<h3>其次，微博还是网络社区</h3>
+
+
+<p>这个大社区里包含着无数的小社群，小社群之间是纵横交错的。从基本的结构上来说，这些小社群是以自我为圆心，以个人偏好为过滤器，他们筛选关注
+对象并集散信息。微博与别的社会化网络社区的不同之处在于，这个社区弱化了人际关系，但强化了信息交换。也就是，这个社区中，关系的核心纽带，既不
+是Facebook的线下关系的转移，也不是MySpace的网络交友，它的核心纽带是信息交换。信息量大的人，是微博社区的中坚人物。普通信息一般只在小社群内部
+传播，但是，当一条信息本身具有一定附着力和穿透力时，信息就会产生大规模的扩散（穿透一个个小社群），因此，微博社区发展到现在最为成功的一个无
+心插柳的作用，是大众传播。传播的大任，当然主要还在草根手里，他们免费并且无怨无悔地做播种机、宣传队。但他们也因此常常被“导向”或利用。</p>
+
+
+
+
+<h3>再次，微博也是沟通工具</h3>
+
+
+<p>在此之前，IM是公认的，也是最流行的网络沟通工具，Email次之（在中国，Email倒没那么重要）。现在的微博里，沟通气氛还是相当活跃的，海量的评论
+和转发使群体沟通显得热闹非凡。但微博上的沟通和IM的沟通有明显不同。IM上的沟通，有私密性，偏个人话题，更适合私下的沟通，多数时候，沟通是一对一
+进行的（QQ群是一对多）。而微博上的沟通，则以公共话题为主，沟通是公开的（私信除外），沟通的形式，也是多人的。另一个不同，微博进一步降低了沟通
+门槛，也就是，用户可以单向地关注别人（还是私信除外）并通过评论和转发进行沟通，而不再像QQ一样需要通过对方的批准才能开始沟通。这个做法对草根意义
+更大，因为草根更愿意扩大的自己的沟通范围，尤其是与那些他们曾经可望不可及的所谓名人进行沟通。单向开放沟通渠道后，沟通的效果究竟如何，还不能轻易
+下结论，但单就沟通形式上的突破来说，微博就已经是QQ无法替代的了。</p>
+
+
+
+
+<h3>最后，微博是开放平台</h3>
+
+
+<p>前面三条，是我对微博基本层面的理解，对这三个基本层面，无论是微博运营商也好，还是参与微博的企业也好，最好都不要进行过多的、过于画蛇添足的
+商业操作，否则将违背微博的创立时的初衷，也将破坏微博的生态环境。但从现在的趋势看，微博将成为开放平台。也就是，微博将通过开放API，进一步放大
+其在媒体、社区、沟通工具，甚至企业营销等方面的作用。因此，开放平台将为微博运营商和企业都带来新的商业机会。微博基础平台的作用，是产生数据和
+传播数据，但这些数据杂乱而无序，平台的开放，意味着参与微博的各个方面，包括个人用户，企业用户，以及运营商自身，都将可以按照不同的需求来利用
+数据，深入的数据挖掘意味着什么，这里无需多说，这里我唯一希望的是，微博运营商对于微博平台，能做到真正意义上的开放，那微博在未来，才能真正为
+个人用户和企业用户所利用，真正成为杀手级的网络应用。</p>
+
+
+
+
+<p>原文链接：http://www.socialbeta.cn/articles/whats-weibo.html</p>
+
+]]></content>
+  </entry>
+  
+</feed>

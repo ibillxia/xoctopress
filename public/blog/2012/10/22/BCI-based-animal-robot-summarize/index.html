@@ -1,0 +1,626 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>基于BCI的动物机器人研究分析与展望 - Bill's Blog</title>
+  <meta name="author" content="Bill Xia">
+
+  
+  <meta name="description" content="基于BCI的动物机器人研究分析与展望 Oct 22nd, 2012 | Comments 摘 要 动物机器人已经成为机器人技术领域的重要研究方向之一，动物运动制导是当今神经、信息和机器人等科学交叉研究的一个热点。
+本文结合基于BCI的大鼠动物机器人的实例来介绍有关动物机器人的研究进展、研究方法， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="wumiiVerification" content="9662b89d-2629-4073-b85d-0966259c0ee1" />
+
+  
+  <link rel="canonical" href="http://ibillxia.github.com/blog/2012/10/22/BCI-based-animal-robot-summarize/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Bill's Blog" type="application/atom+xml">  
+  
+  <script type="text/javascript">
+    var wumiiPermaLink = "/blog/2012/10/22/BCI-based-animal-robot-summarize/";
+    var wumiiTitle = "基于BCI的动物机器人研究分析与展望";
+    var wumiiTags = "BCIratrobot";
+    var wumiiCategories = [Intelligence];
+    var wumiiSitePrefix = "http://ibillxia.github.com";
+    var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
+  </script>
+  <script type="text/javascript" src="http://widget.wumii.cn/ext/relatedItemsWidget"></script>
+  <a href="http://www.wumii.com/widget/relatedItems" style="border:0;">
+	<img src="http://static.wumii.cn/images/pixel.png" alt="wumii recommendation" style="border:0;padding:0;margin:0;" />
+  </a>
+  
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39460228-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Bill's Blog</a></h1>
+  
+    <h2>Study hard, play hard, live red!</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://www.google.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ibillxia.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+<!--   <li><a href="/blog/categories">Categories</a></li>
+  <li><a href="/blog/tags">Tags</a></li> -->
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">基于BCI的动物机器人研究分析与展望</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-22T23:09:00+08:00" pubdate data-updated="true">Oct 22<span>nd</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>摘  要</h3>
+
+
+<p>动物机器人已经成为机器人技术领域的重要研究方向之一，动物运动制导是当今神经、信息和机器人等科学交叉研究的一个热点。
+本文结合基于BCI的大鼠动物机器人的实例来介绍有关动物机器人的研究进展、研究方法，并对其发展前景进行展望。</p>
+
+
+
+
+<h3>关键字</h3>
+
+
+<p>脑机接口；动物机器人；大鼠</p>
+
+
+
+
+<h3>0 前言</h3>
+
+
+<p>在科技日益发达的现代信息社会，我们对机器人已经不再陌生，比如：科幻片中的高级智能化的机器人、自动化生产线上的工业
+机器人、大型展馆里的导航服务机器人、太空中火星上的“勇气号”探险机器人等等。然而，它们的任何一个动作都是由电脑程序来
+完成的，而且所有动作都是程序固定的，不能够灵活，而且一旦能量耗尽将会滞留原地，进退维谷，可谓“出师未捷身先死”，在很多
+方面都不如动物灵活、敏捷，而且所消耗的能量也不能靠自身解决。</p>
+
+
+
+
+<p>回眸历史，人类利用动物来替代自己进行艰苦的工作，甚至人力所不能及的工作，己经有近万年了。在这近万年的历史里，产生了战马、
+耕牛、狩猎犬和信鸽等执行特殊任务的动物。但这些动物所执行的任务较为单一，智力含量较为低下，若是动物能够完全受控于人类，
+将是非常完美的设想。</p>
+
+
+
+
+<p>基于BCI (Brain-Computer Interface，脑-机接口)的动物机器人既很好地解决了微型机器人携带能量不足的问题，同时可以通过
+人工控制来执行一些特殊的、复杂的任务，还具有人类赋予的智能。</p>
+
+
+
+
+<!-- more -->
+
+
+<h3>1 研究现状</h3>
+
+
+<p>此类研究虽仅始于上世纪末，但其潜在的科研价值已举世公认，各国政府也给予了很大的支持。1995年，日本政府就投入500万美元
+资助东京大学的Iaso Shmiyoama教授研究嶂螂的生物控制技术。美国国防部国防预先研究计划局(DARPA)出于军事目的投入巨资研究BCI，
+从而进一步推动了BCI的研究热潮。</p>
+
+
+
+
+<p>目前，在世界范围内已有多个研究组织和机构开展了针对BCI研究和开发，并己经取得了一些突破性进展。外部刺激向神经系统的直接
+输入已经成为可能，迄今已经有超过十万的患者通过植入电子耳蜗恢复或改善了听觉；深部脑刺激(DBS)技术，为超过三万五千多名帕金森
+和其他运动机能紊乱的患者减轻了痛苦和不便。</p>
+
+
+
+
+<p>在动物实验方面，2000年Nature发表了“Real Braining for Real Robots”一文，报道了从猴子大脑皮层获取的神经信号实时控制千里
+之外的一个机器人。2002年，Nature上报道了美国纽约州立大学有关遥控大鼠的研究工作，给人们展现了生物机器人(Bio&#8211;robot)的应用
+前景。美国DARPA称，该部门的专家正在研究用电子装置培训诸如嶂螂等动物的计划，将各种形形色色的动物训练成武器，以打造出一批
+全新的“生物士兵”。</p>
+
+
+
+
+<p>另一方面，Wadsworth、Graz等大学的研究小组用EEG信号实现了让残疾人用意识输入字符、操作计算机、控制机械装置等初步实用目标。
+在医学上与功能性电刺激相结合，进行了辅助瘫痪治疗的尝试。</p>
+
+
+
+
+<h3>2 基于BCI的大鼠动物机器人</h3>
+
+
+<p>2002年，Nature杂志报道，美国纽约州立大学的Talwar博士领导的科研小组成功实现了人工诱导老鼠的各种运动行为。科研人员通过
+刺激感觉皮层和边缘系统的一个“奖赏中枢”制导老鼠运动，他们在大白鼠脑内植入了三对刺激微电极，其中两对电极植入接受左右胡须
+输入的体感运动皮层区(somatosensory cortex, SI)，对其刺激用作左右胡须的虚拟的触觉信号，另一对电极植入内侧前脑束(medial 
+for brain bundle, MFB)，用作老鼠服从命令的奖赏强化。三对电极连同大鼠背负的多通道遥控导航系统相连，如图1所示。</br>
+<center><img src="/images/2012/IMAG2012102201.jpg"></center></br>
+<center>图1 大鼠遥控导航系统</center>
+</p>
+
+
+
+
+<p>他们的实验分成四个阶段：</br>
+第一阶段，先在8字形的迷宫内对大鼠进行训练，先单独刺激MFB，作为前进运动的强化(即使老鼠将单独的MFB刺激解释为前进)；
+当所有实验大鼠学会在单独MFB刺激时持续前进时，就进入下一阶段；</br>
+第二阶段，通过左右SI电极的刺激训练老鼠左右转弯，方向转对时就刺激 MFB，以强化老鼠对虚拟胡须触觉的条件反射；</br>
+第三阶段，在实验室内将训练任务由平面线路过渡到三维复杂路线，如图2所示；</br>
+第四阶段，经过训练的大鼠可以在实验室外执行具体任务：实验人员通过遥控导航系统的遥控500m外可遥控大鼠完成转弯、前行、爬树
+以及跳跃等动作，甚至可以控制老鼠执行违背其自然习性的运动，比如在光线充足的广阔的室外场地执行任务。</br>
+<center><img src="/images/2012/IMAG2012102202.jpg"></center></br>
+<center>图2 大鼠遥控导航路线</center>
+</p>
+
+
+
+
+<p>实验过程中，大鼠可以平均0.3m/s的速度进行长达一小时的实验。这些大鼠能用于现代机器人无法胜任的各种搜救任务中。</br>
+基于上述成功范例，另据2004年《新科学家》报道，在美国 DARPA的资助下，美国佛罗里达大学的研究人员又在纽约州立大学大鼠
+机器人的基础之上，开始训练大鼠，探索将其用于爆炸物的搜寻工作之中。</br>
+研究者分别在实验大鼠的三个脑区(嗅皮层、运动皮层和奖赏中枢)植入微电极阵列，首先对大鼠进行训练，当大鼠正确找出目标气味时
+便刺激奖赏中枢。老鼠训练成功之后，在搜寻特定的气味的同时电极会记录下相应脑区的神经信号，研究人员籍此辨别老鼠在找到特定
+气味时出现的神经放电模式。通过训练的老鼠可以嗅出TNT及RDX等炸药的味道，在恐怖分子攻击行动过后，建筑物内可能仍藏有未爆炸弹，
+所以这项能力变得极为重要。
+</p>
+
+
+
+
+<h3>3 关键技术分析</h3>
+
+
+<p>BCI技术是一种不依赖于正常的由外围神经和肌肉组成的输出通路的通讯系统。该技术能够在脑与计算机或其它设备之间建立直接的
+双向交流和控制通道，可以实现外部电子设备对脑功能的弥补和脑部疾病的治疗，甚至达到调控其思想和行为的目的，这也是动物机器人
+研究的理论依据。</br>
+BCI技术包括微电极系统、神经信号的记录分析及特征识别系统、神经信号的模拟重构系统、外部设备以及反馈系统等等。其中神经信号
+的记录分析及特征识别系统是BCI技术最主要的研究内容，主要包括：源信号的检测、信号的预处理(除噪滤波)、特征提取，以及正向BCI的
+特征分类识别和反向BCI的神经电信号的模拟重构。</br>
+<center><img src="/images/2012/IMAG2012102203.jpg"></center></br>
+<center>图3  BCI系统框架</center>
+</p>
+
+
+
+
+<p>BCI技术的目的就是脑-机交互，亦即：用模拟重构的电信号对神经系统的正确激活达到对思维及行为的调控，以及实现机器对神经信号
+的理解与执行。该技术在脑科学与现代信息科学之间架设了一座桥梁：有助于对大脑认知模式、思维模型、意识形成和对肢体控制方式的
+深入理解。</p>
+
+
+
+
+<h3>4 实现方案</h3>
+
+
+<p>基于BCI的生物机器人是基于反向的BCI系统的基本原理，它由信息终端、无线通讯模块、信号刺激器和信号采集器等组成，如图4所示。
+刺激/采集器主要负责解码控制命令，产生刺激脉冲，后续采集大鼠神经电信号。无线通讯设备负责传输远程控制台和刺激采集器的通讯传输。
+基于PC实现的信息终端主要负责控制命令的输入和采集大鼠神经电信号的存储和处理。</br>
+<center><img src="/images/2012/IMAG2012102204.jpg"></center></br>
+<center>图4 基于BCI的动物机器人系统结构图</center>
+</p>
+
+
+
+
+<p>系统的控制流程如下：脑微刺激遥控导航系统产生并发送一组特定的参数叨刺激脉冲，该刺激信号经过颅顶的处理芯片和植入到脑部的
+四对电极引入大鼠脑部海马区的相应神经元节点；在电脉冲的微刺激作用下，模拟胡须区的信号，利用大鼠自身的条件反射，诱发大鼠产生
+希望的动作，比如向左，向右，向前等动作。</p>
+
+
+
+
+<h3>5 展望未来</h3>
+
+
+<p>尽管目前的动物机器人研究还处于起步阶段，还不成熟，但是，在科技日新月异的今天，随着各门相关的科学与技术的发展与进步，
+动物机器人的研究将更加深入和成熟，也将会使BCI技术发展更迅猛、性能更优越、应用更广泛、前景更光明，动物机器人也必将成为一种
+更为实用的机器人，应用于人类现实生活中的更多领域。<p>
+
+<p>或许电影“豚鼠特工队”中那样高度智能化的、无比完美的动物机器人在不久的将来会成为现实。</p>
+
+<h3>参考文献</h3>
+<p>
+[1] 王勇．基于BCI技术的动物机器人的研究［硕］．2006，5</br>
+[2] 杨雪．基于动物实验的脑－机接口的研究［硕］．2007，5</br>
+[3] 金林．基于BCI的生物机器人研究［硕］．2007，5</br>
+[4] 王文波，戴振东．动物机器人的研究现状与发展．</br>
+[5] 王永玲，原魁，李剑锋等．一种新型的动物机器人遥控训练系统．高技术通讯，2007，17(7) : 698 -702</br>
+[6] Talwar S K，Xu S H，Hawley E S，etal．Behavi oral neuro science：rat navigation guided by remote control [ J ]. Nature，2002，417(6884): 37 -38．
+</p>
+
+</div>
+
+
+<section>
+	<script type="text/javascript" id="wumiiRelatedItems"></script>
+</section>
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Bill Xia</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-22T23:09:00+08:00" pubdate data-updated="true">Oct 22<span>nd</span>, 2012</time>
+      Category: 
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/intelligence/'>Intelligence</a>
+  
+</span>
+
+
+      Tags: 
+
+<span class="tags">
+  
+    <a class='category' href='/blog/tags/bci/'>BCI</a>, <a class='category' href='/blog/tags/rat/'>rat</a>, <a class='category' href='/blog/tags/robot/'>robot</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_32x32">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_douban"></a>
+	<a class="jiathis_button_fb"></a>
+	<a class="jiathis_button_twitter"></a>
+	<a class="jiathis_button_tumblr"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank">More</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1362901762548695" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/09/26/convex-optimization-overview/" title="Previous Post: 凸优化简介">&laquo; 凸优化简介</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/11/20/why-ache-appears-two-days-after-sports/" title="Next Post: 为什么酸痛感出现在运动后的两天?">为什么酸痛感出现在运动后的两天? &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/categories/assp'>ASSP (16)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (10)</a></li><li><a href='/blog/categories/linux'>Linux (1)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (11)</a></li><li><a href='/blog/categories/program'>Program (25)</a></li><li><a href='/blog/categories/technics'>Technics (12)</a></li></ul>
+</section>
+<section>
+  <h1>Tag Cloud</h1>
+    <span id="tag-cloud"><embed type='application/x-shockwave-flash' src='/javascripts/tagcloud.swf'width='100%' height='250' bgcolor='#ffffff' id='tagcloudflash' name='tagcloudflash' quality='high' allowscriptaccess='always'flashvars="tcolor=0x333333&amp;tcolor2=0x333333&amp;hicolor=0x000000&amp;tspeed=100&amp;distr=true&amp;mode=tags&amp;tagcloud=%3Ctags%3E%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2F8-queen%27+style%3D%27font-size%3A+14.666666666666666%25%27%3E8-Queen%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Facf%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EACF%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fai%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EAI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Falize%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EAlize%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Falsa%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EALSA%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fann%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EANN%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fapi%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EAPI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fasr%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EASR%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fassert%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Eassert%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Faudio%27+style%3D%27font-size%3A+21.333333333333336%25%27%3EAudio%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fautoencoder%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EAutoEncoder%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fbaochutower%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBaochuTower%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fbci%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBCI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fbios%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBIOS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fbiovision%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBioVision%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fbm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fboltzmann%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBoltzmann%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fbom%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBOM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fbpnn%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EBPNN%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fbsd%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBSD%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fbuffer%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Ebuffer%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fc%27+style%3D%27font-size%3A+23.0%25%27%3EC%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fcalm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECalm%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fcnn%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECNN%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fcochlea%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECochlea%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fcompany%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECompany%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fcompile%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECompile%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fconference%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EConference%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fconvex%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EConvex%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fcorrelation%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECorrelation%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fcovariance%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECovariance%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fcrawler%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ECrawler%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fdebug%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDebug%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fdebug%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Edebug%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fdeeplearning%27+style%3D%27font-size%3A+18.0%25%27%3EDeepLearning%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fdevice%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDevice%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fdfs%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDFS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fdom%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDOM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fdp%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EDP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fdragon%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDragon%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fdynamic%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDynamic%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Febm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EEBM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fefi%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EEFI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Femail%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EEmail%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Feulercircuit%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EEulerCircuit%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fexception%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EException%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Ffflush%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Efflush%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Ffft%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EFFT%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Ffleaphp%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EFleaPHP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Ffourier%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EFourier%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Ffunction%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EFunction%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fgmm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EGMM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fgoogle%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EGoogle%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fgoto%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Egoto%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fgradientdescent%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EGradientDescent%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fhealth%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHealth%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fheritrix%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHeritrix%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fhiking%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHiking%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fhopfield%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHopfield%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fhtk%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EHTK%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fhtml%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHTML%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fidf%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIDF%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fidle%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Eidle%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fifly%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EiFly%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Finequality%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EInequality%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Finnovation%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EInnovation%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fintelligence%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIntelligence%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fio%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIO%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fip%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fit%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIT%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fjensen%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EJensen%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fjulius%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EJulius%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fkernel%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EKernel%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fknowledge%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EKnowledge%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Flearning%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ELearning%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Flenet%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ELeNet%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Flife%27+style%3D%27font-size%3A+23.0%25%27%3ELife%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Flink%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ELink%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Flinkedin%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ELinkedin%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Flinux%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ELinux%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Flongjmp%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Elongjmp%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Flove%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ELove%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Flucene%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ELucene%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fmachinelearning%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EMachineLearning%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fmagicsquare%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMagicSquare%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fmanagement%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EManagement%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fmatlab%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EMatlab%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fmatrix%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMatrix%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fmfcc%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMFCC%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fmicroblog%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMicroBlog%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fmis%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMIS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fmotto%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMotto%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fnap%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ENAP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fneural%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ENeural%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fneuralnetworks%27+style%3D%27font-size%3A+26.333333333333336%25%27%3ENeuralNetworks%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fnuance%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ENuance%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fnutch%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ENutch%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Foctpress%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOctpress%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Foptimization%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOptimization%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fos%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Foss%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOSS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fpagerank%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPageRank%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fparser%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EParser%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fpca%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPCA%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fpcm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPCM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fperceptron%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EPerceptron%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fphp%27+style%3D%27font-size%3A+24.666666666666664%25%27%3EPHP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fpitch%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EPitch%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fpitchtracking%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPitchTracking%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fprim%27+style%3D%27font-size%3A+18.0%25%27%3EPrim%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fprint%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPrint%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fprintf%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Eprintf%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fprograming%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPrograming%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fprogramtest%27+style%3D%27font-size%3A+24.666666666666664%25%27%3EProgramTest%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fpython%27+style%3D%27font-size%3A+23.0%25%27%3EPython%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fquery%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EQuery%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fquicksort%27+style%3D%27font-size%3A+19.666666666666668%25%27%3EQuickSort%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Frat%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Erat%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fratbot%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ERatbot%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Frbm%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ERBM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Frecord%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ERecord%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Frepresentation%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ERepresentation%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Frobot%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Erobot%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Frwth%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ERWTH%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fsafety%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESafety%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fsapi%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESAPI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fselect%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESELECT%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fsetjmp%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Esetjmp%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fsignalprocess%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESignalProcess%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fsnoopy%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESnoopy%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fsnow%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESnow%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fsns%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESNS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fsparsecoding%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESparseCoding%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fspeakerrecognition%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ESpeakerRecognition%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fspectrogram%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESpectrogram%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fspeech%27+style%3D%27font-size%3A+19.666666666666668%25%27%3ESpeech%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fsphinx%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESphinx%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fspider%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESpider%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fsports%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESports%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fspro%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESPro%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fsql%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ESQL%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fstack%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EStack%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fstory%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EStory%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fstring%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EString%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fsuccess%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESuccess%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fsvm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESVM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fswimming%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESwimming%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Ftechnic%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETechnic%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Ftimbre%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETimbre%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Ftruth%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETruth%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Ftts%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETTS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fucenter%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUCenter%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fui%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fuml%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EUML%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Funicode%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUnicode%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Funionfindset%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EUnionFindSet%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Futf8%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUTF8%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fva-arg%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Eva_arg%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fvad%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVAD%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fvalse%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVALSE%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fviavoice%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EviaVoice%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fvision%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVision%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fvisualstudio%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVisualStudio%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fvolume%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVolume%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fvpr%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EVPR%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fwave%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EWave%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fweb%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EWeb%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fwestlake%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EWestLake%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fwindows%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EWindows%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fzcr%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EZCR%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.com%2Fblog%2Ftags%2Fzju%27+style%3D%27font-size%3A+28.0%25%27%3EZJU%3C%2Fa%3E+%3C%2Ftags%3E"></span>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/10/18/Dynamic-Speech-Models-Introduction/">Dynamic Speech Models简介</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it%27s-comparision/">Linux的OSS和ALSA声音系统简介及其比较</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language/">PCM WAVE格式详解及用C语言实现wave文件的读取</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog/">给Octpress博客添加返回顶部按钮</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/28/swimming-tutorial-with-gif-images/">蛙泳、自由泳、仰泳、蝶泳图解动画教你游泳</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/04/a-simple-code-for-wave-recording-using-windows-api/">用Windows API实现一个简单的录音程序</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/29/audio-signal-processing-time-domain-pitch-tracking-and-python-realization/">语音信号处理之时域分析-音高追踪及其Python实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/24/cctv-news-rat-understand-what-human-says/">大白鼠听人话</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Recent Comments</h1>
+  <script type="text/javascript" src="http://ibillxia.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+</section>
+
+<section>
+  <h1>Sina Weibo</h1>
+  <ul id="weibo">
+    <li>
+		<iframe 
+			width="100%" 
+			height="550" 
+			class="share_self"  
+			frameborder="0" 
+			scrolling="no" 
+			src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2704795533&verifier=9551ab13&dpc=1">
+		</iframe>
+	</li>
+  </ul>
+</section>
+
+<section>
+	<h2>Reading List</h2>
+	<div>
+		<script type="text/javascript" src="http://www.douban.com/service/badge/65527470/?show=collection&amp;n=16&amp;columns=4" ></script>
+	</div>
+</section>
+<section>
+  <h1>CC License</h1>
+  <p align="center"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png"></a></p>
+  <p>Except where otherwise noted, content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a></p>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p style="text-align: left;">
+  Copyright &copy; 2009 - 2013 - Bill Xia -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  
+  <span style="float:right;"><a href="/">Home</a> | 
+  <a href="/blog/archives">Archives</a> | 
+  <a href="/about">About</a></span>
+</p>
+
+<p id = "back-top">
+	<a href="#top"><span></span>Back to Top</a>
+</p>
+
+<style type="text/css">
+#back-top {
+	position: fixed;
+	bottom: 50px;
+	right: 100px;
+}
+
+#back-top a {
+	width: 80px;
+	display: block;
+	text-align: center;
+	font: 11px/100% Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #bbb;
+
+	/* transition */
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+}
+#back-top a:hover {
+	color: #000;
+}
+
+/* arrow icon (span tag) */
+#back-top span {
+	width: 80px;
+	height: 80px;
+	display: block;
+	margin-bottom: 7px;
+	background: #ddd url(http://ibillxia.github.com/images/up-arrow.png) no-repeat center center;
+
+	/* rounded corners */
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+
+	/* transition */
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+}
+
+#back-top a:hover span {
+	background-color: #888;
+}
+
+</style>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+	// hide #back-top first
+	$("#back-top").hide();
+	
+	// fade in #back-top
+	$(function () {
+		$(window).scroll(function () {
+			if ($(this).scrollTop() > 100) {
+				$('#back-top').fadeIn();
+			} else {
+				$('#back-top').fadeOut();
+			}
+		});
+
+		// scroll body to 0px on click
+		$('#back-top a').click(function () {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 800);
+			return false;
+		});
+	});
+
+});
+</script>
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ibillxia';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ibillxia.github.com/blog/2012/10/22/BCI-based-animal-robot-summarize/';
+        var disqus_url = 'http://ibillxia.github.com/blog/2012/10/22/BCI-based-animal-robot-summarize/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

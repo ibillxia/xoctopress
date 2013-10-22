@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: Speech | Bill's Blog]]></title>
+  <link href="http://ibillxia.github.com/blog/tags/speech/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.com/"/>
+  <updated>2013-10-22T22:35:17+08:00</updated>
+  <id>http://ibillxia.github.com/</id>
+  <author>
+    <name><![CDATA[Bill Xia]]></name>
+    <email><![CDATA[ibillxia@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Dynamic Speech Models简介]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/10/18/Dynamic-Speech-Models-Introduction/"/>
+    <updated>2013-10-18T20:00:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/10/18/Dynamic-Speech-Models-Introduction</id>
+    <content type="html"><![CDATA[<h2>1.概述</h2>
+
+
+<p>最近看到了微软总部Redmond研发中心的研究员邓力写的一个讲Speech Dynamic Models的专题性质的论文，觉得很有意思，于是考虑仔细阅读一遍，
+并将其写成一系列的文章。</p>
+
+
+
+
+<p>对做Speech的人来说，Speech的Dynamic性和时序性是非常头疼的问题，也是人们研究语音识别时需要考虑的最重要特性之一，然而，虽然语音识别
+的研究已有数十年的历史，但是这其中很多方法都缺乏足够的dynamic modeling scheme，以对时序的语音信号观察序列的相关性结构进行编解码。因为
+各种原因，目前很多这方面的研究都仅仅停留在对state-of-the-art的HMM进行一些改进和提升，很多模型和系统仅仅使用很weak-form的speech dynamics，
+例如差分参数（delta parameters）等。本系列文章主要是介绍一些strong-form的speech dynamics，或许可以作为这个问题的ultimate solution。</p>
+
+
+
+
+<p>本文及相关主要介绍一下Dynamic Speech Models的一些基本概念和知识，主要包含什么是Speech Dynamics，什么样的模型是Speech Dynamic的，
+为什么要对Speech Dynamics进行建模，以及相关的一些建模方法。</p>
+
+
+
+
+<h2>2.What are Speech Dynamics？</h2>
+
+
+<p>该专题性论文中对Speech Dynamics的定义如下：
+<blockquote><p>In a broad sense, speech dynamics are time-varying or temporal characteristics in all stages of the human speech communication process.</p></blockquote>
+<!--more-->
+
+意为：广义来讲，语音的动态性是指在人类语音交流过程中语音的时变性或时序性的特征。这里的语音交流过程常指语音链（speech chain），始于说话人
+大脑产生的语言学信息，终于聆听者大脑接受到的信息，整个过程可以形象的用下图表示：</br>
+<center><img src="/images/2013/IMAG2013101801.gif"></center>
+上图中，聆听者的生理层（Physiological level）和Linguistic level更准确的说，应该是Auditory and perceptual level。
+</p>
+
+
+
+
+<p>在这些子过程中，动态性在语言信息的传递过程中扮演着一个非常重要的角色。首先是在语言层（linguistic level），语音的动态性表现在音韵的非连续性符号表示，
+也就是说，离散语音符号（分部或功能）在语音发声的不同时间点改变他们的特性，而没有定量（数值）的程度变化或精确的定时。这是弱形式的动态性。</p>
+
+
+
+
+<p>相较而言，在生理层和声学层，是强形式的动态性。因为既要考虑克服发音器官移动速度的生理极限，又要考虑高效的对语音符号进行编码，这就需要数字量化的
+发声器官的运动和声学参数（这句有点绕，原文是：In contrast, the articulatory dynamics at the physiological level, and the consequent dynamics at the 
+acoustic level, are of a strong form in that the numerically quantifiable temporal characteristics of the articulator movements and of the acoustic 
+parameters are essential for the trade-off between overcoming the physiological limitations for setting the articulators’ movement speed and efficient 
+encoding of the phonological symbols.）。</p>
+
+
+
+
+<p>而在听觉感知层，在语音编码听时觉神经的发放电模式和皮层的反应的时间（时刻）是非常重要的。听觉神经元簇对于语音信号的反应不是一成不变的，这也
+反应了输入语音信号的动态模式。</p>
+
+
+
+
+<p>在语音识别圈，研究人员通常将语音的动态性看做是声学向量序列的差分或回归（称为delta，delta-delta，或者“dynamic”特征）。从以上的语音链的角度来看，
+这是一种非常弱形式的dynamics。本系列文章将从科学（scientific）和技术（technological）两方面介绍更加comprehensive和rigorous的dynamics。</p>
+
+
+
+
+<p>PS.个人点评：感觉这一节讲得很晦涩，个人理解就是在语音链的每一个子过程中都埋下了dynamic的种子，其中以生理层（发音器官）和声学层（声学特征）最甚，
+而涉及到大脑的语言层和感知层，都较为抽象且难以琢磨，也无法对其dynamic性进行建模或分析。</p>
+
+
+
+
+<h2>3.What are Models of Speech Dynamics？</h2>
+
+
+<p>计算模型是实际物理过程的数学抽象，而speech dynamics的模型是指物理语音动态性（physical speech dynamics）的数学特性和抽象。受语音链各过程的启发，
+从独特的基于特征的语言单位，到语音的声学的听觉的参数，都可以构建细化的计算模型，特别是在一些生成阶段，主要有：</br>
+·离散的特征组织过程：主要是与语音的动作重叠（gesture overlapping）有关，并且表示了在casual speech中不经意的音素的部分或全部删除或修改；</br>
+·分段的目标过程：指示模型发音器官向上下和前后的连续性运动；</br>
+·目标制导dynamics的模型发音器官运动：从一个音韵单位平滑的流到下一个音韵单位；</br>
+·静态的非线性变化：从模型的发音器官到测得的语音声学特性和相关的听觉语音表示。
+</p>
+
+
+
+
+<p>这种多层级结构的动态语音过程建模的主要优势在于，可以在一个统一的模型中设置很多参数，来编码语音语境和说话频率/风格的变数。在[3]中，也介绍了一些
+关于以上类型的speech dynamics的背景知识，尤其是特征组织/重叠处理，是计算音韵学（computational phonology，在[3]的第9章）的核心。另外，关于听觉的语音
+表示的一些方面，主要限于外围听觉系统的功能，在[3]中的第11章有详尽的描述。该书主要集中于讲述一下几个方面：</br>
+·基于目标的动态建模（Target-based dynamic modeling）：作为音韵学（phonology）和基于关节的发音学（articulation-based phonetics）的接口（interfaces）；</br>
+·开关动态系统建模（Switching dynamic system modeling）：表示“隐藏的”发音器官和声道共振的连续的、目标导向的运动；</br>
+·“隐藏的”发音器官或声道共振参数与可测的声学参数之间的关系，可以将隐藏的语音动态性随机映射到声学动态性（任何机械处理器都能直接获得）上。
+</p>
+
+
+
+
+<p>PS.个人点评：还是看得有点云里雾里，不知道所谓的segmental target process，target-guided dynamics，target-based dynamic等等的具体涵义，感觉好抽象啊，给跪了-_-</p>
+
+
+
+
+<h2>4.Why Modeling Speech Dynamics？</h2>
+
+
+<p>为什么要对speech的dynamics进行建模呢？该文从两个方面做出了解释。</p>
+
+
+
+
+<p>首先是因为科学家们对人类语音编码（speech code）的研究已经不懈追求了几十年了，作为人类智能和知识的必备载体，语音是人类交流的最自然方式。对speech dynamics
+进行数学建模，为语音链（包括现象的观察、假设的形成、假设的验证、新现象的预测以及新理论的形成等）的科学研究提供了一个有效的工具。这些科学研究帮助人们理解为什么
+人类如此说话，人类又是如何通过多层次的动态过程（dynamic processes），来利用冗余性（redundancy）和可变性（variability），以提高语音通讯的效率（efficiency）和
+效益（effectiveness）。</p>
+
+
+
+
+<p>其次，人类语言技术的进步，特别是在人类自然语音的自动识别，也被认为是从语音dynamics的全方面的计算建模中受益。然而目前的语音识别技术还远远不够成熟，人们经常
+讨论到的问题是，统计模型（主要指HMM）的弱点在于缺乏足够的动态建模方案（dynamic modeling schemes），因而无法编码语音序列的时序相关结构。不幸的是，由于各种原因，
+目前主要的研究工作都集中在对HMM的细微的修改和提升，而且其中对dynamics的考虑仅限于一些差分参数，这是非常弱形式的dynamics，因而需要对speech dynamics进行更加强形式
+的建模。</p>
+
+
+
+
+<h2>5.Examples of Dynamic Speech Models？</h2>
+
+
+<p>具体而言，什么样的模型算得上是对speech dynamics进行了强形式的建模的呢？</p>
+
+
+
+
+<p>该系列文章首先提到的是动态贝叶斯网络（Dynamic Bayesian Networks，DBN），第2章中对DBN的相关背景知识、一般结构、设计原则、模型组件和计算架构进行了详细的探讨。</p>
+
+
+
+
+<p>在第3章从acoustic dynamics到hidden dynamics，其中则提到了一些HMM的变种，如非平稳状态的HMM、多域递归模型（Multiregion Recursive Models）等。</p>
+
+
+
+
+<p>第4章和第5章主要讲两种最好的hidden dynamic models，其中第4章讲使用hidden dynamic variables的离散值的方法，而第5章讲连续值的方法。</p>
+
+
+
+
+<h2>6.References参考文献</h2>
+
+
+<p>
+[1]<a href="http://www.morganclaypool.com/doi/abs/10.2200/S00028ED1V01Y200605SAP002">Li Deng. Dynamic Speech Models: Theory, Algorithms, and Applications</a></br>
+[2]<a href="http://dspace.mit.edu/bitstream/handle/1721.1/35720/6-542JFall-2001/OcwWeb/Electrical-Engineering-and-Computer-Science/6-542JLaboratory-on-the-Physiology--Acoustics--and-Perception-of-SpeechFall2001/Syllabus/index.htm">MIT OpenCourseWare：Laboratory on the Physiology, Acoustics, and Perception of Speech, Fall 2001.</a></br>
+[3]<a href="http://research.microsoft.com/apps/pubs/default.aspx?id=78249">Li Deng. SPEECH PROCESSING—A Dynamic and Optimization-Oriented Approach</a>
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[语音信号处理基础学习笔记之时域处理]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/05/08/speech-processing-in-time-domain/"/>
+    <updated>2013-05-08T23:13:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/05/08/speech-processing-in-time-domain</id>
+    <content type="html"><![CDATA[<p>语音信号的分析分为时域、频域、倒谱域等，时域分析简单、运算量小、物理意义明确，但对于语音识别而言，
+更为有效的是频域的分析方法，那么为什么还有进行时域的分析呢？</p>
+
+
+
+
+<p>语音信号具有时变特性，但在短时内可以看做是平稳的，所以语音的时域分析是建立在“短时”的条件下的，经研究统计，
+语音信号在帧长为10ms~30ms内是相对平稳的。</p>
+
+
+
+
+<p>语音信号是模拟信号，在进行处理之前，要进行数字化，模拟信号数字化的一般方法是采样，按照Nyquist采样定理进行
+采样（一般在8K~10KHz）后，在进行量化（一般用8bit，也有16bit等）和编码，变为数字信号。</p>
+
+
+
+
+<p>在语音信号数字化之后，就可以开始对其进行处理了，首先是预处理，由于语音信号的平均功率谱受声门激励和口鼻辐射的影响，
+高频端大约在800Hz以上按6dB/倍频程跌落，为此要在预处理中进行预加重。预加重的目的是提升高频部分，是信号变得平坦，
+以便于进行频谱分析或声道参数分析。预加重可以用具有6dB/倍频程的提升高频特性的预加重数字滤波器实现。预处理的另一
+方面工作是分帧和加窗：分帧的帧长一般在10ms~30ms，分帧既可以是连续的，也可以是有部分over-lap；短时分析的实质是
+对信号加窗，一般采用Hamming窗，其他的还有矩形窗、汉宁窗等，如下图所示。
+<center><img src="/images/2013/IMAG2013050801.png"></center>
+</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<p>好了，经过预处理之后就可以真正开始进行时域分析了，这里的时域分析主要包含短时平均能量、短时过零分析、短时自相
+关分析以及高阶统计量分析等。</p>
+
+
+
+
+<p>短时平均能量（Short Time Average Energy）可以理解为先计算信号格采样值的平方，然后用一个移动窗h(n-m)选取出一个个
+短时平方序列，并将各段的平方值求和，从而得到短时能量序列。短时平均能量（En）可以用来从清音中区分浊音（浊音的En比
+清音大得多），可以用来确定声母和韵母、无声与有声、连字等的分界，还可以作为一种超音段信息用于语音识别。但短时平均
+能量En对于高电平信号可能产生溢出，此时可以采用短时平均幅度（Short Time Average Magnitude）来度量语音信号幅度的变化。</p>
+
+
+
+
+<p>信号的幅度值从正值到负值要经过零点，从负值到正值也要经过零点，称为过零，统计信号在单位时间（如1s）内过零的次数，
+就成为过零率。如果信号按段分割，就成为短时，把各段信号的过零率做统计平均，就是短时平均过零率（Short Time Average Cross 
+Zero Ratio）。短时平均过零率（Zn）可以作为“频率”来理解。过零率可以用来定量的分析清音/浊音，特别是在背景噪声电平较大时
+更为有效（相比短时平均能量而言），有时还可以同时结合Zn和En来进行判定。</p>
+
+
+
+
+<p>如果说短时平均过零率是描述复杂波形“频率”特征的一个参数，那么短时平均上升过零间隔（Short Time Rise Zero-Crossing Inteval）
+就是描述复杂波形“周期”特性的参数。研究表明：在一定噪声背景下，该参数具有很好的稳健性，对不同的语音具有很好的差异性。</p>
+
+
+
+
+<p>自相关函数是偶函数，语音信号的短时自相关函数（Short Time Autocorrelation Function）可以理解为序列[x(n)x(n-k)]通过一个
+冲激响应为hk(n)的数字滤波器的输出，即有Rn(k) = [x(n)x(n-k)]*hk(n)。短时自相关函数是语音信号时域分析中的一个重要参量，但是
+运算量很大。短时平均幅度差函数AMDF（Short Time Average Magnitude Difference Function）与自相关函数有类似的功效，但运算量
+可降低许多，所以在语音信号处理中应用广泛。</p>
+
+
+
+
+<p>最后是高阶统计量了。近来高阶统计量在语音信号处理中应用也越来越多，高阶统计量一般指高阶矩(Moment)、高阶累积量(Cumulant)以及
+他们的谱——高阶矩谱和高阶累积量谱。首先定义了随机变量x的（第一）特征函数（也称为矩生成函数），实际为它的密度函数f(x)的傅里叶变换。
+然后定义了第二特征函数（也称为累积量生成函数），它是第一特征函数的对数。还有随机变量x的k阶矩（mk）的定义，它是x的k次幂与f(x)的
+乘积在x∈R上的积分。类似的还有k阶中心矩（μk）的定义，都与概率论中的定义差不多。现在，可以对第一、二特征函数进行泰勒展开，可以得
+到ck（x的k阶累积量）和mk之间的一些关系，可以发现k<4时，ck=μk，此时ck的物理意义与μk的物理意义相同，而k>=4时，则不相等。对于c3，
+描述了概率分布的对称性，通过定义一个新的概念——偏度（Skewness，也称为偏态系数）来衡量。对于c4，文中为了简化，假设了x的均值为0，
+然后定义了一个称为峰态（也称峰度，Kurtosis）的概念，以表示分布相对于正太分布的尖锐或平坦程度。后面两小节分别对此进行了从单个
+随机变量到多个随机变量的推广的分析和随机变量服从高斯分布（正态分布）的特殊情形做了分析。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[深度学习及其在语音方面的应用]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing/"/>
+    <updated>2013-04-17T22:43:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing</id>
+    <content type="html"><![CDATA[<p>以下是今天在组会上讲的内容，与大家分享一下。有些地方我也没有完全理解，欢迎大家一起来讨论。</p>
+
+
+<p><center>
+<embed width="780"
+    height="574"
+    name="plugin"
+    src="http://ibillxia.github.com/upload/Deep Learning - Bill Xia.pdf"
+    type="application/pdf"
+/>
+</center></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MFCC参数提取及Matalab实现]]></title>
+    <link href="http://ibillxia.github.com/blog/2012/07/18/MFCC-feature-extraction/"/>
+    <updated>2012-07-18T20:10:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2012/07/18/MFCC-feature-extraction</id>
+    <content type="html"><![CDATA[<h2>1.概述</h2>
+
+
+<p>Mel倒谱系数（Mel-frequency cepstral coefficients，MFCC）是受人的听觉系统研究成果推动而导出的声学特征。
+研究发现，当两个音调的频率差小于临界带宽时，人就会把两个音调听成一个(屏蔽效应)。Mel刻度是对这一临界带宽的
+度量方法之一, MFCC在语音识别领域应用广泛。本文详细介绍了Mel频率倒谱系数参数的6大提取步骤。</p>
+
+
+
+
+<h2>2.什么是Mel频率倒谱系数？</h2>
+
+
+<p>Mel频率倒谱系数（Mel Frequency Cepstrum Coefficient）的缩写是MFCC，Mel频率是基于人耳听觉特性提出来的，
+它与Hz频率成非线性对应关系。Mel频率倒谱系数(MFCC)则是利用它们之间的这种关系，计算得到的Hz频谱特征。</p>
+
+
+
+
+<p>用录音设备录制一段模拟语音信号后，经由自定的取样频率(如8000 Hz、16000 Hz等)采样后转换(A/D)为数字语音信号。
+由于在时域(time domain)上语音信号的波形变化相当快速、不易观察，因此一般都会在频域(frequency domain)上来观察，
+其频谱是随着时间而缓慢变化的，因此通常可以假设在一较短时间中，其语音信号的特性是稳定的，通常我们定义这个较短
+时间为一帧(frame)，根据人的语音的音调周期值的变化，一般取10~20ms。</p>
+
+
+
+
+<!-- more -->
+
+
+<h2>3.Mel频率倒谱系数(MFCC)参数的提取步骤</h2>
+
+
+<h4>(1) 预加重(pre-emphasis)</h4>
+
+
+<p>将经采样后的数字语音信号s(n)通过一个高通滤波器(high pass filter)：</br>
+<center>$H(z)= 1 – a*z -1 , 0.9 < a < 1.0$. </center></br>
+其中a一般取0.95左右。经过预加重后的信号为：</br>
+<center>$s (n)= s(n)– a×s(n-1)$.</center></br>
+因为发声过程中声带和嘴唇的效应，使得高频共振峰的振幅低于低频共振峰的振幅，进行预加重的目的就是为了消除声带和
+嘴唇的效应，来补偿语音信号的高频部分。</p>
+
+<h4>(2) 分帧(frame blocking)</h4>
+<p>一般取10-30ms为一帧，为了避免窗边界对信号的遗漏，因此对帧做偏移时候，要有帧迭(帧与帧之间需要重叠一部分)。
+一般取帧长的一半作为帧移，也就是每次位移一帧的二分之一后再取下一帧，这样可以避免帧与帧之间的特性变化太大。</p>
+
+<h4>(3) 计算短时能量(energy)</h4>
+<p>短时能量代表着音量的高低，亦即声音振幅的大小，可以根据此能量的值来过滤掉语音信号中的一些细微噪声。当一帧的能量
+值低于我们定的门槛值(threshold)时，则将此帧作为静音段(silence)。</p>
+
+<h4>(4) 加窗(hamming window)</h4>
+<p>语音在长范围内是不停变动的，没有固定的特性无法做处理，所以将每一帧代入窗函数，窗外的值设定为0，其目的是消除各个
+帧两端可能会造成的信号不连续性。常用的窗函数有方窗、汉明窗和汉宁窗等，根据窗函数的频域特性，常采用汉明窗。公式是在
+加窗范围内，$w(i)=0.54-0.46*cos(2* \pi * \frac{i}{n-1}), i \in [0,n-1]$。</p>
+
+<h4>(5) 快速傅立叶变换(FFT transform)</h4>
+<p>由于语音信号在时域上的变化快速而不稳定，所以通常都将它转换到频域上来观察，此时它的频谱会随着时间作缓慢的变化。
+所以通常将加窗后的帧经过FFT (Fast Fourier Transform)求出每帧的频谱参数。</p>
+
+<h4>(6) 三角形带通滤波器(triangular band-pass filter)</h4>
+<p>将每帧的频谱参数通过一组N个三角形带通滤波器(N一般为20~30个)所组成的梅尔刻度滤波器，将每个频带的输出取对数，求出每一个
+输出的对数能量(log energy)，k = 1,2,… N。 再将此N个参数进行余弦变换(cosine transform)求出L阶的Mel-scale cepstrum参数。</p>
+
+<h2>4.Matlab程序实现</h2>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function r = mfcc(s, fs)
+</span><span class='line'>% MFCC参数提取
+</span><span class='line'>% Reference: 论文《MFCC和LPCC特征参数在说话人识别中的研究》
+</span><span class='line'>%
+</span><span class='line'>% Inputs: s  contains the signal to analize
+</span><span class='line'>%         fs is the sampling rate of the signal
+</span><span class='line'>%
+</span><span class='line'>% Output: r contains the transformed signal
+</span><span class='line'>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span><span class='line'>m = 256;  % 帧长
+</span><span class='line'>n = 100;  % 帧移
+</span><span class='line'>l = length(s);  % 信号总长度
+</span><span class='line'>nbFrame = floor((l - n) / m) + 1;  % 信号总帧数
+</span><span class='line'>for i = 1:n
+</span><span class='line'>for j = 1:nbFrame
+</span><span class='line'>M(i, j) = s(((j - 1) * m) + i);  % 分帧
+</span><span class='line'>end
+</span><span class='line'>end
+</span><span class='line'>h = hamming(n);  % Hamming窗w = 0.54 - 0.46*cos(2*pi*x);
+</span><span class='line'>M2 = diag(h) * M;  % 对M加窗，形成对角矩阵M2
+</span><span class='line'>for i = 1:nbFrame
+</span><span class='line'>frame(:,i) = fft(M2(:, i));   % 进行快速傅里叶变换，将其转换到频域上
+</span><span class='line'>end
+</span><span class='line'>t = n / 2;
+</span><span class='line'>% tmax = l / fs;
+</span><span class='line'>m = melfb(20, n, fs);  % 调用20阶MEL滤波器组进行滤波
+</span><span class='line'>n2 = 1 + floor(t);
+</span><span class='line'>z = m * abs(frame(1:n2, :  )).^2;  % 取前n2行帧列向量的平方
+</span><span class='line'>r = dct(log(z));  % 取对数后进行反余弦变换
+</span><span class='line'>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span><span class='line'>function m = melfb(p, n, fs)
+</span><span class='line'>% MELFB  Determine matrix for a mel-spaced filterbank
+</span><span class='line'>%
+</span><span class='line'>% Inputs:       p   number of filters in filterbank
+</span><span class='line'>%               n   length of fft
+</span><span class='line'>%               fs  sample rate in Hz
+</span><span class='line'>%
+</span><span class='line'>% Outputs:      x   a (sparse) matrix containing the filterbank amplitudes
+</span><span class='line'>%                   size(x) = [p, 1+floor(n/2)]
+</span><span class='line'>%
+</span><span class='line'>% Usage:        For example, to compute the mel-scale spectrum of a
+</span><span class='line'>%               colum-vector signal s, with length n and sample rate fs:
+</span><span class='line'>%               f = fft(s);
+</span><span class='line'>%               m = melfb(p, n, fs);
+</span><span class='line'>%               n2 = 1 + floor(n/2);
+</span><span class='line'>%               z = m * abs(f(1:n2)).^2;
+</span><span class='line'>%
+</span><span class='line'>%               z would contain p samples of the desired mel-scale spectrum
+</span><span class='line'>%
+</span><span class='line'>%               To plot filterbanks e.g.:
+</span><span class='line'>%               plot(linspace(0, (12500/2), 129), melfb(20, 256, 12500)'),
+</span><span class='line'>%               title('Mel-spaced filterbank'), xlabel('Frequency (Hz)');
+</span><span class='line'>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span><span class='line'>f0 = 700 / fs;
+</span><span class='line'>fn2 = floor(n/2);
+</span><span class='line'>lr = log(1 + 0.5/f0) / (p+1);
+</span><span class='line'>% convert to fft bin numbers with 0 for DC term
+</span><span class='line'>bl = n * (f0 * (exp([0 1 p p+1] * lr) - 1));
+</span><span class='line'>b1 = floor(bl(1)) + 1;
+</span><span class='line'>b2 = ceil(bl(2));
+</span><span class='line'>b3 = floor(bl(3));
+</span><span class='line'>b4 = min(fn2, ceil(bl(4))) - 1;
+</span><span class='line'>pf = log(1 + (b1:b4)/n/f0) / lr;
+</span><span class='line'>fp = floor(pf);
+</span><span class='line'>pm = pf - fp;
+</span><span class='line'>r = [fp(b2:b4) 1+fp(1:b3)];
+</span><span class='line'>c = [b2:b4 1:b3] + 1;
+</span><span class='line'>v = 2 * [1-pm(b2:b4) pm(1:b3)];
+</span><span class='line'>m = sparse(r, c, v, p, 1+fn2);</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h2>参考文献</h2>
+<p>[1] <a href="http://www.semxi.com/TechnologyDetail.aspx?nID=27">http://www.semxi.com/TechnologyDetail.aspx?nID=27</a> </br>
+[2] MFCC和LPCC特征参数在说话人识别中的研究</p>
+
+]]></content>
+  </entry>
+  
+</feed>

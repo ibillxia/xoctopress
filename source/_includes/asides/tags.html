@@ -1,0 +1,10 @@
+<section>
+  <h1>Tags</h1>
+  <ul id="recent_posts">
+    {% for post in site.tags limit: site.tags %}
+      <li class="post">
+        <a href="{{ root_url }}{{ post.url }}">{{ post.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</section>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: 8-Queen | Bill's Blog]]></title>
+  <link href="http://ibillxia.github.com/blog/tags/8-queen/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.com/"/>
+  <updated>2013-10-22T22:35:17+08:00</updated>
+  <id>http://ibillxia.github.com/</id>
+  <author>
+    <name><![CDATA[Bill Xia]]></name>
+    <email><![CDATA[ibillxia@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[数学趣题四则]]></title>
+    <link href="http://ibillxia.github.com/blog/2009/07/26/four-interesting-problem-in-math/"/>
+    <updated>2009-07-26T10:07:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2009/07/26/four-interesting-problem-in-math</id>
+    <content type="html"><![CDATA[<h2>一、N阶幻方问题</h2>
+
+
+<p>
+1）N为奇数时：</br>
+2）N为偶数时：</br>
+   ①把1~n2按顺序排列成n×n方阵；</br>
+   ②把方阵分成四象限，和正交坐标似的，圆心在方阵正中
+然后假象建立一个正交的坐标，那么就有个X、Y轴</br>
+   ③把数（1，1）和（-1，1）对调把数（2，2）和（-2，2）对调调（1.1）（2.2）一直到（n.n）</br>
+这只调了四分之一，其它方向也要对调，调的时候要注意先X全调了，再调Y轴</br>
+如果是8阶的，要调2次，6阶的调1.5次 </br>
+就是说6阶的，你全部调完一次，再调上刚才说的四个方向里的两个就可以了，当然这两个方向要一个X轴的，一个Y轴的 </br>
+其实是任意一点，选个数字，让他从（X.Y）到（X+n.Y+n）对调就可以，（X+n.Y+n）注意取余，编的时候，要用到“余”就好解多了，
+其实老师教的奇数阶的解法用的也是“余”</br>
+要细细体会的话，其实偶数阶的解法和奇数阶的解法有很多相似的地方
+</p>
+
+
+<!--more-->
+
+
+<h2>二、八皇后问题 </h2>
+
+
+<p>把1~8排程1列，任意两个数的数值差不等于他们的位置差，这就是8皇后的题 </p>
+
+
+<p></p>8个数字有8个位置，所以肯定不会出现两个皇后在同一条水平或者垂直线上！！数值差不等于他们的位置差，所以
+也肯定不会出现两个皇后在45度的线上！</p></p>
+
+<h2>三、31点</h2>
+
+
+<p>一副牌里的1~6，每个数4张，一共24张。两个人轮流从中拿一张出来一起共同求和，谁先加到31谁赢，超过31算输 </p>
+
+
+
+
+<p>如果是没有张数限制的话，那第一个人拿3就赢了</br>
+理由是：</br>
+拿了3剩下个28，剩下凑7就行了，</br>
+可现在每张4个，你先拿3，对方拿4，你得拿3，到最后你，你没的3拿了，反而要输</p>
+
+
+
+
+<h2>四、捡子</h2>
+
+
+<p>一堆石子任意个，分成任意堆，每堆任意个 </br>
+两个人轮流往出捡子，每次只能捡其中任意亿堆的任意个</br>
+两个人轮流往出捡子，每次只能捡其中任意一堆的任意个，谁捡最后一颗谁输
+</p>
+
+
+
+]]></content>
+  </entry>
+  
+</feed>

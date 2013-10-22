@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: UI | Bill's Blog]]></title>
+  <link href="http://ibillxia.github.com/blog/tags/ui/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.com/"/>
+  <updated>2013-10-22T22:35:17+08:00</updated>
+  <id>http://ibillxia.github.com/</id>
+  <author>
+    <name><![CDATA[Bill Xia]]></name>
+    <email><![CDATA[ibillxia@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[给Octpress博客添加返回顶部按钮]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog/"/>
+    <updated>2013-06-30T10:47:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog</id>
+    <content type="html"><![CDATA[<p>有时候，博客文章太长，需要返回顶部时，需要用鼠标拖着滚动条向上好半天，这里提供一个用jQuery来实现的动态上滚的示例。
+这个示例完全参考和翻译自webdesignerwall的blog：<a href="http://webdesignerwall.com/tutorials/animated-scroll-to-top">http://webdesignerwall.com/tutorials/animated-scroll-to-top</a>，
+其中有部分删改，并在本人的blog上实现。</p>
+
+
+
+
+<p>主要包含HTML和CSS的设计，基于jQuery的JS的设计。另外还有一点小trick</p>
+
+
+
+
+<h2>Design & CSS</h2>
+
+
+<p>相关的HTML代码很简单，在source/_include/custom/footer.html中添加如下代码：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;p id = "back-top">
+</span><span class='line'>        &lt;a href="#top">&lt;span>&lt;/span>Back to Top&lt;/a>
+</span><span class='line'>    &lt;/p></span></code></pre></td></tr></table></div></figure></notextile></div>
+</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<p>对应的CSS样式的设置如下：（这段代码同样的放在source/_include/custom/footer.html文件中）
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;style type="text/css">
+</span><span class='line'>#back-top {
+</span><span class='line'>    position: fixed;
+</span><span class='line'>    bottom: 50px;
+</span><span class='line'>    right: 100px;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>#back-top a {
+</span><span class='line'>    width: 80px;
+</span><span class='line'>    display: block;
+</span><span class='line'>    text-align: center;
+</span><span class='line'>    font: 11px/100% Arial, Helvetica, sans-serif;
+</span><span class='line'>    text-transform: uppercase;
+</span><span class='line'>    text-decoration: none;
+</span><span class='line'>    color: #bbb;
+</span><span class='line'>
+</span><span class='line'>    /* transition */
+</span><span class='line'>    -webkit-transition: 1s;
+</span><span class='line'>    -moz-transition: 1s;
+</span><span class='line'>    transition: 1s;
+</span><span class='line'>}
+</span><span class='line'>#back-top a:hover {
+</span><span class='line'>    color: #000;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>/* arrow icon (span tag) */
+</span><span class='line'>#back-top span {
+</span><span class='line'>    width: 80px;
+</span><span class='line'>    height: 80px;
+</span><span class='line'>    display: block;
+</span><span class='line'>    margin-bottom: 7px;
+</span><span class='line'>    background: #ddd url(../../images/up-arrow.png) no-repeat center center;
+</span><span class='line'>
+</span><span class='line'>    /* rounded corners */
+</span><span class='line'>    -webkit-border-radius: 15px;
+</span><span class='line'>    -moz-border-radius: 15px;
+</span><span class='line'>    border-radius: 15px;
+</span><span class='line'>
+</span><span class='line'>    /* transition */
+</span><span class='line'>    -webkit-transition: 1s;
+</span><span class='line'>    -moz-transition: 1s;
+</span><span class='line'>    transition: 1s;
+</span><span class='line'>}
+</span><span class='line'>/*
+</span><span class='line'>#back-top a:hover span {
+</span><span class='line'>    background-color: #888;
+</span><span class='line'>}
+</span><span class='line'>*/
+</span><span class='line'>&lt;/style></span></code></pre></td></tr></table></div></figure></notextile></div>
+</p>
+
+
+
+
+<p>上面的css中用到了一张图片up-arrow.png，放在source/images/目录下，图片如下：
+<center><img src="/images/up-arrow.png"></center>
+这是从google image里面随便找的一个，你也可以找一个自己喜欢的图片。
+</p>
+
+
+
+
+<h2>jQuery部分</h2>
+
+
+<p>HTML和CSS样式设置好了之后，最后就是添加JavaScript事件响应代码了，这里是基于jQuery实现的。代码如下：（这段代码还是放在source/_include/custom/footer.html文件中）
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js">&lt;/script>
+</span><span class='line'>&lt;script type="text/javascript">
+</span><span class='line'>$(document).ready(function(){
+</span><span class='line'>
+</span><span class='line'>    // hide #back-top first
+</span><span class='line'>    $("#back-top").hide();
+</span><span class='line'>    
+</span><span class='line'>    // fade in #back-top
+</span><span class='line'>    $(function () {
+</span><span class='line'>        $(window).scroll(function () {
+</span><span class='line'>            if ($(this).scrollTop() > 100) {
+</span><span class='line'>                $('#back-top').fadeIn();
+</span><span class='line'>            } else {
+</span><span class='line'>                $('#back-top').fadeOut();
+</span><span class='line'>            }
+</span><span class='line'>        });
+</span><span class='line'>
+</span><span class='line'>        // scroll body to 0px on click
+</span><span class='line'>        $('#back-top a').click(function () {
+</span><span class='line'>            $('body,html').animate({
+</span><span class='line'>                scrollTop: 0
+</span><span class='line'>            }, 800);
+</span><span class='line'>            return false;
+</span><span class='line'>        });
+</span><span class='line'>    });
+</span><span class='line'>
+</span><span class='line'>});
+</span><span class='line'>&lt;/script></span></code></pre></td></tr></table></div></figure></notextile></div>
+</p>
+
+
+
+
+<h2>一个Trick</h2>
+
+
+<p>
+在上面的HTML代码中，我们将一个链接添加到了ID为#top的里面，这个#top标签是<body>标签的ID，这样即使浏览器不支持相关的JS，
+通过这个link也实现了返回顶部的功能。
+</p>
+
+]]></content>
+  </entry>
+  
+</feed>

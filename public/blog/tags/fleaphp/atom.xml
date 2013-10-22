@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: FleaPHP | Bill's Blog]]></title>
+  <link href="http://ibillxia.github.com/blog/tags/fleaphp/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.com/"/>
+  <updated>2013-10-22T22:35:17+08:00</updated>
+  <id>http://ibillxia.github.com/</id>
+  <author>
+    <name><![CDATA[Bill Xia]]></name>
+    <email><![CDATA[ibillxia@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[PHP格式化打印数组，调试有用]]></title>
+    <link href="http://ibillxia.github.com/blog/2010/08/25/php-print-in-format-very-useful-in-debuging/"/>
+    <updated>2010-08-25T10:08:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2010/08/25/php-print-in-format-very-useful-in-debuging</id>
+    <content type="html"><![CDATA[<p>以下是从FleaPHP上挖来的，感谢FleaPHP的开发者们。</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/&lt;em>*
+</span><span class='line'>* 输出变量的内容，通常用于调试
+</span><span class='line'>*
+</span><span class='line'>* @package Core
+</span><span class='line'>*
+</span><span class='line'>* @param mixed $vars 要输出的变量
+</span><span class='line'>* @param string $label
+</span><span class='line'>* @param boolean $return
+</span><span class='line'>&lt;/em>/
+</span><span class='line'>function dump($vars, $label = '', $return = false)
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>if (ini_get('html_errors')) {
+</span><span class='line'>    $content = "&lt;pre&gt;\n";
+</span><span class='line'>    if ($label != '') {
+</span><span class='line'>        $content .= "&lt;strong&gt;{$label} :&lt;/strong&gt;\n";
+</span><span class='line'>    }
+</span><span class='line'>    $content .= htmlspecialchars(print_r($vars, true));
+</span><span class='line'>    $content .= "\n&lt;/pre&gt;\n";
+</span><span class='line'>} else {
+</span><span class='line'>    $content = $label . " :\n" . print_r($vars, true);
+</span><span class='line'>}
+</span><span class='line'>if ($return) { return $content; }
+</span><span class='line'>echo $content;
+</span><span class='line'>return null;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<!--more-->
+
+
+<p>所以只要在自己的代码脚本所有函数外面，ctrl+c/ctrl+v上面这段代码，就可以有dump()函数格式化打印数组了。</p>
+
+]]></content>
+  </entry>
+  
+</feed>

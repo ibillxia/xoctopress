@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: MachineLearning | Bill's Blog]]></title>
+  <link href="http://ibillxia.github.com/blog/tags/machinelearning/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.com/"/>
+  <updated>2013-10-22T22:35:17+08:00</updated>
+  <id>http://ibillxia.github.com/</id>
+  <author>
+    <name><![CDATA[Bill Xia]]></name>
+    <email><![CDATA[ibillxia@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[深度学习简介]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/03/16/introduction-to-deep-learning/"/>
+    <updated>2013-03-16T21:36:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/03/16/introduction-to-deep-learning</id>
+    <content type="html"><![CDATA[<h2>0.概述</h2>
+
+<p>
+以下是Wiki上对深度学习的下的定义：</br>
+Deep learning refers to a sub-field of machine learning that is based on learning several levels of representations, 
+corresponding to a hierarchy of features or factors or concepts, where higher-level concepts are defined from lower-level ones, 
+and the same lower-level concepts can help to define many higher-level concepts.
+</p>
+
+
+<p>
+深度学习就是学习多个级别的表示和抽象，帮助理解数据，如图像、声音和文本。深度学习的概念源于人工神经网络的研究，
+含多隐层的多层感知器就是一种深度学习结构。那些涉及从输入产生输出的计算,我们可以用流程图来表示，
+流程图的一个特殊的概念就是它的深度: 从输入到输出的路径的最长长度。传统的前馈神经网络可以理解为
+深度等于层数(隐层数+1)的网络。深度学习通过组合低层特征形成更加抽象的高层表示（属性类别或特征），
+以发现数据的分布式特征表示。
+</p>
+
+
+<h2>1.深度学习产生的背景</h2>
+
+<h3>1.1深度不够的缺陷</h3>
+
+<p>
+在很多情况下，深度为2就已足以在给定精度范围内表示任何函数了，例如逻辑门、正常
+神经元、sigmoid-神经元、SVM中的RBF(Radial Basis Function)等，但这样也有一个代价：
+那就是图中需要的节点数会很多，这也就意味着当我们学习目标函数时，需要更多的计算
+单元和更多的参数。理论结果显示，对于某一类函数，需要的参数的个数与输入的大小是
+成指数关系的，逻辑门、正常神经元、RBF单元就属于这类。后来Hastad发现，当深度为d时，
+这类函数可以用O(n)个节点（输入为n个）的神经网络有效表示，但当深度被限制为d-1时，
+则需要有O(n2)个节点来表示。
+</p>
+
+
+
+
+<!-- more -->
+
+
+<p>
+我们可以讲深层结构看做是因子分解。大多数随机选择的函数，无论是用深层的结构还是用浅层结构，
+都是无法有效的表示的。但很多可以用深层结构有效表示的却无法用浅层的来有效表示（参见推荐
+阅读[5]中的polynomials example）。这种深层表示的现象表明，对于一些需要表示的函数，
+其中存在一些结构化的特性。如果其中没有结构化的东西，那么它将无法很好的泛化。
+</p>
+
+
+<h3>1.2大脑具有深层的结构</h3>
+
+<p>
+例如，被深入研究的视觉皮层（如下图（a）所示）包含一系列的区域，每个区域都有输入，
+信号流从一个区域到下一个区域（也有跳过连接或在某种程度上的并行路径，所以情况更复杂）。
+在这种功能层次结构中，每个层次上的输入代表了不同层次的抽象特征，越上层的特征，
+又越底层的信息表征，抽象性越高，如下图（c）所示。</br>
+<center><img src="/images/2013/IMAG2013031601.png"></center>
+</p>
+
+
+<p>
+值得注意的是，大脑中的表示是介于密集分布和纯局部之间，也就意味着它们是稀疏的：大脑中大约1%的神经元是同时活动的。
+</p>
+
+
+<h3>1.3认知过程是深层次的</h3>
+
+<p>
+• 人们是使用层次化的方式来组织它们的想法和观念的；</br>
+• 人们首先是学习简单的概念，然后将它们组合起来以表示更加抽象的概念；</br>
+• 工程师们习惯于将解决问题的方案分解为多个层次的抽象和处理过程。
+</p>
+
+
+<p>如果能够像人一样学习到这些概念，那将会是非常棒的。知识工程（Knowledge Engineering）在这方面是失败的，
+但语言表达概念的内省的方法也表明了稀疏表示：对于一个特定的输入（就像一幅视觉的图像），
+仅仅只有一小部分的单词或概念是相关的。
+</p></p>
+
+<h2>2.深度学习的巨大突破</h2>
+
+<h3>2.1学术上的突破</h3>
+
+<p>
+在2006年以前，尝试训练一个深层的、监督的前馈神经网络往往会比浅层的（1~2个隐层）网络产生更糟糕的结果（无论是训练误差，还是测试误差）。
+但在2006年，以Hinton为首的研究人员在深度置信网络（Deep Belief Networks，DBNs）方面的划时代性的工作，将此终结。其代表性的论文是：</br>
+• Hinton, G. E., Osindero, S. and Teh, Y., <a href="http://www.cs.toronto.edu/~hinton/absps/fastnc.pdf" target="_blank">A fast learning algorithm for deep belief nets</a>. Neural Computation. 18:1527-1554, 2006</br>
+• Yoshua Bengio, Pascal Lamblin, Dan Popovici and Hugo Larochelle, <a href="http://www.iro.umontreal.ca/~lisa/publications2/index.php/publications/show/190" target="_blank">Greedy Layer-Wise Training of Deep Networks</a>, in J. Platt et al. (Eds), Advances in Neural Information Processing Systems 19 (NIPS 2006), pp. 153-160, MIT Press, 2007</br>
+• Marc’Aurelio Ranzato, Christopher Poultney, Sumit Chopra and Yann LeCun. <a href="http://yann.lecun.com/exdb/publis/pdf/ranzato-06.pdf" target="_blank">Efficient Learning of Sparse Representations with an Energy-Based Model</a>, in J. Platt et al. (Eds), Advances in Neural Information Processing Systems (NIPS 2006), MIT Press, 2007
+</p>
+
+
+<p>
+在这些论文中提出了以下几个非常关键的原则：</br>
+• 非监督学习被用来（预）训练各个层；</br>
+• 非监督学习在之前学习到的层次之上，一次只学习一个层次，每个层次学习到的结果将作为下一个层次的输入；</br>
+• 除了一些专门用于预测的层次外，用监督学习来调整层与层之间的权重。</br>
+这些DBNs用RBMs（Restricted Boltzmann Machines）来作为每个层的非监督学习，
+Bengio的paper研究并比较了RBMs和auto-encoders（通过瓶颈内部层的表示来预测它的输入的神经网络）。
+Ranzato的paper将稀疏的auto-encoder（与sparse coding相似）用在传统的神经网络结构中。
+关于auto-encoders和传统的神经网络结构将在后续的文章中讲解。
+</p>
+
+
+<h3>2.2学术中的研究和应用</h3>
+
+<h4>(1)计算机视觉</h4>
+
+<p>
+·ImageNet Classification with Deep Convolutional Neural Networks, Alex Krizhevsky, Ilya Sutskever, Geoffrey E Hinton, NIPS 2012.
+</br>
+·Learning Hierarchical Features for Scene Labeling, Clement Farabet, Camille Couprie, Laurent Najman and Yann LeCun, 
+IEEE Transactions on Pattern Analysis and Machine Intelligence, 2013.
+</br>
+·Learning Convolutional Feature Hierachies for Visual Recognition, Koray Kavukcuoglu, Pierre Sermanet, Y-Lan Boureau, 
+Karol Gregor, Micha&euml;l Mathieu and Yann LeCun, Advances in Neural Information Processing Systems (NIPS 2010), 23, 2010.
+</br>……</p>
+
+
+<h4>(2)语音识别</h4>
+
+<p>
+微软研究人员通过与hintion合作，首先将RBM和DBN引入到语音识别声学模型训练中，并且在大词汇量语音识别系统中获得巨大成功，使得语音识别的错误率相对减低30%。
+但是，DNN还没有有效的并行快速算法，目前，很多研究机构都是在利用大规模数据语料通过GPU平台提高DNN声学模型的训练效率。
+</br>
+在国际上，IBM、google等公司都快速进行了DNN语音识别的研究，并且速度飞快。
+</br>
+国内方面，科大讯飞、百度、中科院自动化所等公司或研究单位，也在进行深度学习在语音识别上的研究。
+</p>
+
+
+<h4>(3)自然语言处理等其他领域</h4>
+
+<p>
+很多机构在开展研究，但目前深度学习在自然语言处理方面还没有产生系统性的突破。
+</p>
+
+
+<h3>2.3工程中的应用</h3>
+
+<p>
+• 微软：2009年，首先将深度学习应用到语音识别；如今，已将深度学习融入到实际的产品当中，如Xbox。
+</br>
+• 谷歌：“Google Brain”项目，用1.6万台机器，从1000万张图像中识别出猫，这是完全的非监督学习
+（We never told it during the training, 'This is a cat,' ... It basically invented the concept of a cat.）。
+</br>
+• 百度：2012年夏开始从事深度学习方面的工作，在语音识别和图像识别中取得了巨大成功，
+目前也已初步融入到百度的产品当中，如百度语音助手、百度寻人等产品。
+</p>
+
+
+<h2>3构建深度学习的方法</h2>
+
+<p>
+深度学习的概念和思想很简单，然而如果构建一个合理的深度网络拓扑结构，如何学习网络中的信号传递权值，
+都是非常困难的问题。下面介绍几种非常perfect的方法。
+</p>
+
+
+<h3>3.1 Autoencoder[4]</h3>
+
+<p>
+最简单的一种方法是利用人工神经网络的特点，人工神经网络（ANN）本身就是具有层次结构的系统，
+如果给定一个神经网络，我们假设其输出与输入是相同的，然后训练调整其参数，得到每一层中的权重，
+自然地，我们就得到了输入I的几种不同表示（每一层代表一种表示），这些表示就是特征，在研究中可以发现，
+如果在原有的特征中加入这些自动学习得到的特征可以大大提高精确度，
+甚至在分类问题中比目前最好的分类算法效果还要好！这种方法称为AutoEncoder，如下图所示。</br>
+<center><img src="/images/2013/IMAG2013031602.png"></center>
+</p>
+
+
+<p>
+当然，我们还可以继续加上一些约束条件得到新的Deep Learning方法，例如在AutoEncoder的基础上
+加上L1的Regularity限制（L1主要是约束每一层中的节点中大部分都要为0，只有少数不为0，
+这就是Sparse名字的来源），我们就可以得到Sparse AutoEncoder方法。
+</p>
+
+
+<h3>3.2 Sparse Coding[5]</h3>
+
+<p>
+Sparse Coding是一种利用非监督的方法来学习表示数据的过完备基的方法，它的目的就是为了找到一组基向量$\phi _{i}$，
+进而将输入向量$\mathbf{x}$表示为这组基向量的线性组合:</br>
+<center>$\mathbf{x} = \sum_{i=1}^{k}a _{i} \phi _{i}$.</center>
+</p>
+
+
+<p>
+主成分分析（Principal Component Analysis，PCA）是一种有效的学习一组完备的基向量的方法，
+而Sparse Coding则希望学习一组过完备的基向量。这样做的好处在于，过完备的基向量能够更好
+的捕获到输入数据当中的结构和模式。然而，使用过完备的基向量带来的一个问题是，
+该组基向量表示输入向量的结果不唯一，也就是说系数$a _{i}$是不唯一的。因此，在Sparse Coding当中，
+我们引入一些额外的准则，即稀疏性（sparsity），来解决这个问题。具体而言，这里的稀疏性是指，
+系数$a _{i}$中大多数都为零或接近为零，从优化问题的角度来讲，就是要使得系数中尽可能少的系数是
+尽可能的比零大，这样就可以得到输入的唯一标示。
+</p>
+
+
+<h3>3.3 Restricted Boltzmann Machine（RBM）</h3>
+
+<p>
+Boltzmann Machine其实是一种无向图，里面的节点是互相连接的，但不一定是全连接，也即不是每个节点都两两相连，
+连接着的两个节点之间就有一个权值。为理解方便就假设节点只能取值为0或者1，有些节点值是已知的，有些是未知的，
+把已知的节点集合记为V，未知的节点集合记为H，这样就把所有节点分成两个集合，其实集合V就可以认为是visible层，
+集合H就可以认为是hidden层。如果hidden层中的节点都不互相连接，visible层中的节点也都不互相连接，那么就成为了RBM模型。
+</p>
+
+
+<p>
+在神经网络中，两层神经网络(即一个hidden层和一个output层，visible层不算在内)的建模能力是很强的，
+但要求hidden层的节点数够多，但节点数太多就会导致计算量的复杂，矩阵的维护会相当大。
+一个很好想到的方法就是将层数加大，通过层数的增多来缓解单层中节点数过多的负担，
+比如设置两个hidden层，每层100个节点，就相当于单个hidden层100×100个节点的建模能力，
+同理三个hidden层，每层分别是100、200、300个节点，就相当于单层的100×200×300个节点的建模能力。
+然而这样做的问题在于，当层数大于2时，经典的训练方法效果会较差，因为参数的局部极小值太多，
+容易收敛到一个不好的极值。Hinton把RBM(Restricted Boltzmann Machine)层叠在一起，训练出权值，
+然后把这个权值当成是下一个RBM层的输入作为权值的初始值，利用传统的梯度下降法去训练网络，
+得到了更好的结果，也即在每个RBM层通过筛选得到较好的参数初始值，使得最后的结果更好。
+</p>
+
+
+<h2>4.小结</h2>
+
+<p>
+当前多数分类、回归等学习方法为浅层结构算法，其局限性在于有限样本和计算单元情况下对复杂函数的表示能力有限，
+针对复杂分类问题其泛化能力受到一定制约。深度学习可通过学习一种深层非线性网络结构，实现复杂函数逼近，
+表征输入数据分布式表示，并展现了强大的从少数样本集中学习数据集本质特征的能力。
+</p>
+
+
+<p>
+虽然距离深度学习的突破已经有六年多了，但它仍处于发展初期，大量工作还需要研究。
+模型方面是否有其他更为有效且有理论依据的深度模型学习算法，探索新的特征提取模型是值得深入研究的内容。
+此外有效的可并行训练算法也是值得研究的一个方向。当前基于最小批处理的随机梯度优化算法很难在多计算机中
+进行并行训练。通常办法是利用图形处理单元加速学习过程，然而单个机器GPU对大规模数据识别或相似任务数据集
+并不适用。在深度学习应用拓展方面， 如何充分合理地利用深度学习在增强传统学习算法的
+性能仍是目前各领域的研究重点。
+</p>
+
+
+<h2>参考文献</h2>
+
+<p>
+[1]<a href="http://www.iro.umontreal.ca/~pift6266/H10/notes/deepintro.html#introduction-to-deep-learning-algorithms" target="_blank">Introduction to Deep Learning Algorithms.</a></br>
+[2]<a href="http://bigeye.au.tsinghua.edu.cn/MLA12/program_files/MLA2012_%E4%BD%99%E5%87%AF.pdf" target="_blank">A tutorial on deep learning</a>，
+<a href="http://www.infoq.com/cn/presentations/deep-learning-and-application-to-multimedia#" target="_blank">Video</a>.</br>
+[3]<a href="http://wenku.baidu.com/view/6dcd1e3b5727a5e9856a6180.html " target="_blank">A Brief Introduction to Deep Learning</a></br>
+[4]<a href="http://deeplearning.stanford.edu/wiki/index.php/Autoencoders_and_Sparsity" target="_blank">Autoencoders and Sparsity</a></br>
+[5]<a href="http://deeplearning.stanford.edu/wiki/index.php/Sparse_Coding" target="_blank">Sparse Coding</a></br>
+[6]<a href="http://blog.sina.com.cn/s/blog_70a384770101f58p.html" target="_blank">关于深度学习(deep learning)</a></br>
+[7] 百度百科-<a href="http://baike.baidu.com/view/9964678.htm" target="_blank">深度学习</a></br>
+[8] 孙志军等，深度学习研究综述.</p>
+
+
+<h2>推荐阅读</h2>
+
+<p>
+[1] Chris Bishop, “<a href="http://research.microsoft.com/en-us/um/people/cmbishop/prml/" target="_blank">Pattern Recognition and Machine Learning</a>”, 2007</br>
+[2] Simon Haykin, “<a href="http://www.amazon.com/Neural-Networks-A-Comprehensive-Foundation/dp/B000O8QMAU" target="_blank">Neural Networks: a Comprehensive Foundation</a>”, 2009 (3rd edition)</br>
+[3] Richard O. Duda, Peter E. Hart and David G. Stork, “<a href="http://www.rii.ricoh.com/~stork/DHS.html" target="_blank">Pattern Classification</a>”, 2001 (2nd edition)</br>
+[4]Deep Learning Tutorial：<a href="http://deeplearning.net/tutorial/ " target="_blank">http://deeplearning.net/tutorial/</a></br>
+[5]Yoshua Bengio, <a href="http://www.iro.umontreal.ca/~lisa/publications2/index.php/publications/show/239" target="_blank">Learning Deep Architectures for AI</a>, Foundations & Trends in ML, 2(1), 2009</br>
+[6] Unsupervised Feature Learning and Deep Learning：<a href="http://deeplearning.stanford.edu/wiki/index.php/UFLDL_Tutorial" target="_blank">UFLDL Tutorial</a></br>
+[7] <a href="http://deeplearning.net/" target="_blank">http://deeplearning.net/</a></br>
+[8] 深度学习相关软件包（Matlab）: <a href="https://github.com/rasmusbergpalm/DeepLearnToolbox" target="_blank">https://github.com/rasmusbergpalm/DeepLearnToolbox</a>
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[凸优化简介]]></title>
+    <link href="http://ibillxia.github.com/blog/2012/09/26/convex-optimization-overview/"/>
+    <updated>2012-09-26T23:03:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2012/09/26/convex-optimization-overview</id>
+    <content type="html"><![CDATA[<p>在machine learning 的很多问题中，我们最终往往要求解某个函数的最优值。用数学术语表示就是，
+给定一个函数 $f: R<sup>{n}</sup> \rightarrow R$，求 $ x \in R<sup>{n}</sup> $使得$f(x)$ 取得最小（大）值。例如least-square,
+logistic regression, linear regression, svm, etc. 这类问题统称为优化问题。</p>
+
+<h2>1.引言</h2>
+
+
+<p>在一般情况下，求解任意一个函数的全局最优值是很困难的。但是对于一种特定类型的函数——凸函数（convex function），
+我们可以很有效的求解其全局最优值。这里的“有效”是指在实际问题求解中，能在多项式复杂度的时间里求解。
+人们将这类函数的最值问题称为凸优化问题（Convex Optimal Problem）。下面我从凸集和凸函数讲起，然后
+介绍凸优化的一般描述和典型问题举例。</p>
+
+
+
+
+<h2>2.凸集及其实例</h2>
+
+
+<p><strong>凸集的定义</strong>：一个集合$C$是凸集，当且仅当对任意$x,y\in C$和$\theta \in R$且$0\leq \theta \leq 1$，都有</br>
+<center>$\theta x + (1-\theta)y \in C$.</center>
+其几何意义在于，在集合C中任取两个点，连接两点的直线段上的任一点也在集合C中。下图是凸集和非凸集的例子：</br>
+<img src="/images/201209026/IMAG20120902601.jpg">
+</p>
+
+
+
+
+<!-- more -->
+
+
+<p><strong>凸集的实例</strong>：
+以下列举几个简单的凸集实例</br>
+（1）所有Rn。很显然，对任意给定的$x,y\in R^{n}$ 都有 $\theta x + (1-\theta)y \in R^{n}$。
+（2）非负卦限，R^{n}_{+}。很显然也符合定义。</br>
+（3）单位球。设$\parallel . \parallel$为$R^{n}$上的模（例如欧几里得空间的模为$\parallel x\parallel = sqrt(sum(x_{i}^{2}))$.）,
+那么集合${x|\parallel x\parallel \leq 1}$是一个凸集。
+</p>
+
+
+
+
+<h2>3.凸函数及判定和Jensen不等式</h2>
+
+
+<p>凸优化中的一个核心概念就是凸函数。</br>
+<strong>凸函数定义</strong>：一个函数$f: R^{n} → R$是凸函数当且仅当其定义域（设为$D(f)$）是凸集，
+且对任意的$x,y\in D(f)$和$\theta \in R$且$0\leq \theta \leq 1$，都有</br>
+<center>$f(\theta x + (1-\theta)y \leq \theta f(x) + (1-\theta) f(y))$.</center>
+设$f(x)$为一元函数，那么上式的几何意义在于，曲线上任意两点处的割线在函数曲线的上方，如下图所示：</br>
+<img src="/images/2012/IMAG20120902602.jpg">
+</p>
+
+
+
+
+<p>常见的凸函数有指数函数（$f(x) = a^{x}，a>1$）、负对数函数（$f(x)=-log_{a}x，a>1，x>0$）、开口向上的二次函数等。</p>
+
+
+
+
+<p><strong>凸函数第一判定定理</strong>：设函数$f: R^{n} → R$是一阶可导的，那么$f$是凸函数当且仅当对任意的$x,y \in D(f)$都有：
+<center>$f(y) \geq f(x) + f'(x)(y-x)$</center>
+其中$f(x) + f'(x)(y-x)$称为$f(x)$在$x$处的一阶近似。</p>
+
+
+
+
+<p><strong>凸函数第二判定定理</strong>：设函数$f: R^{n} → R$是二阶可导的，那么$f$是凸函数当且仅当对任意的$x\in D(f)$都有：</p>
+
+
+<center>$f''(x)  \succeq 0$.</center>
+
+
+<p>其中，当$f''(x)$是矩阵时，符号‘$ \succeq $’表示半正定，而非一个个的不等式（在一维的情况下，相当于'$\geq$'；
+在二维情况下，不是表示对所有的$i$和$j$都有$X_{ij} \geq 0$，而是表示$X$为半正定矩阵）。
+</p></p>
+
+<p><strong>Jensen不等式</strong>：我们先看凸函数的定义中的不等式:</br>
+<center>$f(\theta x+(1-\theta y)) \leq \theta f(x) + (1-\theta)f(y), for 0\leq \theta \leq 1$.</center>
+类似的可以将其推广到多个点的情况：</br>
+<center>$f(\sum_{i=1}^{k}\theta_{i}x_{i}) \leq \sum_{i=1}{k}\theta_{i}f(x_{i}), for \sum_{i=1}^{k}\theta_{i} = 1, \theta_{i} \geq 0 \forall i$.</center>
+因为上式中的和为1，可以将其看作为是概率密度，则上式又可写为：</br>
+<center>$f(E[x]) \leq E[f(x)]$.</center>
+这个不等式称为Jensen不等式。
+</p>
+
+
+
+
+<h2>4.凸优化问题举例</h2>
+
+
+<p>有了凸集和凸函数的定义，现在我们重点讨论凸优化问题的求解方法。凸优化的一般描述为：</br>
+<center>$minimize f(x)$,</center>
+<center>$subject to x \in C$.</center>
+其中$f(x)$为凸函数，$C$是一个凸集，这是不带约束条件的情况下的凸优化问题。对于带约束条件的问题而言，其一般描述为：</br>
+<center>$minimize f(x)$,</center>
+<center>$subject to g_{i}(x) \leq 0, i=1,2,...,m; h_{j}(x) = 0, j=1,2,...,p$.</center>
+其中$f(x)$为凸函数，$g_{i}(x)$对所有的$i$均为凸函数，$h_{j}(x)$均为仿射函数。注意$g_{i}(x)$不等式中不等号的方向。
+</p>
+
+
+
+
+<p>凸问题中的全局优化：首先要分清楚什么是局部最优，什么是全局最优。局部最优是指在该最优值附近的点对应的函数值
+都比该最优值大，而全局最优是指对可行域里所有点，其函数值都比该最优值大。对于凸优化问题，它具有一个很重要的特性，
+那就是所有的局部最优值都是全局最优的（关于其证明这里就不讲了，感兴趣的可以自行查查资料或后文中的参考文献）。</p>
+
+
+
+
+<h4>几类特殊的凸优化问题：</h4>
+
+
+<p>（1）线性规划（Linear Programing, LP）: 目标函数和约束条件函数都是线性函数的情况，一般形式如下：</br>
+<center>$minimize c^{T}x +d$,</center>
+<center>$subject to Gx \preceq h; Ax = b$.</center>
+</p>
+
+
+
+
+<p>（2）二次规划（Quadratic Programing, QP）: 目标函数为二次函数，约束条件为线性函数，一般形式为：</br>
+<center>$minimize 1/2 x^{T}Px + c^{T}x +d$,</center>
+<center>$subject to Gx \preceq h; Ax = b$.</center>
+LP可以看做是QP的特例，QP包含LP。
+</p>
+
+
+
+
+<p>（3）二次约束的二次规划（Quadratically Constrained Quadratic Programming, QCQP）: 目标函数和约束条件均为
+二次函数的情况，一般形式为：</br>
+<center>$minimize 1/2 x^{T}Px + c^{T}x +d$,</center>
+<center>$subject to 1/2 x^{T}Qx + r^{T}x + s \preceq h, i=1,2,...,m; Ax = b$.</center>
+QP可以看做是QCQP的特例，QCQP包含QP。
+</p>
+
+
+
+
+<p>半正定规划（Semideﬁnite Programming，SDP）: 其一般形式为：</br>
+<center>$minimize tr(CX)$,</center>
+<center>$subject to tr(A_{i}X) = b_{i},i=1,2,...,p; 0 \preceq X$.</center>
+其中对称矩阵$X\inS^{n}$为决策变量，矩阵$C$，$A_{i}$均为对称矩阵，条件$0 \preceq X$的作用为约束$X$为半正定的。
+QCQP可以看做是SDP的特例，SDP包含QCQP。SDP在machine learning中有非常广泛的应用。
+</p>
+
+
+
+
+<h2>5.凸优化应用举例</h2>
+
+
+<p>下面我们来看几个实例。</br>
+（1）支持向量机（Support Vector Machines，SVM）：凸优化在machine learning中的一个典型的应用就是基于支持向量机分类器，
+它可以用如下优化问题表示：</br>
+<center>$minimize 1/2 \parallel x \parallel ^{2} + C \xi _{i}$,</center>
+<center>$subject to y^{(i)}(w^{T}x^{(i)}+b) \geq 1 - \xi _{i}, \xi_{i} \geq 0, i = 1,2,...,m$.</center>
+其中决策变量$w\in R^{n}, \xi \in R^{n}, b \in R$. $C\in R, x(i), y(i), i=1,2, ... , m$由
+具体问题定义。可以看出，这是一个典型的QP问题。
+</p>
+
+
+
+
+<p>（2）带约束的least squares问题：其一般描述为</br>
+<center>$minimize 1/2\parallel Ax-b \parallel ^{2} $,</center>
+<center>$subject to l \preceq x \preceq u$.</center>
+这也是一个很典型的QP问题。
+</p>
+
+
+
+
+<p>（3）Maximum Likelihood for Logistic Regression：该问题的目标函数为:</br>
+<center>$l (\theta) = \sum_{i=1}^{n}[y^{(i)}ln g(\theta^{T}x^{(i)}) + (1-y^{(i)})ln(1-g(\theta^{T}x^{(i)}))]$</center>
+其中$g(z)$为Sigmoid函数，关于Logistic Regression请参见Andrew Ng的Machine Learning的第6讲。
+</p>
+
+
+
+
+<h2>6.凸优化问题求解简介</h2>
+
+
+<p>上文中提到了几类特殊的凸优化问题，并举了几个应用实例，但并没有给出解法。对于凸优化问题，目前没有一个通用的解析式的
+解决方案，但是我们仍然可以用非解析的方法来有效的求解很多问题。内点法（后续文章中会详细介绍）被证明是很好的解决方案，
+特别具有实用性，在某些问题中，能够在多项式时间复杂度下，将解精确到指定精度。</p>
+
+
+
+
+<p>我们将会看到，经过10到100次的迭代，内点法可以解决一般的凸优化问题，其中每次迭代的时间复杂度为</br>
+<center>$max{n^{3},n^{2}m,F}$.</center>
+其中$F$为计算目标函数和约束条件函数的一阶、二阶导数的总时间代价。如同用解析法求解线性规划问题，内点法也是非常可靠的，
+在一般的PC机上，它可以在几十秒的时间内求解含有上百个变量、上千个约束条件的凸优化问题。对于一些特殊的结构（如稀疏的），
+内点法可以求解包含上千个变量和约束条件的凸优化问题。
+</p>
+
+
+
+
+<p>对于一般的凸优化问题的求解，还没有像求解最小二乘和线性规划那么成熟的技术，基于内点法的一般凸优化问题求解依然是
+当前的一个研究热点。虽然目前还没有公认的最好的解决方案，但我们有理由相信，在不久的将来，内点法求解一般的凸优化问题
+是一项技术。事实上，对于一些特定的凸优化问题，如二次锥规划和几何规划问题（后续文章将会介绍），内点法在向一项技术迈进。</p>
+
+
+
+
+<h2>参考文献</h2>
+
+
+<p>
+[1]Book: Stephen Boyd and Lieven Vandenberghe. Convex Optimization. Cambridge University Press, 2004</br>
+[2]Slide: Zico Kolter (updated by Honglak Lee). Convex Optimization Overview. October 17, 2008</br>
+[3]Standford Convex Optimization Course I：http://www.stanford.edu/class/ee364a/lectures.html
+</p>
+
+
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,98 @@
+---
+layout: post
+title: "Dynamic Speech Models简介"
+date: 2013-10-18 20:00
+comments: true
+categories: ASSP
+tags: Speech Dynamic
+---
+<h2>1.概述</h2>
+<p>最近看到了微软总部Redmond研发中心的研究员邓力写的一个讲Speech Dynamic Models的专题性质的论文，觉得很有意思，于是考虑仔细阅读一遍，
+并将其写成一系列的文章。</p>
+
+<p>对做Speech的人来说，Speech的Dynamic性和时序性是非常头疼的问题，也是人们研究语音识别时需要考虑的最重要特性之一，然而，虽然语音识别
+的研究已有数十年的历史，但是这其中很多方法都缺乏足够的dynamic modeling scheme，以对时序的语音信号观察序列的相关性结构进行编解码。因为
+各种原因，目前很多这方面的研究都仅仅停留在对state-of-the-art的HMM进行一些改进和提升，很多模型和系统仅仅使用很weak-form的speech dynamics，
+例如差分参数（delta parameters）等。本系列文章主要是介绍一些strong-form的speech dynamics，或许可以作为这个问题的ultimate solution。</p>
+
+<p>本文及相关主要介绍一下Dynamic Speech Models的一些基本概念和知识，主要包含什么是Speech Dynamics，什么样的模型是Speech Dynamic的，
+为什么要对Speech Dynamics进行建模，以及相关的一些建模方法。</p>
+
+<h2>2.What are Speech Dynamics？</h2>
+<p>该专题性论文中对Speech Dynamics的定义如下：
+{% blockquote %}
+In a broad sense, speech dynamics are time-varying or temporal characteristics in all stages of the human speech communication process.
+{% endblockquote %}
+<!--more-->
+
+意为：广义来讲，语音的动态性是指在人类语音交流过程中语音的时变性或时序性的特征。这里的语音交流过程常指语音链（speech chain），始于说话人
+大脑产生的语言学信息，终于聆听者大脑接受到的信息，整个过程可以形象的用下图表示：</br>
+<center>{% img /images/2013/IMAG2013101801.gif %}</center>
+上图中，聆听者的生理层（Physiological level）和Linguistic level更准确的说，应该是Auditory and perceptual level。
+</p>
+
+<p>在这些子过程中，动态性在语言信息的传递过程中扮演着一个非常重要的角色。首先是在语言层（linguistic level），语音的动态性表现在音韵的非连续性符号表示，
+也就是说，离散语音符号（分部或功能）在语音发声的不同时间点改变他们的特性，而没有定量（数值）的程度变化或精确的定时。这是弱形式的动态性。</p>
+
+<p>相较而言，在生理层和声学层，是强形式的动态性。因为既要考虑克服发音器官移动速度的生理极限，又要考虑高效的对语音符号进行编码，这就需要数字量化的
+发声器官的运动和声学参数（这句有点绕，原文是：In contrast, the articulatory dynamics at the physiological level, and the consequent dynamics at the 
+acoustic level, are of a strong form in that the numerically quantifiable temporal characteristics of the articulator movements and of the acoustic 
+parameters are essential for the trade-off between overcoming the physiological limitations for setting the articulators’ movement speed and efficient 
+encoding of the phonological symbols.）。</p>
+
+<p>而在听觉感知层，在语音编码听时觉神经的发放电模式和皮层的反应的时间（时刻）是非常重要的。听觉神经元簇对于语音信号的反应不是一成不变的，这也
+反应了输入语音信号的动态模式。</p>
+
+<p>在语音识别圈，研究人员通常将语音的动态性看做是声学向量序列的差分或回归（称为delta，delta-delta，或者“dynamic”特征）。从以上的语音链的角度来看，
+这是一种非常弱形式的dynamics。本系列文章将从科学（scientific）和技术（technological）两方面介绍更加comprehensive和rigorous的dynamics。</p>
+
+<p>PS.个人点评：感觉这一节讲得很晦涩，个人理解就是在语音链的每一个子过程中都埋下了dynamic的种子，其中以生理层（发音器官）和声学层（声学特征）最甚，
+而涉及到大脑的语言层和感知层，都较为抽象且难以琢磨，也无法对其dynamic性进行建模或分析。</p>
+
+<h2>3.What are Models of Speech Dynamics？</h2>
+<p>计算模型是实际物理过程的数学抽象，而speech dynamics的模型是指物理语音动态性（physical speech dynamics）的数学特性和抽象。受语音链各过程的启发，
+从独特的基于特征的语言单位，到语音的声学的听觉的参数，都可以构建细化的计算模型，特别是在一些生成阶段，主要有：</br>
+·离散的特征组织过程：主要是与语音的动作重叠（gesture overlapping）有关，并且表示了在casual speech中不经意的音素的部分或全部删除或修改；</br>
+·分段的目标过程：指示模型发音器官向上下和前后的连续性运动；</br>
+·目标制导dynamics的模型发音器官运动：从一个音韵单位平滑的流到下一个音韵单位；</br>
+·静态的非线性变化：从模型的发音器官到测得的语音声学特性和相关的听觉语音表示。
+</p>
+
+<p>这种多层级结构的动态语音过程建模的主要优势在于，可以在一个统一的模型中设置很多参数，来编码语音语境和说话频率/风格的变数。在[3]中，也介绍了一些
+关于以上类型的speech dynamics的背景知识，尤其是特征组织/重叠处理，是计算音韵学（computational phonology，在[3]的第9章）的核心。另外，关于听觉的语音
+表示的一些方面，主要限于外围听觉系统的功能，在[3]中的第11章有详尽的描述。该书主要集中于讲述一下几个方面：</br>
+·基于目标的动态建模（Target-based dynamic modeling）：作为音韵学（phonology）和基于关节的发音学（articulation-based phonetics）的接口（interfaces）；</br>
+·开关动态系统建模（Switching dynamic system modeling）：表示“隐藏的”发音器官和声道共振的连续的、目标导向的运动；</br>
+·“隐藏的”发音器官或声道共振参数与可测的声学参数之间的关系，可以将隐藏的语音动态性随机映射到声学动态性（任何机械处理器都能直接获得）上。
+</p>
+
+<p>PS.个人点评：还是看得有点云里雾里，不知道所谓的segmental target process，target-guided dynamics，target-based dynamic等等的具体涵义，感觉好抽象啊，给跪了-_-</p>
+
+<h2>4.Why Modeling Speech Dynamics？</h2>
+<p>为什么要对speech的dynamics进行建模呢？该文从两个方面做出了解释。</p>
+
+<p>首先是因为科学家们对人类语音编码（speech code）的研究已经不懈追求了几十年了，作为人类智能和知识的必备载体，语音是人类交流的最自然方式。对speech dynamics
+进行数学建模，为语音链（包括现象的观察、假设的形成、假设的验证、新现象的预测以及新理论的形成等）的科学研究提供了一个有效的工具。这些科学研究帮助人们理解为什么
+人类如此说话，人类又是如何通过多层次的动态过程（dynamic processes），来利用冗余性（redundancy）和可变性（variability），以提高语音通讯的效率（efficiency）和
+效益（effectiveness）。</p>
+
+<p>其次，人类语言技术的进步，特别是在人类自然语音的自动识别，也被认为是从语音dynamics的全方面的计算建模中受益。然而目前的语音识别技术还远远不够成熟，人们经常
+讨论到的问题是，统计模型（主要指HMM）的弱点在于缺乏足够的动态建模方案（dynamic modeling schemes），因而无法编码语音序列的时序相关结构。不幸的是，由于各种原因，
+目前主要的研究工作都集中在对HMM的细微的修改和提升，而且其中对dynamics的考虑仅限于一些差分参数，这是非常弱形式的dynamics，因而需要对speech dynamics进行更加强形式
+的建模。</p>
+
+<h2>5.Examples of Dynamic Speech Models？</h2>
+<p>具体而言，什么样的模型算得上是对speech dynamics进行了强形式的建模的呢？</p>
+
+<p>该系列文章首先提到的是动态贝叶斯网络（Dynamic Bayesian Networks，DBN），第2章中对DBN的相关背景知识、一般结构、设计原则、模型组件和计算架构进行了详细的探讨。</p>
+
+<p>在第3章从acoustic dynamics到hidden dynamics，其中则提到了一些HMM的变种，如非平稳状态的HMM、多域递归模型（Multiregion Recursive Models）等。</p>
+
+<p>第4章和第5章主要讲两种最好的hidden dynamic models，其中第4章讲使用hidden dynamic variables的离散值的方法，而第5章讲连续值的方法。</p>
+
+<h2>6.References参考文献</h2>
+<p>
+[1]<a href="http://www.morganclaypool.com/doi/abs/10.2200/S00028ED1V01Y200605SAP002">Li Deng. Dynamic Speech Models: Theory, Algorithms, and Applications</a></br>
+[2]<a href="http://dspace.mit.edu/bitstream/handle/1721.1/35720/6-542JFall-2001/OcwWeb/Electrical-Engineering-and-Computer-Science/6-542JLaboratory-on-the-Physiology--Acoustics--and-Perception-of-SpeechFall2001/Syllabus/index.htm">MIT OpenCourseWare：Laboratory on the Physiology, Acoustics, and Perception of Speech, Fall 2001.</a></br>
+[3]<a href="http://research.microsoft.com/apps/pubs/default.aspx?id=78249">Li Deng. SPEECH PROCESSING—A Dynamic and Optimization-Oriented Approach</a>
+</p>

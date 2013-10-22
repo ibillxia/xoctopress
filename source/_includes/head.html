@@ -15,6 +15,7 @@
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="wumiiVerification" content="9662b89d-2629-4073-b85d-0966259c0ee1" />
 
   {% capture canonical %}{{ site.url }}{% if site.permalink contains '.html' %}{{ page.url }}{% else %}{{ page.url | remove:'index.html' }}{% endif %}{% endcapture %}
   <link rel="canonical" href="{{ canonical }}">
@@ -23,7 +24,21 @@
   <script src="{{ root_url }}/javascripts/modernizr-2.0.js"></script>
   <script src="{{ root_url }}/javascripts/ender.js"></script>
   <script src="{{ root_url }}/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="{{ site.subscribe_rss }}" rel="alternate" title="{{site.title}}" type="application/atom+xml">
+  <link href="{{ site.subscribe_rss }}" rel="alternate" title="{{site.title}}" type="application/atom+xml">  
+  
+  <script type="text/javascript">
+    var wumiiPermaLink = "{{ page.url }}";
+    var wumiiTitle = "{{ page.title }}";
+    var wumiiTags = "{{ page.tags }}";
+    var wumiiCategories = [{{ page.categories }}];
+    var wumiiSitePrefix = "http://ibillxia.github.com";
+    var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
+  </script>
+  <script type="text/javascript" src="http://widget.wumii.cn/ext/relatedItemsWidget"></script>
+  <a href="http://www.wumii.com/widget/relatedItems" style="border:0;">
+	<img src="http://static.wumii.cn/images/pixel.png" alt="wumii recommendation" style="border:0;padding:0;margin:0;" />
+  </a>
+  
   {% include custom/head.html %}
   {% include google_analytics.html %}
 </head>

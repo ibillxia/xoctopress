@@ -1,0 +1,3280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Bill's Blog]]></title>
+  <link href="http://ibillxia.github.com/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.com/"/>
+  <updated>2013-10-22T22:35:17+08:00</updated>
+  <id>http://ibillxia.github.com/</id>
+  <author>
+    <name><![CDATA[Bill Xia]]></name>
+    <email><![CDATA[ibillxia@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Dynamic Speech Models简介]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/10/18/Dynamic-Speech-Models-Introduction/"/>
+    <updated>2013-10-18T20:00:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/10/18/Dynamic-Speech-Models-Introduction</id>
+    <content type="html"><![CDATA[<h2>1.概述</h2>
+
+
+<p>最近看到了微软总部Redmond研发中心的研究员邓力写的一个讲Speech Dynamic Models的专题性质的论文，觉得很有意思，于是考虑仔细阅读一遍，
+并将其写成一系列的文章。</p>
+
+
+
+
+<p>对做Speech的人来说，Speech的Dynamic性和时序性是非常头疼的问题，也是人们研究语音识别时需要考虑的最重要特性之一，然而，虽然语音识别
+的研究已有数十年的历史，但是这其中很多方法都缺乏足够的dynamic modeling scheme，以对时序的语音信号观察序列的相关性结构进行编解码。因为
+各种原因，目前很多这方面的研究都仅仅停留在对state-of-the-art的HMM进行一些改进和提升，很多模型和系统仅仅使用很weak-form的speech dynamics，
+例如差分参数（delta parameters）等。本系列文章主要是介绍一些strong-form的speech dynamics，或许可以作为这个问题的ultimate solution。</p>
+
+
+
+
+<p>本文及相关主要介绍一下Dynamic Speech Models的一些基本概念和知识，主要包含什么是Speech Dynamics，什么样的模型是Speech Dynamic的，
+为什么要对Speech Dynamics进行建模，以及相关的一些建模方法。</p>
+
+
+
+
+<h2>2.What are Speech Dynamics？</h2>
+
+
+<p>该专题性论文中对Speech Dynamics的定义如下：
+<blockquote><p>In a broad sense, speech dynamics are time-varying or temporal characteristics in all stages of the human speech communication process.</p></blockquote>
+<!--more-->
+
+意为：广义来讲，语音的动态性是指在人类语音交流过程中语音的时变性或时序性的特征。这里的语音交流过程常指语音链（speech chain），始于说话人
+大脑产生的语言学信息，终于聆听者大脑接受到的信息，整个过程可以形象的用下图表示：</br>
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013101801.gif"></center>
+上图中，聆听者的生理层（Physiological level）和Linguistic level更准确的说，应该是Auditory and perceptual level。
+</p>
+
+
+
+
+<p>在这些子过程中，动态性在语言信息的传递过程中扮演着一个非常重要的角色。首先是在语言层（linguistic level），语音的动态性表现在音韵的非连续性符号表示，
+也就是说，离散语音符号（分部或功能）在语音发声的不同时间点改变他们的特性，而没有定量（数值）的程度变化或精确的定时。这是弱形式的动态性。</p>
+
+
+
+
+<p>相较而言，在生理层和声学层，是强形式的动态性。因为既要考虑克服发音器官移动速度的生理极限，又要考虑高效的对语音符号进行编码，这就需要数字量化的
+发声器官的运动和声学参数（这句有点绕，原文是：In contrast, the articulatory dynamics at the physiological level, and the consequent dynamics at the 
+acoustic level, are of a strong form in that the numerically quantifiable temporal characteristics of the articulator movements and of the acoustic 
+parameters are essential for the trade-off between overcoming the physiological limitations for setting the articulators’ movement speed and efficient 
+encoding of the phonological symbols.）。</p>
+
+
+
+
+<p>而在听觉感知层，在语音编码听时觉神经的发放电模式和皮层的反应的时间（时刻）是非常重要的。听觉神经元簇对于语音信号的反应不是一成不变的，这也
+反应了输入语音信号的动态模式。</p>
+
+
+
+
+<p>在语音识别圈，研究人员通常将语音的动态性看做是声学向量序列的差分或回归（称为delta，delta-delta，或者“dynamic”特征）。从以上的语音链的角度来看，
+这是一种非常弱形式的dynamics。本系列文章将从科学（scientific）和技术（technological）两方面介绍更加comprehensive和rigorous的dynamics。</p>
+
+
+
+
+<p>PS.个人点评：感觉这一节讲得很晦涩，个人理解就是在语音链的每一个子过程中都埋下了dynamic的种子，其中以生理层（发音器官）和声学层（声学特征）最甚，
+而涉及到大脑的语言层和感知层，都较为抽象且难以琢磨，也无法对其dynamic性进行建模或分析。</p>
+
+
+
+
+<h2>3.What are Models of Speech Dynamics？</h2>
+
+
+<p>计算模型是实际物理过程的数学抽象，而speech dynamics的模型是指物理语音动态性（physical speech dynamics）的数学特性和抽象。受语音链各过程的启发，
+从独特的基于特征的语言单位，到语音的声学的听觉的参数，都可以构建细化的计算模型，特别是在一些生成阶段，主要有：</br>
+·离散的特征组织过程：主要是与语音的动作重叠（gesture overlapping）有关，并且表示了在casual speech中不经意的音素的部分或全部删除或修改；</br>
+·分段的目标过程：指示模型发音器官向上下和前后的连续性运动；</br>
+·目标制导dynamics的模型发音器官运动：从一个音韵单位平滑的流到下一个音韵单位；</br>
+·静态的非线性变化：从模型的发音器官到测得的语音声学特性和相关的听觉语音表示。
+</p>
+
+
+
+
+<p>这种多层级结构的动态语音过程建模的主要优势在于，可以在一个统一的模型中设置很多参数，来编码语音语境和说话频率/风格的变数。在[3]中，也介绍了一些
+关于以上类型的speech dynamics的背景知识，尤其是特征组织/重叠处理，是计算音韵学（computational phonology，在[3]的第9章）的核心。另外，关于听觉的语音
+表示的一些方面，主要限于外围听觉系统的功能，在[3]中的第11章有详尽的描述。该书主要集中于讲述一下几个方面：</br>
+·基于目标的动态建模（Target-based dynamic modeling）：作为音韵学（phonology）和基于关节的发音学（articulation-based phonetics）的接口（interfaces）；</br>
+·开关动态系统建模（Switching dynamic system modeling）：表示“隐藏的”发音器官和声道共振的连续的、目标导向的运动；</br>
+·“隐藏的”发音器官或声道共振参数与可测的声学参数之间的关系，可以将隐藏的语音动态性随机映射到声学动态性（任何机械处理器都能直接获得）上。
+</p>
+
+
+
+
+<p>PS.个人点评：还是看得有点云里雾里，不知道所谓的segmental target process，target-guided dynamics，target-based dynamic等等的具体涵义，感觉好抽象啊，给跪了-_-</p>
+
+
+
+
+<h2>4.Why Modeling Speech Dynamics？</h2>
+
+
+<p>为什么要对speech的dynamics进行建模呢？该文从两个方面做出了解释。</p>
+
+
+
+
+<p>首先是因为科学家们对人类语音编码（speech code）的研究已经不懈追求了几十年了，作为人类智能和知识的必备载体，语音是人类交流的最自然方式。对speech dynamics
+进行数学建模，为语音链（包括现象的观察、假设的形成、假设的验证、新现象的预测以及新理论的形成等）的科学研究提供了一个有效的工具。这些科学研究帮助人们理解为什么
+人类如此说话，人类又是如何通过多层次的动态过程（dynamic processes），来利用冗余性（redundancy）和可变性（variability），以提高语音通讯的效率（efficiency）和
+效益（effectiveness）。</p>
+
+
+
+
+<p>其次，人类语言技术的进步，特别是在人类自然语音的自动识别，也被认为是从语音dynamics的全方面的计算建模中受益。然而目前的语音识别技术还远远不够成熟，人们经常
+讨论到的问题是，统计模型（主要指HMM）的弱点在于缺乏足够的动态建模方案（dynamic modeling schemes），因而无法编码语音序列的时序相关结构。不幸的是，由于各种原因，
+目前主要的研究工作都集中在对HMM的细微的修改和提升，而且其中对dynamics的考虑仅限于一些差分参数，这是非常弱形式的dynamics，因而需要对speech dynamics进行更加强形式
+的建模。</p>
+
+
+
+
+<h2>5.Examples of Dynamic Speech Models？</h2>
+
+
+<p>具体而言，什么样的模型算得上是对speech dynamics进行了强形式的建模的呢？</p>
+
+
+
+
+<p>该系列文章首先提到的是动态贝叶斯网络（Dynamic Bayesian Networks，DBN），第2章中对DBN的相关背景知识、一般结构、设计原则、模型组件和计算架构进行了详细的探讨。</p>
+
+
+
+
+<p>在第3章从acoustic dynamics到hidden dynamics，其中则提到了一些HMM的变种，如非平稳状态的HMM、多域递归模型（Multiregion Recursive Models）等。</p>
+
+
+
+
+<p>第4章和第5章主要讲两种最好的hidden dynamic models，其中第4章讲使用hidden dynamic variables的离散值的方法，而第5章讲连续值的方法。</p>
+
+
+
+
+<h2>6.References参考文献</h2>
+
+
+<p>
+[1]<a href="http://www.morganclaypool.com/doi/abs/10.2200/S00028ED1V01Y200605SAP002">Li Deng. Dynamic Speech Models: Theory, Algorithms, and Applications</a></br>
+[2]<a href="http://dspace.mit.edu/bitstream/handle/1721.1/35720/6-542JFall-2001/OcwWeb/Electrical-Engineering-and-Computer-Science/6-542JLaboratory-on-the-Physiology--Acoustics--and-Perception-of-SpeechFall2001/Syllabus/index.htm">MIT OpenCourseWare：Laboratory on the Physiology, Acoustics, and Perception of Speech, Fall 2001.</a></br>
+[3]<a href="http://research.microsoft.com/apps/pubs/default.aspx?id=78249">Li Deng. SPEECH PROCESSING—A Dynamic and Optimization-Oriented Approach</a>
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux的OSS和ALSA声音系统简介及其比较]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it%27s-comparision/"/>
+    <updated>2013-09-08T19:46:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it&#8217;s-comparision</id>
+    <content type="html"><![CDATA[<h2>概述</h2>
+
+
+<p>昨天想在Ubuntu上用一下HTK工具包来绘制语音信号的频谱图和提取MFCC的结果，但由于前段时间把Ubuntu升级到13.04，系统的声卡驱动
+是ALSA（Advanced Linux Sound Architecture，高级Linux声音体系），而不是HTK中所使用的OSS（Open Sound System，开放声音系统）。
+网上查阅了大半天，按照 http://forum.ubuntu.org.cn/viewtopic.php?t=316792 中提供的方法用OSS4来替换ALSA，结果OSS4没替换成功，
+而原来的ALSA也不好使了，真坑爹啊！到现在还没办法完全复原，现在只能通过alsamixer来设置音量了，系统的音量设置根本无法用，而且
+声音设置中的输入设备和输出设备都是空的，捣鼓了半天也没还原回来唉，整个人都快崩溃了，都是由于对Linux不熟悉才被虐至如此地步，得恶补啊！！！
+下面本文就主要介绍一下OSS和ALSA，并将二者进行比较。</p>
+
+
+
+
+<p>在介绍OSS和ALSA之前，先介绍一下音频设备的一些基础知识。</br>
+数字音频设备，有时也称codec，PCM，DSP，ADC/DAC设备，用来播放或录制数字化的声音。它的指标主要有：采样速率（电话为8K，DVD为96K）、
+channel数目（单声道，立体声）、采样分辨率（8-bit，16-bit）等。</br>
+mixer（混频器）：用来控制多个输入、输出的音量，也控制输入（microphone，line-in，CD）之间的切换。</br>
+synthesizer（合成器）：通过一些预先定义好的波形来合成声音，有时用在游戏中声音效果的产生。</br>
+MIDI接口：MIDI接口是为了连接舞台上的synthesizer、键盘、道具、灯光控制器的一种串行接口。</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<h2>OSS开放声音系统简介</h2>
+
+
+<p>Open Sound System是一个类Unix和POSIX兼容系统上一个可选的声音架构。OSSv3是Linux下原始的声音系统并集成在内核里，但是OSSv4
+在2002年OSS成为商业软件时它地位被ALSA所取代。OSSv4在2007年又成为了开源软件，4Front Technologies以GPL协议发布了它的源码。</p>
+
+
+
+
+<p>OSS（Open Sound System）是unix平台上一个统一的音频接口。以前，每个Unix厂商都会提供一个自己专有的API，用来处理音频。这就
+意味着为一种Unix平台编写的音频处理应用程序，在移植到另外一种Unix平台上时，必须要重写。不仅如此，在一种平台上具备的功能，
+可能在另外一个平台上无法实现。但是，OSS出现以后情况就大不一样了，只要音频处理应用程序按照OSS的API来编写，那么在移植到另外
+一个平台时，只需要重新编译即可。因此，OSS提供了源代码级的可移植性。</p>
+
+
+
+
+<p>同时，很多的Unix工作站中，只能提供录音与放音的功能。有了OSS后，给这些工作站带来了MIDI功能，加上音频流、语音识别/生成、
+计算机电话（CT）、JAVA以及其它的多媒体技术，在Unix工作站中，同样可以享受到同Windows、Macintosh环境一样的音频世界。另外，
+OSS还提供了与视频和动画播放同步的音频能力，这对在Unix中实现动画、游戏提供了帮助。</p>
+
+
+
+
+<p>在Unix系统中，所有的设备都被统一成文件，通过对文件的访问方式（首先open，然后read/write，同时可以使用ioctl读取/设置参数，
+最后close）来访问设备.在OSS中，主要有以下的几种设备文件：</br>
+/dev/mixer：访问声卡中内置的mixer，调整音量大小，选择音源。</br>
+/dev/sndstat：测试声卡，执行cat /dev/sndstat会显示声卡驱动的信息。</br>
+/dev/dsp、/dev/dspW、/dev/audio：读这个设备就相当于录音，写这个设备就相当于放音。/dev/dsp与/dev/audio之间的区别在于采样的编码
+不同，/dev/audio使用μ律编码，/dev/dsp使用8-bit（无符号）线性编码，/dev/dspW使用16-bit（有符号）线形编码。/dev/audio主要是为了
+与SunOS兼容，所以尽量不要使用。</br>
+/dev/sequencer：访问声卡内置的，或者连接在MIDI接口的synthesizer。</p>
+
+
+
+
+<p>OSS为音频编程提供三种设备，分别是/dev/dsp，/dev/dspW和/dev/audio，用户可以直接使用Unix的命令来放音和录音，命令cat /dev/dsp >xyz
+可用来录音，录音的结果放在xyz文件中；命令cat xyz >/dev/dsp播放声音文件xyz。如果通过编程的方式来使用这些设备，那么Unix平台通过
+文件系统提供了统一的访问接口。程序员可以通过文件的操作函数直接控制这些设备，这些操作函数包括：open、close、read、write、ioctl等。</p>
+
+
+
+
+<h2>ALSA高级Linux声音系统简介</h2>
+
+
+<p>高级Linux声音体系（英语：Advanced Linux Sound Architecture，缩写为ALSA）是Linux内核中，为声卡提供的驱动组件，以替代原先的
+OSS（开放声音系统）。一部分的目的是支持声卡的自动配置，以及完美的处理系统中的多个声音设备，这些目的大多都已达到。另一个声音
+框架JACK使用ALSA提供低延迟的专业级音频编辑和混音能力。</p>
+
+
+
+
+<p>这个项目开始于为1998年Gravis Ultrasound所开发的驱动，它一直作为一个单独的软件包开发，直到2002年他被引进入Linux内核的开发
+版本(2.5.4-2.5.5)。从2.6版本开始ALSA成为Linux内核中默认的标准音频驱动程序集，OSS则被标记为废弃。</p>
+
+
+
+
+<p>ALSA由许多声卡的声卡驱动程序组成，同时它也提供一个称为libasound的API库。应用程序开发者应该使用libasound而不是内核中的ALSA接口。
+因为libasound提供最高级并且编程方便的编程接口。并且提供一个设备逻辑命名功能，这样开发者甚至不需要知道类似设备文件这样的低层接口。
+相反，OSS/Free驱动是在内核系统调用级上编程，它要求开发者提供设备文件名并且利用ioctrl来实现相应的功能。为了向后兼容，ALSA提供内核
+模块来模拟OSS，这样之前的许多在OSS基础上开发的应用程序不需要任何改动就可以在ALSA上运行。另外，libaoss库也可以模拟OSS，而它不需要
+内核模块。另外，ALSA还包含插件功能，使用插件可以扩展新的声卡驱动，包括完全用软件实现的虚拟声卡。ALSA提供一系列基于命令行的工具集，
+比如混音器(mixer)，音频文件播放器(aplay)，以及控制特定声卡特定属性的工具。</p>
+
+
+
+
+<p>ALSA API主要分为以下几种接口：</br>
+控制接口：提供灵活的方式管理注册的声卡和对存在的声卡进行查询。</br>
+PCM接口：提供管理数字音频的捕捉和回放。</br>
+原始MIDI接口: 支持 MIDI (Musical Instrument Digital Interface)，一种标准电子音乐指令集。这些API提供访问声卡上的MIDI总线。
+这些原始借口直接工作在 The MIDI事件上，程序员只需要管理协议和时间。</br>
+记时接口: 为支持声音的同步事件提供访问声卡上的定时器。</br>
+音序器接口：一个比原始MIDI接口高级的MIDI编程和声音同步高层接口。它可以处理很多的MIDI协议和定时器。</br>
+混音器接口：控制发送信号和控制声音大小的声卡上的设备。</p>
+
+
+
+
+<p>API库使用逻辑设备名而不是设备文件。设备名字可以是真实的硬件名字也可以是插件名字。硬件名字使用hw:i,j这样的格式。其中i是卡号，
+j是这块声卡上的设备号。第一个声音设备是hw:0,0.这个别名默认引用第一块声音设备并且在本文示例中一真会被用到。插件使用另外的唯一名字。
+比如plughw:,表示一个插件，这个插件不提供对硬件设备的访问，而是提供像采样率转换这样的软件特性，硬件本身并不支持这样的特性。</p>
+
+
+
+
+<h2>OSS与ALSA的优缺点比较</h2>
+
+
+<p>ALSA是一个完全开放源代码的音频驱动程序集，除了像OSS那样提供了一组内核驱动程序模块之外，ALSA还专门为简化应用程序的编写提供了
+相应的函数库，与OSS提供的基于ioctl的原始编程接口相比，ALSA函数库使用起来要更加方便一些。利用该函数库，开发人员可以方便快捷的
+开发出自己的应用程序，细节则留给函数库内部处理。当然ALSA也提供了类似于OSS的系统接口，不过ALSA的开发者建议应用程序开发者使用
+音频函数库而不是驱动程序的API。Ubuntu默认使用ALSA作为底层声音驱动，程序则与PulseAudio交互，这是一个很不错的方案。</p>
+
+
+
+
+<p>下面来比较一下OSS和ALSA的优缺点：</br>
+<strong>(1)OSS的优点（对用户来说）</strong></br>
+在内核空间（kernel space）里面包含了一个透明软件混音器(vmix)。这样多个程序就可以同时使用声音设备而且没有任何问题。</br>
+这个混音器可以让你单独调节各个程序的音量。</br>
+对某些老声卡有着更好的支持比如创新（Creative）的X-Fi。</br>
+声音程序的初始反应时间一般更好。</br>
+对使用OSS的应用程序接口（API）的程序有更好的支持，很多程序都支持OSS的API，而不需要ALSA的模拟。</br>
+
+<strong>(2)OSS的优点（对开发者来说）</strong></br>
+清晰的API文档，更易于使用。</br>
+支持用户空间的声音驱动。</br>
+可移植性强，OSS也可以在BSDs和Solaris下运行。</br>
+本身可以跨平台，可以更方便移植到新的操作系统。</br>
+
+<strong>(3)ALSA的优点</strong></br>
+ALSA对USB音频设备支持更好，而OSS的输出还在试验中，输入还未实现。</br>
+ALSA支持蓝牙声音设备。</br>
+ALSA支持AC&#8217;97和HDAudio dial-up soft-modems (比如Si3055)。</br>
+ALSA对MIDI支持得更好，但用OSS你只能通过软件合成器（如timidity和fluidsynth）来使用MIDI。</br>
+ALSA对待机支持更好，而用OSS，你需要在待机前使用soundoff来停止OSS驱动，在恢复后使用soundon来启动OSS。</br>
+OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也就是说在某些型号的主板上，你可能需要在插入耳机的
+时候手动关闭外置扬声器。而ALSA没这个问题。
+</p>
+
+
+
+
+<h2>参考资料</h2>
+
+
+<p>[1]Archlinux上介绍OSS的Wiki：https://wiki.archlinux.org/index.php/OSS_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29 </br>
+[2]Archlinux上介绍ALSA的Wiki：https://wiki.archlinux.org/index.php/Advanced_Linux_Sound_Architecture_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87) </br>
+[3]OSS&#8211;跨平台的音频接口简介: http://www.ibm.com/developerworks/cn/linux/l-ossapi/ </br>
+[4]Linux ALSA声卡驱动之一：ALSA架构简介: http://blog.csdn.net/droidphone/article/details/6271122 </br>
+[5]Linux ALSA声卡编程简介: http://enmind.blog.163.com/blog/static/164138001201092334620355/</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PCM WAVE格式详解及用C语言实现wave文件的读取]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language/"/>
+    <updated>2013-07-20T20:07:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language</id>
+    <content type="html"><![CDATA[<h2>1.PCM Wave格式详解</h2>
+
+
+<p>WAVE文件格式是微软RIFF(Resource Interchange File Format,资源交换文件标准)的一种，是针对于多媒体文件存储的一种文件格式和标准。
+一般而言，RIFF文件由文件头和数据两部分组成，一个WAVE文件由一个“WAVE”数据块组成，这个“WAVE”块又由一个&#8221;fmt&#8221;子数据块和一个“data”子
+数据块组成，也称这种格式为“Canonical form”（权威/牧师格式），如下图所示：
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013072001.gif"></center>
+</p>
+
+
+<!--more-->
+
+
+<p>每个字段的涵义如下：
+ChunkID: 占4个字节，内容为“RIFF”的ASCII码(0x52494646)，以大端（big endian）存储。</br>
+ChunkSize: 4字节，存储整个文件的字节数（不包含ChunkID和ChunkSize这8个字节），以小端（little endian）方式存储。</br>
+Format: 4字节，内容为“WAVE”的ASCII码(0x57415645)，以大端存储。</br>
+</p>
+
+
+
+
+<p>
+其中bigendian 主要有一个特征，在内存中对操作数的存储方式和从高字节到低字节。例如：0x1234，这样一个数，存储为:</br>
+0x4000:   0x12</br>
+0x4001:   0x34</br>
+而小尾端littleendian是：</br>
+0x4000:   0x34</br>
+0x4001:   0x12</br>
+用程序在区别的话，可以考虑：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include &lt;stdio.h>
+</span><span class='line'>#include &lt;stdlib.h>
+</span><span class='line'>int main(int argc, char *argv[])
+</span><span class='line'>{
+</span><span class='line'>       union w
+</span><span class='line'>      {
+</span><span class='line'>       short int a;
+</span><span class='line'>       char b;
+</span><span class='line'>      }c;
+</span><span class='line'>      c.a=1;
+</span><span class='line'>      if( c.b==1 )  printf("little endian\n");
+</span><span class='line'>      else printf("big endian\n");
+</span><span class='line'>      system("PAUSE"); 
+</span><span class='line'>      return 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</p>
+
+
+
+
+<p>&#8220;WAVE&#8221;格式由两个子数据块构成：“fmt”块和“data”块，其中“fmt”块的详细解释如下：
+Subchunk1ID: 占4个字节，内容为“fmt ”的ASCII码(0x666d7420)，以大端存储。</br>
+Subchunk1Size: 占4个字节，存储该子块的字节数（不含前面的Subchunk1ID和Subchunk1Size这8个字节），以小端方式存储。</br>
+AudioFormat：占2个字节，以小端方式存储，存储音频文件的编码格式，例如若为PCM则其存储值为1，若为其他非PCM格式的则有一定的压缩。</br>
+NumChannels: 占2个字节，以小端方式存储，通道数，单通道(Mono)值为1，双通道(Stereo)值为2，等等。</br>
+SampleRate: 占4个字节，以小端方式存储，采样率，如8k，44.1k等。</br>
+ByteRate: 占4个字节，以小端方式存储，每秒存储的bit数，其值=SampleRate * NumChannels * BitsPerSample/8</br>
+BlockAlign: 占2个字节，以小端方式存储，块对齐大小，其值=NumChannels * BitsPerSample/8</br>
+BitsPerSample: 占2个字节，以小端方式存储，每个采样点的bit数，一般为8,16,32等。</br>
+接下来是两个可选的扩展参数：</br>
+ExtraParamSize: 占2个字节，表示扩展段的大小。</br>
+ExtraParams: 扩展段其他自定义的一些参数的具体内容，大小由前一个字段给定。
+</p>
+
+
+
+
+<p>其中，对于每个采样点的bit数，不同的bit数读取数据的方式不同：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// data 为读取到的采样点的值，speech为原始数据流，
+</span><span class='line'>//对应于下面的"WAVE"格式文件的第二个子数据块“data”块的“Data”部分。
+</span><span class='line'>for(i=0;i&lt;NumSample;i++){
+</span><span class='line'>  if(BitsPerSample==8)
+</span><span class='line'>      data[i] = (int)*((char*)speech+i);
+</span><span class='line'>  else if(BitsPerSample==16)
+</span><span class='line'>      data[i] = (int)*((short*)speech+i);
+</span><span class='line'>  else if(BitsPerSample==32)
+</span><span class='line'>      data[i] = (int)*((int*)speech+i);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</p>
+
+
+
+
+<p>&#8220;WAVE&#8221;格式文件的第二个子数据块是“data”，其个字段的详细解释如下：</br>
+Subchunk2ID: 占4个字节，内容为“data”的ASCII码(0x64617461)，以大端存储。</br>
+Subchunk2Size: 占4个字节，内容为接下来的正式的数据部分的字节数，其值=NumSamples * NumChannels * BitsPerSample/8</br>
+Data: 真正的语音数据部分。</br>
+</p>
+
+
+
+
+<h2>一个Wave文件头的实例</h2>
+
+
+<p>设一个wave文件的前72个字节的十六进制内容如下(可以使用Ultra Edit等工具查看wave文件头)：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>52 49 46 46 24 08 00 00 57 41 56 45 66 6d 74 20 10 00 00 00 01 00 02 00 
+</span><span class='line'>22 56 00 00 88 58 01 00 04 00 10 00 64 61 74 61 00 08 00 00 00 00 00 00 
+</span><span class='line'>24 17 1e f3 3c 13 3c 14 16 f9 18 f9 34 e7 23 a6 3c f2 24 f2 11 ce 1a 0d</span></code></pre></td></tr></table></div></figure>
+
+则其个字段的解析如下图：
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013072002.gif"></center>
+</p>
+
+
+
+
+<h2>C语言实现wave文件的读取</h2>
+
+
+<p>这里给出一个用基本的C语言文件操作库函数实现的Wave文件读取的实例代码，可以跨Windows和Linux平台。</p>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include &lt;stdio.h>
+</span><span class='line'>#include &lt;stdlib.h>
+</span><span class='line'>#include &lt;string.h>
+</span><span class='line'>
+</span><span class='line'>// define Wave format structure
+</span><span class='line'>typedef struct tWAVEFORMATEX
+</span><span class='line'>{
+</span><span class='line'>    short wFormatTag;         /* format type */
+</span><span class='line'>    short nChannels;          /* number of channels (i.e. mono, stereo...) */
+</span><span class='line'>    unsigned int nSamplesPerSec;     /* sample rate */
+</span><span class='line'>    unsigned int nAvgBytesPerSec;    /* for buffer estimation */
+</span><span class='line'>    short nBlockAlign;        /* block size of data */
+</span><span class='line'>    short wBitsPerSample;     /* number of bits per sample of mono data */
+</span><span class='line'>    short cbSize;             /* the count in bytes of the size of */
+</span><span class='line'>                                    /* extra information (after cbSize) */
+</span><span class='line'>} WAVEFORMATEX, *PWAVEFORMATEX;
+</span><span class='line'>
+</span><span class='line'>char* wavread(char *fname, WAVEFORMATEX *wf);
+</span><span class='line'>
+</span><span class='line'>int main(){
+</span><span class='line'>  char fname = "test.wav";
+</span><span class='line'>  char *speech;
+</span><span class='line'>  WAVEFORMATEX wf;
+</span><span class='line'>  
+</span><span class='line'>  speech = wavread(fname, &wf);
+</span><span class='line'>  // afterward processing...
+</span><span class='line'>  
+</span><span class='line'>  return 0;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// read wave file
+</span><span class='line'>char* wavread(char *fname, WAVEFORMATEX *wf){
+</span><span class='line'>  FILE* fp;
+</span><span class='line'>  char str[32];
+</span><span class='line'>  char *speech;
+</span><span class='line'>  unsigned int subchunk1size; // head size
+</span><span class='line'>  unsigned int subchunk2size; // speech data size
+</span><span class='line'>
+</span><span class='line'>  // check format type
+</span><span class='line'>  fp = fopen(fname,"r");
+</span><span class='line'>  if(!fp){
+</span><span class='line'>      fprintf(stderr,"Can not open the wave file: %s.\n",fname);
+</span><span class='line'>      return NULL;
+</span><span class='line'>  }
+</span><span class='line'>  fseek(fp, 8, SEEK_SET);
+</span><span class='line'>  fread(str, sizeof(char), 7, fp);
+</span><span class='line'>  str[7] = '\0';
+</span><span class='line'>  if(strcmp(str,"WAVEfmt")){
+</span><span class='line'>      fprintf(stderr,"The file is not in WAVE format!\n");
+</span><span class='line'>      return NULL;
+</span><span class='line'>  }
+</span><span class='line'>  
+</span><span class='line'>  // read format header
+</span><span class='line'>  fseek(fp, 16, SEEK_SET);
+</span><span class='line'>  fread((unsigned int*)(&subchunk1size),4,1,fp);
+</span><span class='line'>  fseek(fp, 20, SEEK_SET);
+</span><span class='line'>  fread(wf, subchunk1size, 1, fp);
+</span><span class='line'>  
+</span><span class='line'>  // read wave data
+</span><span class='line'>  fseek(fp, 20+subchunk1size, SEEK_SET);
+</span><span class='line'>  fread(str, 1, 4, fp);
+</span><span class='line'>  str[4] = '\0';
+</span><span class='line'>  if(strcmp(str,"data")){
+</span><span class='line'>      fprintf(stderr,"Locating data start point failed!\n");
+</span><span class='line'>      return NULL;
+</span><span class='line'>  }
+</span><span class='line'>  fseek(fp, 20+subchunk1size+4, SEEK_SET);
+</span><span class='line'>  fread((unsigned int*)(&subchunk2size), 4, 1, fp);
+</span><span class='line'>  speech = (char*)malloc(sizeof(char)*subchunk2size);
+</span><span class='line'>  if(!speech){
+</span><span class='line'>      fprintf(stderr, "Memory alloc failed!\n");
+</span><span class='line'>      return NULL;
+</span><span class='line'>  }
+</span><span class='line'>  fseek(fp, 20+subchunk1size+8, SEEK_SET);
+</span><span class='line'>  fread(speech, 1, subchunk2size, fp);
+</span><span class='line'>
+</span><span class='line'>  fclose(fp);
+</span><span class='line'>  return speech;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h2>参考</h2>
+
+
+<p>
+[1]WAVE PCM soundfile format: https://ccrma.stanford.edu/courses/422/projects/WaveFormat/ </br>
+[2]Resource Interchange File Format: http://en.wikipedia.org/wiki/Resource_Interchange_File_Format </br>
+[3]基于Visual C++6.0的声音文件操作: http://www.yesky.com/20030414/1663116_1.shtml
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[给Octpress博客添加返回顶部按钮]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog/"/>
+    <updated>2013-06-30T10:47:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog</id>
+    <content type="html"><![CDATA[<p>有时候，博客文章太长，需要返回顶部时，需要用鼠标拖着滚动条向上好半天，这里提供一个用jQuery来实现的动态上滚的示例。
+这个示例完全参考和翻译自webdesignerwall的blog：<a href="http://webdesignerwall.com/tutorials/animated-scroll-to-top">http://webdesignerwall.com/tutorials/animated-scroll-to-top</a>，
+其中有部分删改，并在本人的blog上实现。</p>
+
+
+
+
+<p>主要包含HTML和CSS的设计，基于jQuery的JS的设计。另外还有一点小trick</p>
+
+
+
+
+<h2>Design & CSS</h2>
+
+
+<p>相关的HTML代码很简单，在source/_include/custom/footer.html中添加如下代码：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;p id = "back-top">
+</span><span class='line'>      &lt;a href="#top">&lt;span>&lt;/span>Back to Top&lt;/a>
+</span><span class='line'>  &lt;/p></span></code></pre></td></tr></table></div></figure>
+
+</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<p>对应的CSS样式的设置如下：（这段代码同样的放在source/_include/custom/footer.html文件中）
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;style type="text/css">
+</span><span class='line'>#back-top {
+</span><span class='line'>  position: fixed;
+</span><span class='line'>  bottom: 50px;
+</span><span class='line'>  right: 100px;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>#back-top a {
+</span><span class='line'>  width: 80px;
+</span><span class='line'>  display: block;
+</span><span class='line'>  text-align: center;
+</span><span class='line'>  font: 11px/100% Arial, Helvetica, sans-serif;
+</span><span class='line'>  text-transform: uppercase;
+</span><span class='line'>  text-decoration: none;
+</span><span class='line'>  color: #bbb;
+</span><span class='line'>
+</span><span class='line'>  /* transition */
+</span><span class='line'>  -webkit-transition: 1s;
+</span><span class='line'>  -moz-transition: 1s;
+</span><span class='line'>  transition: 1s;
+</span><span class='line'>}
+</span><span class='line'>#back-top a:hover {
+</span><span class='line'>  color: #000;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>/* arrow icon (span tag) */
+</span><span class='line'>#back-top span {
+</span><span class='line'>  width: 80px;
+</span><span class='line'>  height: 80px;
+</span><span class='line'>  display: block;
+</span><span class='line'>  margin-bottom: 7px;
+</span><span class='line'>  background: #ddd url(../../images/up-arrow.png) no-repeat center center;
+</span><span class='line'>
+</span><span class='line'>  /* rounded corners */
+</span><span class='line'>  -webkit-border-radius: 15px;
+</span><span class='line'>  -moz-border-radius: 15px;
+</span><span class='line'>  border-radius: 15px;
+</span><span class='line'>
+</span><span class='line'>  /* transition */
+</span><span class='line'>  -webkit-transition: 1s;
+</span><span class='line'>  -moz-transition: 1s;
+</span><span class='line'>  transition: 1s;
+</span><span class='line'>}
+</span><span class='line'>/*
+</span><span class='line'>#back-top a:hover span {
+</span><span class='line'>  background-color: #888;
+</span><span class='line'>}
+</span><span class='line'>*/
+</span><span class='line'>&lt;/style></span></code></pre></td></tr></table></div></figure>
+
+</p>
+
+
+
+
+<p>上面的css中用到了一张图片up-arrow.png，放在source/images/目录下，图片如下：
+<center><img src="http://ibillxia.github.com/images/up-arrow.png"></center>
+这是从google image里面随便找的一个，你也可以找一个自己喜欢的图片。
+</p>
+
+
+
+
+<h2>jQuery部分</h2>
+
+
+<p>HTML和CSS样式设置好了之后，最后就是添加JavaScript事件响应代码了，这里是基于jQuery实现的。代码如下：（这段代码还是放在source/_include/custom/footer.html文件中）
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js">&lt;/script>
+</span><span class='line'>&lt;script type="text/javascript">
+</span><span class='line'>$(document).ready(function(){
+</span><span class='line'>
+</span><span class='line'>  // hide #back-top first
+</span><span class='line'>  $("#back-top").hide();
+</span><span class='line'>  
+</span><span class='line'>  // fade in #back-top
+</span><span class='line'>  $(function () {
+</span><span class='line'>      $(window).scroll(function () {
+</span><span class='line'>          if ($(this).scrollTop() > 100) {
+</span><span class='line'>              $('#back-top').fadeIn();
+</span><span class='line'>          } else {
+</span><span class='line'>              $('#back-top').fadeOut();
+</span><span class='line'>          }
+</span><span class='line'>      });
+</span><span class='line'>
+</span><span class='line'>      // scroll body to 0px on click
+</span><span class='line'>      $('#back-top a').click(function () {
+</span><span class='line'>          $('body,html').animate({
+</span><span class='line'>              scrollTop: 0
+</span><span class='line'>          }, 800);
+</span><span class='line'>          return false;
+</span><span class='line'>      });
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>});
+</span><span class='line'>&lt;/script></span></code></pre></td></tr></table></div></figure>
+
+</p>
+
+
+
+
+<h2>一个Trick</h2>
+
+
+<p>
+在上面的HTML代码中，我们将一个链接添加到了ID为#top的里面，这个#top标签是<body>标签的ID，这样即使浏览器不支持相关的JS，
+通过这个link也实现了返回顶部的功能。
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[蛙泳、自由泳、仰泳、蝶泳图解动画教你游泳]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/06/28/swimming-tutorial-with-gif-images/"/>
+    <updated>2013-06-28T21:37:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/06/28/swimming-tutorial-with-gif-images</id>
+    <content type="html"><![CDATA[<p>最近在室友的带领下，开始去cjl游泳馆学游泳，这里转载一篇游泳教程，分享给初学游泳的网友们</p>
+
+
+
+
+<h2>蛙泳</h2>
+
+
+<p>蛙泳配合有一个顺口溜，在讲解蛙泳动作要领之前先介绍给大家：“划手腿不动，收手再收腿，先伸胳膊后蹬腿，并拢伸直漂一会儿。”
+从顺口溜中可以看到，手的动作是先于腿的动作。一定要在收手后再收腿，伸手后再蹬腿。</p>
+
+
+
+
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013062801.gif"></center>
+
+
+
+
+<p>臂部动作：</br>
+1、外划。双手前伸，手掌倾斜大约45度(小拇指朝上)。双手同时向外、后方划，继而屈臂向后、向下方划。</br>
+2、内划。掌心由外转向内，手带动小臂加速内划，手由下向上并在胸前并拢(手高肘低、肘在肩下)，前伸。</br>
+3、前伸。双手向前伸(肘关节伸直)。要提醒大家注意的是：外划是放松的，内划是用力的、加速完成的、前伸是积极的。
+</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013062802.gif"></center>
+
+
+
+
+<p>腿部动作：</br>
+1、收腿：屈膝收腿，脚跟向臀部靠拢，小腿要躲在大腿后面慢收腿，这样可以减少阻力。收腿结束时，两膝与肩同宽，小腿与水面垂直，脚牚在水面附近。</br>
+2、翻脚：两脚距离大于两膝距离，两脚外翻，脚尖朝外，脚牚朝天，小腿和脚内侧对准水，像英文字母“W”。</br>
+3、夹蹬水：实际上是腿伸直的过程(屈髋、伸膝)，由腰腹和大腿同时发力，以小腿和脚内侧同时蹬夹水，先是向外、向后、向下，然后是向内、向上方蹬水，
+就像画半个圆圈。向外蹬水和向内夹水是连续完成的，也就是连蹬带夹。蹬夹水完成时双腿并拢伸直，双脚内转，脚尖相对。蹬水的速度不要过猛，要由
+慢到快地加速蹬水，两条腿将近伸直并拢的时候蹬水速度最快。</br>
+4、停：双腿并拢伸直后在一个短暂的滑行(1-2秒)。
+</p>
+
+
+
+
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013062803.gif"></center>
+
+
+
+
+<p>蛙泳的完整配合动作：双手外划时抬头换气，双手内划时收腿低头稍憋气，双手前伸过头时蹬腿吐气。</p>
+
+
+
+
+<h2>自由泳</h2>
+
+
+<p>游泳是全身运动，任何一个部位的活动都离不开全身的协调配合。从表面上看，自由泳依靠划水和打腿产生推进力，实际上，躯干的作用也不能忽视。首先，
+躯干应保持一定的紧张度，腰部如果松软，整个人就像一摊泥一样。其次，身体的转动能够有效地发挥躯干部大肌肉群的力量，减少阻力，提高工作效果。</p>
+
+
+
+
+<p>自由泳的完整配合有多种形式。一般常见的是每划水2次，打水6次，呼吸1次。</p>
+
+
+
+
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013062804.gif"></center>
+
+
+
+
+<p>1、手的入水点在肩的延长线和身体中线之间，以大拇指领先，斜插入水。</br>
+2、入水后，手、肘、肩继续前伸，使手臂伸展。随着身体的转动，屈腕、屈肘，手臂向外、后方抓水;手下划到最低点后，旋转手臂向内、上、后方划水，
+保持高肘屈臂的划水姿势。</br>
+3、手臂与水平面垂直时，经手领先，加速推水，手臂转为向外、向上和身后划水直到大腿侧，提肘出水。</br>
+4、出水后，手臂自然、放松地经空中向前移臂，保持高肘姿势。然后手在肩前领先入水，开始下一个动作。
+</p>
+
+
+
+
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013062805.gif"></center>
+
+
+
+
+<p>1、手臂在水下成曲线划水路线，从侧面看，手相对于身体的划水轨迹为“S”形。</br>
+2、自由泳两臂配合有前交叉配合、中交叉配合、和后交叉配合3种基本形式。本图为前交叉形式，为初学者比较容易掌握的方式。
+</p>
+
+
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013062806.gif"></center>
+
+
+
+
+<p>单臂打水划臂动作是初学者应该重点练习的动作。如此图，左臂划水，那么可以右臂扶板。一般腿打水10次左右，手臂划水一次。
+掌握到一定程度的时候可以加上呼吸练习。</p>
+
+
+
+
+<p>腿部鞭状打水：</br>
+1、打腿动作从髋部开始发力，大腿带动小腿，做鞭状打水动作。</br>
+2、向上打水腿从直到弯。以直腿开始向上打，脚接近水面时屈膝，小腿上抬，使脚牚露出水面后向下打水。开始可直腿打水，但腿略放松，不要僵硬，
+在水的压力下腿会自然弯曲。向下打水前膝关节弯曲角度约130-160度，打水幅度约为30-40厘米。打水时要绷脚(芭蕾脚)，不要勾脚。
+</p>
+
+
+
+
+<h2>仰泳</h2>
+
+
+<p>1、臂划水时，出水以大拇指领先，移臂时手臂与水面垂直，上臂贴近耳朵。移臂过程中手臂旋转，入水时小拇指领先插入水中。</br>
+2、如果以头的位置为钟表12点，两手的入水点在11点和1点的位置。手入水后先直臂下划。</br>
+3、两臂划水应与身体转动协调配合，两肩不断形成位置差。</br>
+4、两臂划水配合采用中交叉方式，即两臂始终处于相反的位置，一臂划水时，另一臂移臂。</br>
+5、头部保持稳定没有左右摆动。
+</p>
+
+
+
+
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013062807.gif"></center>
+
+
+
+
+<p>1、呼吸虽然不受限制，但最好采用有节奏的呼吸方式，或以固定在一臂移臂时吸气。毕竟划水以及身体在水中行进时会有波浪及水花。随意呼吸易呛水。</br>
+2、保持水平的身体姿势，躯干和肩随手臂动作围绕纵轴转动，始终有一肩不露出水面。</br>
+3、一般每划水2次，腿打水6次，呼吸1次。</br>
+4、两腿交替做鞭状上下打水。向上打水要快而有力，脚略内旋并绷直，向下打水时腿和脚自然放松。
+</p>
+
+
+
+
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013062808.gif"></center>
+
+
+
+
+<p>1、移臂时手臂紧贴身体不能太宽。</br>
+2、移臂时如果手臂易弯曲，则可暂时用小拇指领先出水，养成直臂出水的习惯以后再用大拇指领先出水。</br>
+3、身体始终保持伸展、正直、几乎水平地仰卧于水面，好像平躺在床上，头下有一只矮枕头。
+</p>
+
+
+
+
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013062809.gif"></center>
+
+
+
+
+<p>建议：仰泳腿要体会大腿用力，上抬与下压都要有，体会大腿带动小腿的感觉。</p>
+
+
+
+
+<h2>蝶泳</h2>
+
+
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013062810.gif"></center>
+
+
+<p>1、蝶泳的手入水点在两肩的延长线上，以大拇指领先，斜插入水。</br>
+2、入水后，肩、肘前伸，两手沿曲线向外、后、下方抓水。两手分开到肩宽时，屈肘，加速划水。</br>
+3、两手分开到达到最大宽度后，手臂转为向内、向上和向后划水，手臂上抬时保持高肘屈臂。两手在胸下或腹下时，手之间的距离最近。</br>
+4、呼吸与划水的配合也是蝶泳技术的关键。手臂结束向内划水时，头露出水面吸气，移臂时头还原入水。记住两个“之前”，即头在手出水前出水，在手入水前入水。
+</p>
+
+
+
+
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013062811.gif"></center>
+
+
+
+
+<p>1、蝶泳双手划水两手距离接近最近时，手臂划水的方向再一次改变，转为向外、向上和向后划水，直至出水。</br>
+2、划水出水后，手臂在肩的带动下经空中向前移臂，准备入水、移臂一般以低、平、放松的姿势从两侧前移。</br>
+3、蝶泳的身体姿势掌握比较难，同时鞭状打水也不易掌握。在蝶泳学习的时候，我们会有专门的分解练习让您逐步掌握运作。
+</p>
+
+
+
+
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013062812.gif"></center>
+
+
+
+
+<p>1、蝶泳的划水路线一般为“钥匙孔”形，指两手在胸下或腹下时的距离最近，这种前后划水路线比较均匀。</br>
+2、注意蝶泳的四肢动作是双臂、双腿同时协调发力。
+</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[用Windows API实现一个简单的录音程序]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/06/04/a-simple-code-for-wave-recording-using-windows-api/"/>
+    <updated>2013-06-04T23:59:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/06/04/a-simple-code-for-wave-recording-using-windows-api</id>
+    <content type="html"><![CDATA[<p>本文介绍如何使用Windows API来录制语音信号兵保存到wave文件中，主要用到三个结构体和几个wave开头的API函数（在Winmm.lib文件中）。其中三个结构体是WAVEFORMATEX、WAVEHDR、MMTIME，其详细定义都在MMSystem.h中定义，
+可以转到定义看其详细内容及每一项的英文注释。用到的API函数的详细用法可以参见MSDN： http://msdn.microsoft.com/en-us/library/windows/desktop/dd743847(v=vs.85).aspx
+详细的使用过程请看下文的源代码，这是一个Win32 Application，需要手动添加Winmm.lib的依赖。</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<p>实例程序</p>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// ******************* FileName: WinMain.cpp *****************************
+</span><span class='line'>// 该源程序需要加入到 VC6 的 Win32 Application 的 empty Project 中
+</span><span class='line'>// 对于工程的 Link 选项，至少要包含以下库: msvcrt.lib Winmm.lib
+</span><span class='line'>
+</span><span class='line'>#include &lt;stdio.h>
+</span><span class='line'>#include &lt;atlstr.h>
+</span><span class='line'>#include &lt;windows.h>
+</span><span class='line'>#include &lt;Mmsystem.h>
+</span><span class='line'>
+</span><span class='line'>#pragma comment(lib,"Winmm.lib")
+</span><span class='line'>
+</span><span class='line'>char lpTemp[256];
+</span><span class='line'>
+</span><span class='line'>DWORD FCC(LPSTR lpStr)
+</span><span class='line'>{
+</span><span class='line'>  DWORD Number = lpStr[0] + lpStr[1] *0x100 + lpStr[2] *0x10000 + lpStr[3] *0x1000000 ;
+</span><span class='line'>  return Number;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
+</span><span class='line'>{
+</span><span class='line'>  DWORD datasize = 48000;
+</span><span class='line'>    
+</span><span class='line'>  // 设置录音采样参数
+</span><span class='line'>  WAVEFORMATEX waveformat;
+</span><span class='line'>  waveformat.wFormatTag=WAVE_FORMAT_PCM; // 指定录音格式
+</span><span class='line'>  waveformat.nChannels=1;
+</span><span class='line'>  waveformat.nSamplesPerSec=8000;
+</span><span class='line'>  waveformat.nBlockAlign=1;
+</span><span class='line'>  waveformat.wBitsPerSample=8;
+</span><span class='line'>  waveformat.cbSize=0;
+</span><span class='line'>  waveformat.nAvgBytesPerSec=waveformat.nSamplesPerSec*waveformat.wBitsPerSample/8;
+</span><span class='line'>  
+</span><span class='line'>  sprintf(lpTemp,"WAVEFORMATEX size = %lu", sizeof(WAVEFORMATEX));
+</span><span class='line'>  MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
+</span><span class='line'>
+</span><span class='line'>  HWAVEIN m_hWaveIn;
+</span><span class='line'>  if ( !waveInGetNumDevs() )
+</span><span class='line'>  {
+</span><span class='line'>      MessageBox(NULL,CString("没有可以使用的 WaveIn 通道"),CString("提示"),MB_OK);
+</span><span class='line'>      return 0;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  // 打开录音设备
+</span><span class='line'>  int res = waveInOpen(&m_hWaveIn,WAVE_MAPPER, &waveformat, (DWORD)NULL,0L,CALLBACK_WINDOW); 
+</span><span class='line'>  if ( res != MMSYSERR_NOERROR )
+</span><span class='line'>  {
+</span><span class='line'>     sprintf(lpTemp, "打开 waveIn 通道失败，Error_Code = 0x%x", res );
+</span><span class='line'>     MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
+</span><span class='line'>     return 0;
+</span><span class='line'>  }
+</span><span class='line'>  
+</span><span class='line'>  WAVEHDR m_pWaveHdr;
+</span><span class='line'>  m_pWaveHdr.lpData = (char *)GlobalLock( GlobalAlloc(GMEM_MOVEABLE|GMEM_SHARE, datasize) );
+</span><span class='line'>  memset(m_pWaveHdr.lpData, 0, datasize );
+</span><span class='line'>  m_pWaveHdr.dwBufferLength = datasize;
+</span><span class='line'>  m_pWaveHdr.dwBytesRecorded = 0;
+</span><span class='line'>  m_pWaveHdr.dwUser = 0;
+</span><span class='line'>  m_pWaveHdr.dwFlags = 0;
+</span><span class='line'>  m_pWaveHdr.dwLoops = 0;
+</span><span class='line'>  sprintf( lpTemp, "WAVEHDR size = %lu", sizeof(WAVEHDR) );
+</span><span class='line'>  MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
+</span><span class='line'>
+</span><span class='line'>  // 准备内存块录音
+</span><span class='line'>  int resPrepare = waveInPrepareHeader( m_hWaveIn, &m_pWaveHdr, sizeof(WAVEHDR) ); 
+</span><span class='line'>  if ( resPrepare != MMSYSERR_NOERROR) 
+</span><span class='line'>  {
+</span><span class='line'>      sprintf(lpTemp, "不能开辟录音头文件，Error_Code = 0x%03X", resPrepare );
+</span><span class='line'>      MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
+</span><span class='line'>      return 0;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  resPrepare = waveInAddBuffer( m_hWaveIn, &m_pWaveHdr, sizeof(WAVEHDR) );
+</span><span class='line'>  if ( resPrepare != MMSYSERR_NOERROR) 
+</span><span class='line'>  {
+</span><span class='line'>      sprintf(lpTemp, "不能开辟录音用缓冲，Error_Code = 0x%03X", resPrepare );
+</span><span class='line'>      MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
+</span><span class='line'>      return 0;
+</span><span class='line'>  }
+</span><span class='line'> 
+</span><span class='line'>  if (! waveInStart(m_hWaveIn) ) 
+</span><span class='line'>  {
+</span><span class='line'>      MessageBox(NULL,CString("开始录音"),CString("提示"),MB_OK);
+</span><span class='line'>  }
+</span><span class='line'>  else 
+</span><span class='line'>  {
+</span><span class='line'>      MessageBox(NULL,CString("开始录音失败"),CString("提示"),MB_OK);
+</span><span class='line'>      return 0;
+</span><span class='line'>  }
+</span><span class='line'>  Sleep(30000);
+</span><span class='line'>
+</span><span class='line'>  MMTIME mmt;
+</span><span class='line'>  mmt.wType = TIME_BYTES;
+</span><span class='line'>  sprintf( lpTemp, "sizeof(MMTIME) = %d, sizeof(UINT) = %d", sizeof(MMTIME), sizeof(UINT) );
+</span><span class='line'>  MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
+</span><span class='line'>
+</span><span class='line'>  if (! waveInGetPosition(m_hWaveIn, &mmt, sizeof(MMTIME)) )
+</span><span class='line'>  {
+</span><span class='line'>      MessageBox(NULL,CString("取得现在音频位置"),CString("提示"),MB_OK);
+</span><span class='line'>  }
+</span><span class='line'>  else 
+</span><span class='line'>  {
+</span><span class='line'>      MessageBox(NULL,CString("不能取得音频长度"),CString("提示"),MB_OK);
+</span><span class='line'>      return 0;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  if (mmt.wType != TIME_BYTES) 
+</span><span class='line'>  {
+</span><span class='line'>      MessageBox(NULL,CString("指定的 TIME_BYTES 格式音频长度不支持"),CString("提示"),MB_OK);
+</span><span class='line'>      return 0;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  if (! waveInStop(m_hWaveIn) ) 
+</span><span class='line'>  {
+</span><span class='line'>      MessageBox(NULL,CString("停止录音"),CString("提示"),MB_OK);
+</span><span class='line'>  }
+</span><span class='line'>  else  
+</span><span class='line'>  {
+</span><span class='line'>      MessageBox(NULL,CString("停止录音失败"),CString("提示"),MB_OK);
+</span><span class='line'>  }
+</span><span class='line'>  
+</span><span class='line'>  if ( waveInReset(m_hWaveIn) ) 
+</span><span class='line'>  {
+</span><span class='line'>      MessageBox(NULL,CString("重置内存区失败"),CString("提示"),MB_OK);
+</span><span class='line'>      return 0;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  m_pWaveHdr.dwBytesRecorded = mmt.u.cb;
+</span><span class='line'>  DWORD NumToWrite=0;
+</span><span class='line'>  DWORD dwNumber = 0;
+</span><span class='line'>  HANDLE FileHandle = CreateFile( CString("myTest.wav"), GENERIC_WRITE, 
+</span><span class='line'>      FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+</span><span class='line'>
+</span><span class='line'>  // memset(m_pWaveHdr.lpData, 0, datasize);
+</span><span class='line'>  dwNumber = FCC("RIFF");
+</span><span class='line'>  WriteFile(FileHandle, &dwNumber, 4, &NumToWrite, NULL);
+</span><span class='line'>  dwNumber = m_pWaveHdr.dwBytesRecorded + 18 + 20;
+</span><span class='line'>  WriteFile(FileHandle, &dwNumber, 4, &NumToWrite, NULL);
+</span><span class='line'>  dwNumber = FCC("WAVE");
+</span><span class='line'>  WriteFile(FileHandle, &dwNumber, 4, &NumToWrite, NULL);
+</span><span class='line'>  dwNumber = FCC("fmt ");
+</span><span class='line'>  WriteFile(FileHandle, &dwNumber, 4, &NumToWrite, NULL);
+</span><span class='line'>  dwNumber = 18L;
+</span><span class='line'>  WriteFile(FileHandle, &dwNumber, 4, &NumToWrite, NULL);
+</span><span class='line'>  WriteFile(FileHandle, &waveformat, sizeof(WAVEFORMATEX), &NumToWrite, NULL);
+</span><span class='line'>  dwNumber = FCC("data");
+</span><span class='line'>  WriteFile(FileHandle, &dwNumber, 4, &NumToWrite, NULL);
+</span><span class='line'>  dwNumber = m_pWaveHdr.dwBytesRecorded;
+</span><span class='line'>  WriteFile(FileHandle, &dwNumber, 4, &NumToWrite, NULL);
+</span><span class='line'>  WriteFile(FileHandle, m_pWaveHdr.lpData, m_pWaveHdr.dwBytesRecorded, &NumToWrite, NULL);
+</span><span class='line'>  SetEndOfFile(FileHandle);
+</span><span class='line'>  CloseHandle( FileHandle );  
+</span><span class='line'>  FileHandle = INVALID_HANDLE_VALUE; // 收尾关闭句柄
+</span><span class='line'>  MessageBox(NULL,CString("应该已生成 myTest.wav 文件"),CString("提示"),MB_OK);
+</span><span class='line'>
+</span><span class='line'>  if ( waveInUnprepareHeader(m_hWaveIn, &m_pWaveHdr, sizeof(WAVEHDR)) ) 
+</span><span class='line'>  {
+</span><span class='line'>      MessageBox(NULL,CString("Un_Prepare Header 失败"),CString("提示"),MB_OK);
+</span><span class='line'>  }
+</span><span class='line'>  else 
+</span><span class='line'>  {
+</span><span class='line'>      MessageBox(NULL,CString("Un_Prepare Header 成功"),CString("提示"),MB_OK);
+</span><span class='line'>      return 0;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  if ( GlobalFree(GlobalHandle( m_pWaveHdr.lpData )) ) 
+</span><span class='line'>  {
+</span><span class='line'>      MessageBox(NULL,CString("Global Free 失败"),CString("提示"),MB_OK);
+</span><span class='line'>  }
+</span><span class='line'>  else 
+</span><span class='line'>  {
+</span><span class='line'>      MessageBox(NULL,CString("Global Free 成功"),CString("提示"),MB_OK);
+</span><span class='line'>      return 0;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  if (res == MMSYSERR_NOERROR ) // 关闭录音设备
+</span><span class='line'>  {
+</span><span class='line'>      if (waveInClose(m_hWaveIn)==MMSYSERR_NOERROR)
+</span><span class='line'>      {
+</span><span class='line'>          MessageBox(NULL,CString("正常关闭录音设备"),CString("提示"),MB_OK);
+</span><span class='line'>      }
+</span><span class='line'>      else
+</span><span class='line'>      {
+</span><span class='line'>          MessageBox(NULL,CString("非正常关闭录音设备"),CString("提示"),MB_OK);
+</span><span class='line'>          return 0;
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  return 0;
+</span><span class='line'>}
+</span><span class='line'>// ******************* End of File ************************</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p>这里提供的代码有点杂乱，现已整理成一个小的接口，并提供了一个简单的示例，放在GitHub上：https://github.com/ibillxia/Demo/tree/master/DemoSpeechRecord</p>
+
+
+
+
+<p>参考：</br>
+[1]MSDN: http://msdn.microsoft.com/en-us/library/windows/desktop/dd743586(v=vs.85).aspx</br>
+[2]基于API的录音机程序: http://www.vckbase.com/index.php/wv/664
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[语音信号处理之时域分析-音高追踪及其Python实现]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/05/29/audio-signal-processing-time-domain-pitch-tracking-and-python-realization/"/>
+    <updated>2013-05-29T21:37:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/05/29/audio-signal-processing-time-domain-pitch-tracking-and-python-realization</id>
+    <content type="html"><![CDATA[<h2>1.概述</h2>
+
+
+<p>在<a href="http://ibillxia.github.io/blog/2013/05/16/audio-signal-processing-time-domain-pitch-python-realization/">音高及其Python实现</a>一文
+中，我们使用了简单的“观察法”来计算音高，这并不太难，但这并不有好而且费时费力，那么我们就想，如何通过分析和计算，使用算法来自动计算音高呢？
+用算法让计算机自动抓取音高的过程，称为<b>音高追踪</b>(Pitch Tracking)。所得到的音高信息有如下一些应用：</br>
+·旋律识别(Melody Recognition)：或称为“哼唱选歌”，也就是如何由使用者的哼唱，找出音乐资料库中间对应的歌。</br>
+·汉语声调识别(Tone Recognition)：辨识使用者讲一句话时，每一个字的声调（一声、二声、三声、四声等）。</br>
+·语音合成韵律分析(Prosody Analysis)中的音高分析：如何在合成语音时，使用最自然的音高曲线。</br>
+·语音评分中的音调评分(Intonation Assessment)：如何评估使用者说话的语音，其音高曲线是否标准。</br>
+·语音识别(Speech Recognition)：我们可以使用语句的音高来提高语音辨识的正确率。</br>
+总而言之，音高追踪是语音信号处理中最基本也最重要的一个环节之一。
+</p>
+
+
+
+
+<h2>2.音高追踪的基本流程</h2>
+
+
+<p>音高追踪的基本流程如下：</br>
+(1)将整段音讯讯号切成音框（Frames），相邻音框之间可以重叠。</br>
+(2)算出每个音框所对应的音高。</br>
+(3)排除不稳定的音高值。（可由音量来筛选，或由音高值的范围来过滤。）</br>
+(4)对整段音高进行平滑化，通常是使用「中位数滤波器」（Median Filters）。</br>
+</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<p>在切音框的过程中，我们允许左右音框的重叠，因此，我们定义「音框率」（Frame Rate）是每秒钟所出现的音框个数，如果取样频率是11025，音框长度是256 点，
+重叠点数是84，那么音框率就是11025/(256-84) = 64，换句话说，我们的电脑要能够每秒钟处理64 个音框，才能达到实时处理的要求。如下图所示：
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013052901.png"></center>
+</p>
+
+
+
+
+<p>我们让音框重叠的目地，只是希望相邻音框之间的变化不会太大，使抓出来的音高曲线更具有连续性。但是在实际应用时，音框的重叠也不能太大，
+否则会造成计算量的过大。一般有以下考虑：</br>
+·音框长度至少必须包含2 个基本周期以上，才能显示语音的特性。已知人声的音高范围大约在50 Hz 至1000 Hz 之间，因此对于一个的取样频率，我们就可以计算出
+音框长度的最小值。例如，若取样频率fs = 8000 Hz，那么当音高f = 50 Hz（例如男低音的歌声）时，每个基本周期的点数是fs/f = 8000/50 = 160，因此音框必须
+至少是320 点；若音高是1000 Hz（例如女高音的歌声）时，每个基本周期的点数是8000/1000 = 8，因此音框必须至少是16 点。</br>
+·音框长度也不能太大，太长的音框无法抓到音讯的特性随时间而变化的细微现象，同时计算量也会变大。</br>
+·音框之间的重叠完全是看计算机的运算能力来决定，若重叠多，音框率就会变大，计算量就跟着变大。若重叠少（甚至可以不重叠或跳点），音框率就会变小，
+计算量也跟着变小。</p>
+
+
+
+
+<h2>3.音高追踪算法</h2>
+
+
+<h4>3.1概述</h4>
+
+
+<p>由一个音框计算出音高的方法很多，可以分为时域和频域两大类：</br>
+<b>时域（Time Domain）</b></br>
+·ACF: Autocorrelation function，自相关函数</br>
+·AMDF: Average magnitude difference function，平均强度差分函数</br>
+·SIFT: Simple inverse filter tracking</br>
+<b>频域（Frequency Domain）</b></br>
+·Harmonic product spectrum method</br>
+·Cepstrum method</p>
+
+
+
+
+<h4>3.2 ACF自相关函数</h4>
+
+
+<p>首先，我们来看看ACF(Auto-Correlation Function，自相关函数)的概念。要计算音高，就得找出波形中的周期性，自相关函数的目的就是估算语音信号当前
+帧与它的下一帧的相似性，其定义如下：
+<center>$acf(\tau) = \sum_{i=0}^{n-1-\tau}s(i)s(i+\tau)$</center>
+其中$\tau$是一个延迟的时间间隔。在某个区间使得$acf(\tau)$取得最大值的那个$\tau$值就选为pitch的起止点，如下图所示：
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013052902.png"></center>
+也就是说，我们将原始语音信号与其平移延迟信号的重叠（时间上重叠）部分进行内积运算，从而得到ACF。下面看一个具体的实例，其代码如下：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import wave
+</span><span class='line'>import numpy as np
+</span><span class='line'>import pylab as pl
+</span><span class='line'>
+</span><span class='line'>def ACF(frame):
+</span><span class='line'>    flen = len(frame)
+</span><span class='line'>    acf = np.zeros(flen)
+</span><span class='line'>    for i in range(flen):
+</span><span class='line'>        acf[i] = np.sum(frame[i:flen]*frame[0:flen-i])
+</span><span class='line'>    return acf
+</span><span class='line'>
+</span><span class='line'># ============ test the algorithm =============
+</span><span class='line'># read wave file and get parameters.
+</span><span class='line'>fw = wave.open('a.wav','rb')
+</span><span class='line'>params = fw.getparams()
+</span><span class='line'>print(params)
+</span><span class='line'>nchannels, sampwidth, framerate, nframes = params[:4]
+</span><span class='line'>strData = fw.readframes(nframes)
+</span><span class='line'>waveData = np.fromstring(strData, dtype=np.int16)
+</span><span class='line'>waveData = waveData*1.0/max(abs(waveData))  # normalization
+</span><span class='line'>fw.close()
+</span><span class='line'>
+</span><span class='line'># plot the wave
+</span><span class='line'>time = np.arange(0, len(waveData)) * (1.0 / framerate)
+</span><span class='line'>
+</span><span class='line'>frameSize = 512
+</span><span class='line'>idx1 = 10000
+</span><span class='line'>idx2 = idx1+frameSize
+</span><span class='line'>index1 = idx1*1.0 / framerate
+</span><span class='line'>index2 = idx2*1.0 / framerate
+</span><span class='line'>acf = ACF(waveData[idx1:idx2])
+</span><span class='line'>#acf[0:10] = -acf[0]
+</span><span class='line'>#acfmax = np.argmax(acf)
+</span><span class='line'>#print(acfmax)
+</span><span class='line'>#print(framerate*1.0/acfmax)
+</span><span class='line'>
+</span><span class='line'>pl.subplot(311)
+</span><span class='line'>pl.plot(time, waveData)
+</span><span class='line'>pl.plot([index1,index1],[-1,1],'r')
+</span><span class='line'>pl.plot([index2,index2],[-1,1],'r')
+</span><span class='line'>pl.xlabel("time (seconds)")
+</span><span class='line'>pl.ylabel("Amplitude")
+</span><span class='line'>
+</span><span class='line'>pl.subplot(312)
+</span><span class='line'>pl.plot(np.arange(frameSize),waveData[idx1:idx2],'r')
+</span><span class='line'>pl.xlabel("index in 1 frame")
+</span><span class='line'>pl.ylabel("Amplitude")
+</span><span class='line'>
+</span><span class='line'>pl.subplot(313)
+</span><span class='line'>pl.plot(np.arange(frameSize),acf,'g')
+</span><span class='line'>pl.xlabel("index in 1 frame")
+</span><span class='line'>pl.ylabel("ACF")
+</span><span class='line'>pl.show()</span></code></pre></td></tr></table></div></figure>
+
+程序运行结果如下图所示：
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013052903.png"></center>
+</p>
+
+
+
+
+<p>很显然，ACF的最大值出现在第一点，这一点作为起点在任何情况下都是已知的，我们需要知道是第二个波峰。我们可以将开始的一些点的ACF值设为负无穷（这里我
+设为-acf[0]），这样可以找到第二个波峰的index为110（这一点称为pitch point，简称pp），那么对应的pitch为framerate/110 = 16000/110 = 145.455Hz.这个过程取消
+程序中第32行起的4行注释即可。这样，我们就初步自动计算出了pitch了。</p>
+
+
+
+
+<p>但是，细心的读者会发现，这里还有一个问题，那就是ACF曲线中前多少个点应该被置为负无穷？为简单起见，设人的pitch的范围为[40,1000](Hz)，那么pp的值应满足为：
+$40 < \frac{fs}{pp} < 1000$，从而得到pp的范围：$\frac{fs}{1000} < pp < \frac{fs}{40}$。这样可以部分解决问题，对于某些情况可能结果并不一定正确。</p>
+
+<p>另外还有一些对ACF的改进。一个主要的改进原因是，当$\tau$值变大是，两端信号的重叠部分逐渐变小，这样计算出来的ACF当然越来越小。一种改进是增加一个权值：
+<center>$acf(\tau) = \sum_{i=0}^{n-1-\tau} \frac{s(i)s(i+\tau)}{n-\tau}$.</center>
+这种方法虽然解决了上面提到的问题，但又引入了一个新的问题，那就是，在$\tau$值较大时，计算出来的acf和pitch的差异可能很大，也即出现了不稳定。另一种改进是，
+将$\tau$限制在半帧内，也即：
+<center>$acf(\tau) = \sum_{i=0}^{n/2}s(i)s(i+\tau)$.</center>
+但这样得到的acf只有一帧的一半，对于音高较低的信号就不利了，这时我们就得增大帧的长度，于是计算量也相应的增加了。</p>
+
+<h4>3.3 NSDF</h4>
+<p>ACF的范围是未知的，NSDF(normalized squared difference function)将ACF规整到[-1,1]之间，其定义的表达式如下：
+<center>$nsdf(\tau) = \frac{2\sum s(i)s(i+\tau)}{\sum s^{2}(i) + \sum s^{2}(i+\tau)}$.</center>
+</p>
+
+<h4>3.4 AMDF</h4>
+<p>AMDF (average magnitude difference function) 的定义如下：
+<center>$amdf(\tau) = \sum_{i=0}^{n-1-\tau}|s(i)-s(i+\tau)|$.</center>
+与ACF相反，这里用距离而不是相似度来计算，所以这里选取pitch point(简称pp)的标准是选最小值对应的index(实际代码中，为了与ACF进行统一，我对AMDF取了相反数)。
+相应的，也有一些对AMDF这个函数的修正，如加权值、只是用前半帧等，另外还可以将AMDF与ACF结合，将ACF除以AMDF，得到的结果可以更容易找到pitch point。
+</p>
+
+<h4>3.5 Pitch Tracking</h4>
+<p>能够正确计算pitch了，我们就可以对一段时序的信号进行pitch tracking了。</p>
+
+<p>PS：另外，还有一些频域的音高追踪方法，将在后续文章中介绍。</p>
+
+<h2>4.参考资料</h2>
+<p>[1]Audio Signal Processing and Recognition, Chap 7: http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/index.asp
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[大白鼠听人话]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/05/24/cctv-news-rat-understand-what-human-says/"/>
+    <updated>2013-05-24T22:59:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/05/24/cctv-news-rat-understand-what-human-says</id>
+    <content type="html"><![CDATA[<p>最近一直忙着准备给媒体展示的音控大鼠机器人一不小心上了CCTV了，虽然自己感觉没什么了不起的，也不知道网络上是什么评论。
+但既然上了CCTV，还是发博纪念一下吧</p>
+
+
+
+
+<p>央视新闻视频链接：<a href="http://tv.cntv.cn/vodplay/e58c8785e00a4ead9b83dfae5b53f12a/860010-1102010100">浙江杭州最新科研成果：大白鼠听人话</a>
+真没想到自己居然正面出境这么长时间。</p>
+
+
+
+
+<p>杭州日报的记者写的新闻还挺生动的：<a href="http://hzdaily.hangzhou.com.cn/hzrb/html/2013-05/24/content_1501396.htm">“嫁接”了机器视觉的大白鼠在沙盘迷宫中寻觅阿汤哥的照片</a></p>
+
+
+
+
+<p>PS：感谢CCTV，感谢杭州日报，感谢ZJU，感谢CCNT，感谢各位老师和同学，感谢生仪的给大鼠做开颅手术的两位mm，感谢各位在微博帮忙宣传和转发的各位同学！</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[语音信号处理之时域分析-端点检测及Python实现]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/05/22/audio-signal-processing-time-domain-Voice-Activity-Detection/"/>
+    <updated>2013-05-22T22:22:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/05/22/audio-signal-processing-time-domain-Voice-Activity-Detection</id>
+    <content type="html"><![CDATA[<h2>端点检测</h2>
+
+
+<p>端点检测（End-Point Detection，EPD）的目标是要决定信号的语音开始和结束的位置，所以又可以称为Speech Detection或Voice Activity Detection（VAD）。
+端点检测在语音预处理中扮演着一个非常重要的角色。</p>
+
+
+
+
+<p>常见的端点检测方法大致可以分为如下两类：</br>
+（1）时域（Time Domain）的方法：计算量比较小，因此比较容易移植到计算能力较差的嵌入式平台</br>
+（a）音量：只使用音量来进行端检，是最简单的方法，但是容易对清音造成误判。另外，不同的音量计算方法得到的结果也不尽相同，至于那种方法更好也没有定论。</br>
+（b）音量和过零率：以音量为主，过零率为辅，可以对清音进行较精密的检测。</br>
+（2）频域（Frequency Domain）的方法：计算量相对较大。</br>
+（a）频谱的变化性（Variance）：有声音的频谱变化较规律，可以作为一个判断标准。</br>
+（b）频谱的Entropy：有规律的频谱的Entropy一般较小，这也可以作为一个端检的判断标准。
+</p>
+
+
+
+
+<p>下面我们分别从这两个方面来探讨端检的具体方法和过程。</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<h2>时域的端检方法</h2>
+
+
+<p>时域的端检方法分为只用音量的方法和同时使用音量和过零率的方法。只使用音量的方法最简单计算量也最小，我们只需要设定一个音量阈值，任何音量小于该阈值的帧
+被认为是静音（silence）。这种方法的关键在于如何选取这个阈值，一种常用的方法是使用一些带标签的数据来训练得到一个阈值，使得误差最小。</p>
+
+
+
+
+<p>下面我们来看看最简单的、不需要训练的方法，其代码如下：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import wave
+</span><span class='line'>import numpy as np
+</span><span class='line'>import matplotlib.pyplot as plt
+</span><span class='line'>import Volume as vp
+</span><span class='line'>
+</span><span class='line'>def findIndex(vol,thres):
+</span><span class='line'>    l = len(vol)
+</span><span class='line'>    ii = 0
+</span><span class='line'>    index = np.zeros(4,dtype=np.int16)
+</span><span class='line'>    for i in range(l-1):
+</span><span class='line'>        if((vol[i]-thres)*(vol[i+1]-thres)&lt;0):
+</span><span class='line'>            index[ii]=i
+</span><span class='line'>            ii = ii+1
+</span><span class='line'>    return index[[0,-1]]
+</span><span class='line'>
+</span><span class='line'>fw = wave.open('sunday.wav','r')
+</span><span class='line'>params = fw.getparams()
+</span><span class='line'>nchannels, sampwidth, framerate, nframes = params[:4]
+</span><span class='line'>strData = fw.readframes(nframes)
+</span><span class='line'>waveData = np.fromstring(strData, dtype=np.int16)
+</span><span class='line'>waveData = waveData*1.0/max(abs(waveData))  # normalization
+</span><span class='line'>fw.close()
+</span><span class='line'>
+</span><span class='line'>frameSize = 256
+</span><span class='line'>overLap = 128
+</span><span class='line'>vol = vp.calVolume(waveData,frameSize,overLap)
+</span><span class='line'>threshold1 = max(vol)*0.10
+</span><span class='line'>threshold2 = min(vol)*10.0
+</span><span class='line'>threshold3 = max(vol)*0.05+min(vol)*5.0
+</span><span class='line'>
+</span><span class='line'>time = np.arange(0,nframes) * (1.0/framerate)
+</span><span class='line'>frame = np.arange(0,len(vol)) * (nframes*1.0/len(vol)/framerate)
+</span><span class='line'>index1 = findIndex(vol,threshold1)*(nframes*1.0/len(vol)/framerate)
+</span><span class='line'>index2 = findIndex(vol,threshold2)*(nframes*1.0/len(vol)/framerate)
+</span><span class='line'>index3 = findIndex(vol,threshold3)*(nframes*1.0/len(vol)/framerate)
+</span><span class='line'>end = nframes * (1.0/framerate)
+</span><span class='line'>
+</span><span class='line'>plt.subplot(211)
+</span><span class='line'>plt.plot(time,waveData,color="black")
+</span><span class='line'>plt.plot([index1,index1],[-1,1],'-r')
+</span><span class='line'>plt.plot([index2,index2],[-1,1],'-g')
+</span><span class='line'>plt.plot([index3,index3],[-1,1],'-b')
+</span><span class='line'>plt.ylabel('Amplitude')
+</span><span class='line'>
+</span><span class='line'>plt.subplot(212)
+</span><span class='line'>plt.plot(frame,vol,color="black")
+</span><span class='line'>plt.plot([0,end],[threshold1,threshold1],'-r', label="threshold 1")
+</span><span class='line'>plt.plot([0,end],[threshold2,threshold2],'-g', label="threshold 2")
+</span><span class='line'>plt.plot([0,end],[threshold3,threshold3],'-b', label="threshold 3")
+</span><span class='line'>plt.legend()
+</span><span class='line'>plt.ylabel('Volume(absSum)')
+</span><span class='line'>plt.xlabel('time(seconds)')
+</span><span class='line'>plt.show()</span></code></pre></td></tr></table></div></figure>
+
+其中计算音量的函数calVolume参见<a href="http://ibillxia.github.io/blog/2013/05/15/audio-signal-process-time-domain-volume-python-realization/">
+音量及其Python实现</a>一文。程序的运行结果如下图：
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013052201.png"></center>
+</p>
+
+
+
+
+<p>这里采用了三种设置阈值的方法，但这几种设置方法对所有的输入都是相同的，对于一些特定的语音数据可能得不到很好的结果，比如杂音较强、清音较多或音量
+变化较大等语音信号，此时单一阈值的方法的效果就不太好了，虽然我们可以通过增加帧与帧之间的重叠部分，但相对而言计算量会比较大。下面我们利用一些更多的
+特征来进行端点加测，例如使用过零率等信息，其过程如下：</br>
+（1）以较高音量阈值($\tau _{u}$)为标准，找到初步的端点；</br>
+（2）将端点前后延伸到低音量阈值($\tau _{l}$)处；</br>
+（3）再将端点前后延伸到过零率阈值($\tau _{zc}$)处，以包含语音中清音的部分。</br>
+这种方法需要确定三个阈值($\tau _{u}$,$\tau _{l}$,$\tau _{zc}$)，可以用各种搜寻方法来调整这三个参数。其示意图(参考[1])如下：
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013052202.png"></center>
+我们在同一个图中绘制出音量和过零率的阈值图如下：
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013052203.png"></center>
+可以看到我们可以通过过零率的阈值来把错分的清音加入到语音部分来。上图使用到的阈值还是和音量的阈值选取方法相同，比较简单直接。
+</p>
+
+
+
+
+<p>另外，我们还可以连续对波形进行微分，再计算音量，这样就可以凸显清音的部分，从而将其正确划分出来，详见参考[1]。</p>
+
+
+
+
+<h2>频域的端检方法</h2>
+
+
+<p>有声音的信号在频谱上会有重复的谐波结构，因此我们也可以使用频谱的变化性（Variation）或Entropy来进行端点检测，可以参见如下链接：
+http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/paper/endPointDetection/</p>
+
+
+
+
+<p>总之，端点检测是语音预处理的重头戏，其实现方法也是五花八门，本文只给出了最简单最原始也最好理解的几种方法，这些方法要真正做到实用，还需要针对一些
+特殊的情况在做一些精细的设置和处理，但对于一般的应用场景应该还是基本够用的。</p>
+
+
+
+
+<h2>参考（References）</h2>
+
+
+<p>
+[1]EPD in Time Domain: http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/epdTimeDomain.asp?title=6-2%20EPD%20in%20Time%20Domain</br>
+[2]EPD in Frequency Domain: http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/epdFreqDomain.asp?title=6-3%20EPD%20in%20Frequency%20Domain
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[语音信号处理之时域分析-音色及其Python实现]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/05/18/audio-signal-processing-time-domain-timbre-python-realization/"/>
+    <updated>2013-05-18T21:57:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/05/18/audio-signal-processing-time-domain-timbre-python-realization</id>
+    <content type="html"><![CDATA[<h2>音色（Timbre）</h2>
+
+
+<p>音色是一个很模糊的概念，它泛指语音的内容，例如“天书”这两个字的发音，虽然都是一声（即他们的音高应该是相同或接近的），
+但由于音色不同，我们可以分辨这两个音。直觉而言，音色的不同，意味着基本波形的不同，因此我们可以用基本周期的波形来代表音色。
+</p>
+
+
+
+
+<p>若要从基本周期的波形来直接分析音色是一件很困难的事情。通常我们的做法是将每一个帧进行频谱分析（Spectral Analysis），算出一个
+帧如何分解为不同频率的分量，然后才能进行对比或分析。在频谱分析中，最常用的方法就是快速傅里叶变换（Fast Fourier Transform，FFT），
+这是一个相当常用的方法，可以讲在时域（Time Domain）的信号转换成频域（Frequency Domain）的信号，并进而知道每个频率的信号强度。</p>
+
+
+
+
+<p>语谱图（Spectrogram）就是语音频谱图，一般是通过处理接收的时域信号得到频谱图，因此只要有足够时间长度的时域信号就可以(时间长度
+为保证频率分辨率)。专业点讲，语谱图就是频谱分析视图，如果针对语音数据的话，叫语谱图。语谱图的横坐标是时间，纵坐标是频率，坐标点
+值为语音数据能量，因而语谱图很好的表达了语音的音色随时间变化的趋势。有些经验丰富的人能够通过看语谱图而知道对应的语音信号的内容，
+这种技术成为Spectrogram Reading。</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<h2>Python绘制语谱图</h2>
+
+
+<p>如果是用Matlab，绘制语谱图并不难，网上资料也一堆一堆的。但是，如果要想用Python来绘制呢？网上相关资料很少很少，万幸中找到了参考[4]，
+但是，[4]中提供的程序是不能运行的，还需要安装几个库，特别是Audiolab这个，折腾了我好半天，最终安装了，但运行时发现这个audiolab根本无法
+import进来，因为ms与numpy的版本有冲突，出现了什么“numpy.dtype does not appear to be the correct type object”，弄了好半天也没有解决，
+后来才发现其实不需要audiolab也可以的，因为其实audiolab只是读取不同格式（扩展名）的语音文件的一个lib而已，并不涉及到绘制语谱图的东西。</p>
+
+
+
+
+<p>
+闲话少说了，上代码吧，其实看看这代码也挺简单的，就调一个matplotlib.pyplot.specgram()就可以了。
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import wave
+</span><span class='line'>import numpy as np
+</span><span class='line'>import matplotlib.pyplot as plt
+</span><span class='line'>
+</span><span class='line'>fw = wave.open('aeiou.wav','r')
+</span><span class='line'>soundInfo = fw.readframes(-1)
+</span><span class='line'>soundInfo = np.fromstring(soundInfo,np.int16)
+</span><span class='line'>f = fw.getframerate()
+</span><span class='line'>fw.close()
+</span><span class='line'>
+</span><span class='line'>plt.subplot(211)
+</span><span class='line'>plt.plot(soundInfo)
+</span><span class='line'>plt.ylabel('Amplitude')
+</span><span class='line'>plt.title('Wave from and spectrogram of aeiou.wav')
+</span><span class='line'>
+</span><span class='line'>plt.subplot(212)
+</span><span class='line'>plt.specgram(soundInfo,Fs = f, scale_by_freq = True, sides = 'default')
+</span><span class='line'>plt.ylabel('Frequency')
+</span><span class='line'>plt.xlabel('time(seconds)')
+</span><span class='line'>plt.show()</span></code></pre></td></tr></table></div></figure>
+
+</p>
+
+
+
+
+<p>程序运行的效果如下图：
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013051801.png"></center>
+虽然程序简单，但还有一些小bug，比如subplot(212)的xlabel和ylabel无法显示，这个问题暂时还没有解决。（更新：这个问题已解决，把mpp.show()放到
+最后一行就可以了，顺便图也更新了）</p>
+
+
+
+
+<p>另外，就是关于这个语谱图具体是如何绘制的，这一点涉及到FFT和短时能量的计算，短时能量在<a href="">前文中</a>
+已经讲过了，这里不再赘述。关于FFT将在后续文章中讨论。</p>
+
+
+
+
+<h2>参考（References）</h2>
+
+
+<p>
+[1]Timbre (音色): http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/basicFeatureTimber.asp?title=5-5</br>
+[2]Wiki - 音色: http://zh.wikipedia.org/wiki/音色</br>
+[3]语谱图： http://blog.csdn.net/wuxiaoer717/article/details/6941339</br>
+[4]How to plot spectrogram with Python：http://jaganadhg.freeflux.net/blog/archive/2009/07/23/how-to-plot-spectrogram-with-python.html
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[语音信号处理之时域分析-音高及其Python实现]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/05/16/audio-signal-processing-time-domain-pitch-python-realization/"/>
+    <updated>2013-05-16T23:10:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/05/16/audio-signal-processing-time-domain-pitch-python-realization</id>
+    <content type="html"><![CDATA[<h2>音高（Pitch）</h2>
+
+
+<p>概念：音高（Pitch）是语音信号的一个很重要的特征，直觉上而言它表示声音频率的高低，这个频率是指基本频率（基频），也即基本周期的倒数。
+若直接观察语音的波形，只要语音信号稳定，我们可以很容易的看出基本周期的存在。例如我们取一个包含256个采样点的帧，单独绘制波形图，就可以明显的
+看到它的基本周期。如下图所示：
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013051601.png"></center>
+其中最上面的波形为|a|的发音，中间的为上图中红色双竖线（位于语音区）所对应的帧的具体波形，而最下面的是上图中绿色双竖线（位于静音区）所
+对应的帧的具体波形。很容易看到中间的波形具有明显的周期性。
+</p>
+
+
+<!--more-->
+
+
+<p>其代码如下：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import wave
+</span><span class='line'>import numpy as np
+</span><span class='line'>import pylab as pl
+</span><span class='line'>
+</span><span class='line'># ============ test the algorithm =============
+</span><span class='line'># read wave file and get parameters.
+</span><span class='line'>fw = wave.open('a.wav','rb')
+</span><span class='line'>params = fw.getparams()
+</span><span class='line'>print(params)
+</span><span class='line'>nchannels, sampwidth, framerate, nframes = params[:4]
+</span><span class='line'>strData = fw.readframes(nframes)
+</span><span class='line'>waveData = np.fromstring(strData, dtype=np.int16)
+</span><span class='line'>waveData = waveData*1.0/max(abs(waveData))  # normalization
+</span><span class='line'>fw.close()
+</span><span class='line'>
+</span><span class='line'># plot the wave
+</span><span class='line'>time = np.arange(0, len(waveData)) * (1.0 / framerate)
+</span><span class='line'>
+</span><span class='line'>index1 = 10000.0 / framerate
+</span><span class='line'>index2 = 10512.0 / framerate
+</span><span class='line'>index3 = 15000.0 / framerate
+</span><span class='line'>index4 = 15512.0 / framerate
+</span><span class='line'>
+</span><span class='line'>pl.subplot(311)
+</span><span class='line'>pl.plot(time, waveData)
+</span><span class='line'>pl.plot([index1,index1],[-1,1],'r')
+</span><span class='line'>pl.plot([index2,index2],[-1,1],'r')
+</span><span class='line'>pl.plot([index3,index3],[-1,1],'g')
+</span><span class='line'>pl.plot([index4,index4],[-1,1],'g')
+</span><span class='line'>pl.xlabel("time (seconds)")
+</span><span class='line'>pl.ylabel("Amplitude")
+</span><span class='line'>
+</span><span class='line'>pl.subplot(312)
+</span><span class='line'>pl.plot(np.arange(512),waveData[10000:10512],'r')
+</span><span class='line'>pl.plot([59,59],[-1,1],'b')
+</span><span class='line'>pl.plot([169,169],[-1,1],'b')
+</span><span class='line'>print(1/( (169-59)*1.0/framerate ))
+</span><span class='line'>pl.xlabel("index in 1 frame")
+</span><span class='line'>pl.ylabel("Amplitude")
+</span><span class='line'>
+</span><span class='line'>pl.subplot(313)
+</span><span class='line'>pl.plot(np.arange(512),waveData[15000:15512],'g')
+</span><span class='line'>pl.xlabel("index in 1 frame")
+</span><span class='line'>pl.ylabel("Amplitude")
+</span><span class='line'>pl.show()</span></code></pre></td></tr></table></div></figure>
+
+</p>
+
+
+
+
+<p>根据参考[1]，可以通过观察一帧的波形图来计算基音频率（感觉这种方法有点奇葩，不过很直观。例如这里的基频为：1/( (169-59)*1.0/framerate )=145.45Hz），
+然后还可以计算半音（semitone，可以参见[2]），进而得到pitch与semitone的关系。[1]中还提到了钢琴的半音差，DS表示完全看不懂啊，有木有！！！</p>
+
+
+
+
+<p>参考[2]中还简单介绍了如何改变音高、扩展音域，以及如何改变乐器的振动的弦的音高（通过改变弦长、张力、密度等），感兴趣的可以看看。</p>
+
+
+
+
+<p>另外，由于生理结构的差异，男女性的音高范围不尽相同，一般而言：</br>
+·男性的音高范围是35~72半音，对应的频率范围是62~523Hz；</br>
+·女性的音高范围是45~83半音，对应的频率范围是110~1000Hz。</br>
+然而，我们分辨男女的声音并不是只根据音高，还要根据音色（也即共振峰，下一篇文章中将详细介绍）。
+</p>
+
+
+
+
+<p>关于音高的计算，目前有很多种算法，具体将会在后续文章中详细介绍。</p>
+
+
+
+
+<h2>参考（References）</h2>
+
+
+<p>
+[1]Pitch (音高): http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/basicFeaturePitch.asp</br>
+[2]Wiki： http://zh.wikipedia.org/wiki/音高
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[语音信号处理之时域分析-过零率及其Python实现]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/05/15/audio-signal-processing-time-domain-ZeroCR-python-realization/"/>
+    <updated>2013-05-15T21:44:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/05/15/audio-signal-processing-time-domain-ZeroCR-python-realization</id>
+    <content type="html"><![CDATA[<h2>过零率（Zero Crossing Rate）</h2>
+
+
+<p>概念：过零率（Zero Crossing Rate，ZCR）是指在每帧中，语音信号通过零点（从正变为负或从负变为正）的次数。
+这个特征已在语音识别和音乐信息检索领域得到广泛使用，是对敲击的声音的分类的关键特征。</p>
+
+
+
+
+<p>ZCR的数学形式化定义为：
+<center>$zcr = \frac{1}{T-1}\sum_{t=1}^{T-1}\pi\{s_{t}s_{t-1}<0\}$.</center>
+其中$s$是采样点的值，$T$为帧长，函数$\pi\{A\}$在A为真是值为1，否则为0.
+</p>
+
+
+
+
+<p>特性：</br>
+(1).一般而言，清音（unvoiced sound）和环境噪音的ZCR都大于浊音（voiced sound）；</br>
+(2).由于清音和环境噪音的ZCR大小相近，因而不能够通过ZCR来区分它们；</br>
+(3).在实际当中，过零率经常与短时能量特性相结合来进行端点检测，尤其是ZCR用来检测清音的起止点；</br>
+(4).有时也可以用ZCR来进行粗略的基频估算，但这是非常不可靠的，除非有后续的修正（refine）处理过程。
+</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<h2>ZCR的Python实现</h2>
+
+
+<p>ZCR的Python实现如下：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import math
+</span><span class='line'>import numpy as np
+</span><span class='line'>
+</span><span class='line'>def ZeroCR(waveData,frameSize,overLap):
+</span><span class='line'>    wlen = len(waveData)
+</span><span class='line'>    step = frameSize - overLap
+</span><span class='line'>    frameNum = math.ceil(wlen/step)
+</span><span class='line'>    zcr = np.zeros((frameNum,1))
+</span><span class='line'>    for i in range(frameNum):
+</span><span class='line'>        curFrame = waveData[np.arange(i*step,min(i*step+frameSize,wlen))]
+</span><span class='line'>        #To avoid DC bias, usually we need to perform mean subtraction on each frame
+</span><span class='line'>        #ref: http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/basicFeatureZeroCrossingRate.asp
+</span><span class='line'>        curFrame = curFrame - np.mean(curFrame) # zero-justified
+</span><span class='line'>        zcr[i] = sum(curFrame[0:-1]*curFrame[1::]&lt;=0)
+</span><span class='line'>    return zcr</span></code></pre></td></tr></table></div></figure>
+
+</p>
+
+
+
+
+<p>对于给定语音文件aeiou.wav，利用上面的函数计算ZCR的代码如下：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import math
+</span><span class='line'>import wave
+</span><span class='line'>import numpy as np
+</span><span class='line'>import pylab as pl
+</span><span class='line'>
+</span><span class='line'># ============ test the algorithm =============
+</span><span class='line'># read wave file and get parameters.
+</span><span class='line'>fw = wave.open('aeiou.wav','rb')
+</span><span class='line'>params = fw.getparams()
+</span><span class='line'>print(params)
+</span><span class='line'>nchannels, sampwidth, framerate, nframes = params[:4]
+</span><span class='line'>str_data = fw.readframes(nframes)
+</span><span class='line'>wave_data = np.fromstring(str_data, dtype=np.short)
+</span><span class='line'>wave_data.shape = -1, 1
+</span><span class='line'>#wave_data = wave_data.T
+</span><span class='line'>fw.close()
+</span><span class='line'>
+</span><span class='line'># calculate Zero Cross Rate
+</span><span class='line'>frameSize = 256
+</span><span class='line'>overLap = 0
+</span><span class='line'>zcr = ZeroCR(wave_data,frameSize,overLap)
+</span><span class='line'>
+</span><span class='line'># plot the wave
+</span><span class='line'>time = np.arange(0, len(wave_data)) * (1.0 / framerate)
+</span><span class='line'>time2 = np.arange(0, len(zcr)) * (len(wave_data)/len(zcr) / framerate)
+</span><span class='line'>pl.subplot(211)
+</span><span class='line'>pl.plot(time, wave_data)
+</span><span class='line'>pl.ylabel("Amplitude")
+</span><span class='line'>pl.subplot(212)
+</span><span class='line'>pl.plot(time2, zcr)
+</span><span class='line'>pl.ylabel("ZCR")
+</span><span class='line'>pl.xlabel("time (seconds)")
+</span><span class='line'>pl.show()</span></code></pre></td></tr></table></div></figure>
+
+</p>
+
+
+
+
+<p>运行以上程序得到下图：
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013051502.png"></center>
+</p>
+
+
+
+
+<h2>参考（References）</h2>
+
+
+<p>
+[1]Zero Crossing Rate (過零率): http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/basicFeatureZeroCrossingRate.asp?title=5-3%20Zero%20Crossing%20Rate%20(%B9L%B9s%B2v)&language=english</br>
+[2]Wiki: http://zh.wikipedia.org/zh/过零率
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[语音信号处理之时域分析-音量及其Python实现]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/05/15/audio-signal-process-time-domain-volume-python-realization/"/>
+    <updated>2013-05-15T19:36:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/05/15/audio-signal-process-time-domain-volume-python-realization</id>
+    <content type="html"><![CDATA[<h2>1.概述（Introduction）</h2>
+
+
+<p>本系列文主要介绍语音信号时域的4个基本特征及其Python实现，这4个基本特征是：</br>
+(1)音量（Volume）；</br>
+(2)过零率（Zero-Crossing-Rate）；</br>
+(3)音高（Pitch）；</br>
+(4)音色（Timbre）。
+</p>
+
+
+
+
+<h2>2.音量（Volume）</h2>
+
+
+<p>音量代表声音的强度，可由一个窗口或一帧内信号振幅的大小来衡量，一般有两种度量方法：</br>
+（1）每个帧的振幅的绝对值的总和：
+<center>$volume = \sum_{i=1}^{n}|s_{i}|$.</center>
+其中$s_{i}$为第该帧的$i$个采样点，$n$为该帧总的采样点数。这种度量方法的计算量小，但不太符合人的听觉感受。</br>
+（2）幅值平方和的常数对数的10倍：
+<center>$volume = 10 * log_{10}\sum_{i=1}^{n}s_{i}^{2}$.</center>
+它的单位是分贝（Decibels），是一个对数强度值，比较符合人耳对声音大小的感觉，但计算量稍复杂。
+</p>
+
+
+<!--more-->
+
+
+<p>音量计算的Python实现如下：</p>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import math
+</span><span class='line'>import numpy as np
+</span><span class='line'>
+</span><span class='line'># method 1: absSum
+</span><span class='line'>def calVolume(waveData, frameSize, overLap):
+</span><span class='line'>    wlen = len(waveData)
+</span><span class='line'>    step = frameSize - overLap
+</span><span class='line'>    frameNum = int(math.ceil(wlen*1.0/step))
+</span><span class='line'>    volume = np.zeros((frameNum,1))
+</span><span class='line'>    for i in range(frameNum):
+</span><span class='line'>        curFrame = waveData[np.arange(i*step,min(i*step+frameSize,wlen))]
+</span><span class='line'>        curFrame = curFrame - np.median(curFrame) # zero-justified
+</span><span class='line'>        volume[i] = np.sum(np.abs(curFrame))
+</span><span class='line'>    return volume
+</span><span class='line'>
+</span><span class='line'># method 2: 10 times log10 of square sum
+</span><span class='line'>def calVolumeDB(waveData, frameSize, overLap):
+</span><span class='line'>    wlen = len(waveData)
+</span><span class='line'>    step = frameSize - overLap
+</span><span class='line'>    frameNum = int(math.ceil(wlen*1.0/step))
+</span><span class='line'>    volume = np.zeros((frameNum,1))
+</span><span class='line'>    for i in range(frameNum):
+</span><span class='line'>        curFrame = waveData[np.arange(i*step,min(i*step+frameSize,wlen))]
+</span><span class='line'>        curFrame = curFrame - np.mean(curFrame) # zero-justified
+</span><span class='line'>        volume[i] = 10*np.log10(np.sum(curFrame*curFrame))
+</span><span class='line'>    return volume</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p>对于给定语音文件aeiou.wav，利用上面的函数计算音量曲线的代码如下：</p>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import wave
+</span><span class='line'>import pylab as pl
+</span><span class='line'>import numpy as np
+</span><span class='line'>import Volume as vp
+</span><span class='line'>
+</span><span class='line'># ============ test the algorithm =============
+</span><span class='line'># read wave file and get parameters.
+</span><span class='line'>fw = wave.open('aeiou.wav','r')
+</span><span class='line'>params = fw.getparams()
+</span><span class='line'>print(params)
+</span><span class='line'>nchannels, sampwidth, framerate, nframes = params[:4]
+</span><span class='line'>strData = fw.readframes(nframes)
+</span><span class='line'>waveData = np.fromstring(strData, dtype=np.int16)
+</span><span class='line'>waveData = waveData*1.0/max(abs(waveData))  # normalization
+</span><span class='line'>fw.close()
+</span><span class='line'>
+</span><span class='line'># calculate volume
+</span><span class='line'>frameSize = 256
+</span><span class='line'>overLap = 128
+</span><span class='line'>volume11 = vp.calVolume(waveData,frameSize,overLap)
+</span><span class='line'>volume12 = vp.calVolumeDB(waveData,frameSize,overLap)
+</span><span class='line'>
+</span><span class='line'># plot the wave
+</span><span class='line'>time = np.arange(0, nframes)*(1.0/framerate)
+</span><span class='line'>time2 = np.arange(0, len(volume11))*(frameSize-overLap)*1.0/framerate
+</span><span class='line'>pl.subplot(311)
+</span><span class='line'>pl.plot(time, waveData)
+</span><span class='line'>pl.ylabel("Amplitude")
+</span><span class='line'>pl.subplot(312)
+</span><span class='line'>pl.plot(time2, volume11)
+</span><span class='line'>pl.ylabel("absSum")
+</span><span class='line'>pl.subplot(313)
+</span><span class='line'>pl.plot(time2, volume12, c="g")
+</span><span class='line'>pl.ylabel("Decibel(dB)")
+</span><span class='line'>pl.xlabel("time (seconds)")
+</span><span class='line'>pl.show()</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p>运行以上程序得到下图：
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013051501.png"></center>
+</p>
+
+
+
+
+<h2>参考（References）</h2>
+
+
+<p>[1]Volume (音量):http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/basicFeatureVolume.asp?title=5-2%20Volume%20(%AD%B5%B6q)</br>
+[2]用Python做科学计算-声音的输入输出:http://hyry.dip.jp:8000/pydoc/wave_pyaudio.html</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[语音信号处理基础学习笔记之时域处理]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/05/08/speech-processing-in-time-domain/"/>
+    <updated>2013-05-08T23:13:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/05/08/speech-processing-in-time-domain</id>
+    <content type="html"><![CDATA[<p>语音信号的分析分为时域、频域、倒谱域等，时域分析简单、运算量小、物理意义明确，但对于语音识别而言，
+更为有效的是频域的分析方法，那么为什么还有进行时域的分析呢？</p>
+
+
+
+
+<p>语音信号具有时变特性，但在短时内可以看做是平稳的，所以语音的时域分析是建立在“短时”的条件下的，经研究统计，
+语音信号在帧长为10ms~30ms内是相对平稳的。</p>
+
+
+
+
+<p>语音信号是模拟信号，在进行处理之前，要进行数字化，模拟信号数字化的一般方法是采样，按照Nyquist采样定理进行
+采样（一般在8K~10KHz）后，在进行量化（一般用8bit，也有16bit等）和编码，变为数字信号。</p>
+
+
+
+
+<p>在语音信号数字化之后，就可以开始对其进行处理了，首先是预处理，由于语音信号的平均功率谱受声门激励和口鼻辐射的影响，
+高频端大约在800Hz以上按6dB/倍频程跌落，为此要在预处理中进行预加重。预加重的目的是提升高频部分，是信号变得平坦，
+以便于进行频谱分析或声道参数分析。预加重可以用具有6dB/倍频程的提升高频特性的预加重数字滤波器实现。预处理的另一
+方面工作是分帧和加窗：分帧的帧长一般在10ms~30ms，分帧既可以是连续的，也可以是有部分over-lap；短时分析的实质是
+对信号加窗，一般采用Hamming窗，其他的还有矩形窗、汉宁窗等，如下图所示。
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013050801.png"></center>
+</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<p>好了，经过预处理之后就可以真正开始进行时域分析了，这里的时域分析主要包含短时平均能量、短时过零分析、短时自相
+关分析以及高阶统计量分析等。</p>
+
+
+
+
+<p>短时平均能量（Short Time Average Energy）可以理解为先计算信号格采样值的平方，然后用一个移动窗h(n-m)选取出一个个
+短时平方序列，并将各段的平方值求和，从而得到短时能量序列。短时平均能量（En）可以用来从清音中区分浊音（浊音的En比
+清音大得多），可以用来确定声母和韵母、无声与有声、连字等的分界，还可以作为一种超音段信息用于语音识别。但短时平均
+能量En对于高电平信号可能产生溢出，此时可以采用短时平均幅度（Short Time Average Magnitude）来度量语音信号幅度的变化。</p>
+
+
+
+
+<p>信号的幅度值从正值到负值要经过零点，从负值到正值也要经过零点，称为过零，统计信号在单位时间（如1s）内过零的次数，
+就成为过零率。如果信号按段分割，就成为短时，把各段信号的过零率做统计平均，就是短时平均过零率（Short Time Average Cross 
+Zero Ratio）。短时平均过零率（Zn）可以作为“频率”来理解。过零率可以用来定量的分析清音/浊音，特别是在背景噪声电平较大时
+更为有效（相比短时平均能量而言），有时还可以同时结合Zn和En来进行判定。</p>
+
+
+
+
+<p>如果说短时平均过零率是描述复杂波形“频率”特征的一个参数，那么短时平均上升过零间隔（Short Time Rise Zero-Crossing Inteval）
+就是描述复杂波形“周期”特性的参数。研究表明：在一定噪声背景下，该参数具有很好的稳健性，对不同的语音具有很好的差异性。</p>
+
+
+
+
+<p>自相关函数是偶函数，语音信号的短时自相关函数（Short Time Autocorrelation Function）可以理解为序列[x(n)x(n-k)]通过一个
+冲激响应为hk(n)的数字滤波器的输出，即有Rn(k) = [x(n)x(n-k)]*hk(n)。短时自相关函数是语音信号时域分析中的一个重要参量，但是
+运算量很大。短时平均幅度差函数AMDF（Short Time Average Magnitude Difference Function）与自相关函数有类似的功效，但运算量
+可降低许多，所以在语音信号处理中应用广泛。</p>
+
+
+
+
+<p>最后是高阶统计量了。近来高阶统计量在语音信号处理中应用也越来越多，高阶统计量一般指高阶矩(Moment)、高阶累积量(Cumulant)以及
+他们的谱——高阶矩谱和高阶累积量谱。首先定义了随机变量x的（第一）特征函数（也称为矩生成函数），实际为它的密度函数f(x)的傅里叶变换。
+然后定义了第二特征函数（也称为累积量生成函数），它是第一特征函数的对数。还有随机变量x的k阶矩（mk）的定义，它是x的k次幂与f(x)的
+乘积在x∈R上的积分。类似的还有k阶中心矩（μk）的定义，都与概率论中的定义差不多。现在，可以对第一、二特征函数进行泰勒展开，可以得
+到ck（x的k阶累积量）和mk之间的一些关系，可以发现k<4时，ck=μk，此时ck的物理意义与μk的物理意义相同，而k>=4时，则不相等。对于c3，
+描述了概率分布的对称性，通过定义一个新的概念——偏度（Skewness，也称为偏态系数）来衡量。对于c4，文中为了简化，假设了x的均值为0，
+然后定义了一个称为峰态（也称峰度，Kurtosis）的概念，以表示分布相对于正太分布的尖锐或平坦程度。后面两小节分别对此进行了从单个
+随机变量到多个随机变量的推广的分析和随机变量服从高斯分布（正态分布）的特殊情形做了分析。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[五一登高远足]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/05/01/go-hiking-International-Labour-Day/"/>
+    <updated>2013-05-01T22:01:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/05/01/go-hiking-International-Labour-Day</id>
+    <content type="html"><![CDATA[<p>五一天晴气爽，登高望远，强身健体！只可惜“不畏浮云遮望眼，只缘身在最高层” 这句诗在空气严重污染的今天已不适用了！</p>
+
+
+
+
+<p><img src="http://ibillxia.github.com/images/2013/IMAG2013050101.jpg">
+
+<!-- more -->
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050102.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050103.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050104.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050105.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050106.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050107.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050108.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050109.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050110.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050111.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050112.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050113.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050114.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050115.jpg">
+
+<img src="http://ibillxia.github.com/images/2013/IMAG2013050116.jpg">
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用Alize等工具构建说话人识别平台]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/04/26/building-speaker-recognition-system-using-alize-etc/"/>
+    <updated>2013-04-26T22:07:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/04/26/building-speaker-recognition-system-using-alize-etc</id>
+    <content type="html"><![CDATA[<p>前段时间有好几位同学询问如何用Alize实现说话人识别的问题，由于寒假前赶Paper，来不及详细解答，更没时间写Demo。
+开学后不久抽时间写了一个Demo，并上传到了GitHub：https://github.com/ibillxia/VoicePrintReco/tree/master/Demo</p>
+
+
+
+
+<p>下面将利用Alize+SPro进行简单的GMM-Based的说话人识别的基本流程总结如下：</br>
+1.Features extraction 特征提取</br>
+sfbcep.exe（MFCC）或slpcep.exe（LPCC）</br>
+
+2.Silence removal 静音检测和去除</br>
+NormFeat.exe 先能量规整</br>
+EnergyDetector.exe 基于能量检测的静音去除</br>
+
+3.Features Normalization 特征规整</br>
+NormFeat.exe 再使用这个工具进行特征规整</br>
+
+4.World model training</br>
+TrainWorld.exe 训练UBM</br>
+
+5.Target model training</br>
+TrainWorld.exe 在训练好UBM的基础上训练training set和testing set的GMM</br>
+
+6.Testing</br>
+ComputeTest.exe 将testing set 的GMM在training set的GMM上进行测试和打分</br>
+
+7.Score Normalization</br>
+ComputeNorm.exe 将得分进行规整</br>
+
+8. Compute EER 计算等错误率</br>
+你可以查查计算EER的matlab代码，NIST SRE的官网上有下载（http://www.itl.nist.gov/iad/mig//tools/DETware_v2.1.targz.htm）。</br>
+</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<p>关于各步骤中参数的问题，可以在命令行“工具 -help”来查看该工具个参数的具体含义，另外还可参考Alize源码中各个工具的test目录中提供的实例，
+而关于每个工具的作用及理论知识则需要查看相关论文。</p>
+
+
+
+
+<p>常见问题及解答: http://mistral.univ-avignon.fr/mediawiki/index.php/Frequently_asked_questions</p>
+
+
+
+
+<p>更多问题请在Google论坛（https://groups.google.com/forum/?fromgroups=&hl=zh-CN#!forum/alize&#8212;voice-print-recognition）提出，大家一起讨论！</p>
+
+
+
+
+<h3>推荐资料</h3>
+
+
+<p>
+[1] ALIZE - User Manual: http://mistral.univ-avignon.fr/doc/userguide_alize.001.pdf</br>
+[2] LIA_SPKDET Package documentation: http://mistral.univ-avignon.fr/doc/userguide_LIA_SpkDet.002.pdf</br>
+[3] Reference System based on speech modality ALIZE/LIA RAL: http://www-clips.imag.fr/geod/User/laurent.besacier/NEW-TPs/TP-Biometrie/tools/CommentsLBInstall/doc.pdf</br>
+[4] Jean-Francois Bonastre, etc. ALIZE/SpkDet: a state-of-the-art open source software for speaker recognition</br>
+[5] TOMMIE GANNERT. A Speaker Veri?cation System Under The Scope: Alize</br>
+[6] Alize Wiki: http://mistral.univ-avignon.fr/mediawiki/index.php/Main_Page
+</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[VALSE2013]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/04/22/VALSE2013/"/>
+    <updated>2013-04-22T22:28:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/04/22/VALSE2013</id>
+    <content type="html"><![CDATA[<h3>学术研讨</h3>
+
+
+<p>VALSE是Vision And Learning SEminar的缩写，它主要目的是为计算机视觉、图像处理、模式识别与机器学习研究领域内的中国青年学者（以70后研发
+人员为主）提供一个深层次学术交流的舞台。虽然参与会议和做报告的人主要是做视觉的，但很多问题是机器学习和模式识别当中的一般性问题，所以我这
+个搞语音的也去打酱油了^_^。</p>
+
+
+
+
+<p>今年的VALSE在南京东南大学召开，参加会议的人数超出预期，会场爆满，仅学校的老师和公司的研究人员就占了会场大半，学生沦落到只能座最后两排，
+或者座分会场（这个太不科学了-_-!）。会程安排也很紧凑，中午几乎没有休息时间，吃饭都很赶，而下午也很晚（6点半左右）才结束。这次会议有好几个
+perfect的报告，但也有些不太感兴趣的，有的甚至感觉很2。除了一些报告，还有两个主题讨论会，印象中主要包括三个论题：学术界与工业界的Gap及衔接
+问题，深度学习是否是计算机视觉的终极解决方案，计算机视觉要不要从生物视觉机理中受启发等。</p>
+
+
+
+
+<p>闲话少说，言归正传，数萝卜下窖的讲讲这两天的经历吧。
+第一天上午，第一个做报告的是MSRA的张磊，主要讲了计算机视觉的一些基本问题，从AI的历史将起，提到了Turing Test，是人工智能
+的Benchmark。而CV的一个基本问题是Object Recognition，人们的研究经历了从之前的Model Based到如今的Data Driven及Big Data的过程，各种模型和方法可谓
+层出不穷，然而对于真正解决问题、真正达到人类一般的视觉智能，还相差甚远。接着他讲了关于在路灯下找钥匙的故事（详询http://tongyanyan.blog.edu.cn/2006/427512.html），
+听了这个故事后，感觉那个找钥匙的人很滑稽可笑，然而再想想我们自己正在做的研究，是不是在某种程度上和故事中的这个人一样呢。通过这个故事，他引出自己
+的观点：要想解决Object Recognition这个问题或者说要解决CV的问题，就需要More Effective Representation & Match。接下来讲在Representation方面一些研究
+人员提出的一些人工设计的Feature，而在Match方面则从Point、Line、Plane、Volume（点线面体）进行了详尽的讲述。最后还提了一下Deep Neural Network在CV中的
+应用，可以discover hidden patterns。虽然对CV中的很多概念和模型方法不太了解，但感觉还是挺有收获的。</p>
+
+
+
+
+<p>上午的后两个报告都是讲Sparse的，虽然之前看过关于Sparse Coding的东西，但当他们在上面讲的，主要偏重与Sparse这个问题的优化求解方法及其变形，
+涉及到很多数学公式和推导，感觉很枯燥，加之晚睡早起，有点犯困，所以基本没有听进去。贾佳亚的报告还似懂非懂，而陈欢欢的Sparse Bayesian Learning
+表示完全没听懂。个人感觉Sparse还是很重要的，所以在弄完Deep Learning这个专题后，我想有必要对这两个报告及其相关论文再做深入的学习和研究。</p>
+
+
+<!--more-->
+
+
+<p>中午3个东南大学的同学请我们实验室的在他们学校食堂吃饭，虽然不太记得他们名字了，真心感谢他们！</p>
+
+
+
+
+<p>下午第一个报告是高新波的IQA&VALSE，主要讲了图像质量评价的一些东西，虽然也提到了一些生物视觉方面的东西，感觉很没趣，基本没怎么听，打了个盹。
+第二个报告是俞洪波的关于生物视觉方面的东西，很感兴趣，他从深层复杂网络结构、神经元、突触、离子通道、蛋白等多个层面上讲了视觉系统的信息处理流程，
+后面还提到了视觉功能柱，指出了视觉神经元具有很强的选择性，不同部位的神经元对不同方向、距离的视觉信息具有选择性的激活增强，最后还讲了一些模拟
+视觉系统的计算模型，并描述了一些实验，虽然对报告题目中的Self Organization Model到底是什么还不是很清楚，但对生物视觉系统有了更进一步的了解，
+而且知道了他们是怎么获取神经元激活区域的。</p>
+
+
+
+
+<p>下午的第2个Session的第一个报告是颜水成的Fashion Recommendation，包括Hair Style，Makeup，Clothing，Shoes等的Recommendation，不太感冒，只是对他重复提到
+的关于华人做研究的一个问题深表同感，他说华人做研究其实很不错的，能在很多TOP会议期刊发Paper甚至Best Paper，但原创性的问题却很少，我们都在提高别人的Citation，
+所以华人还需要在发现问题方面多下功夫，而不是仅仅在解决问题方面。后面两个报告一个是王亦洲的General Purpose Vision，表示没听懂。最后一个报告是王晓刚的Crowd 
+Video Surveillance，主要是讲在Video中识别人并跟踪人的移动，或者统计视场中人的数量之类的，只是感性的了解了一下，印象里报告中好像没有提到什么具体的CV技术，
+只是举了一个人体位置跟踪的例子，还有一个用在足球视屏中运动员跟踪的例子。</p>
+
+
+
+
+<p>第二天上午第一个Session是两个报告，一个是陈小武的Image/Video/3D Scene Understanding and Editing，主要分以下四个方面：Illumination Learning and Synthesis，
+Labeling and Lavering and Editing，Estimating 3D Model from a single Image，Video Event Representation and Inference，总体感觉讲的内容涉及到很多东西，甚至他的
+学生不仅懂CV，还要懂美术、剪纸等，而且他们每年都会发CVPR、ICCV、ECCV之类的，感觉还挺NB的。另外一个报告是非常期待的于凯的关于深度学习和大数据的报告，但听了之后，
+感觉有些Depressed，因为他的报告中没有涉及Deep Learning的一些细节的东西，诸如RBM的原理及其训练等，基本上只是泛泛而谈，之前对Deep Learning做了深入的调研和学习，
+自我感觉Deep Learning也没什么神秘的，虽然对Gibbs采样和CD算法的理论还没有完全理解清楚，但我觉得Deep Learning更多的是一种思想方法，在Deep Architecture中，Knowledge
+通过一层一层抽象和提取后，对于Classification、Clustering等任务具有更有效Representation，而且在Training Error非常小的情况下，还是可以再Testing中获得理想的Error Ratio，
+相比Shallow Architecture，不存在模型Over Fitting的问题。另外，有人提到Deep Architecture中Layer数目的确定的问题，于凯的回答是，在Neural Networks中加一层后，进行Deep 
+Learning的过程，如果相对于没加该层得到的Test Error更小，并且是非常有效的性能提升，那么就加进这一层。然后同样的，再加一层，再进行Deep Learning，以此类推。</p>
+
+
+
+
+<p>上午的后一个Session是关于CV在Industry中的Application，先是来在Industry中的一些研究开发人员对他们目前的工作做一些简短的介绍，感觉某些公司有严重的广告嫌疑，很是讨厌。
+然后是讨论阶段，各自就CV在学术界和工业界之间的Gap发表意见，总结起来主要有以下观点：一方面学术界与工业界的Gap是必要的，学术必须要超前，这样工业界才可能将其成熟的应用；
+另一方面，学术界与工业界的Gap可以通过在工业界设置研究院（比如MSRA、百度最近在硅谷设置深度学习研究院之类），这样可以加快学术成果应用于工业界的进程，学术最终的目的就是
+在工业界中发挥巨大作用，服务广大民众，给社会带来价值。</p>
+
+
+
+
+<p>上午的Panel严重超时了，直到快1点了才结束，去餐馆吃饭，我们跟老板说我们下午要考试，让快点上菜，结果上菜速度果然飞快，而我们吃得也很快，基本上一盘菜一会儿就吃光，
+真是高效啊，哈哈！</p>
+
+
+
+
+<p>下午首先是一个Panel，讨论（更确切的说是辩论）了两个主题，一个是关于计算机视觉是否要借鉴吸收生物神经视觉的结果，另一个是Deep Learning是否是CV的终极解决方案，这两个辩论
+都非常精彩，笑点不断。Panel开始之前，首先是两位报告者发言，首先上台的是 @老师木（袁进辉），他自我介绍了一番，然后讲了讲生物视觉与计算机视觉的紧密联系，认为计算机视觉要想
+取得重大突破，就必须借鉴生物视觉的研究的发现。另外一位是李学龙老师，很有个性，只写了一张PPT，但发言时却如滔滔江水绵绵不绝，可以听得出，他对生物视觉也非常了解，也认为计算机
+视觉必须借鉴生物视觉的一些研究成果。后面的讨论非常精彩，将学术娱乐化了。这两个论题本身就很具争议性，正反两方各执其词，要辩论出个是非来，还真需要真才实学。</p>
+
+
+
+
+<p>Panel完之后是两个报告，一个是吴建鑫的Approximating Additive Kernel for Large Scale Vision Tasks，没怎么听懂。另一个是张敏灵的Multi-label Learning，感觉很没趣，主要是
+觉得这并不是一个新问题，但在图像标注方面确实是一个很重要的问题。</p>
+
+
+
+
+<p>最后，还可以从一些微博内容中获取更多关于VALSE2013的信息，可以搜索主题\#VALSE\# 或\#VALSE2013\#，或者关注 @潘布衣（会议Chair潘刚）、@张磊MSRA、@余凯_西二旗民工、
+@老师木等等。。。</p>
+
+
+
+
+<h3>游玩休闲</h3>
+
+
+<p>我们周五下午6点多到，下雨了。坐地铁然后走到旅馆，吃晚饭就8点了，但还好雨也听了，我们就去附近的夫子庙、秦淮河逛了逛。
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013042201.jpg"></center>
+第二天晚上去阅江楼逛了逛，到哪儿才发现晚上关门，坑爹啊！不过在外面远眺夜晚的阅江楼也不错，然后走了一个把小时到南京长江大桥。
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013042202.jpg"></center>
+第三天晚上就待在住处。因为订的第四天下午6点多的票，所以白天就可以尽情的去玩玩了。第一站来到了中山园陵
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013042203.jpg"></center>
+只可惜周一不开放，被挡在“天下为公”的门外。原打算接下来要去的雨花台、大屠杀纪念馆也不开放，坑爹啊！
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013042204.jpg"></center>
+木办法，就在里面找了一个开放的十朝历史博物馆去了
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013042205.jpg"></center>
+然后去总统府了，就在外面看了看
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013042206.jpg"></center>
+再然后去玄武门，一到哪儿就又下雨了
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013042207.jpg"></center>
+进里面看了看玄武湖，然后就直接回旅馆了
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013042208.jpg"></center>
+</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[深度学习及其在语音方面的应用]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing/"/>
+    <updated>2013-04-17T22:43:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing</id>
+    <content type="html"><![CDATA[<p>以下是今天在组会上讲的内容，与大家分享一下。有些地方我也没有完全理解，欢迎大家一起来讨论。</p>
+
+
+<p><center>
+<embed width="780"
+    height="574"
+    name="plugin"
+    src="http://ibillxia.github.com/upload/Deep Learning - Bill Xia.pdf"
+    type="application/pdf"
+/>
+</center></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[基于能量的模型和波尔兹曼机]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/04/12/Energy-Based-Models-and-Boltzmann-Machines/"/>
+    <updated>2013-04-12T22:12:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/04/12/Energy-Based-Models-and-Boltzmann-Machines</id>
+    <content type="html"><![CDATA[<p>由于深度置信网络（Deep Belief Networks，DBN）是基于限制性玻尔兹曼机（Restricted Boltzmann Machines，RBM）的深层网络结构，
+所以本文重点讨论一下玻尔兹曼机（BM），以及它的学习算法——对比散度（Contrastive Divergence，CD）算法。在介绍BM前，我们首先介绍一下
+基于能量的模型（Energy Based Model，EBM），因为BM是一种特殊的EBM。</p>
+
+
+
+
+<h2>1. 基于能量的模型(EBM)</h2>
+
+
+<p>基于能量的模型是一种具有普适意义的模型，可以说它是一种模型框架，在它的框架下囊括传统的判别模型和生成模型，图变换网络(Graph-transformer 
+Networks)，条件随机场，最大化边界马尔科夫网络以及一些流形学习的方法等。EBM通过对变量的每个配置施加一个有范围限制的能量来捕获变量之间的依赖
+关系。EBM有两个主要的任务，一个是推断(Inference)，它主要是在给定观察变量的情况，找到使能量值最小的那些隐变量的配置；另一个是学习(Learning)，
+它主要是寻找一个恰当的能量函数，使得观察变量的能量比隐变量的能量低。</p>
+
+
+
+
+<p>基于能量的概率模型通过一个能量函数来定义概率分布，
+<center>$p(x) = \frac{e^{E(x)}}{Z}.$ &#8230; ①</center>
+其中Z为规整因子，
+<center>$Z = \sum _{x} e^{-E(x)}.$ &#8230; ②</center>
+基于能量的模型可以利用使用梯度下降或随机梯度下降的方法来学习，具体而言，就是以训练集的负对数作为损失函数，
+<center>$l(\theta,D) = -L(\theta,D) = - \frac{1}{N}\sum_{x^{(i)}\in D} log p(x^{(i)}).$ &#8230; ③</center>
+其中$\theta$为模型的参数，将损失函数对$\theta$求偏导，
+<center>$\Delta = \frac{\partial l(\theta,D)}{\partial \theta} = - \frac{1}{N} \frac{\partial \sum log p(x^{(i)})}{\partial \theta}.$ &#8230; ④</center>
+即得到损失函数下降最快的方向。</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<h3>包含隐单元的EBMs</h3>
+
+
+<p>在很多情况下，我们无法观察到样本的所有属性，或者我们需要引进一些没有观察到的变量，以增加模型的表达能力，这样得到的就是包含隐含变量的EBM，
+<center>$P(x) = \sum _{h} P(x,h) = \sum _{h} \frac{e^{-E(x,h)}}{Z}.$ &#8230; ⑤</center>
+其中$h$表示隐含变量。在这种情况下，为了与不包含隐含变量的模型进行统一，我们引入如下的自由能量函数，
+<center>$F(x) = - log \sum_{h}e^{-E(x,h)}.$ &#8230; ⑥</center>
+这样$P(x)$就可以写成，
+<center>$P(x) = \frac{e^{-F(x)}}{Z}, where Z = \sum_{x} e^{-F(x)}.$ &#8230; ⑦</center>
+此时，损失函数还是类似的定义，只是在进行梯度下降求解时稍微有些不同，
+<center>$\Delta = - \frac{\partial log p(x)}{\partial \theta} 
+= - \frac{\partial (-F(x) -log Z)}{\partial \theta} 
+= \frac{\partial F(x)}{\partial \theta} - \sum_{\hat{x}} p(\hat{x}) \frac{\partial F(\hat{x})}{\partial \theta}$. &#8230; ⑧</center>
+该梯度表达式中包含两项，他们都影响着模型所定义的分布密度：第一项增加训练数据的概率（通过减小对应的自由能量），而第二项则减小模型
+生成的样本的概率。</p>
+
+
+
+
+<p>通常，我们很难精确计算这个梯度，因为式中第一项涉及到可见单元与隐含单元的联合分布，由于归一化因子$Z(\theta)$的存在，该分布很难获取[3]。
+我们只能通过一些采样方法（如Gibbs采样）获取其近似值，其具体方法将在后文中详述。</p>
+
+
+
+
+<h2>2. 限制性玻尔兹曼机</h2>
+
+
+<p>玻尔兹曼机（Boltzmann Machine，BM）是一种特殊形式的对数线性的马尔科夫随机场（Markov Random Field，MRF），即能量函数是自由变量的线性函数。
+通过引入隐含单元，我们可以提升模型的表达能力，表示非常复杂的概率分布。</p>
+
+
+
+
+<p>限制性玻尔兹曼机（RBM）进一步加一些约束，在RBM中不存在可见单元与可见单元的链接，也不存在隐含单元与隐含单元的链接，如下图所示
+<center><img src="http://ibillxia.github.com/images/2013/IMAG2013041201.png"></center>
+RBM的能量函数$E(v,h)$定义为，
+<center>$E(v,h) = -b&#8217;v - c&#8217;h - h&#8217;Wv$.</center>
+其中&#8217;表示转置，$b,c,W$为模型的参数，$b,c$分别为可见层和隐含层的偏置，$W$为可见层与隐含层的链接权重。此时，对应的自由能量为，
+<center>$F(v) = -b&#8217;v - \sum_{i}log\sum_{h_{i}}e^{h_{i}(c_{i}+W_{i}v)}.$ &#8230; ⑨</center>
+另外，由于RBM的特殊结构，可见层/隐含层内个单元之间是相互独立的，所以我们有，
+<center>$p(h|v) = \prod _{i} p(h_{i}|v)$,</center>
+<center>$p(v|h) = \prod _{j} p(v_{j}|h).$ &#8230; ⑩</center>
+</p>
+
+
+
+
+<h3>使用二值单元的RBM</h3>
+
+
+<p>如果RBM中的每个单元都是二值的，即有$v_{j},h_{i} \in \{0,1\}$，我们可以得到，
+<center>$p(h_{i}=1|v) = sigmoid(c_{i} + W_{i}v)$,</center>
+<center>$p(v_{j}=1|h) = sigmoid(b_{j} + W_{j}&#8217;h).$ &#8230; ⑪</center>
+而对应的自由能量函数为，
+<center>$F(v) = -b&#8217;v - \sum_{i}log(1+e^{c_{i}+W_{i}v}).$ &#8230; ⑫</center>
+使用梯度下降法求解模型参数时，各参数的梯度值如下[2]，
+<center>$-\frac{\partial logp(v)}{\partial W_{ij}} = E_{v}[p(h_{i}|v) * v_{j}] - v_{j}^{(i)} * sigmoid(W_{i} * v^{(i)}+c_{i}),$</center>
+<center>$-\frac{\partial logp(v)}{\partial c_{i}} = E_{v}[p(h_{i}|v) * v_{j}] - sigmoid(W_{i} * v^{(i)}),$</center>
+<center>$-\frac{\partial logp(v)}{\partial b_{j}} = E_{v}[p(h_{i}|v) * v_{j}] - v_{j}^{(i)}.$ &#8230; ⑬</center>
+</p>
+
+
+
+
+<h2>3. RBM的学习</h2>
+
+
+<p>前面提到了，RBM是很难学习的，即模型的参数很难确定，下面我们就具体讨论一下基于采样的近似学习方法。学习RBM的任务是求出模型的参数
+$\theta = \{c, b, W\}$的值。</p>
+
+
+
+
+<h3>3.1 Gibbs采样</h3>
+
+
+<p>Gibbs采样是一种基于马尔科夫链蒙特卡罗(Markov Chain Monte Carlo,MCMC)策略的采样方法。对于一个$K$为随机向量$X = (X_{1},X_{2},&#8230;,X_{K})$，
+假设我们无法求得关于$X$的联合分布$P(X)$，但我们知道给定$X$的其他分量时，其第$k$个分量$X_{k}$的条件分布，即$P(X_{k}|X_{k^{-}})$，其中$X_{k^{-}} = 
+(X_{1},X_{2},&#8230;,X_{k-1},X_{k+1},&#8230;,X_{K})$，那么，我们可以从$X$的一个任意状态(比如[$x_{1}(0),x_{2}(0),&#8230;,x_{K}(0)$])开始，利用上述条件
+分布，迭代的对其分量依次采样，随着采样次数的增加，随机变量[$x_{1}(n),x_{2}(n),&#8230;,x_{K}(n)$]的概率分布将以$n$的几何级数的速度收敛于$X$的联合
+概率分布$P(X)$。也就是说，我们可以在未知联合概率分布的条件下对其进行采样。</p>
+
+
+
+
+<p>基于RBM的对称结构，以及其中神经元状态的条件独立性，我们可以使用Gibbs采样方法得到服从RBM定义的分布的随机样本。在RBM中进行$k$步Gibbs采样的具体
+算法为：用一个训练样本(或可见层的任何随机化状态)初始化可见层的状态$v0$，交替进行如下采样：
+<center>$h_{0} \sim P(h|v_{0}), v_{1} \sim P(v|h_{0}),$</center>
+<center>$h_{1} \sim P(h|v_{1}), v_{2} \sim P(v|h_{1}),$</center>
+<center>$&#8230; &#8230;, v_{k+1} \sim P(v|h_{k})$.</center>
+在经过步数$k$足够大的情况下，我们可以得到服从RBM所定义的分布的样本。此外，使用Gibbs采样我们也可以得到式⑧中第一项的近似。</p>
+
+
+
+
+<h3>3.2 对比散度算法</h3>
+
+
+<p>尽管利用Gibbs采样我们可以得到对数似然函数关于未知参数梯度的近似，但通常情况下需要使用较大的采样步数，这使得RBM的训练效率仍然不高，尤其是当观测数据
+的特征维数较高时。2002年，Hinton[4]提出了RBM的一个快速学习算法，即对比散度（Contrastive Divergence，CD）。与Gibbs采样不同，Hinton指出当使用训练数据初
+始化$v_{0}$时，我们仅需要使用$k$（通常k=1）步Gibbs采样变可以得到足够好的近似。在CD算法一开始，可见单元的状态被设置成一个训练样本，并利用式⑪第一个式子
+来计算所有隐层单元的二值状态，在所有隐层单元的状态确定了之后，根据式⑪第二个式子来确定第$i$个可见单元$v_{i}$取值为1的概率，进而产生可见层的一个重构
+(reconstruction)。然后将重构的可见层作为真实的模型代入式⑬各式中第一项，这样就可以进行梯度下降算法了。</p>
+
+
+
+
+<p>在RBM中，可见单元一般等于训练数据的特征维数，而隐层单元数需要事先给定，这里设可见单元数和隐单元数分别为$n$和$m$，令$W$表示可见层与隐层间的链接权重
+矩阵(m×n阶)，$a$(n维列向量)和$b$(m维列向量)分别表示可见层与隐层的偏置向量。RBM的基于CD的快速学习算法主要步骤如下：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//输入：一个训练样本x0; 隐层单元个数m; 学习率alpha; 最大训练周期T
+</span><span class='line'>//输出：链接权重矩阵W, 可见层的偏置向量a, 隐层的偏置向量b
+</span><span class='line'>//训练阶段
+</span><span class='line'>初始化：令可见层单元的初始状态v1 = x0; W, a, b为随机的较小数值
+</span><span class='line'>For t=1,2,...,T
+</span><span class='line'>  For j=1,2,...,m //对所有隐单元
+</span><span class='line'>      计算P(h1j=1|v1), 即P(h1j=1|v1) = sigmoid(bj+sum_i(v1i*Wij));
+</span><span class='line'>      从条件分布P(h1j|v1)中抽取h1j ∈ {0,1}
+</span><span class='line'>  EndFor
+</span><span class='line'>  
+</span><span class='line'>  For i=1,2,...,n //对所有可见单元
+</span><span class='line'>      计算P(v2i=1|h1), 即P(v2i=1|h1) = sigmoid(ai+sum_j(Wij*h1j));
+</span><span class='line'>      从条件分布P(v2i|h1)中抽取v2i ∈ {0,1}
+</span><span class='line'>  EndFor
+</span><span class='line'>  
+</span><span class='line'>  For j=1,2,...,m //对所有隐单元
+</span><span class='line'>      计算P(h2j=1|v2), 即P(h2j=1|v2) = sigmoid(bj+sum_i(v2i*Wij));
+</span><span class='line'>  EndFor
+</span><span class='line'>  
+</span><span class='line'>  //更新RBM的参数
+</span><span class='line'>  W = W + alpha *(P(h1=1|v1)v1' - P(h2=1|v2)v2');
+</span><span class='line'>  a = a + alpha *(v1-v2);
+</span><span class='line'>  b = b + alpha *(P(h1=1|v1) - P(h2=1|v2));
+</span><span class='line'>EndFor</span></code></pre></td></tr></table></div></figure>
+
+上述基于CD的学习算法是针对RBM的可见单元和隐层单元均为二值变量的情形，我们可以很容易的推广到这些单元为高斯变量的情形。
+</p>
+
+
+
+
+<p>RBM的完整实现参见https://github.com/ibillxia/DeepLearnToolbox/tree/master/DBN的Matlab代码。</p>
+
+
+
+
+<h2>References</h2>
+
+
+<p>
+[1] Learn Deep Architectures for AI, Chapter 5.</br>
+[2] Deep Learning Tutorial, Release 0.1, Chapter 9.</br>
+[3] 受限波尔兹曼机简介. 张春霞. </br>
+[4] Training Products of experts by minimizing contrastive divergence. GE Hinton.
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[2013IDF声龙语音识别技术演示]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/04/10/Intel-Developer-Forum-2013-Nuance-Dragon-Presentation/"/>
+    <updated>2013-04-10T12:57:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/04/10/Intel-Developer-Forum-2013-Nuance-Dragon-Presentation</id>
+    <content type="html"><![CDATA[<p>2013英特尔信息技术峰会(Intel Developer Forum, IDF)上，来自Nuance的声龙语音合成和识别技术的演示，中文语音识别不给力，
+笑点频出啊，哈哈</p>
+
+
+
+
+<p><iframe height=560 width=780 src="http://player.youku.com/embed/XNTQwNjQ0MjUy" frameborder=0 allowfullscreen></iframe></p>
+
+
+
+]]></content>
+  </entry>
+  
+</feed>

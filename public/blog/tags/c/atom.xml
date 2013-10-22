@@ -1,0 +1,1460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: C | Bill's Blog]]></title>
+  <link href="http://ibillxia.github.com/blog/tags/c/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.com/"/>
+  <updated>2013-10-22T22:35:17+08:00</updated>
+  <id>http://ibillxia.github.com/</id>
+  <author>
+    <name><![CDATA[Bill Xia]]></name>
+    <email><![CDATA[ibillxia@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[PCM WAVE格式详解及用C语言实现wave文件的读取]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language/"/>
+    <updated>2013-07-20T20:07:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language</id>
+    <content type="html"><![CDATA[<h2>1.PCM Wave格式详解</h2>
+
+
+<p>WAVE文件格式是微软RIFF(Resource Interchange File Format,资源交换文件标准)的一种，是针对于多媒体文件存储的一种文件格式和标准。
+一般而言，RIFF文件由文件头和数据两部分组成，一个WAVE文件由一个“WAVE”数据块组成，这个“WAVE”块又由一个"fmt"子数据块和一个“data”子
+数据块组成，也称这种格式为“Canonical form”（权威/牧师格式），如下图所示：
+<center><img src="/images/2013/IMAG2013072001.gif"></center>
+</p>
+
+
+<!--more-->
+
+
+<p>每个字段的涵义如下：
+ChunkID: 占4个字节，内容为“RIFF”的ASCII码(0x52494646)，以大端（big endian）存储。</br>
+ChunkSize: 4字节，存储整个文件的字节数（不包含ChunkID和ChunkSize这8个字节），以小端（little endian）方式存储。</br>
+Format: 4字节，内容为“WAVE”的ASCII码(0x57415645)，以大端存储。</br>
+</p>
+
+
+
+
+<p>
+其中bigendian 主要有一个特征，在内存中对操作数的存储方式和从高字节到低字节。例如：0x1234，这样一个数，存储为:</br>
+0x4000:   0x12</br>
+0x4001:   0x34</br>
+而小尾端littleendian是：</br>
+0x4000:   0x34</br>
+0x4001:   0x12</br>
+用程序在区别的话，可以考虑：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include &lt;stdio.h>
+</span><span class='line'>#include &lt;stdlib.h>
+</span><span class='line'>int main(int argc, char *argv[])
+</span><span class='line'>{
+</span><span class='line'>       union w
+</span><span class='line'>      {
+</span><span class='line'>       short int a;
+</span><span class='line'>       char b;
+</span><span class='line'>      }c;
+</span><span class='line'>      c.a=1;
+</span><span class='line'>      if( c.b==1 )  printf("little endian\n");
+</span><span class='line'>      else printf("big endian\n");
+</span><span class='line'>      system("PAUSE"); 
+</span><span class='line'>      return 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</p>
+
+
+
+
+<p>"WAVE"格式由两个子数据块构成：“fmt”块和“data”块，其中“fmt”块的详细解释如下：
+Subchunk1ID: 占4个字节，内容为“fmt ”的ASCII码(0x666d7420)，以大端存储。</br>
+Subchunk1Size: 占4个字节，存储该子块的字节数（不含前面的Subchunk1ID和Subchunk1Size这8个字节），以小端方式存储。</br>
+AudioFormat：占2个字节，以小端方式存储，存储音频文件的编码格式，例如若为PCM则其存储值为1，若为其他非PCM格式的则有一定的压缩。</br>
+NumChannels: 占2个字节，以小端方式存储，通道数，单通道(Mono)值为1，双通道(Stereo)值为2，等等。</br>
+SampleRate: 占4个字节，以小端方式存储，采样率，如8k，44.1k等。</br>
+ByteRate: 占4个字节，以小端方式存储，每秒存储的bit数，其值=SampleRate * NumChannels * BitsPerSample/8</br>
+BlockAlign: 占2个字节，以小端方式存储，块对齐大小，其值=NumChannels * BitsPerSample/8</br>
+BitsPerSample: 占2个字节，以小端方式存储，每个采样点的bit数，一般为8,16,32等。</br>
+接下来是两个可选的扩展参数：</br>
+ExtraParamSize: 占2个字节，表示扩展段的大小。</br>
+ExtraParams: 扩展段其他自定义的一些参数的具体内容，大小由前一个字段给定。
+</p>
+
+
+
+
+<p>其中，对于每个采样点的bit数，不同的bit数读取数据的方式不同：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// data 为读取到的采样点的值，speech为原始数据流，
+</span><span class='line'>//对应于下面的"WAVE"格式文件的第二个子数据块“data”块的“Data”部分。
+</span><span class='line'>for(i=0;i&lt;NumSample;i++){
+</span><span class='line'>    if(BitsPerSample==8)
+</span><span class='line'>        data[i] = (int)*((char*)speech+i);
+</span><span class='line'>    else if(BitsPerSample==16)
+</span><span class='line'>        data[i] = (int)*((short*)speech+i);
+</span><span class='line'>    else if(BitsPerSample==32)
+</span><span class='line'>        data[i] = (int)*((int*)speech+i);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</p>
+
+
+
+
+<p>"WAVE"格式文件的第二个子数据块是“data”，其个字段的详细解释如下：</br>
+Subchunk2ID: 占4个字节，内容为“data”的ASCII码(0x64617461)，以大端存储。</br>
+Subchunk2Size: 占4个字节，内容为接下来的正式的数据部分的字节数，其值=NumSamples * NumChannels * BitsPerSample/8</br>
+Data: 真正的语音数据部分。</br>
+</p>
+
+
+
+
+<h2>一个Wave文件头的实例</h2>
+
+
+<p>设一个wave文件的前72个字节的十六进制内容如下(可以使用Ultra Edit等工具查看wave文件头)：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>52 49 46 46 24 08 00 00 57 41 56 45 66 6d 74 20 10 00 00 00 01 00 02 00 
+</span><span class='line'>22 56 00 00 88 58 01 00 04 00 10 00 64 61 74 61 00 08 00 00 00 00 00 00 
+</span><span class='line'>24 17 1e f3 3c 13 3c 14 16 f9 18 f9 34 e7 23 a6 3c f2 24 f2 11 ce 1a 0d</span></code></pre></td></tr></table></div></figure></notextile></div>
+则其个字段的解析如下图：
+<center><img src="/images/2013/IMAG2013072002.gif"></center>
+</p>
+
+
+
+
+<h2>C语言实现wave文件的读取</h2>
+
+
+<p>这里给出一个用基本的C语言文件操作库函数实现的Wave文件读取的实例代码，可以跨Windows和Linux平台。</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdlib.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;string.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>// define Wave format structure
+</span><span class='line'>typedef struct tWAVEFORMATEX
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>short wFormatTag;         /* format type */
+</span><span class='line'>short nChannels;          /* number of channels (i.e. mono, stereo...) */
+</span><span class='line'>unsigned int nSamplesPerSec;     /* sample rate */
+</span><span class='line'>unsigned int nAvgBytesPerSec;    /* for buffer estimation */
+</span><span class='line'>short nBlockAlign;        /* block size of data */
+</span><span class='line'>short wBitsPerSample;     /* number of bits per sample of mono data */
+</span><span class='line'>short cbSize;             /* the count in bytes of the size of */
+</span><span class='line'>                                /* extra information (after cbSize) */
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>} WAVEFORMATEX, *PWAVEFORMATEX;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>char&lt;em> wavread(char &lt;/em>fname, WAVEFORMATEX *wf);&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>int main(){&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>char fname = "test.wav";
+</span><span class='line'>char *speech;
+</span><span class='line'>WAVEFORMATEX wf;
+</span><span class='line'>
+</span><span class='line'>speech = wavread(fname, &amp;wf);
+</span><span class='line'>// afterward processing...
+</span><span class='line'>
+</span><span class='line'>return 0;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>// read wave file
+</span><span class='line'>char&lt;em> wavread(char &lt;/em>fname, WAVEFORMATEX *wf){&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>FILE* fp;
+</span><span class='line'>char str[32];
+</span><span class='line'>char *speech;
+</span><span class='line'>unsigned int subchunk1size; // head size
+</span><span class='line'>unsigned int subchunk2size; // speech data size
+</span><span class='line'>
+</span><span class='line'>// check format type
+</span><span class='line'>fp = fopen(fname,"r");
+</span><span class='line'>if(!fp){
+</span><span class='line'>    fprintf(stderr,"Can not open the wave file: %s.\n",fname);
+</span><span class='line'>    return NULL;
+</span><span class='line'>}
+</span><span class='line'>fseek(fp, 8, SEEK_SET);
+</span><span class='line'>fread(str, sizeof(char), 7, fp);
+</span><span class='line'>str[7] = '\0';
+</span><span class='line'>if(strcmp(str,"WAVEfmt")){
+</span><span class='line'>    fprintf(stderr,"The file is not in WAVE format!\n");
+</span><span class='line'>    return NULL;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// read format header
+</span><span class='line'>fseek(fp, 16, SEEK_SET);
+</span><span class='line'>fread((unsigned int*)(&amp;subchunk1size),4,1,fp);
+</span><span class='line'>fseek(fp, 20, SEEK_SET);
+</span><span class='line'>fread(wf, subchunk1size, 1, fp);
+</span><span class='line'>
+</span><span class='line'>// read wave data
+</span><span class='line'>fseek(fp, 20+subchunk1size, SEEK_SET);
+</span><span class='line'>fread(str, 1, 4, fp);
+</span><span class='line'>str[4] = '\0';
+</span><span class='line'>if(strcmp(str,"data")){
+</span><span class='line'>    fprintf(stderr,"Locating data start point failed!\n");
+</span><span class='line'>    return NULL;
+</span><span class='line'>}
+</span><span class='line'>fseek(fp, 20+subchunk1size+4, SEEK_SET);
+</span><span class='line'>fread((unsigned int*)(&amp;subchunk2size), 4, 1, fp);
+</span><span class='line'>speech = (char*)malloc(sizeof(char)*subchunk2size);
+</span><span class='line'>if(!speech){
+</span><span class='line'>    fprintf(stderr, "Memory alloc failed!\n");
+</span><span class='line'>    return NULL;
+</span><span class='line'>}
+</span><span class='line'>fseek(fp, 20+subchunk1size+8, SEEK_SET);
+</span><span class='line'>fread(speech, 1, subchunk2size, fp);
+</span><span class='line'>
+</span><span class='line'>fclose(fp);
+</span><span class='line'>return speech;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>参考</h2>
+
+
+<p>
+[1]WAVE PCM soundfile format: https://ccrma.stanford.edu/courses/422/projects/WaveFormat/ </br>
+[2]Resource Interchange File Format: http://en.wikipedia.org/wiki/Resource_Interchange_File_Format </br>
+[3]基于Visual C++6.0的声音文件操作: http://www.yesky.com/20030414/1663116_1.shtml
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[C语言中的异常处理机制]]></title>
+    <link href="http://ibillxia.github.com/blog/2011/05/03/Exception-handling-mechanism-in-c/"/>
+    <updated>2011-05-03T11:09:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2011/05/03/Exception-handling-mechanism-in-c</id>
+    <content type="html"><![CDATA[<h2>1.概述</h2>
+
+
+<p>什么是异常？异常一般指的是程序运行期（Run-Time）发生的非正常情况。异常一般是不可预测的，如：内存不足、打开文件失败、
+范围溢出等。UNIX 使用信号给出异常，并当发生异常时转跳到信号处理过程进行异常处理。DOS下的信号对比UNIX系统而言相对较少。</p>
+
+
+
+
+<p>我们知道，不管是在c++还是在java中，异常都被认为是一种很优雅的处理错误的机制。而如果想在c语言中使用异常就比较麻烦，
+但是我们仍然可以使用c语言中强大的setjmp和longjmp函数实现类似于c++的异常处理机制。</p>
+
+
+
+
+<p>异常处理的核心思想是，把功能模块代码与系统中可能出现错误的处理代码分离开来，以此来达到使我们的代码组织起来更美观、
+逻辑上更清晰，并且同时从根本上来提高我们软件系统长时间稳定运行的可靠性。那么，现在回过头来看，实际上在计算机系统的硬件
+设计中，操作系统的总体设计中，早期的许多面向结构化程序设计语言中(例如C语言)，都有异常处理的机制和方法的广泛运用。</p>
+
+
+
+
+<h2>2.基于goto语句的异常处理</h2>
+
+
+<p>goto语句，程序员朋友们对它太熟悉了，它是C语言中使用最为灵活的一条语句，由它也充分体现出了C语言的许多特点或者说是优点。
+它虽然是一条高级语言中提供的语句，但是它一般却直接对应一条“无条件直接跳转的机器指令”，所以说它非常地特别，它引起过许多
+争议，但是这条语句仍然一直被保留了下来，即便是今天的C++语言中，也有对它的支持(虽然不建议使用它)。</p>
+
+
+
+
+<!-- more -->
+
+
+<p>goto语句有非常多的用途或优点，例如，它特别适合于在编写系统程序中被使用，它能使编写出来的代码非常简练。另外，goto语句
+另外一个最重要的作用就是，它实际上是一种对异常处理编程，最初也最原始的支持手段或方法。它能把错误处理模块的代码有效与其
+它代码分离开来。例程如下</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void main(int argc, char* argv[])&lt;br/>
+</span><span class='line'>{&lt;br/>
+</span><span class='line'>　　if (Call_Func1(in, param out) {&lt;br/>
+</span><span class='line'>　　　　// 函数调用成功，我们正常的处理&lt;br/>
+</span><span class='line'>　　　　if (Call_Func2(in, param out) {&lt;br/>
+</span><span class='line'>　　　　// 函数调用成功，我们正常的处理&lt;br/>
+</span><span class='line'>　　　　　　while(condition) {&lt;br/>
+</span><span class='line'>　　　　　　　　//do other job&lt;br/>
+</span><span class='line'>　　　　　　　　// 如果错误直接跳转&lt;br/>
+</span><span class='line'>　　　　　　　　if (has error) goto Error;&lt;br/>
+</span><span class='line'>　　　　　　//do other job&lt;br/>
+</span><span class='line'>　　　　　　}&lt;br/>
+</span><span class='line'>　　　　}&lt;br/>
+</span><span class='line'>　　　　// 如果错误直接跳转&lt;br/>
+</span><span class='line'>　　　　else goto Error;&lt;br/>
+</span><span class='line'>　　}&lt;br/>
+</span><span class='line'>　　// 如果错误直接跳转&lt;br/>
+</span><span class='line'>　　else goto Error;&lt;br/>
+</span><span class='line'>　　// 错误处理模块&lt;br/>
+</span><span class='line'>Error:&lt;br/>
+</span><span class='line'>　　process_error();&lt;br/>
+</span><span class='line'>　　exit();&lt;br/>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>虽然goto 语句能有效地支持异常处理编程的实现。但是没有人却建议使用它，即便是在C语言中。因为：</br>
+(1) goto语句能破坏程序的结构化设计，使代码难于测试，且包含大量goto的代码模块不易理解和阅读。它一直遭结构化程序设计思想所抛弃，强烈建议程序员不易使用它;</br>
+(2) 与C++语言中提供的异常处理编程模型相比，它的确是太弱了一些。例如，它一般只能是在某个函数的局部作用域内跳转，也即它不能有效和方便地实现程序控制流的跨函数远程的跳转。</br>
+(3) 如果在C++语言中，用goto语句来实现异常处理，那么它将给面向对象构成极大破坏，并影响到效率。这一点，以后会继续深入阐述。</p>
+
+
+
+
+<p>虽然goto语句缺点多多，但不管如何，goto语句的确为程序员朋友们，在C语言中，有效运用异常处理思想来进行编程处理，提供了一种途径或简易的手段。
+当然，运用goto语句来进行异常处理编程已经成为历史。因为，在C语言中，早就已经提供了一种更加优雅的异常处理机制。</p>
+
+
+
+
+<h2>3.更优雅的异常处理机制：setjmp()函数与longjmp()函数</h2>
+
+
+<p>C标准库提供两个特殊的函数：setjmp() 及 longjmp()，这两个函数是结构化异常的基础，正是利用这两个函数的特性来实现异常。</p>
+
+
+<p>所以，异常的处理过程可以描述为这样：</br>
+·首先设置一个跳转点（setjmp() 函数可以实现这一功能），然后在其后的代码中任意地方调用 longjmp() 跳转回这个跳转点上，
+以此来实现当发生异常时，转到处理异常的程序上，在其后的介绍中将介绍如何实现。</br>
+·setjmp() 为跳转返回保存现场并为异常提供处理程序，longjmp() 则进行跳转（抛出异常），setjmp() 与 longjmp() 可以在函数
+间进行跳转，这就像一个全局的 goto 语句，可以跨函数跳转。</p>
+
+
+
+
+<p>举个例子，程序在 main() 函数内使用 setjmp() 设置跳转，并调用另一函数A，函数A内调用B，B抛出异常（调用longjmp() 函数），
+则程序直接跳回到 main() 函数内使用 setjmp() 的地方返回，并且返回一个值。</p>
+
+
+
+
+<h4>jmp_buf 异常结构</h4>
+
+
+<p>使用 setjmp() 及 longjmp() 函数前，需要先认识一下 jmp_buf 异常结构。jmp_buf 将使用在 setjmp() 函数中，用于保存当前程序现场（保存
+当前需要用到的寄存器的值），jmp_buf 结构在 setjmp.h 文件内声明：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef struct
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>unsigned j_sp;  // 堆栈指针寄存器
+</span><span class='line'>unsigned j_ss;  // 堆栈段
+</span><span class='line'>unsigned j_flag;  // 标志寄存器
+</span><span class='line'>unsigned j_cs;  // 代码段
+</span><span class='line'>unsigned j_ip;  // 指令指针寄存器
+</span><span class='line'>unsigned j_bp; // 基址指针
+</span><span class='line'>unsigned j_di;  // 目的指针
+</span><span class='line'>unsigned j_es; // 附加段
+</span><span class='line'>unsigned j_si;  // 源变址
+</span><span class='line'>unsigned j_ds; // 数据段
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>} jmp_buf;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>jmp_buf 结构存放了程序当前寄存器的值，以确保使用 longjmp() 后可以跳回到该执行点上继续执行。</p>
+
+
+
+
+<h4>setjmp() 与 longjmp() 函数详细说明</h4>
+
+
+<p>setjmp() 与 longjmp() 函数原型如下：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void &lt;em>Cdecl longjmp(jmp_buf jmpb, int retval);
+</span><span class='line'>int &lt;/em>Cdecl setjmp(jmp_buf jmpb);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>_Cdecl 声明函数的参数使用标准C的进栈方式（由右向左）压栈，_Cdecl 是C语言的一种调用约定，除此以外，PASCAL 也是
+调用约定之一。C标准调用约定（_Cdecl）所声明的函数不自动清除堆栈，这一事务由调用者自行负责——这也是C可以支持不固定
+个数的参数的原因。此外，这一调用约定将在函数名前添加一个下划线字符，如某一函数声明为：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int cdecl DoSomething(void);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>编译时将自动为 DoSomething 加上下划线前缀，即函数名变为：_DoSomething。</p>
+
+
+
+
+<p>setjmp() 与 longjmp() 函数都使用了 jmp_buf 结构作为形参，它们的调用关系是这样的：</br>
+首先调用 setjmp() 函数来初始化 jmp_buf 结构变量 jmpb，将当前CPU中的大部分影响到程序执行的寄存器的值存入 jmpb，
+为 longjmp() 函数提供跳转，setjmp() 函数是一个有趣的函数，它能返回两次，它应该是所有库函数中唯一一个能返回两次
+的函数，第一次是初始化时，返回零，第二次遇到 longjmp() 函数调用后，longjmp() 函数使 setjmp() 函数发生第二次返回，
+返回值由 longjmp() 的第二个参数给出（整型，这时不应该再返回零）。</p>
+
+
+
+
+<p>在使用 setjmp() 初始化 jmpb 后，可以其后的程序中任意地方使用 longjmp() 函数跳转会 setjmp() 函数的位置，longjmp() 
+的第一个参数便是 setjmp() 初始化的 jmpb，若想跳转回刚才设置的 setjmp() 处，则 longjmp() 函数的第一个参数是 setjmp() 
+所初始化的 jmpb 这个异常，这也说明一件事，即 jmpb 这个异常，一般需要定义为全局变量，否则，若是局部变量，当跨函数调用
+时就几乎无法使用（除非每次遇到函数调用都将 jmpb 以参数传递，然而明显地，是不值得这样做的）；longjmp() 函数的第二个参数
+是传给 setjmp() 的第二次返回值，这在介绍 setjmp() 函数时已经介绍过。</p>
+
+
+
+
+<h4>异常处理过程</h4>
+
+
+<p>先来对比（参考）一下 C++ 的异常处理，C++ 在语言层上便添加了异常处理机制，使用 try 块来包含那些可能出现错误的代码，
+你可以在 try 块代码中抛出异常，C++ 使用 throw 来抛出异常。抛出异常后，将转到异常处理程序中执行，C++ 使用 catch 块来
+包含那些处理异常的代码，catch 块可以接收不同类型的异常。需要说明的是，throw 一般不在 try 块内的代码中抛出异常，try 
+块内的代码调用了别的函数，如函数A，函数A 又调用了函数 B，throw 可以在函数B中抛出异常，或者更深的函数调用层，无论如何，
+只要有异常抛出，程序将转到 catch 处执行。</p>
+
+
+
+
+<p>C中如何实现，或者明确地说是模拟这一功能？下面介绍的是一些简单的方法。现在假设 longjmp() 第二个值为1，即 setjmp() 
+第二次将返回1。我们使用一组简单的宏来替代 setjmp() 和 longjmp() 以便使用：</br>
+首先定义一个全局的异常：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>jmp_buf Jump_Buffer;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>因为 setjmp() 第一次调用初始化后返回0，第二次返回非0，可以这样定义一个宏使得它功能接近于 C++ 的 try。</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define try if(!setjmp(Jump_Buffer))&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p> 当 setjmp() 函数第一次0 时，取非为真，则执行 try 块内的代码，如：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>try {&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>Test();
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>当因为调用 longjmp() 抛出异常而导致 setjmp() 第二次返回时（程序将会转到 setjmp() 函数处返回，这时，这时应该执行
+的是异常处理代码。longjmp() 使 setjmp() 函数返回非0，if(!setjmp(JumpBuffer)) 中将值取非则为假，是以，异常处理放在
+其后应该使用一个 else：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define catch else&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>如此看起来便跟 C++ 相似了，setjmp() 函数的第二次返回导致 if() 中表达式值为假，刚好使 catch 块得以执行，如：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>try  {&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>Test();
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>} catch {&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>puts("Error");
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>实现如 C++ 的 throw 语句，事实上以宏替换 longjmp(jmp_buf, int) 的调用：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define throw longjmp(Jump_Buffer, 1)&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>下面的例程解释如何使用这些宏：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include"stdio.h"&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include"conio.h"&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include"setjmp.h"&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>jmp_buf Jump_Buffer;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define try if(!setjmp(Jump_Buffer))&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define catch else&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define throw longjmp(Jump_Buffer,1)&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>int Test(int T)&lt;br/>
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>if(T&gt;100)  
+</span><span class='line'>    throw;  
+</span><span class='line'>else  
+</span><span class='line'>      puts("OK.");  
+</span><span class='line'>return 0;  
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}&lt;br/>
+</span><span class='line'>int Test_T(int T)&lt;br/>
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>Test(T);  
+</span><span class='line'>return 0;  
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}&lt;br/>
+</span><span class='line'>int main()&lt;br/>
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>int T;  
+</span><span class='line'>try{  
+</span><span class='line'>      puts("Input a value:");  
+</span><span class='line'>      scanf("%d",&amp;T);  
+</span><span class='line'>      T++;  
+</span><span class='line'>      Test_T(T);  
+</span><span class='line'>  } catch{  
+</span><span class='line'>      puts("Input Error!");  
+</span><span class='line'>  }  
+</span><span class='line'>getch();  
+</span><span class='line'>return 0;  
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[C语言断言简介]]></title>
+    <link href="http://ibillxia.github.com/blog/2011/05/03/introduce-to-assert-in-c-language/"/>
+    <updated>2011-05-03T10:31:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2011/05/03/introduce-to-assert-in-c-language</id>
+    <content type="html"><![CDATA[<h2>1.概述</h2>
+
+
+<p> 断言是对某种假设条件进行检查（可理解为若条件成立则无动作，否则应报告），它可以快速发现并定位软件问题，
+同时对系统错误进行自动报警。断言可以对在系统中隐藏很深，用其它手段极难发现的问题进行定位，从而缩短软件问题定位时间，
+提高系统的可测性。实际应用时，可根据具体情况灵活地设计断言。</p>
+
+
+
+
+<h2>2.标准断言机制</h2>
+
+
+<p>原型定义：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;assert.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>void assert( int expression_r_r_r );</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>assert的作用是现计算表达式 expression_r_r_r ，如果其值为假（即为0），
+那么它先向stderr打印一条出错信息，然后通过调用 abort来终止程序运行。</p>
+
+
+
+
+<!-- more -->
+
+
+<h2>3.简单实例</h2>
+
+
+<p>下面给一个断言的简单实例：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;assert.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdlib.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>int main( void )&lt;br/>
+</span><span class='line'>{&lt;br/>
+</span><span class='line'>   FILE *fp;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>   fp = fopen( "test.txt", "w" );//以可写的方式打开一个文件，如果不存在就创建一个同名文件&lt;br/>
+</span><span class='line'>   assert( fp );         //所以这里不会出错&lt;br/>
+</span><span class='line'>   fclose( fp );&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>   fp = fopen( "noexitfile.txt", "r" );//以只读的方式打开一个文件，如果不存在就打开失败&lt;br/>
+</span><span class='line'>   assert( fp );         //所以这里出错&lt;br/>
+</span><span class='line'>   fclose( fp );         //程序永远都执行不到这里来&lt;br/>
+</span><span class='line'>   return 0;&lt;br/>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>4.断言用法详解</h2>
+
+
+<p>1)在函数开始处检验传入参数的合法性，如:</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int resetBufferSize(int nNewSize)
+</span><span class='line'>{
+</span><span class='line'>  //功能:改变缓冲区大小,
+</span><span class='line'>  //参数:nNewSize 缓冲区新长度
+</span><span class='line'>  //返回值:缓冲区当前长度
+</span><span class='line'>  //说明:保持原信息内容不变，nNewSize&lt;=0表示清除缓冲区
+</span><span class='line'>  assert(nNewSize >= 0);
+</span><span class='line'>  assert(nNewSize &lt;= MAX_BUFFER_SIZE);
+</span><span class='line'>  //...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>2)每个assert只检验一个条件,因为同时检验多个条件时,如果断言失败,无法直观的判断是哪个条件失败</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>assert(nOffset>=0 &amp;&amp; nOffset+nSize&lt;=m_nInfomationSize);  //不好
+</span><span class='line'>assert(nOffset >= 0);   //好
+</span><span class='line'>assert(nOffset+nSize &lt;= m_nInfomationSize);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>3)不能使用改变环境的语句,因为assert只在DEBUG个生效,如果这么做,会使用程序在真正运行时遇到问题</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>assert(i++ &lt; 100);  //错误</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>这是因为如果出错，比如在执行之前i=100,那么这条语句就不会执行，那么i++这条命令就没有执行。</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>assert(i &lt; 100);    //正确
+</span><span class='line'>i++;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>4)assert和后面的语句应空一行,以形成逻辑和视觉上的一致感</p>
+
+
+
+
+<p>5)有的地方,assert不能代替条件过滤</p>
+
+
+
+
+<h2>5注意事项：</h2>
+
+
+<p>1).使用assert的缺点是，频繁的调用会极大的影响程序的性能，增加额外的开销。
+在调试结束后，可以通过在包含#include <assert.h>的语句之前插入 #define NDEBUG 来禁用assert调用，
+示例代码如下：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define NDEBUG&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;assert.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>2).ASSERT只有在Debug版本中才有效，如果编译为Release版本则被忽略掉。（在C中，ASSERT是宏而不是函数），
+使用ASSERT“断言”容易在debug时输出程序错误所在。而assert()的功能类似，它是ANSI C标准中规定的函数，
+它与ASSERT的一个重要区别是可以用在Release版本中。</p>
+
+
+
+
+<h3>推荐阅读</h3>
+
+
+<p><a href="http://www.cppblog.com/oosky/archive/2006/03/26/4625.html#_Toc131314725">华为软件编程规范</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[浅谈C语言的可变参数]]></title>
+    <link href="http://ibillxia.github.com/blog/2011/04/21/about-variable-parameters-in-c-language/"/>
+    <updated>2011-04-21T16:50:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2011/04/21/about-variable-parameters-in-c-language</id>
+    <content type="html"><![CDATA[<h2>1.问题引入</h2>
+
+
+<p>
+C语言中有些函数使用可变参数，比如常见的int printf( const char *format [, argument]... );，
+第一个参数format是固定的，其余的参数的个数和类型都不固定。例如：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>printf("Enjoy yourself everyday!/n");
+</span><span class='line'>printf("The value is %d!/n", value);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>这种可变参数可以说是C语言一个比较难理解的部分，这里会由几个问题引发一些对它的分析。
+注意：在C++中有函数重载（overload）可以用来区别不同函数参数的调用，但它还是不能表示任意数量的函数参数。</p>
+
+
+
+
+<h2>2.printf（）实现原理</h2>
+
+
+<p>
+C语言用va_start等宏来处理这些可变参数。这些宏看起来很复杂，其实原理挺简单，
+就是根据参数入栈的特点从最靠近第一个可变参数的固定参数开始，依次获取每个可变参数的地址。
+下面我们来分析这些宏。</p>
+
+
+
+
+<!-- more -->
+
+
+<p>在stdarg.h头文件中，针对不同平台有不同的宏定义，我们选取X86平台下的宏定义：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef char * va_list;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define _INTSIZEOF(n) ( (sizeof(n) + sizeof(int) - 1) &amp; ~(sizeof(int) - 1) )&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define va_start(ap,v) ( ap = (va_list)&amp;v + _INTSIZEOF(v) )&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define va_arg(ap,t) ( &lt;em>(t &lt;/em>)((ap += &lt;em>INTSIZEOF(t)) - &lt;/em>INTSIZEOF(t)) )&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define va_end(ap) ( ap = (va_list)0 )&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>_INTSIZEOF(n)宏是为了考虑那些内存地址需要对齐的系统，从宏的名字来应该是跟sizeof(int)对齐。
+一般的sizeof(int)=4，也就是参数在内存中的地址都为4的倍数。比如，如果sizeof(n)在1－4之间，
+那_INTSIZEOF(n)＝4；如果sizeof(n)在5－8之间，那么_INTSIZEOF(n)=8。</p>
+
+
+
+
+<p>为了能从固定参数依次得到每个可变参数，va_start,va_arg充分利用下面两点：</br>
+&nbsp;&nbsp;&nbsp;&nbsp;1．C语言在函数调用时，先将最后一个参数压入栈;</br>
+&nbsp;&nbsp;&nbsp;&nbsp;2．X86平台下的内存分配顺序是从高地址内存到低地址内存</br>
+<center><img src="/images/2011/IMAG2011042101.png"></center></p>
+
+
+
+
+<p>由上图可见，v是固定参数在内存中的地址，在调用va_start后，ap指向第一个可变参数。
+这个宏的作用就是在v的内存地址上增加v所占的内存大小，这样就得到了第一个可变参数的地址。</p>
+
+
+
+
+<p>接下来，可以这样设想，如果我能确定这个可变参数的类型，那么我就知道了它占用了多少内存，
+依葫芦画瓢，我就能得到下一个可变参数的地址。</p>
+
+
+
+
+<p>让我们再来看看va_arg，它先ap指向下一个可变参数，然后减去当前可变参数的大小即得到当前
+可变参数的内存地址，再做个类型转换，返回它的值。</br>
+要确定每个可变参数的类型，有两种做法，要么都是默认的类型，要么就在固定参数中包含足够的
+信息让程序可以确定每个可变参数的类型。比如，printf，程序通过分析format字符串就可以
+确定每个可变参数大类型。</br>
+最后一个宏就简单了，va_end使得ap不再指向有效的内存地址。</p>
+
+
+
+
+<p>看了这几个宏，不禁让我再次感慨，C语言太灵活了，而且代码可以写得非常简洁，
+虽然有时候让人看得不是很明白，但是一旦明白 过来，你肯定会为它击掌叫好！</br>
+其实在varargs.h头文件中定义了UNIX System V实行的va系列宏，而上面在stdarg.h头文件中
+定义的是ANSI C形式的宏，这两种宏是不兼容的，一般说来，我们应该使用ANSI C形式的va宏。</p>
+
+
+
+
+<h2>3.实战演练</h2>
+
+
+<p>有没有办法写一个函数，这个函数参数的具体形式可以在运行时才确定？</br>
+系统提供了vprintf系列格式化字符串的函数，用于编程人员封装自己的I/O函数。</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int vprintf / vscanf(const char * format, va_list ap); // 从标准输入/输出格式化字符串
+</span><span class='line'>int vfprintf / vfsacanf(FILE * stream, const char * format, va_list ap);// 从文件流
+</span><span class='line'>int vsprintf / vsscanf(char * s, const char * format, va_list ap); // 从字符串
+</span><span class='line'>// 例1：格式化到一个文件流，可用于日志文件
+</span><span class='line'>FILE *logfile;
+</span><span class='line'>int WriteLog(const char * format, ...)
+</span><span class='line'>{
+</span><span class='line'>   va_list arg_ptr;
+</span><span class='line'>   va_start(arg_ptr, format);
+</span><span class='line'>   int nWrittenBytes = vfprintf(logfile, format, arg_ptr);
+</span><span class='line'>   va_end(arg_ptr);
+</span><span class='line'>   return nWrittenBytes;
+</span><span class='line'>}
+</span><span class='line'>...
+</span><span class='line'>// 调用时，与使用printf()没有区别。
+</span><span class='line'>WriteLog("%04d-%02d-%02d %02d:%02d:%02d %s/%04d logged out.", nYear, nMonth, nDay, nHour, nMinute, szUserName, nUserID);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>同理，也可以从文件中执行格式化输入；或者对标准输入输出，字符串执行格式化。</br>
+在上面的例1中，WriteLog()函数可以接受参数个数可变的输入，本质上，它的实现需要vprintf()的支持。
+如何真正实现属于自己的可变参数函数，包括控制每一个传入的可选参数。</p>
+
+
+
+
+<h2>4.关于va()函数和va宏</h2>
+
+
+<p>C语言支持va函数，作为C语言的扩展--C++同样支持va函数，但在C++中并不推荐使用，C++引入的
+多态性同样可以实现参数个数可变的函数。不过，C++的重载功能毕竟只能是有限多个可以预见的参数个数。
+比较而言，C中的va函数则可以定义无穷多个相当于C++的重载函数，这方面C++是无能为力的。va函数的
+优势表现在使用的方便性和易用性上，可以使代码更简洁。C编译器为了统一在不同的硬件架构、硬件
+平台上的实现，和增加代码的可移植性，提供了一系列宏来屏蔽硬件环境不同带来的差异。</p>
+
+
+
+
+<p>ANSI C标准下，va的宏定义在stdarg.h中，它们有：va_list，va_start()，va_arg()，va_end()。</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 例2：求任意个自然数的平方和：
+</span><span class='line'>int SqSum(int n1, ...)
+</span><span class='line'>{
+</span><span class='line'>   va_list arg_ptr;
+</span><span class='line'>   int nSqSum = 0, n = n1;
+</span><span class='line'>   va_start(arg_ptr, n1);
+</span><span class='line'>   while (n > 0)
+</span><span class='line'>  {
+</span><span class='line'>nSqSum += (n * n);
+</span><span class='line'>n = va_arg(arg_ptr, int);
+</span><span class='line'>  }
+</span><span class='line'>  va_end(arg_ptr);
+</span><span class='line'>  return nSqSum;
+</span><span class='line'>}
+</span><span class='line'>// 调用时
+</span><span class='line'>int nSqSum = SqSum(7, 2, 7, 11, -1);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>可变参数函数的原型声明格式为：</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>type VAFunction(type arg1, type arg2, ... );</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>参数可以分为两部分：个数确定的固定参数和个数可变的可选参数。函数至少需要一个固定参数，
+固定参数的声明和普通函数一样；可选参数由于个数不确定，声明时用"..."表示。固定参数和可选
+参数公同构成一个函数的参数列表。借助上面这个简单的例2，来看看各个va_xxx的作用。</p>
+
+
+
+
+<p>va_list arg_ptr：定义一个指向个数可变的参数列表指针；</br>
+va_start(arg_ptr, argN)：使参数列表指针arg_ptr指向函数参数列表中的第一个可选参数，
+说明：argN是位于第一个可选参数之前的固定参数，（或者说，最后一个固定参数；...
+之前的一个参数），函数参数列表中参数在内存中的顺序与函数声明时的顺序是一致的。
+如果有一va函数的声明是void va_test(char a, char b, char c, ...)，则它的固定
+参数依次是a,b,c，最后一个固定参数argN为c，因此就是va_start(arg_ptr, c)。</br>
+va_arg(arg_ptr, type)：返回参数列表中指针arg_ptr所指的参数，返回类型为type，
+并使指针arg_ptr指向参数列表中下一个参数。</br>
+va_copy(dest, src)：dest，src的类型都是va_list，va_copy()用于复制参数列表指针，将dest初始化为src。</br>
+va_end(arg_ptr)：清空参数列表，并置参数指针arg_ptr无效。说明：指针arg_ptr被置无效后，
+可以通过调用va_start()、va_copy()恢复arg_ptr。每次调用va_start() / va_copy()后，
+必须得有相应的va_end()与之匹配。参数指针可以在参数列表中随意地来回移动，
+但必须在va_start() ... va_end()之内。</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[C语言输入输出缓冲区]]></title>
+    <link href="http://ibillxia.github.com/blog/2009/06/05/io-buffer-in-c-language/"/>
+    <updated>2009-06-05T23:02:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2009/06/05/io-buffer-in-c-language</id>
+    <content type="html"><![CDATA[<p>原文链接：<a href="http://blog.csdn.net/cxyol/archive/2006/03/18/628324.aspx">http://blog.csdn.net/cxyol/archive/2006/03/18/628324.aspx</a></p>
+
+<h2>1.输入输出缓冲区的概念（C++用的多一些）</h2>
+
+
+<p>我想以一个例子说明，比如我想把一篇文章以字符序列的方式输出到计算机显示器屏幕上，
+那么我的程序内存作为数据源而显示器驱动程序作为数据目标，如果数据源直接对数据目标发送数据的话。
+数据目标获得第一个字符，便将它显示。然后从端口读取下一个字符，可是这时就不能保证数据源向端口
+发送的恰好是第二个字符（也许是第三个，而第二个已经在数据目标显示时发送过了）。
+这样的话就不能保证输出的数据能完整的被数据目标所接受并处理。</p>
+
+
+<p>为了解决这个问题，我们需要在数据源与数据目标中间放置一个保存完整数据内容的区域，
+那就是 “缓冲区”。这样的话， 数据源可以不考虑数据目标正在处理哪部分数据，只要把数据输出到缓冲区就可以了，
+数据目标也可以不考虑数据源的发送频率，只是从缓冲区中依次取出下一个数据。
+从而保证了数据发送的完整性，同时也提高了程序的效率。<p>
+<p>当然getch(),getche()没有用到缓冲区。</p>
+
+<!-- more -->
+<h2>2.几个函数的区别</h2>
+<p>首先不要忘了，<strong>要用getch()必须引入头文件conio.h，</strong>以前学C语言的时候，
+我们总喜欢用在程序的末尾加上它，利用它来实现程序运行完了暂停不退出的效果。如果不加这句话，
+在TC2.0的环境中我们用Ctrl+F9编译并运行后，程序一运行完了就退回到TC环境中，我们根本来不及看到结果，
+这时要看结果，我们就要按Alt+F5回到DOS环境中去看结果，这很麻烦。而如果在程序的结尾加上一行getch();语句，
+我们就可以省掉会DOS看结果这个步骤，因为程序运行完了并不退出，而是在程序最后把屏幕停住了，按任意键才退回到TC环境中去。</p>
+
+<p>那我们来看看getch()到底起的什么作用，getch()实际是一个输入命令，作用是从键盘接收一个字符，
+而且并不把这个字符显示出来，就是说，你按了一个键后它并不在屏幕上显示你按的什么，而继续运行后面的代码，
+所以我们在C++中可以用它来实现“按任意键继续”的效果，即程序中遇到getch();这行语句，它就会把程序暂停下来，
+等你按任意键，它接收了这个字符键后再继续执行后面的代码。</p>
+
+<p>你也许会问，为什么我们在C++中就没有在程序的末尾加上getch()，解释是，软件总是不断更新的，
+不好的地方当然要进行改正，getch()加在程序末尾，它又不赋值给任何变量，所以它在这个地方完全是垃圾代码，
+与程序无关。C++中考虑到这一点，于是在每次程序运行完了并不退出，而是自动把屏幕停下来，并显示“press any key...”
+叫你按任意键退出，这就好比C++在它的环境中运行程序，在程序的末尾自动加上了一行getch();语句，并且在这行语句前还
+添加了一行输出语句cout<<"press any key...";来提示你程序结束了，按任意键继续。</p>
+
+<p>实际上我们编译好的程序在程序结束了本身是不会停下来的，我们可以在编译产生的Debug目录
+中找到这个编译好的应用程序（扩展名exe），在文件夹中双击运行它，你会发现屏幕闪了一下MS-DOS窗口
+就关闭了，因为程序运行完就自动退出了，回到了windows环境，当然，如果我们在DOS环境中运行这个程序，
+我们就可以直接在看到DOS屏幕上看到程序运行结果，因为程序运行完后并不清屏。但是，visual stdio.net2003
+有返回到了tc那样的情况，你必需要有个getch()才行。</p>
+
+<p>getche()和getch()很相似，它也需要引入头文件conio.h，那它们之间的区别又在哪里呢？
+不同之处就在于getch()无返回显示，getche()有返回显示。就这么一点看看下面的例子：</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include&lt;stdio.h>
+</span><span class='line'>#include&lt;conio.h>
+</span><span class='line'>void main()
+</span><span class='line'>{
+</span><span class='line'>    char ch;
+</span><span class='line'>    for(int i=0;i&lt;5;i++)
+</span><span class='line'>    {
+</span><span class='line'>        ch=getch();
+</span><span class='line'>        printf("%c",ch);
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>首先这是个连续5次的循环来实现5次停顿，等待我们输入，我们编译并运行这个程序，
+假设我们分别输入abcde，屏幕上显示的结果是abcde，这个abcde并不是在ch=getch();中输出的，
+我们把printf("%c",ch);这行语句去掉，就会发现我们按5次任意键程序就结束了，但屏幕上什么都没有显示。</p>
+
+<p>然后我们在把代码中的getch()换成getche()看看有什么不同，我们还是分别输入abcde，
+这时屏幕上显示的结果是aabbccddee，我们把printf("%c",ch);这行语句再去掉看看，显示的结果就是abcde了，
+说明程序在执行ch=getche();这条语句的时候就把我们输入的键返回显示在屏幕上，有无回显就是它们的唯一区别。</p>
+
+<p>有人会说，既然是C的函数库中的，那么就应该淘汰了，我们还研究它，还用它干嘛？
+但是我发现还是有用着它的地方，否则我也不会在这里说这么多来耽误大家的时间。我就举个例子吧，程序如下：</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include&lt;stdio.h>
+</span><span class='line'>#include&lt;conio.h>
+</span><span class='line'>void main()
+</span><span class='line'>{
+</span><span class='line'>    char ch='*';
+</span><span class='line'>    while(ch=='*')
+</span><span class='line'>    {
+</span><span class='line'>        printf("/n按 * 继续循环，按其他键退出！");
+</span><span class='line'>        ch=getch();
+</span><span class='line'>    }
+</span><span class='line'>    printf("/n退出程序！");
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>我们可以在这个循环体中添加我们想要的功能，程序中按*继续循环，其他任意键退出，
+而且利用getch()无回显的特性，我们不管按什么，都不会在屏幕上留下痕迹，使我们的界面达到美观效果，
+如果还有更好的办法实现这个功能。例子：</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include&lt;stdio.h>
+</span><span class='line'>#include&lt;conio.h>
+</span><span class='line'>void main()
+</span><span class='line'>{ 
+</span><span class='line'>    char c, ch;
+</span><span class='line'>    c=getch();     /*从键盘上读入一个字符不回显送给字符变量c*/
+</span><span class='line'>    putchar(c);    /*输出该字符*/
+</span><span class='line'>    ch=getche();   /*从键盘上带回显的读入一个字符送给字符变量ch*/
+</span><span class='line'>    putchar(ch);
+</span><span class='line'>    printf("/n/n");
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p><strong>值得注意的是前面两个函数都是从键盘读入数据！</strong></br>
+还有getchar是很值得研究的：getchar()是stdio.h中的库函数，它的作用是从stdin流中读入一个字符，
+也就是说，如果stdin有数据的话不用输入它就可以直接读取了。而getch()和getche()是conio.h中的库函数，
+它的作用是从键盘接收字符。getchar带有显示。</p>
+
+<p>与前面两个函数的区别在于： getchar()函数等待输入直到按回车才结束（前提是缓冲区没有数据），
+回车前的所有输入字符都会逐个显示在屏幕上。但只有第一个字符作为函数的返回值。</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include&lt;stdio.h>
+</span><span class='line'>#include&lt;conio.h>
+</span><span class='line'>void main()
+</span><span class='line'>{
+</span><span class='line'>    char c;
+</span><span class='line'>    c=getchar();   /*从键盘读入字符直到回车结束*/
+</span><span class='line'>    //getchar()在这里它只返回你输入字符串的第一个字符，并把返回值赋值给c
+</span><span class='line'>    putchar(c);    /*显示输入的第一个字符*/
+</span><span class='line'>    printf("/n/n");
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>例四：呵呵，这个程序你运行一下，相信你又会有疑问了。这个就是从缓冲区中读取了例子。
+第一次getchar()时，确实需要人工的输入，但是如果你输了多个字符，以后的getchar()再执行时就会直接从缓冲区中读取了。</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include&lt;stdio.h>
+</span><span class='line'>#include&lt;conio.h>
+</span><span class='line'>void main()
+</span><span class='line'>{
+</span><span class='line'>    char c;
+</span><span class='line'>    while ((c=getchar())!='/n')    /*每个getchar()依次读入一个字符*/
+</span><span class='line'>        printf("%c",c);        /*按照原样输出*/
+</span><span class='line'>    printf("/n/n");
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>程序运行时，首先停下来，等你输入一串字符串，输入完毕后，
+它把你输入的整个字符串都输出来了，咦，你不是说getchar()只返回第一个字符么，这里怎么？</p>
+
+<p>因为我们输入的字符串并不是取了第一个字符就把剩下的字符串丢掉了，它还在我们的内存中，
+就好比，开闸放水，我们把水放到闸里去以后，开一次闸就放掉一点，开一次就放掉一点，直到放光了为止，
+这里开闸动作就相当于调用一次getchar()。我们输入的字符串也是这么一回事，首先我们输入的字符串是放在
+内存的缓冲区中的，我们调用一次getchar()就把缓冲区中里出口最近的一个字符输出，也就是最前面的一个字符输出，
+输出后，就把它释放掉了，但后面还有字符串，所以我们就用循环把最前面的一个字符一个个的在内存中释放掉，
+直到不满足循环条件退出为止。</p>
+
+<p>例子中循环条件里的'/n'实际上就是你输入字符串后的回车符，所以意思就是说，直到遇到回车符才结束循环，
+而getchar()函数就是等待输入（或缓冲区中的数据）直到按回车才结束，所以实现了整个字符串的输出。当然，
+我们也可以把循环条件改一下，比如while ((c=getchar())!='a')，什么意思呢，意思就是遇到字符'a'就停止循环，
+当然意思是如果你输入“12345a213123/n”那么只会输出到a，结果是12345a。</p>
+
+<p>再次注意：用getchar()它是从“流”中间去读取，所以第一个getchar()接受的是刚刚中断的流队列中即将出列
+的第一个字符（不限于回车符，上面举过例子了），如果流队列不为空，执行getchar()就继续放水，直到把回车符也放空为止，
+空了之后再在执行getchar()就停下等待你的输入了；我们用getch()为什么每次都是等待用户的输入呢？因为getch()是从键盘接收，
+即时的接收，并不是从stdin流中去读取数据。</p>
+
+<p>补充：按键盘上的回车产生了2个字符:回车符('/r')和换行符('/n')。回车符'/r'(CR:carriage return:倒车）
+使光标回到这行的首部，换行符('/n')(new line)然后再换行。</p>
+
+<p>所以当输入字符'w',并按下回车键以后。首先得到回车符。那个getchar函数结束了。 
+但是还存在一个换行符。所以如果用getchar()来做判断的时候。最好再写一次getchar()清除缓冲区的'/n'.</p>
+
+
+<h2>3.如何清空输入缓冲区的内容？</h2>
+<p>如果我想让getchar()每次都能够等待用户输入的话就要清空缓冲区，下面就介绍方法（不同平台）</p>
+
+<p>C标准规定 fflush()函数是用来刷新输出（stdout）缓存的。对于输入（stdin），它是没有定义的。
+但是有些编译器也定义了 fflush( stdin )的实现，比如微软的VC。其它编译器是否也定义了 fflush( stdin )
+的实现应当查找它的手册。GCC编译器没有定义它的实现，所以不能使用 fflush( stdin )来刷新输入缓存。</p>
+
+<p>对于没有定义 fflush( stdin )的编译器，可以使用 fgets()函数来代替它（比用 getchar()、scanf()等函数通用性好）。
+可以这样忽略输入流中留下的回车等其它输入，从而使下一次的输入总保持一个“干净”的状态。（这个是任何平台下都可以的）</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// ...
+</span><span class='line'>char sbuf[1024];
+</span><span class='line'>// ...
+</span><span class='line'>fgets( sbuf, 1024, stdin );
+</span><span class='line'>// ...
+</span><span class='line'>在windows 的vc下面就可以这样了：
+</span><span class='line'>for(int i=0;i&lt;10;++i)
+</span><span class='line'>{
+</span><span class='line'>   char ch=getchar();
+</span><span class='line'>   fflush(stdin); //每次都会有等待状态了
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+
+<h2>4.总结</h2>
+<p>主要看getch(),getche()的是否显示，getchar()是读取流，而且和前面两个函数不是一个库。掌握清空缓冲区的方法。</p>
+
+]]></content>
+  </entry>
+  
+</feed>

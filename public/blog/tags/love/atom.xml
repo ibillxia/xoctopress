@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: Love | Bill's Blog]]></title>
+  <link href="http://ibillxia.github.com/blog/tags/love/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.com/"/>
+  <updated>2013-10-22T22:35:17+08:00</updated>
+  <id>http://ibillxia.github.com/</id>
+  <author>
+    <name><![CDATA[Bill Xia]]></name>
+    <email><![CDATA[ibillxia@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[一个爱情程序]]></title>
+    <link href="http://ibillxia.github.com/blog/2010/01/21/a-love-program/"/>
+    <updated>2010-01-21T22:13:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2010/01/21/a-love-program</id>
+    <content type="html"><![CDATA[<p>一个很有趣的爱情程序</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RESULT   love(boy,   girl)   &lt;br/>
+</span><span class='line'>  {   &lt;br/>
+</span><span class='line'>  　　if(   boy.有房()   AND   boy.有车()   )   &lt;br/>
+</span><span class='line'>  　　{   &lt;br/>
+</span><span class='line'>  　　　boy.Set(Nothing);   &lt;br/>
+</span><span class='line'>  　　　return   girl.嫁给(boy);   &lt;br/>
+</span><span class='line'>  　　}   &lt;br/>
+</span><span class='line'>  　　else   if(   girl.愿意等()   )   &lt;br/>
+</span><span class='line'>  　　{   &lt;br/>
+</span><span class='line'>  　　　next_year:   &lt;br/>
+</span><span class='line'>  　　　for(   day=1;   day&lt;=365;   day++)   &lt;br/>
+</span><span class='line'>  　　　{   &lt;br/>
+</span><span class='line'>  　　　　if(   day   ==   情人节   )   &lt;br/>
+</span><span class='line'>  　　　　　if(   boy.GiveGirl(玫瑰)   )   &lt;br/>
+</span><span class='line'>  　　　　　　girl.感情++;   &lt;br/>
+</span><span class='line'>  　　　　　else   &lt;br/>
+</span><span class='line'>  　　　　　　girl.感情--;   &lt;br/>
+</span><span class='line'>  　　　　if(   day   ==   girl.生日)   &lt;br/>
+</span><span class='line'>  　　　　　if(   boy.GiveGirl(玫瑰)   )   &lt;br/>
+</span><span class='line'>  　　　　　　girl.感情++;   &lt;br/>
+</span><span class='line'>  　　　　　else   &lt;br/>
+</span><span class='line'>  　　　　　　girl.感情--;   &lt;br/>
+</span><span class='line'>  　　　　boy.拼命赚钱();   &lt;br/>
+</span><span class='line'>  　　　}   &lt;br/>
+</span><span class='line'>  　　　年龄++;   &lt;br/>
+</span><span class='line'>  　　　girl.感情--;   &lt;br/>
+</span><span class='line'>  　　　if(   boy.有房()   AND   boy.有车()   )   &lt;br/>
+</span><span class='line'>  　　　{   &lt;br/>
+</span><span class='line'>  　　　　boy.Set(Nothing);   &lt;br/>
+</span><span class='line'>  　　　　return   girl.嫁给(boy);   &lt;br/>
+</span><span class='line'>  　　　}   &lt;br/>
+</span><span class='line'>  　　　else   if(   boy.赚钱   >   100,000   AND   girl.感情   >   8   )   &lt;br/>
+</span><span class='line'>  　　　　goto   next_year;   &lt;br/>
+</span><span class='line'>  　　　else   &lt;br/>
+</span><span class='line'>  　　　　return   girl.goto(   another_boy);   &lt;br/>
+</span><span class='line'>  　　}   &lt;br/>
+</span><span class='line'>  　　return   girl.goto(   another_boy);
+</span><span class='line'>  }
+</span><span class='line'>//有看懂吗，看懂了就很有意思。看不懂就加油！！</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

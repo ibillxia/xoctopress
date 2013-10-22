@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: Record | Bill's Blog]]></title>
+  <link href="http://ibillxia.github.com/blog/tags/record/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.com/"/>
+  <updated>2013-10-22T22:35:17+08:00</updated>
+  <id>http://ibillxia.github.com/</id>
+  <author>
+    <name><![CDATA[Bill Xia]]></name>
+    <email><![CDATA[ibillxia@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[用Windows API实现一个简单的录音程序]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/06/04/a-simple-code-for-wave-recording-using-windows-api/"/>
+    <updated>2013-06-04T23:59:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/06/04/a-simple-code-for-wave-recording-using-windows-api</id>
+    <content type="html"><![CDATA[<p>本文介绍如何使用Windows API来录制语音信号兵保存到wave文件中，主要用到三个结构体和几个wave开头的API函数（在Winmm.lib文件中）。其中三个结构体是WAVEFORMATEX、WAVEHDR、MMTIME，其详细定义都在MMSystem.h中定义，
+可以转到定义看其详细内容及每一项的英文注释。用到的API函数的详细用法可以参见MSDN： http://msdn.microsoft.com/en-us/library/windows/desktop/dd743847(v=vs.85).aspx
+详细的使用过程请看下文的源代码，这是一个Win32 Application，需要手动添加Winmm.lib的依赖。</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<p>实例程序</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// &lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;em> FileName: WinMain.cpp &lt;/em>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>**********
+</span><span class='line'>// 该源程序需要加入到 VC6 的 Win32 Application 的 empty Project 中
+</span><span class='line'>// 对于工程的 Link 选项，至少要包含以下库: msvcrt.lib Winmm.lib&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;atlstr.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;windows.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;Mmsystem.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>pragma comment(lib,"Winmm.lib")&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>char lpTemp[256];&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>DWORD FCC(LPSTR lpStr)
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>DWORD Number = lpStr[0] + lpStr[1] *0x100 + lpStr[2] *0x10000 + lpStr[3] *0x1000000 ;
+</span><span class='line'>return Number;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>DWORD datasize = 48000;
+</span><span class='line'>
+</span><span class='line'>// 设置录音采样参数
+</span><span class='line'>WAVEFORMATEX waveformat;
+</span><span class='line'>waveformat.wFormatTag=WAVE_FORMAT_PCM; // 指定录音格式
+</span><span class='line'>waveformat.nChannels=1;
+</span><span class='line'>waveformat.nSamplesPerSec=8000;
+</span><span class='line'>waveformat.nBlockAlign=1;
+</span><span class='line'>waveformat.wBitsPerSample=8;
+</span><span class='line'>waveformat.cbSize=0;
+</span><span class='line'>waveformat.nAvgBytesPerSec=waveformat.nSamplesPerSec*waveformat.wBitsPerSample/8;
+</span><span class='line'>
+</span><span class='line'>sprintf(lpTemp,"WAVEFORMATEX size = %lu", sizeof(WAVEFORMATEX));
+</span><span class='line'>MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
+</span><span class='line'>
+</span><span class='line'>HWAVEIN m_hWaveIn;
+</span><span class='line'>if ( !waveInGetNumDevs() )
+</span><span class='line'>{
+</span><span class='line'>    MessageBox(NULL,CString("没有可以使用的 WaveIn 通道"),CString("提示"),MB_OK);
+</span><span class='line'>    return 0;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// 打开录音设备
+</span><span class='line'>int res = waveInOpen(&amp;m_hWaveIn,WAVE_MAPPER, &amp;waveformat, (DWORD)NULL,0L,CALLBACK_WINDOW); 
+</span><span class='line'>if ( res != MMSYSERR_NOERROR )
+</span><span class='line'>{
+</span><span class='line'>   sprintf(lpTemp, "打开 waveIn 通道失败，Error_Code = 0x%x", res );
+</span><span class='line'>   MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
+</span><span class='line'>   return 0;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>WAVEHDR m_pWaveHdr;
+</span><span class='line'>m_pWaveHdr.lpData = (char *)GlobalLock( GlobalAlloc(GMEM_MOVEABLE|GMEM_SHARE, datasize) );
+</span><span class='line'>memset(m_pWaveHdr.lpData, 0, datasize );
+</span><span class='line'>m_pWaveHdr.dwBufferLength = datasize;
+</span><span class='line'>m_pWaveHdr.dwBytesRecorded = 0;
+</span><span class='line'>m_pWaveHdr.dwUser = 0;
+</span><span class='line'>m_pWaveHdr.dwFlags = 0;
+</span><span class='line'>m_pWaveHdr.dwLoops = 0;
+</span><span class='line'>sprintf( lpTemp, "WAVEHDR size = %lu", sizeof(WAVEHDR) );
+</span><span class='line'>MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
+</span><span class='line'>
+</span><span class='line'>// 准备内存块录音
+</span><span class='line'>int resPrepare = waveInPrepareHeader( m_hWaveIn, &amp;m_pWaveHdr, sizeof(WAVEHDR) ); 
+</span><span class='line'>if ( resPrepare != MMSYSERR_NOERROR) 
+</span><span class='line'>{
+</span><span class='line'>    sprintf(lpTemp, "不能开辟录音头文件，Error_Code = 0x%03X", resPrepare );
+</span><span class='line'>    MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
+</span><span class='line'>    return 0;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>resPrepare = waveInAddBuffer( m_hWaveIn, &amp;m_pWaveHdr, sizeof(WAVEHDR) );
+</span><span class='line'>if ( resPrepare != MMSYSERR_NOERROR) 
+</span><span class='line'>{
+</span><span class='line'>    sprintf(lpTemp, "不能开辟录音用缓冲，Error_Code = 0x%03X", resPrepare );
+</span><span class='line'>    MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
+</span><span class='line'>    return 0;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>if (! waveInStart(m_hWaveIn) ) 
+</span><span class='line'>{
+</span><span class='line'>    MessageBox(NULL,CString("开始录音"),CString("提示"),MB_OK);
+</span><span class='line'>}
+</span><span class='line'>else 
+</span><span class='line'>{
+</span><span class='line'>    MessageBox(NULL,CString("开始录音失败"),CString("提示"),MB_OK);
+</span><span class='line'>    return 0;
+</span><span class='line'>}
+</span><span class='line'>Sleep(30000);
+</span><span class='line'>
+</span><span class='line'>MMTIME mmt;
+</span><span class='line'>mmt.wType = TIME_BYTES;
+</span><span class='line'>sprintf( lpTemp, "sizeof(MMTIME) = %d, sizeof(UINT) = %d", sizeof(MMTIME), sizeof(UINT) );
+</span><span class='line'>MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
+</span><span class='line'>
+</span><span class='line'>if (! waveInGetPosition(m_hWaveIn, &amp;mmt, sizeof(MMTIME)) )
+</span><span class='line'>{
+</span><span class='line'>    MessageBox(NULL,CString("取得现在音频位置"),CString("提示"),MB_OK);
+</span><span class='line'>}
+</span><span class='line'>else 
+</span><span class='line'>{
+</span><span class='line'>    MessageBox(NULL,CString("不能取得音频长度"),CString("提示"),MB_OK);
+</span><span class='line'>    return 0;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>if (mmt.wType != TIME_BYTES) 
+</span><span class='line'>{
+</span><span class='line'>    MessageBox(NULL,CString("指定的 TIME_BYTES 格式音频长度不支持"),CString("提示"),MB_OK);
+</span><span class='line'>    return 0;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>if (! waveInStop(m_hWaveIn) ) 
+</span><span class='line'>{
+</span><span class='line'>    MessageBox(NULL,CString("停止录音"),CString("提示"),MB_OK);
+</span><span class='line'>}
+</span><span class='line'>else  
+</span><span class='line'>{
+</span><span class='line'>    MessageBox(NULL,CString("停止录音失败"),CString("提示"),MB_OK);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>if ( waveInReset(m_hWaveIn) ) 
+</span><span class='line'>{
+</span><span class='line'>    MessageBox(NULL,CString("重置内存区失败"),CString("提示"),MB_OK);
+</span><span class='line'>    return 0;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>m_pWaveHdr.dwBytesRecorded = mmt.u.cb;
+</span><span class='line'>DWORD NumToWrite=0;
+</span><span class='line'>DWORD dwNumber = 0;
+</span><span class='line'>HANDLE FileHandle = CreateFile( CString("myTest.wav"), GENERIC_WRITE, 
+</span><span class='line'>    FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+</span><span class='line'>
+</span><span class='line'>// memset(m_pWaveHdr.lpData, 0, datasize);
+</span><span class='line'>dwNumber = FCC("RIFF");
+</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
+</span><span class='line'>dwNumber = m_pWaveHdr.dwBytesRecorded + 18 + 20;
+</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
+</span><span class='line'>dwNumber = FCC("WAVE");
+</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
+</span><span class='line'>dwNumber = FCC("fmt ");
+</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
+</span><span class='line'>dwNumber = 18L;
+</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
+</span><span class='line'>WriteFile(FileHandle, &amp;waveformat, sizeof(WAVEFORMATEX), &amp;NumToWrite, NULL);
+</span><span class='line'>dwNumber = FCC("data");
+</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
+</span><span class='line'>dwNumber = m_pWaveHdr.dwBytesRecorded;
+</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
+</span><span class='line'>WriteFile(FileHandle, m_pWaveHdr.lpData, m_pWaveHdr.dwBytesRecorded, &amp;NumToWrite, NULL);
+</span><span class='line'>SetEndOfFile(FileHandle);
+</span><span class='line'>CloseHandle( FileHandle );  
+</span><span class='line'>FileHandle = INVALID_HANDLE_VALUE; // 收尾关闭句柄
+</span><span class='line'>MessageBox(NULL,CString("应该已生成 myTest.wav 文件"),CString("提示"),MB_OK);
+</span><span class='line'>
+</span><span class='line'>if ( waveInUnprepareHeader(m_hWaveIn, &amp;m_pWaveHdr, sizeof(WAVEHDR)) ) 
+</span><span class='line'>{
+</span><span class='line'>    MessageBox(NULL,CString("Un_Prepare Header 失败"),CString("提示"),MB_OK);
+</span><span class='line'>}
+</span><span class='line'>else 
+</span><span class='line'>{
+</span><span class='line'>    MessageBox(NULL,CString("Un_Prepare Header 成功"),CString("提示"),MB_OK);
+</span><span class='line'>    return 0;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>if ( GlobalFree(GlobalHandle( m_pWaveHdr.lpData )) ) 
+</span><span class='line'>{
+</span><span class='line'>    MessageBox(NULL,CString("Global Free 失败"),CString("提示"),MB_OK);
+</span><span class='line'>}
+</span><span class='line'>else 
+</span><span class='line'>{
+</span><span class='line'>    MessageBox(NULL,CString("Global Free 成功"),CString("提示"),MB_OK);
+</span><span class='line'>    return 0;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>if (res == MMSYSERR_NOERROR ) // 关闭录音设备
+</span><span class='line'>{
+</span><span class='line'>    if (waveInClose(m_hWaveIn)==MMSYSERR_NOERROR)
+</span><span class='line'>    {
+</span><span class='line'>        MessageBox(NULL,CString("正常关闭录音设备"),CString("提示"),MB_OK);
+</span><span class='line'>    }
+</span><span class='line'>    else
+</span><span class='line'>    {
+</span><span class='line'>        MessageBox(NULL,CString("非正常关闭录音设备"),CString("提示"),MB_OK);
+</span><span class='line'>        return 0;
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>return 0;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}
+</span><span class='line'>// &lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;em> End of File &lt;/em>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>*****</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>这里提供的代码有点杂乱，现已整理成一个小的接口，并提供了一个简单的示例，放在GitHub上：https://github.com/ibillxia/Demo/tree/master/DemoSpeechRecord</p>
+
+
+
+
+<p>参考：</br>
+[1]MSDN: http://msdn.microsoft.com/en-us/library/windows/desktop/dd743586(v=vs.85).aspx</br>
+[2]基于API的录音机程序: http://www.vckbase.com/index.php/wv/664
+</p>
+
+]]></content>
+  </entry>
+  
+</feed>

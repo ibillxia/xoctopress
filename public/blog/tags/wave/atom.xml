@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: Wave | Bill's Blog]]></title>
+  <link href="http://ibillxia.github.com/blog/tags/wave/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.com/"/>
+  <updated>2013-10-22T22:35:17+08:00</updated>
+  <id>http://ibillxia.github.com/</id>
+  <author>
+    <name><![CDATA[Bill Xia]]></name>
+    <email><![CDATA[ibillxia@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[PCM WAVE格式详解及用C语言实现wave文件的读取]]></title>
+    <link href="http://ibillxia.github.com/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language/"/>
+    <updated>2013-07-20T20:07:00+08:00</updated>
+    <id>http://ibillxia.github.com/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language</id>
+    <content type="html"><![CDATA[<h2>1.PCM Wave格式详解</h2>
+
+
+<p>WAVE文件格式是微软RIFF(Resource Interchange File Format,资源交换文件标准)的一种，是针对于多媒体文件存储的一种文件格式和标准。
+一般而言，RIFF文件由文件头和数据两部分组成，一个WAVE文件由一个“WAVE”数据块组成，这个“WAVE”块又由一个"fmt"子数据块和一个“data”子
+数据块组成，也称这种格式为“Canonical form”（权威/牧师格式），如下图所示：
+<center><img src="/images/2013/IMAG2013072001.gif"></center>
+</p>
+
+
+<!--more-->
+
+
+<p>每个字段的涵义如下：
+ChunkID: 占4个字节，内容为“RIFF”的ASCII码(0x52494646)，以大端（big endian）存储。</br>
+ChunkSize: 4字节，存储整个文件的字节数（不包含ChunkID和ChunkSize这8个字节），以小端（little endian）方式存储。</br>
+Format: 4字节，内容为“WAVE”的ASCII码(0x57415645)，以大端存储。</br>
+</p>
+
+
+
+
+<p>
+其中bigendian 主要有一个特征，在内存中对操作数的存储方式和从高字节到低字节。例如：0x1234，这样一个数，存储为:</br>
+0x4000:   0x12</br>
+0x4001:   0x34</br>
+而小尾端littleendian是：</br>
+0x4000:   0x34</br>
+0x4001:   0x12</br>
+用程序在区别的话，可以考虑：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include &lt;stdio.h>
+</span><span class='line'>#include &lt;stdlib.h>
+</span><span class='line'>int main(int argc, char *argv[])
+</span><span class='line'>{
+</span><span class='line'>       union w
+</span><span class='line'>      {
+</span><span class='line'>       short int a;
+</span><span class='line'>       char b;
+</span><span class='line'>      }c;
+</span><span class='line'>      c.a=1;
+</span><span class='line'>      if( c.b==1 )  printf("little endian\n");
+</span><span class='line'>      else printf("big endian\n");
+</span><span class='line'>      system("PAUSE"); 
+</span><span class='line'>      return 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</p>
+
+
+
+
+<p>"WAVE"格式由两个子数据块构成：“fmt”块和“data”块，其中“fmt”块的详细解释如下：
+Subchunk1ID: 占4个字节，内容为“fmt ”的ASCII码(0x666d7420)，以大端存储。</br>
+Subchunk1Size: 占4个字节，存储该子块的字节数（不含前面的Subchunk1ID和Subchunk1Size这8个字节），以小端方式存储。</br>
+AudioFormat：占2个字节，以小端方式存储，存储音频文件的编码格式，例如若为PCM则其存储值为1，若为其他非PCM格式的则有一定的压缩。</br>
+NumChannels: 占2个字节，以小端方式存储，通道数，单通道(Mono)值为1，双通道(Stereo)值为2，等等。</br>
+SampleRate: 占4个字节，以小端方式存储，采样率，如8k，44.1k等。</br>
+ByteRate: 占4个字节，以小端方式存储，每秒存储的bit数，其值=SampleRate * NumChannels * BitsPerSample/8</br>
+BlockAlign: 占2个字节，以小端方式存储，块对齐大小，其值=NumChannels * BitsPerSample/8</br>
+BitsPerSample: 占2个字节，以小端方式存储，每个采样点的bit数，一般为8,16,32等。</br>
+接下来是两个可选的扩展参数：</br>
+ExtraParamSize: 占2个字节，表示扩展段的大小。</br>
+ExtraParams: 扩展段其他自定义的一些参数的具体内容，大小由前一个字段给定。
+</p>
+
+
+
+
+<p>其中，对于每个采样点的bit数，不同的bit数读取数据的方式不同：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// data 为读取到的采样点的值，speech为原始数据流，
+</span><span class='line'>//对应于下面的"WAVE"格式文件的第二个子数据块“data”块的“Data”部分。
+</span><span class='line'>for(i=0;i&lt;NumSample;i++){
+</span><span class='line'>    if(BitsPerSample==8)
+</span><span class='line'>        data[i] = (int)*((char*)speech+i);
+</span><span class='line'>    else if(BitsPerSample==16)
+</span><span class='line'>        data[i] = (int)*((short*)speech+i);
+</span><span class='line'>    else if(BitsPerSample==32)
+</span><span class='line'>        data[i] = (int)*((int*)speech+i);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+</p>
+
+
+
+
+<p>"WAVE"格式文件的第二个子数据块是“data”，其个字段的详细解释如下：</br>
+Subchunk2ID: 占4个字节，内容为“data”的ASCII码(0x64617461)，以大端存储。</br>
+Subchunk2Size: 占4个字节，内容为接下来的正式的数据部分的字节数，其值=NumSamples * NumChannels * BitsPerSample/8</br>
+Data: 真正的语音数据部分。</br>
+</p>
+
+
+
+
+<h2>一个Wave文件头的实例</h2>
+
+
+<p>设一个wave文件的前72个字节的十六进制内容如下(可以使用Ultra Edit等工具查看wave文件头)：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>52 49 46 46 24 08 00 00 57 41 56 45 66 6d 74 20 10 00 00 00 01 00 02 00 
+</span><span class='line'>22 56 00 00 88 58 01 00 04 00 10 00 64 61 74 61 00 08 00 00 00 00 00 00 
+</span><span class='line'>24 17 1e f3 3c 13 3c 14 16 f9 18 f9 34 e7 23 a6 3c f2 24 f2 11 ce 1a 0d</span></code></pre></td></tr></table></div></figure></notextile></div>
+则其个字段的解析如下图：
+<center><img src="/images/2013/IMAG2013072002.gif"></center>
+</p>
+
+
+
+
+<h2>C语言实现wave文件的读取</h2>
+
+
+<p>这里给出一个用基本的C语言文件操作库函数实现的Wave文件读取的实例代码，可以跨Windows和Linux平台。</p>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdlib.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;string.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>// define Wave format structure
+</span><span class='line'>typedef struct tWAVEFORMATEX
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>short wFormatTag;         /* format type */
+</span><span class='line'>short nChannels;          /* number of channels (i.e. mono, stereo...) */
+</span><span class='line'>unsigned int nSamplesPerSec;     /* sample rate */
+</span><span class='line'>unsigned int nAvgBytesPerSec;    /* for buffer estimation */
+</span><span class='line'>short nBlockAlign;        /* block size of data */
+</span><span class='line'>short wBitsPerSample;     /* number of bits per sample of mono data */
+</span><span class='line'>short cbSize;             /* the count in bytes of the size of */
+</span><span class='line'>                                /* extra information (after cbSize) */
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>} WAVEFORMATEX, *PWAVEFORMATEX;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>char&lt;em> wavread(char &lt;/em>fname, WAVEFORMATEX *wf);&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>int main(){&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>char fname = "test.wav";
+</span><span class='line'>char *speech;
+</span><span class='line'>WAVEFORMATEX wf;
+</span><span class='line'>
+</span><span class='line'>speech = wavread(fname, &amp;wf);
+</span><span class='line'>// afterward processing...
+</span><span class='line'>
+</span><span class='line'>return 0;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>// read wave file
+</span><span class='line'>char&lt;em> wavread(char &lt;/em>fname, WAVEFORMATEX *wf){&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>FILE* fp;
+</span><span class='line'>char str[32];
+</span><span class='line'>char *speech;
+</span><span class='line'>unsigned int subchunk1size; // head size
+</span><span class='line'>unsigned int subchunk2size; // speech data size
+</span><span class='line'>
+</span><span class='line'>// check format type
+</span><span class='line'>fp = fopen(fname,"r");
+</span><span class='line'>if(!fp){
+</span><span class='line'>    fprintf(stderr,"Can not open the wave file: %s.\n",fname);
+</span><span class='line'>    return NULL;
+</span><span class='line'>}
+</span><span class='line'>fseek(fp, 8, SEEK_SET);
+</span><span class='line'>fread(str, sizeof(char), 7, fp);
+</span><span class='line'>str[7] = '\0';
+</span><span class='line'>if(strcmp(str,"WAVEfmt")){
+</span><span class='line'>    fprintf(stderr,"The file is not in WAVE format!\n");
+</span><span class='line'>    return NULL;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// read format header
+</span><span class='line'>fseek(fp, 16, SEEK_SET);
+</span><span class='line'>fread((unsigned int*)(&amp;subchunk1size),4,1,fp);
+</span><span class='line'>fseek(fp, 20, SEEK_SET);
+</span><span class='line'>fread(wf, subchunk1size, 1, fp);
+</span><span class='line'>
+</span><span class='line'>// read wave data
+</span><span class='line'>fseek(fp, 20+subchunk1size, SEEK_SET);
+</span><span class='line'>fread(str, 1, 4, fp);
+</span><span class='line'>str[4] = '\0';
+</span><span class='line'>if(strcmp(str,"data")){
+</span><span class='line'>    fprintf(stderr,"Locating data start point failed!\n");
+</span><span class='line'>    return NULL;
+</span><span class='line'>}
+</span><span class='line'>fseek(fp, 20+subchunk1size+4, SEEK_SET);
+</span><span class='line'>fread((unsigned int*)(&amp;subchunk2size), 4, 1, fp);
+</span><span class='line'>speech = (char*)malloc(sizeof(char)*subchunk2size);
+</span><span class='line'>if(!speech){
+</span><span class='line'>    fprintf(stderr, "Memory alloc failed!\n");
+</span><span class='line'>    return NULL;
+</span><span class='line'>}
+</span><span class='line'>fseek(fp, 20+subchunk1size+8, SEEK_SET);
+</span><span class='line'>fread(speech, 1, subchunk2size, fp);
+</span><span class='line'>
+</span><span class='line'>fclose(fp);
+</span><span class='line'>return speech;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>参考</h2>
+
+
+<p>
+[1]WAVE PCM soundfile format: https://ccrma.stanford.edu/courses/422/projects/WaveFormat/ </br>
+[2]Resource Interchange File Format: http://en.wikipedia.org/wiki/Resource_Interchange_File_Format </br>
+[3]基于Visual C++6.0的声音文件操作: http://www.yesky.com/20030414/1663116_1.shtml
+</p>
+
+]]></content>
+  </entry>
+  
+</feed>
