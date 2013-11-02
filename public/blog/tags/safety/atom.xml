@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: Safety | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/safety/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/safety/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[PHP字符串安全过滤全攻略]]></title>
-    <link href="http://ibillxia.github.com/blog/2010/09/24/PHP-string-filter-methods-for-safety/"/>
+    <link href="http://ibillxia.github.io/blog/2010/09/24/PHP-string-filter-methods-for-safety/"/>
     <updated>2010-09-24T13:28:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2010/09/24/PHP-string-filter-methods-for-safety</id>
+    <id>http://ibillxia.github.io/blog/2010/09/24/PHP-string-filter-methods-for-safety</id>
     <content type="html"><![CDATA[<p>php安全过滤是防止注入的第一道防线，不得大意。提到PHP的安全过滤，不得不提的两个东西是set_magic_quotes_runtime 和 magic_quotes_gpc。</p>
 
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: BPNN | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/bpnn/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/bpnn/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[反向传播(BP)神经网络]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/03/30/back-propagation-neural-networks/"/>
+    <link href="http://ibillxia.github.io/blog/2013/03/30/back-propagation-neural-networks/"/>
     <updated>2013-03-30T21:37:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/03/30/back-propagation-neural-networks</id>
+    <id>http://ibillxia.github.io/blog/2013/03/30/back-propagation-neural-networks</id>
     <content type="html"><![CDATA[<p>前面几篇文章中对神经网络和深度学习进行一些简介，包括神经网络的发展历史、基本概念和常见的几种神经网络以及神经网络的学习方法等，
 本文具体来介绍一下一种非常常见的神经网络模型——反向传播(Back Propagation)神经网络。</p>
 
@@ -203,9 +203,9 @@ BP算法的目标是使得实际输出approximate期望输出，即使得训练�
   
   <entry>
     <title type="html"><![CDATA[神经网络模型分类]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/03/24/classes-of-neural-networks/"/>
+    <link href="http://ibillxia.github.io/blog/2013/03/24/classes-of-neural-networks/"/>
     <updated>2013-03-24T23:07:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/03/24/classes-of-neural-networks</id>
+    <id>http://ibillxia.github.io/blog/2013/03/24/classes-of-neural-networks</id>
     <content type="html"><![CDATA[<p>本文主要介绍一下几种不同类型的神经网络模型，主要有前馈神经网络，反馈神经网络，自组织神经网络，随机神经网络</p>
 
 

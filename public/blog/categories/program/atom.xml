@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Program | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/categories/program/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/categories/program/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[PCM WAVE格式详解及用C语言实现wave文件的读取]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language/"/>
+    <link href="http://ibillxia.github.io/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language/"/>
     <updated>2013-07-20T20:07:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language</id>
+    <id>http://ibillxia.github.io/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language</id>
     <content type="html"><![CDATA[<h2>1.PCM Wave格式详解</h2>
 
 
@@ -357,9 +357,9 @@ Data: 真正的语音数据部分。</br>
   
   <entry>
     <title type="html"><![CDATA[给Octpress博客添加返回顶部按钮]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog/"/>
+    <link href="http://ibillxia.github.io/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog/"/>
     <updated>2013-06-30T10:47:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog</id>
+    <id>http://ibillxia.github.io/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog</id>
     <content type="html"><![CDATA[<p>有时候，博客文章太长，需要返回顶部时，需要用鼠标拖着滚动条向上好半天，这里提供一个用jQuery来实现的动态上滚的示例。
 这个示例完全参考和翻译自webdesignerwall的blog：<a href="http://webdesignerwall.com/tutorials/animated-scroll-to-top">http://webdesignerwall.com/tutorials/animated-scroll-to-top</a>，
 其中有部分删改，并在本人的blog上实现。</p>
@@ -582,9 +582,9 @@ Data: 真正的语音数据部分。</br>
   
   <entry>
     <title type="html"><![CDATA[用Windows API实现一个简单的录音程序]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/06/04/a-simple-code-for-wave-recording-using-windows-api/"/>
+    <link href="http://ibillxia.github.io/blog/2013/06/04/a-simple-code-for-wave-recording-using-windows-api/"/>
     <updated>2013-06-04T23:59:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/06/04/a-simple-code-for-wave-recording-using-windows-api</id>
+    <id>http://ibillxia.github.io/blog/2013/06/04/a-simple-code-for-wave-recording-using-windows-api</id>
     <content type="html"><![CDATA[<p>本文介绍如何使用Windows API来录制语音信号兵保存到wave文件中，主要用到三个结构体和几个wave开头的API函数（在Winmm.lib文件中）。其中三个结构体是WAVEFORMATEX、WAVEHDR、MMTIME，其详细定义都在MMSystem.h中定义，
 可以转到定义看其详细内容及每一项的英文注释。用到的API函数的详细用法可以参见MSDN： http://msdn.microsoft.com/en-us/library/windows/desktop/dd743847(v=vs.85).aspx
 详细的使用过程请看下文的源代码，这是一个Win32 Application，需要手动添加Winmm.lib的依赖。</p>
@@ -1016,9 +1016,9 @@ Data: 真正的语音数据部分。</br>
   
   <entry>
     <title type="html"><![CDATA[Matlab代码优化方法几则]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/04/25/matlab-code-optimization/"/>
+    <link href="http://ibillxia.github.io/blog/2012/04/25/matlab-code-optimization/"/>
     <updated>2012-04-25T20:07:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/04/25/matlab-code-optimization</id>
+    <id>http://ibillxia.github.io/blog/2012/04/25/matlab-code-optimization</id>
     <content type="html"><![CDATA[<p>1.计算向量、矩阵化，尽量减少for循环</br>
 因为MATLAB本来就是矩阵实验室的意思，他提供了极其强大而灵活的矩阵运算能力，你就没必要自己再用自己编写的for循环去实现矩阵运算的功能了。
 另外由于matlab是一种解释性语言，所以最忌讳直接使用循环语句。但在有些情况下，使用for循环可以提高程序的易读性，在效率提高不是很明显的
@@ -1064,9 +1064,9 @@ matlab生成的结果变量只贮存在内存空间中，一旦matlab关闭则�
   
   <entry>
     <title type="html"><![CDATA[11年浙大复试机试题解]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/03/07/11-zju-program-test-solution/"/>
+    <link href="http://ibillxia.github.io/blog/2012/03/07/11-zju-program-test-solution/"/>
     <updated>2012-03-07T19:56:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/03/07/11-zju-program-test-solution</id>
+    <id>http://ibillxia.github.io/blog/2012/03/07/11-zju-program-test-solution</id>
     <content type="html"><![CDATA[<p>
 11年浙大研究生复试机试题解
 </p>

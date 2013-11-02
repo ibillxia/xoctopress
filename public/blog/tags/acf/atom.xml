@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: ACF | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/acf/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/acf/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[语音信号处理之时域分析-音高追踪及其Python实现]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/05/29/audio-signal-processing-time-domain-pitch-tracking-and-python-realization/"/>
+    <link href="http://ibillxia.github.io/blog/2013/05/29/audio-signal-processing-time-domain-pitch-tracking-and-python-realization/"/>
     <updated>2013-05-29T21:37:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/05/29/audio-signal-processing-time-domain-pitch-tracking-and-python-realization</id>
+    <id>http://ibillxia.github.io/blog/2013/05/29/audio-signal-processing-time-domain-pitch-tracking-and-python-realization</id>
     <content type="html"><![CDATA[<h2>1.概述</h2>
 
 

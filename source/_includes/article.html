@@ -1,5 +1,5 @@
 {% unless page.no_header %}
-  <header>
+<header>
     {% if index %}
       <h1 class="entry-title"><a href="{{ root_url }}{{ post.url }}">{% if site.titlecase %}{{ post.title | titlecase }}{% else %}{{ post.title }}{% endif %}</a></h1>
     {% else %}
@@ -13,8 +13,9 @@
         {% endif %}
       </p>
     {% endunless %}
-  </header>
+</header>
 {% endunless %}
+
 {% if index %}
   <div class="entry-content">{{ content | excerpt }}</div>
   {% capture excerpted %}{{ content | has_excerpt }}{% endcapture %}
@@ -24,9 +25,20 @@
     </footer>
   {% endif %}
 {% else %}
-<div class="entry-content">{{ content }}</div>
+  <div class="entry-content">{{ content }}</div>
 {% endif %}
 
+<!-- Wumii Related Items BEGIN -->
 <section>
-	<script type="text/javascript" id="wumiiRelatedItems"></script>
+  <script type="text/javascript" id="wumiiRelatedItems"></script>
 </section>
+<!-- Wumii Related Items END -->
+
+<!-- UJian Button BEGIN -->
+<!--
+<div class="ujian-hook"></div>
+<script type="text/javascript">var ujian_config = {num:10,lkrc:5,target:1,picSize:84,textHeight:45,hoverTextColor:'#FF0000'};</script>
+<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js?uid=1858162"></script>
+<a href="http://www.ujian.cc" style="border:0;"><img src="http://img.ujian.cc/pixel.png" alt="JiaThisRecommend" style="border:0;padding:0;margin:0;" /></a>
+-->
+<!-- UJian Button END -->

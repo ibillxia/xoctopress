@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Math | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/categories/math/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/categories/math/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[为什么要进行傅立叶变换]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/04/04/why-do-Fourier-transformation/"/>
+    <link href="http://ibillxia.github.io/blog/2013/04/04/why-do-Fourier-transformation/"/>
     <updated>2013-04-04T10:42:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/04/04/why-do-Fourier-transformation</id>
+    <id>http://ibillxia.github.io/blog/2013/04/04/why-do-Fourier-transformation</id>
     <content type="html"><![CDATA[<h2>一、傅立叶变换的由来</h2>
 
 
@@ -329,9 +329,9 @@ Lagrange, 1736-1813)和拉普拉斯(Pierre Simon de Laplace, 1749-1827)，当拉
   
   <entry>
     <title type="html"><![CDATA[凸优化简介]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/09/26/convex-optimization-overview/"/>
+    <link href="http://ibillxia.github.io/blog/2012/09/26/convex-optimization-overview/"/>
     <updated>2012-09-26T23:03:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/09/26/convex-optimization-overview</id>
+    <id>http://ibillxia.github.io/blog/2012/09/26/convex-optimization-overview</id>
     <content type="html"><![CDATA[<p>在machine learning 的很多问题中，我们最终往往要求解某个函数的最优值。用数学术语表示就是，
 给定一个函数 $f: R<sup>{n}</sup> \rightarrow R$，求 $ x \in R<sup>{n}</sup> $使得$f(x)$ 取得最小（大）值。例如least-square,
 logistic regression, linear regression, svm, etc. 这类问题统称为优化问题。</p>
@@ -558,9 +558,9 @@ QCQP可以看做是SDP的特例，SDP包含QCQP。SDP在machine learning中有�
   
   <entry>
     <title type="html"><![CDATA[The Log Sum Inequality]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/08/14/the-log-sum-inequanlity/"/>
+    <link href="http://ibillxia.github.io/blog/2012/08/14/the-log-sum-inequanlity/"/>
     <updated>2012-08-14T21:42:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/08/14/the-log-sum-inequanlity</id>
+    <id>http://ibillxia.github.io/blog/2012/08/14/the-log-sum-inequanlity</id>
     <content type="html"><![CDATA[<p>In  mathematics, the log sum inequality is very useful for proving several theorems in information theory.</p>
 
 
@@ -655,9 +655,9 @@ the convexity of Kullback-Leibler divergence.</p>
   
   <entry>
     <title type="html"><![CDATA[协方差矩阵和相关系数矩阵]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/07/17/covariance-matrix-and-correlation-matrix/"/>
+    <link href="http://ibillxia.github.io/blog/2012/07/17/covariance-matrix-and-correlation-matrix/"/>
     <updated>2012-07-17T12:35:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/07/17/covariance-matrix-and-correlation-matrix</id>
+    <id>http://ibillxia.github.io/blog/2012/07/17/covariance-matrix-and-correlation-matrix</id>
     <content type="html"><![CDATA[<h2>1.概述</h2>
 
 
@@ -752,9 +752,9 @@ ii) $\mid \rho _{XY} \mid=1$的充要条件是，存在常数a，b使得$P{Y=a+b
   
   <entry>
     <title type="html"><![CDATA[数学趣题四则]]></title>
-    <link href="http://ibillxia.github.com/blog/2009/07/26/four-interesting-problem-in-math/"/>
+    <link href="http://ibillxia.github.io/blog/2009/07/26/four-interesting-problem-in-math/"/>
     <updated>2009-07-26T10:07:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2009/07/26/four-interesting-problem-in-math</id>
+    <id>http://ibillxia.github.io/blog/2009/07/26/four-interesting-problem-in-math</id>
     <content type="html"><![CDATA[<h2>一、N阶幻方问题</h2>
 
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: VALSE | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/valse/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/valse/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[VALSE2013]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/04/22/VALSE2013/"/>
+    <link href="http://ibillxia.github.io/blog/2013/04/22/VALSE2013/"/>
     <updated>2013-04-22T22:28:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/04/22/VALSE2013</id>
+    <id>http://ibillxia.github.io/blog/2013/04/22/VALSE2013</id>
     <content type="html"><![CDATA[<h3>学术研讨</h3>
 
 

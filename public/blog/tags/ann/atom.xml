@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: ANN | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/ann/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/ann/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[神经网络简介]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/03/20/basics-of-neural-networks/"/>
+    <link href="http://ibillxia.github.io/blog/2013/03/20/basics-of-neural-networks/"/>
     <updated>2013-03-20T23:21:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/03/20/basics-of-neural-networks</id>
+    <id>http://ibillxia.github.io/blog/2013/03/20/basics-of-neural-networks</id>
     <content type="html"><![CDATA[<p>Deep Learning的本质是多层的神经网络，因此在深入学习Deep Learning之前，有必要了解一些神经网络的基本知识。
 本文首先对神经网络的发展历史进行简要的介绍，然后给出神经元模型的形式化描述，接着是神经网络模型的定义、特性，
 最后是一些最新的进展等。关于神经网络的分类、学习方法、应用场景等将在后续文章中介绍。</p>

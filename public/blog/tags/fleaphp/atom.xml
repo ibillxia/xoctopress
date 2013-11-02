@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: FleaPHP | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/fleaphp/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/fleaphp/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[PHP格式化打印数组，调试有用]]></title>
-    <link href="http://ibillxia.github.com/blog/2010/08/25/php-print-in-format-very-useful-in-debuging/"/>
+    <link href="http://ibillxia.github.io/blog/2010/08/25/php-print-in-format-very-useful-in-debuging/"/>
     <updated>2010-08-25T10:08:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2010/08/25/php-print-in-format-very-useful-in-debuging</id>
+    <id>http://ibillxia.github.io/blog/2010/08/25/php-print-in-format-very-useful-in-debuging</id>
     <content type="html"><![CDATA[<p>以下是从FleaPHP上挖来的，感谢FleaPHP的开发者们。</p>
 
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: NeuralNetworks | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/neuralnetworks/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/neuralnetworks/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[深度学习及其在语音方面的应用]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing/"/>
+    <link href="http://ibillxia.github.io/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing/"/>
     <updated>2013-04-17T22:43:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing</id>
+    <id>http://ibillxia.github.io/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing</id>
     <content type="html"><![CDATA[<p>以下是今天在组会上讲的内容，与大家分享一下。有些地方我也没有完全理解，欢迎大家一起来讨论。</p>
 
 
@@ -25,7 +25,7 @@
 <embed width="780"
     height="574"
     name="plugin"
-    src="http://ibillxia.github.com/upload/Deep Learning - Bill Xia.pdf"
+    src="http://ibillxia.github.io/upload/Deep Learning - Bill Xia.pdf"
     type="application/pdf"
 />
 </center></p>
@@ -35,9 +35,9 @@
   
   <entry>
     <title type="html"><![CDATA[基于能量的模型和波尔兹曼机]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/04/12/Energy-Based-Models-and-Boltzmann-Machines/"/>
+    <link href="http://ibillxia.github.io/blog/2013/04/12/Energy-Based-Models-and-Boltzmann-Machines/"/>
     <updated>2013-04-12T22:12:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/04/12/Energy-Based-Models-and-Boltzmann-Machines</id>
+    <id>http://ibillxia.github.io/blog/2013/04/12/Energy-Based-Models-and-Boltzmann-Machines</id>
     <content type="html"><![CDATA[<p>由于深度置信网络（Deep Belief Networks，DBN）是基于限制性玻尔兹曼机（Restricted Boltzmann Machines，RBM）的深层网络结构，
 所以本文重点讨论一下玻尔兹曼机（BM），以及它的学习算法——对比散度（Contrastive Divergence，CD）算法。在介绍BM前，我们首先介绍一下
 基于能量的模型（Energy Based Model，EBM），因为BM是一种特殊的EBM。</p>
@@ -258,9 +258,9 @@ $\theta = \{c, b, W\}$的值。</p>
   
   <entry>
     <title type="html"><![CDATA[卷积神经网络（CNN）]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/04/06/Convolutional-Neural-Networks/"/>
+    <link href="http://ibillxia.github.io/blog/2013/04/06/Convolutional-Neural-Networks/"/>
     <updated>2013-04-06T23:34:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/04/06/Convolutional-Neural-Networks</id>
+    <id>http://ibillxia.github.io/blog/2013/04/06/Convolutional-Neural-Networks</id>
     <content type="html"><![CDATA[<h2>1. 概述</h2>
 
 
@@ -587,9 +587,9 @@ bias是n1×(n2-kw+1)×(n3-kh+1)的矩阵，kw,kh是卷积核的宽度高度(图�
   
   <entry>
     <title type="html"><![CDATA[反向传播(BP)神经网络]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/03/30/back-propagation-neural-networks/"/>
+    <link href="http://ibillxia.github.io/blog/2013/03/30/back-propagation-neural-networks/"/>
     <updated>2013-03-30T21:37:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/03/30/back-propagation-neural-networks</id>
+    <id>http://ibillxia.github.io/blog/2013/03/30/back-propagation-neural-networks</id>
     <content type="html"><![CDATA[<p>前面几篇文章中对神经网络和深度学习进行一些简介，包括神经网络的发展历史、基本概念和常见的几种神经网络以及神经网络的学习方法等，
 本文具体来介绍一下一种非常常见的神经网络模型——反向传播(Back Propagation)神经网络。</p>
 
@@ -775,9 +775,9 @@ BP算法的目标是使得实际输出approximate期望输出，即使得训练�
   
   <entry>
     <title type="html"><![CDATA[神经网络的学习方法概述]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/03/27/learning-process-of-neural-networks/"/>
+    <link href="http://ibillxia.github.io/blog/2013/03/27/learning-process-of-neural-networks/"/>
     <updated>2013-03-27T23:51:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/03/27/learning-process-of-neural-networks</id>
+    <id>http://ibillxia.github.io/blog/2013/03/27/learning-process-of-neural-networks</id>
     <content type="html"><![CDATA[<p>本文主要讨论一下神经网络的一般学习方法，主要有error-correction learning，memory-based learning， Hebbian learning，competitive learning，
 Boltzmann learning等。然后介绍一些学习的方式，如监督学习、非监督学习、强化学习等。最后是一些具体的应用领域和实际问题。</p>
 

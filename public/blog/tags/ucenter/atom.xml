@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: UCenter | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/ucenter/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/ucenter/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[UCenter同步登陆机制]]></title>
-    <link href="http://ibillxia.github.com/blog/2010/07/19/ucenter-sync-login-mechanism/"/>
+    <link href="http://ibillxia.github.io/blog/2010/07/19/ucenter-sync-login-mechanism/"/>
     <updated>2010-07-19T14:34:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2010/07/19/ucenter-sync-login-mechanism</id>
+    <id>http://ibillxia.github.io/blog/2010/07/19/ucenter-sync-login-mechanism</id>
     <content type="html"><![CDATA[<h2>UC同步登陆机制</h2>
 
 

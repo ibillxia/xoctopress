@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: CNN | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/cnn/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/cnn/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[卷积神经网络（CNN）]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/04/06/Convolutional-Neural-Networks/"/>
+    <link href="http://ibillxia.github.io/blog/2013/04/06/Convolutional-Neural-Networks/"/>
     <updated>2013-04-06T23:34:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/04/06/Convolutional-Neural-Networks</id>
+    <id>http://ibillxia.github.io/blog/2013/04/06/Convolutional-Neural-Networks</id>
     <content type="html"><![CDATA[<h2>1. 概述</h2>
 
 

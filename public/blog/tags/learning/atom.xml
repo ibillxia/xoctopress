@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: Learning | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/learning/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/learning/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[VALSE2013]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/04/22/VALSE2013/"/>
+    <link href="http://ibillxia.github.io/blog/2013/04/22/VALSE2013/"/>
     <updated>2013-04-22T22:28:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/04/22/VALSE2013</id>
+    <id>http://ibillxia.github.io/blog/2013/04/22/VALSE2013</id>
     <content type="html"><![CDATA[<h3>学术研讨</h3>
 
 
@@ -153,9 +153,9 @@ Learning的过程，如果相对于没加该层得到的Test Error更小，并�
   
   <entry>
     <title type="html"><![CDATA[神经网络的学习方法概述]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/03/27/learning-process-of-neural-networks/"/>
+    <link href="http://ibillxia.github.io/blog/2013/03/27/learning-process-of-neural-networks/"/>
     <updated>2013-03-27T23:51:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/03/27/learning-process-of-neural-networks</id>
+    <id>http://ibillxia.github.io/blog/2013/03/27/learning-process-of-neural-networks</id>
     <content type="html"><![CDATA[<p>本文主要讨论一下神经网络的一般学习方法，主要有error-correction learning，memory-based learning， Hebbian learning，competitive learning，
 Boltzmann learning等。然后介绍一些学习的方式，如监督学习、非监督学习、强化学习等。最后是一些具体的应用领域和实际问题。</p>
 

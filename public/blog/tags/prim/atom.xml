@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: Prim | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/prim/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/prim/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[08年浙大复试机试题解]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/03/04/08-zju-program-test-solution/"/>
+    <link href="http://ibillxia.github.io/blog/2012/03/04/08-zju-program-test-solution/"/>
     <updated>2012-03-04T22:42:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/03/04/08-zju-program-test-solution</id>
+    <id>http://ibillxia.github.io/blog/2012/03/04/08-zju-program-test-solution</id>
     <content type="html"><![CDATA[<p>
 08年浙大研究生复试机试题解
 </p>
@@ -491,9 +491,9 @@
   
   <entry>
     <title type="html"><![CDATA[07年浙大复试机试题解]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/03/03/07-zju-program-test-solution/"/>
+    <link href="http://ibillxia.github.io/blog/2012/03/03/07-zju-program-test-solution/"/>
     <updated>2012-03-03T22:05:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/03/03/07-zju-program-test-solution</id>
+    <id>http://ibillxia.github.io/blog/2012/03/03/07-zju-program-test-solution</id>
     <content type="html"><![CDATA[<p>
 07年浙大研究生复试机试题解
 </p>
@@ -1083,9 +1083,9 @@
   
   <entry>
     <title type="html"><![CDATA[06年浙大复试机试题解]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/03/02/06-zju-program-test-solution/"/>
+    <link href="http://ibillxia.github.io/blog/2012/03/02/06-zju-program-test-solution/"/>
     <updated>2012-03-02T12:12:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/03/02/06-zju-program-test-solution</id>
+    <id>http://ibillxia.github.io/blog/2012/03/02/06-zju-program-test-solution</id>
     <content type="html"><![CDATA[<p>
 06年浙大研究生复试机试题解
 </p>

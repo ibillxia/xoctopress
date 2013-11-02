@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: IT | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/it/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/it/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[IT人成长路上最容易犯的17个错误]]></title>
-    <link href="http://ibillxia.github.com/blog/2009/08/02/17-general-mistakes-found-in-iter/"/>
+    <link href="http://ibillxia.github.io/blog/2009/08/02/17-general-mistakes-found-in-iter/"/>
     <updated>2009-08-02T20:28:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2009/08/02/17-general-mistakes-found-in-iter</id>
+    <id>http://ibillxia.github.io/blog/2009/08/02/17-general-mistakes-found-in-iter</id>
     <content type="html"><![CDATA[<p>来源：中国IT实验室整理 时间：2009-7-1 作者：佚名</p>
 
 

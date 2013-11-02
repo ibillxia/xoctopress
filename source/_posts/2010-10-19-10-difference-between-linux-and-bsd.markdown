@@ -3,8 +3,8 @@ layout: post
 title: "Linux与BSD之间的10个不同之处"
 date: 2010-10-19 22:30
 comments: true
-categories: Technics
-tags: Linux BSD
+categories: Linux
+tags: Linux BSD Unix
 ---
 <p>也许你经常会听到人们把Linux及BSD系统混为一谈，甚至于媒体都这么说。当然，事实上这两者确实有很多相似之处，比如它们都是基于Unix演变而来，
 而且基本上这两类系统都是由非盈利组织及团队开发，另外我更想说的是，这两个系统都有一个共同的目标–那就是创建最有用、最可靠的操作系统。 那么

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: C | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/c/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/c/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[PCM WAVE格式详解及用C语言实现wave文件的读取]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language/"/>
+    <link href="http://ibillxia.github.io/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language/"/>
     <updated>2013-07-20T20:07:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language</id>
+    <id>http://ibillxia.github.io/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language</id>
     <content type="html"><![CDATA[<h2>1.PCM Wave格式详解</h2>
 
 
@@ -357,9 +357,9 @@ Data: 真正的语音数据部分。</br>
   
   <entry>
     <title type="html"><![CDATA[C语言中的异常处理机制]]></title>
-    <link href="http://ibillxia.github.com/blog/2011/05/03/Exception-handling-mechanism-in-c/"/>
+    <link href="http://ibillxia.github.io/blog/2011/05/03/Exception-handling-mechanism-in-c/"/>
     <updated>2011-05-03T11:09:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2011/05/03/Exception-handling-mechanism-in-c</id>
+    <id>http://ibillxia.github.io/blog/2011/05/03/Exception-handling-mechanism-in-c</id>
     <content type="html"><![CDATA[<h2>1.概述</h2>
 
 
@@ -787,9 +787,9 @@ Data: 真正的语音数据部分。</br>
   
   <entry>
     <title type="html"><![CDATA[C语言断言简介]]></title>
-    <link href="http://ibillxia.github.com/blog/2011/05/03/introduce-to-assert-in-c-language/"/>
+    <link href="http://ibillxia.github.io/blog/2011/05/03/introduce-to-assert-in-c-language/"/>
     <updated>2011-05-03T10:31:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2011/05/03/introduce-to-assert-in-c-language</id>
+    <id>http://ibillxia.github.io/blog/2011/05/03/introduce-to-assert-in-c-language</id>
     <content type="html"><![CDATA[<h2>1.概述</h2>
 
 
@@ -979,9 +979,9 @@ Data: 真正的语音数据部分。</br>
   
   <entry>
     <title type="html"><![CDATA[浅谈C语言的可变参数]]></title>
-    <link href="http://ibillxia.github.com/blog/2011/04/21/about-variable-parameters-in-c-language/"/>
+    <link href="http://ibillxia.github.io/blog/2011/04/21/about-variable-parameters-in-c-language/"/>
     <updated>2011-04-21T16:50:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2011/04/21/about-variable-parameters-in-c-language</id>
+    <id>http://ibillxia.github.io/blog/2011/04/21/about-variable-parameters-in-c-language</id>
     <content type="html"><![CDATA[<h2>1.问题引入</h2>
 
 
@@ -1215,9 +1215,9 @@ va_end(arg_ptr)：清空参数列表，并置参数指针arg_ptr无效。说明�
   
   <entry>
     <title type="html"><![CDATA[C语言输入输出缓冲区]]></title>
-    <link href="http://ibillxia.github.com/blog/2009/06/05/io-buffer-in-c-language/"/>
+    <link href="http://ibillxia.github.io/blog/2009/06/05/io-buffer-in-c-language/"/>
     <updated>2009-06-05T23:02:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2009/06/05/io-buffer-in-c-language</id>
+    <id>http://ibillxia.github.io/blog/2009/06/05/io-buffer-in-c-language</id>
     <content type="html"><![CDATA[<p>原文链接：<a href="http://blog.csdn.net/cxyol/archive/2006/03/18/628324.aspx">http://blog.csdn.net/cxyol/archive/2006/03/18/628324.aspx</a></p>
 
 <h2>1.输入输出缓冲区的概念（C++用的多一些）</h2>

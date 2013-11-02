@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: Kernel | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/kernel/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/kernel/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[分析linux内核的idle的知识 ]]></title>
-    <link href="http://ibillxia.github.com/blog/2010/10/16/something-about-idle-in-linux-kernel-analysis/"/>
+    <link href="http://ibillxia.github.io/blog/2010/10/16/something-about-idle-in-linux-kernel-analysis/"/>
     <updated>2010-10-16T14:24:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2010/10/16/something-about-idle-in-linux-kernel-analysis</id>
+    <id>http://ibillxia.github.io/blog/2010/10/16/something-about-idle-in-linux-kernel-analysis</id>
     <content type="html"><![CDATA[<p>Linux系统越来越受到电脑用户的欢迎，于是很多人开始学习Linux时，学习linux，你可能会遇到linux内核问题，这里将介绍linux内核中idle知识，
 在这里拿出来和大家分享一下。</p>
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: VisualStudio | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/visualstudio/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/visualstudio/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Visual Studio 历史简介]]></title>
-    <link href="http://ibillxia.github.com/blog/2009/08/17/brief-history-of-visual-studio/"/>
+    <link href="http://ibillxia.github.io/blog/2009/08/17/brief-history-of-visual-studio/"/>
     <updated>2009-08-17T12:37:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2009/08/17/brief-history-of-visual-studio</id>
+    <id>http://ibillxia.github.io/blog/2009/08/17/brief-history-of-visual-studio</id>
     <content type="html"><![CDATA[<p>注：本文为转载。</p>
 
 

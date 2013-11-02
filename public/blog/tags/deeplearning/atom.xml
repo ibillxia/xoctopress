@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: DeepLearning | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/deeplearning/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/deeplearning/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[VALSE2013]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/04/22/VALSE2013/"/>
+    <link href="http://ibillxia.github.io/blog/2013/04/22/VALSE2013/"/>
     <updated>2013-04-22T22:28:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/04/22/VALSE2013</id>
+    <id>http://ibillxia.github.io/blog/2013/04/22/VALSE2013</id>
     <content type="html"><![CDATA[<h3>学术研讨</h3>
 
 
@@ -153,9 +153,9 @@ Learning的过程，如果相对于没加该层得到的Test Error更小，并�
   
   <entry>
     <title type="html"><![CDATA[深度学习及其在语音方面的应用]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing/"/>
+    <link href="http://ibillxia.github.io/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing/"/>
     <updated>2013-04-17T22:43:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing</id>
+    <id>http://ibillxia.github.io/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing</id>
     <content type="html"><![CDATA[<p>以下是今天在组会上讲的内容，与大家分享一下。有些地方我也没有完全理解，欢迎大家一起来讨论。</p>
 
 
@@ -163,7 +163,7 @@ Learning的过程，如果相对于没加该层得到的Test Error更小，并�
 <embed width="780"
     height="574"
     name="plugin"
-    src="http://ibillxia.github.com/upload/Deep Learning - Bill Xia.pdf"
+    src="http://ibillxia.github.io/upload/Deep Learning - Bill Xia.pdf"
     type="application/pdf"
 />
 </center></p>
@@ -173,9 +173,9 @@ Learning的过程，如果相对于没加该层得到的Test Error更小，并�
   
   <entry>
     <title type="html"><![CDATA[深度学习简介]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/03/16/introduction-to-deep-learning/"/>
+    <link href="http://ibillxia.github.io/blog/2013/03/16/introduction-to-deep-learning/"/>
     <updated>2013-03-16T21:36:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/03/16/introduction-to-deep-learning</id>
+    <id>http://ibillxia.github.io/blog/2013/03/16/introduction-to-deep-learning</id>
     <content type="html"><![CDATA[<h2>0.概述</h2>
 
 <p>

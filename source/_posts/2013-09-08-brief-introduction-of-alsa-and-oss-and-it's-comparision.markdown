@@ -3,7 +3,7 @@ layout: post
 title: "Linux的OSS和ALSA声音系统简介及其比较"
 date: 2013-09-08 19:46
 comments: true
-categories: Linux Technics
+categories: Linux
 tags: OSS ALSA Audio Device HTK
 ---
 <h2>概述</h2>
@@ -11,8 +11,8 @@ tags: OSS ALSA Audio Device HTK
 是ALSA（Advanced Linux Sound Architecture，高级Linux声音体系），而不是HTK中所使用的OSS（Open Sound System，开放声音系统）。
 网上查阅了大半天，按照 http://forum.ubuntu.org.cn/viewtopic.php?t=316792 中提供的方法用OSS4来替换ALSA，结果OSS4没替换成功，
 而原来的ALSA也不好使了，真坑爹啊！到现在还没办法完全复原，现在只能通过alsamixer来设置音量了，系统的音量设置根本无法用，而且
-声音设置中的输入设备和输出设备都是空的，捣鼓了半天也没还原回来唉，整个人都快崩溃了，都是由于对Linux不熟悉才被虐至如此地步，得恶补啊！！！
-下面本文就主要介绍一下OSS和ALSA，并将二者进行比较。</p>
+声音设置中的输入设备和输出设备都是空的。（现在将系统升级到13.10版，系统的音量设置可以用了，哈哈）捣鼓了半天也没还原回来唉，
+整个人都快崩溃了，都是由于对Linux不熟悉才被虐至如此地步，得恶补啊！！！下面本文就主要介绍一下OSS和ALSA，并将二者进行比较。</p>
 
 <p>在介绍OSS和ALSA之前，先介绍一下音频设备的一些基础知识。</br>
 数字音频设备，有时也称codec，PCM，DSP，ADC/DAC设备，用来播放或录制数字化的声音。它的指标主要有：采样速率（电话为8K，DVD为96K）、

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: Audio | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/audio/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/audio/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Linux的OSS和ALSA声音系统简介及其比较]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it%27s-comparision/"/>
+    <link href="http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it%27s-comparision/"/>
     <updated>2013-09-08T19:46:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it's-comparision</id>
+    <id>http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it's-comparision</id>
     <content type="html"><![CDATA[<h2>概述</h2>
 
 
@@ -25,8 +25,8 @@
 是ALSA（Advanced Linux Sound Architecture，高级Linux声音体系），而不是HTK中所使用的OSS（Open Sound System，开放声音系统）。
 网上查阅了大半天，按照 http://forum.ubuntu.org.cn/viewtopic.php?t=316792 中提供的方法用OSS4来替换ALSA，结果OSS4没替换成功，
 而原来的ALSA也不好使了，真坑爹啊！到现在还没办法完全复原，现在只能通过alsamixer来设置音量了，系统的音量设置根本无法用，而且
-声音设置中的输入设备和输出设备都是空的，捣鼓了半天也没还原回来唉，整个人都快崩溃了，都是由于对Linux不熟悉才被虐至如此地步，得恶补啊！！！
-下面本文就主要介绍一下OSS和ALSA，并将二者进行比较。</p>
+声音设置中的输入设备和输出设备都是空的。（现在将系统升级到13.10版，系统的音量设置可以用了，哈哈）捣鼓了半天也没还原回来唉，
+整个人都快崩溃了，都是由于对Linux不熟悉才被虐至如此地步，得恶补啊！！！下面本文就主要介绍一下OSS和ALSA，并将二者进行比较。</p>
 
 
 
@@ -186,9 +186,9 @@ OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也�
   
   <entry>
     <title type="html"><![CDATA[深度学习及其在语音方面的应用]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing/"/>
+    <link href="http://ibillxia.github.io/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing/"/>
     <updated>2013-04-17T22:43:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing</id>
+    <id>http://ibillxia.github.io/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing</id>
     <content type="html"><![CDATA[<p>以下是今天在组会上讲的内容，与大家分享一下。有些地方我也没有完全理解，欢迎大家一起来讨论。</p>
 
 
@@ -196,7 +196,7 @@ OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也�
 <embed width="780"
     height="574"
     name="plugin"
-    src="http://ibillxia.github.com/upload/Deep Learning - Bill Xia.pdf"
+    src="http://ibillxia.github.io/upload/Deep Learning - Bill Xia.pdf"
     type="application/pdf"
 />
 </center></p>
@@ -206,9 +206,9 @@ OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也�
   
   <entry>
     <title type="html"><![CDATA[人的听觉系统生理结构（2）——中枢部分]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/12/21/human-audio-system-neural-parts/"/>
+    <link href="http://ibillxia.github.io/blog/2012/12/21/human-audio-system-neural-parts/"/>
     <updated>2012-12-21T21:55:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/12/21/human-audio-system-neural-parts</id>
+    <id>http://ibillxia.github.io/blog/2012/12/21/human-audio-system-neural-parts</id>
     <content type="html"><![CDATA[<h2>0.概述</h2>
 
 
@@ -319,9 +319,9 @@ OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也�
   
   <entry>
     <title type="html"><![CDATA[人的听觉系统生理结构（1）——外周部分]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/12/21/human-audio-system-out-part/"/>
+    <link href="http://ibillxia.github.io/blog/2012/12/21/human-audio-system-out-part/"/>
     <updated>2012-12-21T21:43:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/12/21/human-audio-system-out-part</id>
+    <id>http://ibillxia.github.io/blog/2012/12/21/human-audio-system-out-part</id>
     <content type="html"><![CDATA[<h2>概述</h2>
 
 
@@ -560,9 +560,9 @@ OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也�
   
   <entry>
     <title type="html"><![CDATA[MFCC参数提取及Matalab实现]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/07/18/MFCC-feature-extraction/"/>
+    <link href="http://ibillxia.github.io/blog/2012/07/18/MFCC-feature-extraction/"/>
     <updated>2012-07-18T20:10:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/07/18/MFCC-feature-extraction</id>
+    <id>http://ibillxia.github.io/blog/2012/07/18/MFCC-feature-extraction</id>
     <content type="html"><![CDATA[<h2>1.概述</h2>
 
 

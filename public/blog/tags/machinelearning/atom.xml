@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: MachineLearning | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/machinelearning/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/machinelearning/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[深度学习简介]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/03/16/introduction-to-deep-learning/"/>
+    <link href="http://ibillxia.github.io/blog/2013/03/16/introduction-to-deep-learning/"/>
     <updated>2013-03-16T21:36:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/03/16/introduction-to-deep-learning</id>
+    <id>http://ibillxia.github.io/blog/2013/03/16/introduction-to-deep-learning</id>
     <content type="html"><![CDATA[<h2>0.概述</h2>
 
 <p>
@@ -288,9 +288,9 @@ Boltzmann Machine其实是一种无向图，里面的节点是互相连接的，
   
   <entry>
     <title type="html"><![CDATA[凸优化简介]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/09/26/convex-optimization-overview/"/>
+    <link href="http://ibillxia.github.io/blog/2012/09/26/convex-optimization-overview/"/>
     <updated>2012-09-26T23:03:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/09/26/convex-optimization-overview</id>
+    <id>http://ibillxia.github.io/blog/2012/09/26/convex-optimization-overview</id>
     <content type="html"><![CDATA[<p>在machine learning 的很多问题中，我们最终往往要求解某个函数的最优值。用数学术语表示就是，
 给定一个函数 $f: R<sup>{n}</sup> \rightarrow R$，求 $ x \in R<sup>{n}</sup> $使得$f(x)$ 取得最小（大）值。例如least-square,
 logistic regression, linear regression, svm, etc. 这类问题统称为优化问题。</p>

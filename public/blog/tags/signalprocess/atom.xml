@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: SignalProcess | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/signalprocess/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/signalprocess/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[语音信号处理基础学习笔记之时域处理]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/05/08/speech-processing-in-time-domain/"/>
+    <link href="http://ibillxia.github.io/blog/2013/05/08/speech-processing-in-time-domain/"/>
     <updated>2013-05-08T23:13:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/05/08/speech-processing-in-time-domain</id>
+    <id>http://ibillxia.github.io/blog/2013/05/08/speech-processing-in-time-domain</id>
     <content type="html"><![CDATA[<p>语音信号的分析分为时域、频域、倒谱域等，时域分析简单、运算量小、物理意义明确，但对于语音识别而言，
 更为有效的是频域的分析方法，那么为什么还有进行时域的分析呢？</p>
 

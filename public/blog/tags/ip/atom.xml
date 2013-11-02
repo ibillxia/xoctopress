@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: IP | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/ip/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/ip/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[伪造IP地址的原理]]></title>
-    <link href="http://ibillxia.github.com/blog/2010/08/31/the-elements-of-ip-faking/"/>
+    <link href="http://ibillxia.github.io/blog/2010/08/31/the-elements-of-ip-faking/"/>
     <updated>2010-08-31T09:41:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2010/08/31/the-elements-of-ip-faking</id>
+    <id>http://ibillxia.github.io/blog/2010/08/31/the-elements-of-ip-faking</id>
     <content type="html"><![CDATA[<p>入侵者使用假IP地址发送包，利用基于IP地址证实的应用程序。其结果是未授权的远端用户进入带有防火墙的主机系统。</p>
 
 

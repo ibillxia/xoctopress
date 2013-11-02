@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: Hopfield | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/hopfield/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/hopfield/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[神经网络模型分类]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/03/24/classes-of-neural-networks/"/>
+    <link href="http://ibillxia.github.io/blog/2013/03/24/classes-of-neural-networks/"/>
     <updated>2013-03-24T23:07:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/03/24/classes-of-neural-networks</id>
+    <id>http://ibillxia.github.io/blog/2013/03/24/classes-of-neural-networks</id>
     <content type="html"><![CDATA[<p>本文主要介绍一下几种不同类型的神经网络模型，主要有前馈神经网络，反馈神经网络，自组织神经网络，随机神经网络</p>
 
 

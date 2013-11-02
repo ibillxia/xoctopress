@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: Swimming | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/swimming/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/swimming/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[蛙泳、自由泳、仰泳、蝶泳图解动画教你游泳]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/06/28/swimming-tutorial-with-gif-images/"/>
+    <link href="http://ibillxia.github.io/blog/2013/06/28/swimming-tutorial-with-gif-images/"/>
     <updated>2013-06-28T21:37:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/06/28/swimming-tutorial-with-gif-images</id>
+    <id>http://ibillxia.github.io/blog/2013/06/28/swimming-tutorial-with-gif-images</id>
     <content type="html"><![CDATA[<p>最近在室友的带领下，开始去cjl游泳馆学游泳，这里转载一篇游泳教程，分享给初学游泳的网友们</p>
 
 

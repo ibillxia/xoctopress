@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: AutoEncoder | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/autoencoder/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/autoencoder/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[深度学习简介]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/03/16/introduction-to-deep-learning/"/>
+    <link href="http://ibillxia.github.io/blog/2013/03/16/introduction-to-deep-learning/"/>
     <updated>2013-03-16T21:36:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/03/16/introduction-to-deep-learning</id>
+    <id>http://ibillxia.github.io/blog/2013/03/16/introduction-to-deep-learning</id>
     <content type="html"><![CDATA[<h2>0.概述</h2>
 
 <p>

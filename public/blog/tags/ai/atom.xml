@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: AI | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/ai/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/ai/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[AI 顶级会议列表]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/01/02/ai-top-conferences/"/>
+    <link href="http://ibillxia.github.io/blog/2013/01/02/ai-top-conferences/"/>
     <updated>2013-01-02T19:17:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/01/02/ai-top-conferences</id>
+    <id>http://ibillxia.github.io/blog/2013/01/02/ai-top-conferences</id>
     <content type="html"><![CDATA[<p>注: 本文为小百合BBS的daniel所写，稍有删改。</p>
 
 

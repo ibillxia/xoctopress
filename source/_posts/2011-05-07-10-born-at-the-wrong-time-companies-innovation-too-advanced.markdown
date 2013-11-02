@@ -3,7 +3,7 @@ layout: post
 title: "盘点10大生不逢时科技创业公司：创意过于超前"
 date: 2011-05-07 18:00
 comments: true
-categories: Technics
+categories: View
 tags: Innovation Technic Company
 ---
 <p>据国外媒体报道，有句形容创业公司的老话说，“太早也是个错误。” 这绝对是个事实，在很多伟大的科技公司成立之前，相同的创意已经存在，

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: ZJU | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/zju/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/zju/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[五一登高远足]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/05/01/go-hiking-International-Labour-Day/"/>
+    <link href="http://ibillxia.github.io/blog/2013/05/01/go-hiking-International-Labour-Day/"/>
     <updated>2013-05-01T22:01:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/05/01/go-hiking-International-Labour-Day</id>
+    <id>http://ibillxia.github.io/blog/2013/05/01/go-hiking-International-Labour-Day</id>
     <content type="html"><![CDATA[<p>五一天晴气爽，登高望远，强身健体！只可惜“不畏浮云遮望眼，只缘身在最高层” 这句诗在空气严重污染的今天已不适用了！</p>
 
 
@@ -63,9 +63,9 @@
   
   <entry>
     <title type="html"><![CDATA[2013年第一场雪]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/01/04/2013-first-snow/"/>
+    <link href="http://ibillxia.github.io/blog/2013/01/04/2013-first-snow/"/>
     <updated>2013-01-04T21:13:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/01/04/2013-first-snow</id>
+    <id>http://ibillxia.github.io/blog/2013/01/04/2013-first-snow</id>
     <content type="html"><![CDATA[<p>元旦刚过就下了新年的第一场雪，这场雪下得还确实有点大，从昨天下午开始，今天下了一天了，现在积雪都有四、五寸厚了吧！
 在南方持续这么长时间下这么大的雪很少见了，所以大家都很兴奋。下午上完了两节课后，大概3点的样子，我们实验室的六、七号人就
 准备去爬宝石山，瞻保俶塔，观断桥残雪美景。</p>
@@ -160,9 +160,9 @@ ZJG大草坪上的求是鹰：</br>
   
   <entry>
     <title type="html"><![CDATA[11年浙大复试机试题解]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/03/07/11-zju-program-test-solution/"/>
+    <link href="http://ibillxia.github.io/blog/2012/03/07/11-zju-program-test-solution/"/>
     <updated>2012-03-07T19:56:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/03/07/11-zju-program-test-solution</id>
+    <id>http://ibillxia.github.io/blog/2012/03/07/11-zju-program-test-solution</id>
     <content type="html"><![CDATA[<p>
 11年浙大研究生复试机试题解
 </p>
@@ -558,9 +558,9 @@ ZJG大草坪上的求是鹰：</br>
   
   <entry>
     <title type="html"><![CDATA[10年浙大复试机试题解]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/03/07/10-zju-program-test-solution/"/>
+    <link href="http://ibillxia.github.io/blog/2012/03/07/10-zju-program-test-solution/"/>
     <updated>2012-03-07T12:08:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/03/07/10-zju-program-test-solution</id>
+    <id>http://ibillxia.github.io/blog/2012/03/07/10-zju-program-test-solution</id>
     <content type="html"><![CDATA[<p>
 10年浙大研究生复试机试题解
 </p>
@@ -1214,9 +1214,9 @@ D题的双重最短路初次做，表示不会，E题的测试数据又不按题
   
   <entry>
     <title type="html"><![CDATA[09年浙大复试机试题解]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/03/05/09-zju-program-test-solution/"/>
+    <link href="http://ibillxia.github.io/blog/2012/03/05/09-zju-program-test-solution/"/>
     <updated>2012-03-05T16:48:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/03/05/09-zju-program-test-solution</id>
+    <id>http://ibillxia.github.io/blog/2012/03/05/09-zju-program-test-solution</id>
     <content type="html"><![CDATA[<p>
 09年浙大研究生复试机试题解
 </p>

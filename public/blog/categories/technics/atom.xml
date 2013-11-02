@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Technics | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/categories/technics/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/categories/technics/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -14,181 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Linux的OSS和ALSA声音系统简介及其比较]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it%27s-comparision/"/>
-    <updated>2013-09-08T19:46:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it's-comparision</id>
-    <content type="html"><![CDATA[<h2>概述</h2>
-
-
-<p>昨天想在Ubuntu上用一下HTK工具包来绘制语音信号的频谱图和提取MFCC的结果，但由于前段时间把Ubuntu升级到13.04，系统的声卡驱动
-是ALSA（Advanced Linux Sound Architecture，高级Linux声音体系），而不是HTK中所使用的OSS（Open Sound System，开放声音系统）。
-网上查阅了大半天，按照 http://forum.ubuntu.org.cn/viewtopic.php?t=316792 中提供的方法用OSS4来替换ALSA，结果OSS4没替换成功，
-而原来的ALSA也不好使了，真坑爹啊！到现在还没办法完全复原，现在只能通过alsamixer来设置音量了，系统的音量设置根本无法用，而且
-声音设置中的输入设备和输出设备都是空的，捣鼓了半天也没还原回来唉，整个人都快崩溃了，都是由于对Linux不熟悉才被虐至如此地步，得恶补啊！！！
-下面本文就主要介绍一下OSS和ALSA，并将二者进行比较。</p>
-
-
-
-
-<p>在介绍OSS和ALSA之前，先介绍一下音频设备的一些基础知识。</br>
-数字音频设备，有时也称codec，PCM，DSP，ADC/DAC设备，用来播放或录制数字化的声音。它的指标主要有：采样速率（电话为8K，DVD为96K）、
-channel数目（单声道，立体声）、采样分辨率（8-bit，16-bit）等。</br>
-mixer（混频器）：用来控制多个输入、输出的音量，也控制输入（microphone，line-in，CD）之间的切换。</br>
-synthesizer（合成器）：通过一些预先定义好的波形来合成声音，有时用在游戏中声音效果的产生。</br>
-MIDI接口：MIDI接口是为了连接舞台上的synthesizer、键盘、道具、灯光控制器的一种串行接口。</p>
-
-
-
-
-<!--more-->
-
-
-
-
-<h2>OSS开放声音系统简介</h2>
-
-
-<p>Open Sound System是一个类Unix和POSIX兼容系统上一个可选的声音架构。OSSv3是Linux下原始的声音系统并集成在内核里，但是OSSv4
-在2002年OSS成为商业软件时它地位被ALSA所取代。OSSv4在2007年又成为了开源软件，4Front Technologies以GPL协议发布了它的源码。</p>
-
-
-
-
-<p>OSS（Open Sound System）是unix平台上一个统一的音频接口。以前，每个Unix厂商都会提供一个自己专有的API，用来处理音频。这就
-意味着为一种Unix平台编写的音频处理应用程序，在移植到另外一种Unix平台上时，必须要重写。不仅如此，在一种平台上具备的功能，
-可能在另外一个平台上无法实现。但是，OSS出现以后情况就大不一样了，只要音频处理应用程序按照OSS的API来编写，那么在移植到另外
-一个平台时，只需要重新编译即可。因此，OSS提供了源代码级的可移植性。</p>
-
-
-
-
-<p>同时，很多的Unix工作站中，只能提供录音与放音的功能。有了OSS后，给这些工作站带来了MIDI功能，加上音频流、语音识别/生成、
-计算机电话（CT）、JAVA以及其它的多媒体技术，在Unix工作站中，同样可以享受到同Windows、Macintosh环境一样的音频世界。另外，
-OSS还提供了与视频和动画播放同步的音频能力，这对在Unix中实现动画、游戏提供了帮助。</p>
-
-
-
-
-<p>在Unix系统中，所有的设备都被统一成文件，通过对文件的访问方式（首先open，然后read/write，同时可以使用ioctl读取/设置参数，
-最后close）来访问设备.在OSS中，主要有以下的几种设备文件：</br>
-/dev/mixer：访问声卡中内置的mixer，调整音量大小，选择音源。</br>
-/dev/sndstat：测试声卡，执行cat /dev/sndstat会显示声卡驱动的信息。</br>
-/dev/dsp、/dev/dspW、/dev/audio：读这个设备就相当于录音，写这个设备就相当于放音。/dev/dsp与/dev/audio之间的区别在于采样的编码
-不同，/dev/audio使用μ律编码，/dev/dsp使用8-bit（无符号）线性编码，/dev/dspW使用16-bit（有符号）线形编码。/dev/audio主要是为了
-与SunOS兼容，所以尽量不要使用。</br>
-/dev/sequencer：访问声卡内置的，或者连接在MIDI接口的synthesizer。</p>
-
-
-
-
-<p>OSS为音频编程提供三种设备，分别是/dev/dsp，/dev/dspW和/dev/audio，用户可以直接使用Unix的命令来放音和录音，命令cat /dev/dsp >xyz
-可用来录音，录音的结果放在xyz文件中；命令cat xyz >/dev/dsp播放声音文件xyz。如果通过编程的方式来使用这些设备，那么Unix平台通过
-文件系统提供了统一的访问接口。程序员可以通过文件的操作函数直接控制这些设备，这些操作函数包括：open、close、read、write、ioctl等。</p>
-
-
-
-
-<h2>ALSA高级Linux声音系统简介</h2>
-
-
-<p>高级Linux声音体系（英语：Advanced Linux Sound Architecture，缩写为ALSA）是Linux内核中，为声卡提供的驱动组件，以替代原先的
-OSS（开放声音系统）。一部分的目的是支持声卡的自动配置，以及完美的处理系统中的多个声音设备，这些目的大多都已达到。另一个声音
-框架JACK使用ALSA提供低延迟的专业级音频编辑和混音能力。</p>
-
-
-
-
-<p>这个项目开始于为1998年Gravis Ultrasound所开发的驱动，它一直作为一个单独的软件包开发，直到2002年他被引进入Linux内核的开发
-版本(2.5.4-2.5.5)。从2.6版本开始ALSA成为Linux内核中默认的标准音频驱动程序集，OSS则被标记为废弃。</p>
-
-
-
-
-<p>ALSA由许多声卡的声卡驱动程序组成，同时它也提供一个称为libasound的API库。应用程序开发者应该使用libasound而不是内核中的ALSA接口。
-因为libasound提供最高级并且编程方便的编程接口。并且提供一个设备逻辑命名功能，这样开发者甚至不需要知道类似设备文件这样的低层接口。
-相反，OSS/Free驱动是在内核系统调用级上编程，它要求开发者提供设备文件名并且利用ioctrl来实现相应的功能。为了向后兼容，ALSA提供内核
-模块来模拟OSS，这样之前的许多在OSS基础上开发的应用程序不需要任何改动就可以在ALSA上运行。另外，libaoss库也可以模拟OSS，而它不需要
-内核模块。另外，ALSA还包含插件功能，使用插件可以扩展新的声卡驱动，包括完全用软件实现的虚拟声卡。ALSA提供一系列基于命令行的工具集，
-比如混音器(mixer)，音频文件播放器(aplay)，以及控制特定声卡特定属性的工具。</p>
-
-
-
-
-<p>ALSA API主要分为以下几种接口：</br>
-控制接口：提供灵活的方式管理注册的声卡和对存在的声卡进行查询。</br>
-PCM接口：提供管理数字音频的捕捉和回放。</br>
-原始MIDI接口: 支持 MIDI (Musical Instrument Digital Interface)，一种标准电子音乐指令集。这些API提供访问声卡上的MIDI总线。
-这些原始借口直接工作在 The MIDI事件上，程序员只需要管理协议和时间。</br>
-记时接口: 为支持声音的同步事件提供访问声卡上的定时器。</br>
-音序器接口：一个比原始MIDI接口高级的MIDI编程和声音同步高层接口。它可以处理很多的MIDI协议和定时器。</br>
-混音器接口：控制发送信号和控制声音大小的声卡上的设备。</p>
-
-
-
-
-<p>API库使用逻辑设备名而不是设备文件。设备名字可以是真实的硬件名字也可以是插件名字。硬件名字使用hw:i,j这样的格式。其中i是卡号，
-j是这块声卡上的设备号。第一个声音设备是hw:0,0.这个别名默认引用第一块声音设备并且在本文示例中一真会被用到。插件使用另外的唯一名字。
-比如plughw:,表示一个插件，这个插件不提供对硬件设备的访问，而是提供像采样率转换这样的软件特性，硬件本身并不支持这样的特性。</p>
-
-
-
-
-<h2>OSS与ALSA的优缺点比较</h2>
-
-
-<p>ALSA是一个完全开放源代码的音频驱动程序集，除了像OSS那样提供了一组内核驱动程序模块之外，ALSA还专门为简化应用程序的编写提供了
-相应的函数库，与OSS提供的基于ioctl的原始编程接口相比，ALSA函数库使用起来要更加方便一些。利用该函数库，开发人员可以方便快捷的
-开发出自己的应用程序，细节则留给函数库内部处理。当然ALSA也提供了类似于OSS的系统接口，不过ALSA的开发者建议应用程序开发者使用
-音频函数库而不是驱动程序的API。Ubuntu默认使用ALSA作为底层声音驱动，程序则与PulseAudio交互，这是一个很不错的方案。</p>
-
-
-
-
-<p>下面来比较一下OSS和ALSA的优缺点：</br>
-<strong>(1)OSS的优点（对用户来说）</strong></br>
-在内核空间（kernel space）里面包含了一个透明软件混音器(vmix)。这样多个程序就可以同时使用声音设备而且没有任何问题。</br>
-这个混音器可以让你单独调节各个程序的音量。</br>
-对某些老声卡有着更好的支持比如创新（Creative）的X-Fi。</br>
-声音程序的初始反应时间一般更好。</br>
-对使用OSS的应用程序接口（API）的程序有更好的支持，很多程序都支持OSS的API，而不需要ALSA的模拟。</br>
-
-<strong>(2)OSS的优点（对开发者来说）</strong></br>
-清晰的API文档，更易于使用。</br>
-支持用户空间的声音驱动。</br>
-可移植性强，OSS也可以在BSDs和Solaris下运行。</br>
-本身可以跨平台，可以更方便移植到新的操作系统。</br>
-
-<strong>(3)ALSA的优点</strong></br>
-ALSA对USB音频设备支持更好，而OSS的输出还在试验中，输入还未实现。</br>
-ALSA支持蓝牙声音设备。</br>
-ALSA支持AC'97和HDAudio dial-up soft-modems (比如Si3055)。</br>
-ALSA对MIDI支持得更好，但用OSS你只能通过软件合成器（如timidity和fluidsynth）来使用MIDI。</br>
-ALSA对待机支持更好，而用OSS，你需要在待机前使用soundoff来停止OSS驱动，在恢复后使用soundon来启动OSS。</br>
-OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也就是说在某些型号的主板上，你可能需要在插入耳机的
-时候手动关闭外置扬声器。而ALSA没这个问题。
-</p>
-
-
-
-
-<h2>参考资料</h2>
-
-
-<p>[1]Archlinux上介绍OSS的Wiki：https://wiki.archlinux.org/index.php/OSS_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29 </br>
-[2]Archlinux上介绍ALSA的Wiki：https://wiki.archlinux.org/index.php/Advanced_Linux_Sound_Architecture_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87) </br>
-[3]OSS--跨平台的音频接口简介: http://www.ibm.com/developerworks/cn/linux/l-ossapi/ </br>
-[4]Linux ALSA声卡驱动之一：ALSA架构简介: http://blog.csdn.net/droidphone/article/details/6271122 </br>
-[5]Linux ALSA声卡编程简介: http://enmind.blog.163.com/blog/static/164138001201092334620355/</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[2013IDF声龙语音识别技术演示]]></title>
-    <link href="http://ibillxia.github.com/blog/2013/04/10/Intel-Developer-Forum-2013-Nuance-Dragon-Presentation/"/>
+    <link href="http://ibillxia.github.io/blog/2013/04/10/Intel-Developer-Forum-2013-Nuance-Dragon-Presentation/"/>
     <updated>2013-04-10T12:57:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2013/04/10/Intel-Developer-Forum-2013-Nuance-Dragon-Presentation</id>
+    <id>http://ibillxia.github.io/blog/2013/04/10/Intel-Developer-Forum-2013-Nuance-Dragon-Presentation</id>
     <content type="html"><![CDATA[<p>2013英特尔信息技术峰会(Intel Developer Forum, IDF)上，来自Nuance的声龙语音合成和识别技术的演示，中文语音识别不给力，
 笑点频出啊，哈哈</p>
 
@@ -204,9 +33,9 @@ OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也�
   
   <entry>
     <title type="html"><![CDATA[EFI和操作系统]]></title>
-    <link href="http://ibillxia.github.com/blog/2012/09/23/EFI-and-operating-system/"/>
+    <link href="http://ibillxia.github.io/blog/2012/09/23/EFI-and-operating-system/"/>
     <updated>2012-09-23T23:03:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2012/09/23/EFI-and-operating-system</id>
+    <id>http://ibillxia.github.io/blog/2012/09/23/EFI-and-operating-system</id>
     <content type="html"><![CDATA[<p>前两天在98上看到一个帖子 windows 8 没法和linux共存？ 里面有一个概念就是EFI</p>
 
 <h2>什么是EFI？</h2>
@@ -298,188 +127,343 @@ EFI系统不提供复杂的缓存器保护功能，它只具备简单的缓存�
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[盘点10大生不逢时科技创业公司：创意过于超前]]></title>
-    <link href="http://ibillxia.github.com/blog/2011/05/07/10-born-at-the-wrong-time-companies-innovation-too-advanced/"/>
-    <updated>2011-05-07T18:00:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2011/05/07/10-born-at-the-wrong-time-companies-innovation-too-advanced</id>
-    <content type="html"><![CDATA[<p>据国外媒体报道，有句形容创业公司的老话说，“太早也是个错误。” 这绝对是个事实，在很多伟大的科技公司成立之前，相同的创意已经存在，
-但是因为时机不对，结果没有形成气候。下文将点评10大生不逢时的科技创业公司，这些公司的项目是创新的，但是因为出现得太早，市场尚未做
-好准备，所以最终失败。</p>
-
-
-<center><img src="/images/2011/IMAG2011050701.jpg"></center>
-
-
-<p>同类型的公司在数年后取得辉煌成绩，产生数亿美元价值，曾经创立这10大创业公司的企业家难免懊恼不已，因为这些创意和产品都是他们曾
-经历的。但是，这就是人生。以下是10大生不逢时的科技创业公司：</p>
+    <title type="html"><![CDATA[伪造IP地址的原理]]></title>
+    <link href="http://ibillxia.github.io/blog/2010/08/31/the-elements-of-ip-faking/"/>
+    <updated>2010-08-31T09:41:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2010/08/31/the-elements-of-ip-faking</id>
+    <content type="html"><![CDATA[<p>入侵者使用假IP地址发送包，利用基于IP地址证实的应用程序。其结果是未授权的远端用户进入带有防火墙的主机系统。</p>
 
 
 
 
-<h4>1.SixDegrees.com</h4>
+<p>假设有两台主机A、B和入侵者控制的主机X。假设B授予A某些特权，使得A能够获得B所执行的一些操作。X的目标就是得到与B相同的权利。
+为了实现该目标，X必须执行两步操作：首先，与B建立一个虚假连接；然后，阻止A向B报告网络证实系统的问题。主机X必须假造A的IP地址，
+从而使B相信从X发来的包的确是从A发来的。</p>
 
 
-<p>这是第一个为用户提供社交体验的网站，该网站想揭示的原理是：最多通过6个人你就能够认识世界上任何一个人。在1997年成立以后，该网站
-经历了一段时间的高速增长，但是由于人们对社交网站还不适应，所以最终淡出人们视线。</p>
 
 
+<p>我们同时假设主机A和B之间的通信遵守TCP／IP的三次握手机制。握手方法是：</p>
 
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>A->：SYN（序列号=M）
+</span><span class='line'>B->A：SYN（序列号＝N），ACK（应答序号=M+1）
+</span><span class='line'>A->B：ACK（应答序号＝N+1）</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <!--more-->
 
 
-
-
-<h4>2. AskJeeves</h4>
-
-
-<p>搜索引擎AskJeeves拥有的很多技术非常先进，比如谷歌后来非常关注的语义搜索以及通过超链接为网页排名等。很多相同的技术后来都成为了
-谷歌的秘密武器。但是，这些技术在AskJeeves的时代看起来并不怎么样。</p>
+<p>主机X伪造IP地址步骤如下：首先，X冒充A，向主机B发送一个带有随机序列号的SYN包。主机B响应，向主机A发送一个带有应答号的SYN+ACK包、
+该应答号等于原序列号加1。同时，主机B产生自己发送包序列号，并将其与应答号一起发送。为了完成三次握手，主机X需要向主</p>
 
 
 
 
-<h4>3. Webvan</h4>
+<p>机B回送一个应答包，其应答号等于主机B向主机A发送的包序列号加1。假设主机X与A和B不同在一个子网内，则不能检测到B的包，
+主机X只有算出B的序列号，才能创建TCP连接。其过程描述如下：</p>
 
 
-<p>网络杂货零售商Webvan最初引起了多家风投机构注意，用户在网上订购杂货，该公司通过自有物流体配送给到户。原本这家公司可以成长为一颗
-耀眼的电子商务公司，但是Webvan想建立最完美配送体系并积极扩张、收购，在仓库和基础设施上投入大笔资金，最终因为烧钱太快让位于后来者。</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>X->B：SYN（序列号=M），SRC=A
+</span><span class='line'>B->A：SYN（序列号=N），ACK（应答号=M+1）
+</span><span class='line'>X->B：ACK（应答号＝N+1），SRC＝A</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-
-
-
-<h4>4. Pets.com</h4>
-
-
-<p>宠物用品网站Pets.com本来是伟大的。如今宠物用品市场是一个数十亿美元的大市场，Pets.com的失败在于创立在互联网泡沫最疯狂的时期，结果可想而知。</p>
-
-
-
-
-<h4>5. Dodgeball</h4>
-
-
-<p>移动社交网络Dodgeball出现的时候人们对这一概念一无所知，该服务可以用短消息信息告知你朋友所在的位置。丹尼斯-克罗利(Dennis Crowley)的
-创立这个基于地理位置的社交网络之所以没有成功原因有二：1. 没有iPhone；2.没有Facebook。没有iPhone意味着只能通过短消息进行，没有Facebook
-意味着很少有人能理解不断更新的意义。丹尼斯-克罗利后来创立的Foursquare则赶上了好时候。</p>
-
-
-
-
-<h4>6. GO Corporation</h4>
-
-
-<p>GO Corporation可以被称为是Palm的前身，甚至可以说是iPhone和iPad的前辈。GO Corporation公司拥有自己的移动操作系统，以及用笔输入的
-电脑产品，首次采用触摸板作为主要输入设备。GO Corporation唯一的错误就是出现得太早了。</p>
-
-
-
-
-<h4>7. LetsBuyIt.com</h4>
-
-
-<p>LetsBuyIt.com是一款早期的团购服务，但是不是专注于本地商户，而是大公司的产品。而且当时社交网络还没有出现，不利于交易信息传播。
-所以，如今很多人都没有听说过LetsBuyIt.com，Groupon却成为了有史以来增长最快的公司。</p>
-
-
-
-
-<h4>8. LoudCloud</h4>
-
-
-<p>LoudCloud开始研究云计算的时候，人们都还以为“云”是天上飘的云。这家公司也许太“有远见”了，做着亚马逊和其它公司今天才做的事情：
-为创业公司和大公司提供云计算服务。当时的市场尚未形成，结果可想而知。</p>
-
-
-
-
-<h4>9. WebTV</h4>
-
-
-<p>WebTV向人们推销一个概念：互联网电视。这家公司的财务状况良好，还被微软收购。但是推广互联网电视概念时却遇阻。或许是太早了，或许
-消费者还不想让互联网连入自己的电视。</p>
-
-
-
-
-<h4>10. NextNewNetwork</h4>
-
-
-<p>NextNewNetwork希望成为网络MTV，后来被谷歌以不高的价格收购。这对一家希望成为网络MTV的公司而言是个悲惨的结局。也许有一天，会真
-的出现一家成功的网络MTV公司。</p>
-
-
-
-
-<p>原文链接：http://www.techweb.com.cn/world/2011-05-05/1029692.shtml</p>
+<p>同时，主机X应该阻止主机A响应主机B的包。为此，X可以等到主机A因某种原因终止运行，或者阻塞主机A的操作系统协议部分，使它不能响应主机B。
+一旦主机X完成了以上操作，它就可以向主机B发送命令。主机B将执行这些命令，认为他们是由合法主机A发来的。</p>
 
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[我是如何理解微博的 ]]></title>
-    <link href="http://ibillxia.github.com/blog/2011/04/17/my-understanding-of-micro-blog/"/>
-    <updated>2011-04-17T13:31:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2011/04/17/my-understanding-of-micro-blog</id>
-    <content type="html"><![CDATA[<h3>微博首先是媒体</h3>
+    <title type="html"><![CDATA[UTF8中文编码范围]]></title>
+    <link href="http://ibillxia.github.io/blog/2010/08/21/utf8-chinese-coding/"/>
+    <updated>2010-08-21T10:31:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2010/08/21/utf8-chinese-coding</id>
+    <content type="html"><![CDATA[<p>UTF-8有点类似于Haffman编码，它将Unicode编码为： </br>
+00000000-0000007F的字符，用单个字节来表示； </br>
+00000080-000007FF的字符用两个字节表示 （中文的编码范围） </br>
+00000800-0000FFFF的字符用3字节表示</br>
+编码转换：iconv -f “文件目前编码” -t “文件转换后的编码” -o “转换后生成的新文件名” “源文件名”temp = Iconv.conv("UTF-8","gb2312",a) </p>
 
 
-<center><img src="/images/2011/IMAG2011041701.jpg"></center>
 
 
-<p>但更确切点说，它是自媒体。它即是名人、权威们的自媒体，也是草根们的自媒体。在中国，草根现在靠着微薄，也有了些话语权，但声音还比较稚嫩，
-分贝也不够大，但无论如何，跟着意见领袖们起起哄是必须地，支持也好，反对也罢，声音还是比从前大多了。要注意的是，一个草根的声音很小，但草根
-们的声音一旦被叠加，再加上从众效应，其力量可能超乎我们想象，这时自媒体会变成众媒体（与传统的公众媒体是有区别的）。众媒体是个双刃剑，其好
-处是，多数时候，这个众媒体可能代表大多数的声音，但另一方面，作为自媒体，微博毕竟是个性化的，即使看不清真相，也能知道看问题有不同的角度。
-而当其成为众媒体时，其声音可能是趋同的，一旦人们形成某种较特殊的群体心理，个性将开始湮没、理性将开始丧失，这就有点危险，尤其在中国。</p>
-
-
+<p>因为目前为止Unicode-16规范没有指定FFFF以上的字符，所以UTF-8最多是使用3个字节来表示一个字符。但理论上来说，UTF-8最多需要用6字节表示一个字符。 
+在UTF-8里，英文字符仍然跟ASCII编码一样，因此原先的函数库可以继续使用。而中文的编码范围是在0080-07FF之间，因此是2个字节表示（但这两个字节
+和GB编码的两个字节是不同的）。 </p>
 
 
 <!--more-->
 
 
+<h2>big endian和little endian</h2>
 
 
-<h3>其次，微博还是网络社区</h3>
-
-
-<p>这个大社区里包含着无数的小社群，小社群之间是纵横交错的。从基本的结构上来说，这些小社群是以自我为圆心，以个人偏好为过滤器，他们筛选关注
-对象并集散信息。微博与别的社会化网络社区的不同之处在于，这个社区弱化了人际关系，但强化了信息交换。也就是，这个社区中，关系的核心纽带，既不
-是Facebook的线下关系的转移，也不是MySpace的网络交友，它的核心纽带是信息交换。信息量大的人，是微博社区的中坚人物。普通信息一般只在小社群内部
-传播，但是，当一条信息本身具有一定附着力和穿透力时，信息就会产生大规模的扩散（穿透一个个小社群），因此，微博社区发展到现在最为成功的一个无
-心插柳的作用，是大众传播。传播的大任，当然主要还在草根手里，他们免费并且无怨无悔地做播种机、宣传队。但他们也因此常常被“导向”或利用。</p>
+<p>我们一般将endian翻译成“字节序”，将big endian和little endian称作“大尾”和“小尾”。</p>
 
 
 
 
-<h3>再次，微博也是沟通工具</h3>
-
-
-<p>在此之前，IM是公认的，也是最流行的网络沟通工具，Email次之（在中国，Email倒没那么重要）。现在的微博里，沟通气氛还是相当活跃的，海量的评论
-和转发使群体沟通显得热闹非凡。但微博上的沟通和IM的沟通有明显不同。IM上的沟通，有私密性，偏个人话题，更适合私下的沟通，多数时候，沟通是一对一
-进行的（QQ群是一对多）。而微博上的沟通，则以公共话题为主，沟通是公开的（私信除外），沟通的形式，也是多人的。另一个不同，微博进一步降低了沟通
-门槛，也就是，用户可以单向地关注别人（还是私信除外）并通过评论和转发进行沟通，而不再像QQ一样需要通过对方的批准才能开始沟通。这个做法对草根意义
-更大，因为草根更愿意扩大的自己的沟通范围，尤其是与那些他们曾经可望不可及的所谓名人进行沟通。单向开放沟通渠道后，沟通的效果究竟如何，还不能轻易
-下结论，但单就沟通形式上的突破来说，微博就已经是QQ无法替代的了。</p>
+<p>“endian”这个词出自《格列佛游记》。小人国的内战就源于吃鸡蛋时是究竟从大头(Big-Endian)敲开还是从小头(Little-Endian)敲开，
+由此曾发生过六次叛乱，其中一个皇帝送了命，另一个丢了王位。</p>
 
 
 
 
-<h3>最后，微博是开放平台</h3>
-
-
-<p>前面三条，是我对微博基本层面的理解，对这三个基本层面，无论是微博运营商也好，还是参与微博的企业也好，最好都不要进行过多的、过于画蛇添足的
-商业操作，否则将违背微博的创立时的初衷，也将破坏微博的生态环境。但从现在的趋势看，微博将成为开放平台。也就是，微博将通过开放API，进一步放大
-其在媒体、社区、沟通工具，甚至企业营销等方面的作用。因此，开放平台将为微博运营商和企业都带来新的商业机会。微博基础平台的作用，是产生数据和
-传播数据，但这些数据杂乱而无序，平台的开放，意味着参与微博的各个方面，包括个人用户，企业用户，以及运营商自身，都将可以按照不同的需求来利用
-数据，深入的数据挖掘意味着什么，这里无需多说，这里我唯一希望的是，微博运营商对于微博平台，能做到真正意义上的开放，那微博在未来，才能真正为
-个人用户和企业用户所利用，真正成为杀手级的网络应用。</p>
+<p>big endian和little endian是CPU处理多字节数的不同方式。例如“汉”字的Unicode编码是6C49。那么写到文件里时，究竟是将6C写在前面，
+还是将49写在前面？如果将6C写在前面，就是big endian。而如果将49写在前面，就是little endian。</p>
 
 
 
 
-<p>原文链接：http://www.socialbeta.cn/articles/whats-weibo.html</p>
+<h2>UTF编码</h2>
+
+
+<p>UTF-8就是以8位为单元对UCS进行编码。从UCS-2到UTF-8的编码方式如下：</br>
+
+UCS-2编码(16进制) UTF-8 字节流(二进制)</br>
+0000 - 007F 0xxxxxxx</br>
+0080 - 07FF 110xxxxx 10xxxxxx</br>
+0800 - FFFF 1110xxxx 10xxxxxx 10xxxxxx </p>
+
+
+
+
+<p>例如“汉”字的Unicode编码是6C49。6C49在0800-FFFF之间，所以肯定要用3字节模板了：1110xxxx 10xxxxxx 10xxxxxx。
+将6C49写成二进制是：0110 110001 001001， 用这个比特流依次代替模板中的x，得到：11100110 10110001 10001001，即E6 B1 89。</p>
+
+
+
+
+<p>读者可以用记事本测试一下我们的编码是否正确。</p>
+
+
+
+
+<p>UTF-16以16位为单元对UCS进行编码。对于小于0x10000的UCS码，UTF-16编码就等于UCS码对应的16位无符号整数。对于不小于0x10000的UCS码，
+定义了一个算法。不过由于实际使用的UCS2，或者UCS4的BMP必然小于0x10000，所以就目前而言，可以认为UTF-16和UCS-2基本相同。
+但UCS-2只是一个编码方案，UTF-16却要用于实际的传输，所以就不得不考虑字节序的问题。</p>
+
+
+
+
+<h2>UTF的字节序和BOM</h2>
+
+
+<p>UTF-8以字节为编码单元，没有字节序的问题。UTF-16以两个字节为编码单元，在解释一个UTF-16文本前，首先要弄清楚每个编码单元的字节序。
+例如收到一个“奎”的Unicode编码是594E，“乙”的Unicode编码是4E59。如果我们收到UTF-16字节流“594E”，那么这是“奎”还是“乙”？</p>
+
+
+
+
+<p>Unicode规范中推荐的标记字节顺序的方法是BOM。BOM不是“Bill Of Material”的BOM表，而是Byte Order Mark。BOM是一个有点小聪明的想法：</br>
+
+在UCS编码中有一个叫做"ZERO WIDTH NO-BREAK SPACE"的字符，它的编码是FEFF。
+而FFFE在UCS中是不存在的字符，所以不应该出现在实际传输中。</br>
+UCS规范建议我们在传输字节流前，先传输字符"ZERO WIDTH NO-BREAK SPACE"。</p>
+
+
+
+
+<p>这样如果接收者收到FEFF，就表明这个字节流是Big-Endian的；如果收到FFFE，就表明这个字节流是Little-Endian的。
+因此字符"ZERO WIDTH NO-BREAK SPACE"又被称作BOM。</p>
+
+
+
+
+<p>UTF-8不需要BOM来表明字节顺序，但可以用BOM来表明编码方式。字符"ZERO WIDTH NO-BREAK SPACE"的UTF-8编码是EF BB BF（读者
+可以用我们前面介绍的编码方法验证一下）。所以如果接收者收到以EF BB BF开头的字节流，就知道这是UTF-8编码了。</p>
+
+
+
+
+<p>Windows就是使用BOM来标记文本文件的编码方式的。</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[开源网络爬虫介绍及其比较]]></title>
+    <link href="http://ibillxia.github.io/blog/2010/08/20/several-open-source-web-crawlers-comparing/"/>
+    <updated>2010-08-20T18:53:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2010/08/20/several-open-source-web-crawlers-comparing</id>
+    <content type="html"><![CDATA[<h2>主流的爬虫</h2>
+
+
+<p><strong>Nutch</strong></br>
+开发语言：Java</br>
+主页：<a href="http://lucene.apache.org/nutch/">http://lucene.apache.org/nutch/</a></br>
+简介：</br>
+Apache的子项目之一，属于Lucene项目下的子项目。</br>
+Nutch是一个基于Lucene，类似Google的完整网络搜索引擎解决方案，基于Hadoop的分布式处理模型保证了系统的性能，类似Eclipse的插件机制
+保证了系统的可客户化，而且很容易集成到自己的应用之中。
+</p>
+
+
+<!--more-->
+
+
+<p><strong>Larbin</strong></br>
+开发语言：C++</br>
+主页：<a href="http://larbin.sourceforge.net/index-eng.html">http://larbin.sourceforge.net</a></br>
+简介：</br>
+larbin是一种开源的网络爬虫/网络蜘蛛，由法国的年轻人 Sébastien Ailleret独立开发。larbin目的是能够跟踪页面的url进行扩展的抓取，
+最后为搜索引擎提供广泛的数据来源。</br>
+Larbin只是一个爬虫，也就是说larbin只抓取网页，至于如何parse的事情则由用户自己完成。另外，如何存储到数据库以及建立索引的事情 larbin也不提供。</br>
+
+latbin最初的设计也是依据设计简单但是高度可配置性的原则，因此我们可以看到，一个简单的larbin的爬虫可以每天获取５００万的网页，非常高效。
+</p>
+
+
+
+
+<p><strong>Heritrix</strong></br>
+开发语言：Java</br>
+主页：<a href="http://crawler.archive.org/">http://crawler.archive.org/</a></br>
+与Nutch比较：</br>
+二者均为Java开源框架，Heritrix是 SourceForge上的开源产品，Nutch为Apache的一个子项目，它们都称作网络爬虫/蜘蛛（ Web Crawler），
+它们实现的原理基本一致：深度遍历网站的资源，将这些资源抓取到本地，使用的方法都是分析网站每一个有效的URI，并提交Http请求，
+从而获得相应结果，生成本地文件及相应的日志信息等。</br>
+Heritrix 是个 "archival crawler" -- 用来获取完整的、精确的、站点内容的深度复制。包括获取图像以及其他非文本内容。抓取并存储相关的内容。
+对内容来者不拒，不对页面进行内容上的修改。重新爬行对相同的URL不针对先前的进行替换。爬虫通过Web用户界面启动、监控、调整，允许弹性的
+定义要获取的URL。</br></br>
+二者的差异：</br>
+Nutch 只获取并保存可索引的内容。Heritrix则是照单全收。力求保存页面原貌。</br>
+Nutch 可以修剪内容，或者对内容格式进行转换。</br>
+Nutch 保存内容为数据库优化格式便于以后索引；刷新替换旧的内容。而Heritrix 是添加(追加)新的内容。</br>
+Nutch 从命令行运行、控制。Heritrix 有 Web 控制管理界面。</br>
+Nutch 的定制能力不够强，不过现在已经有了一定改进。Heritrix 可控制的参数更多。</br>
+Heritrix提供的功能没有nutch多，有点整站下载的味道。既没有索引又没有解析，甚至对于重复爬取URL都处理不是很好。</br>
+Heritrix的功能强大，但是配置起来却有点麻烦。
+</p>
+
+
+
+
+<h2>其他的爬虫</h2>
+
+
+<p><strong>WebLech</strong></br>
+<a href="http://weblech.sourceforge.net/">http://weblech.sourceforge.net/</a></br>
+WebLech是一个功能强大的Web站点下载与镜像工具。它支持按功能需求来下载web站点并能够尽可能模仿标准Web浏览器的行为。
+WebLech有一个功能控制台并采用多线程操作。
+</p>
+
+
+
+
+<p><strong>Arale</strong></br>
+<a href="http://web.tiscali.it/_flat/arale.jsp.html">http://web.tiscali.it/_flat/arale.jsp.html</a></br>
+Arale主要为个人使用而设计，而没有像其它爬虫一样是关注于页面索引。Arale能够下载整个web站点或来自web站点的某些资源。
+Arale还能够把动态页面映射成静态页面。
+</p>
+
+
+
+
+<p><strong>J-Spider</strong></br>
+<a href="http://j-spider.sourceforge.net/">http://j-spider.sourceforge.net/</a></br>
+J-Spider:是一个完全可配置和定制的Web Spider引擎.你可以利用它来检查网站的错误(内在的服务器错误等),网站内外部链接检查，
+分析网站的结构(可创建一个网站地图),下载整个Web站点，你还可以写一个JSpider插件来扩展你所需要的功能。
+</p>
+
+
+
+
+<p><strong>Spindle</strong></br>
+<a href="http://www.bitmechanic.com/projects/spindle/">http://www.bitmechanic.com/projects/spindle/</a></br>
+spindle 是一个构建在Lucene工具包之上的Web索引/搜索工具.它包括一个用于创建索引的HTTP spider和一个用于搜索这些索引的搜索类。
+spindle项目提供了一组JSP标签库使得那些基于JSP的站点不需要开发任何Java类就能够增加搜索功能。
+</p>
+
+
+
+
+<p><strong>Arachnid</strong></br>
+<a href="http://arachnid.sourceforge.net/">http://arachnid.sourceforge.net/</a></br>
+Arachnid: 是一个基于Java的web spider框架.它包含一个简单的HTML剖析器能够分析包含HTML内容的输入流.通过实现Arachnid的子类就能够
+开发一个简单的Web spiders并能够在Web站上的每个页面被解析之后增加几行代码调用。 Arachnid的下载包中包含两个spider应用程序例子
+用于演示如何使用该框架。
+</p>
+
+
+
+
+<p><strong>LARM</strong></br>
+<a href="http://larm.sourceforge.net/">http://larm.sourceforge.net/</a></br>
+LARM能够为Jakarta Lucene搜索引擎框架的用户提供一个纯Java的搜索解决方案。它包含能够为文件，数据库表格建立索引的方法和为Web站点建索引的爬虫。
+</p>
+
+
+
+
+<p><strong>JoBo</strong></br>
+<a href="http://www.matuschek.net/software/jobo/index.html">http://www.matuschek.net/software/jobo/index.html</a></br>
+JoBo 是一个用于下载整个Web站点的简单工具。它本质是一个Web Spider。与其它下载工具相比较它的主要优势是能够自动填充form(如：自动登录)和
+使用cookies来处理session。JoBo还有灵活的下载规则(如：通过网页的URL，大小，MIME类型等)来限制下载。
+</p>
+
+
+
+
+<p><strong>snoics-reptile</strong></br>
+<a href="http://www.blogjava.net/snoics">http://www.blogjava.net/snoics</a></br>
+snoics -reptile是用纯Java开发的，用来进行网站镜像抓取的工具，可以使用配制文件中提供的URL入口，把这个网站所有的能用浏览器通过GET的方式
+获取到的资源全部抓取到本地，包括网页和各种类型的文件，如：图片、flash、mp3、zip、rar、exe等文件。可以将整个网站完整地下传至硬盘内，
+并能保持原有的网站结构精确不变。只需要把抓取下来的网站放到web服务器(如：Apache)中，就可以实现完整的网站镜像。
+</p>
+
+
+
+
+<p><strong>Web-Harvest</strong></br>
+<a href="http://web-harvest.sourceforge.net">http://web-harvest.sourceforge.net</a></br>
+Web-Harvest 是一个Java开源Web数据抽取工具。它能够收集指定的Web页面并从这些页面中提取有用的数据。Web-Harvest主要是运用了像XSLT,
+XQuery,正则表达式等这些技术来实现对text/xml的操作。
+</p>
+
+
+
+
+<p><strong>Spiderpy</strong></br>
+<a href="http://pyspider.sourceforge.net/">http://pyspider.sourceforge.net/</a></br>
+spiderpy是一个基于Python编码的一个开源web爬虫工具，允许用户收集文件和搜索网站，并有一个可配置的界面。
+</p>
+
+
+
+
+<p><strong>The Spider Web Network Xoops Mod Team</strong></br>
+<a href="http://www.tswn.com/">http://www.tswn.com/</a></br>
+pider Web Network Xoops Mod是一个Xoops下的模块，完全由PHP语言实现。
+</p>
+
+
+
+
+<p><strong>HiSpider</strong></br>
+<a href="https://code.google.com/p/hispider/">https://code.google.com/p/hispider/</a></br>
+Hispider is a fast and high performance spider with high speed</br>
+严格说只能是一个spider系统的框架, 没有细化需求, 目前只是能提取URL, URL排重, 异步DNS解析, 队列化任务, 支持N机分布式下载, 
+支持网站定向下载(需要配置hispiderd.ini whitelist).</br></br>
+特征和用法:</br>
+基于unix/linux系统的开发</br>
+异步DNS解析</br>
+URL排重</br>
+支持HTTP 压缩编码传输 gzip/deflate</br>
+字符集判断自动转换成UTF-8编码</br>
+文档压缩存储</br>
+支持多下载节点分...
+</p>
+
+
 
 ]]></content>
   </entry>

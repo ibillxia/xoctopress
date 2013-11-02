@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: Query | Bill's Blog]]></title>
-  <link href="http://ibillxia.github.com/blog/tags/query/atom.xml" rel="self"/>
-  <link href="http://ibillxia.github.com/"/>
-  <updated>2013-10-22T22:35:17+08:00</updated>
-  <id>http://ibillxia.github.com/</id>
+  <link href="http://ibillxia.github.io/blog/tags/query/atom.xml" rel="self"/>
+  <link href="http://ibillxia.github.io/"/>
+  <updated>2013-11-02T21:13:25+08:00</updated>
+  <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
     <email><![CDATA[ibillxia@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Sql Server数据库常用的查询语句]]></title>
-    <link href="http://ibillxia.github.com/blog/2009/07/23/useful-queries-methods-in-MS-SQL-Server/"/>
+    <link href="http://ibillxia.github.io/blog/2009/07/23/useful-queries-methods-in-MS-SQL-Server/"/>
     <updated>2009-07-23T22:31:00+08:00</updated>
-    <id>http://ibillxia.github.com/blog/2009/07/23/useful-queries-methods-in-MS-SQL-Server</id>
+    <id>http://ibillxia.github.io/blog/2009/07/23/useful-queries-methods-in-MS-SQL-Server</id>
     <content type="html"><![CDATA[<h2>一、表操作 </h2>
 
 
