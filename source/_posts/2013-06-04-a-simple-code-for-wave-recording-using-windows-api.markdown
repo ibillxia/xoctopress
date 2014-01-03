@@ -45,7 +45,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	waveformat.nBlockAlign=1;
 	waveformat.wBitsPerSample=8;
 	waveformat.cbSize=0;
-	waveformat.nAvgBytesPerSec=waveformat.nSamplesPerSec*waveformat.wBitsPerSample/8;
+	waveformat.nAvgBytesPerSec=waveformat.nChannels*waveformat.nSamplesPerSec*waveformat.wBitsPerSample/8;
 	
 	sprintf(lpTemp,"WAVEFORMATEX size = %lu", sizeof(WAVEFORMATEX));
 	MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
