@@ -27,28 +27,21 @@
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Bill's Blog" type="application/atom+xml">  
-
+  
   <!-- Wumii Scripts Start -->
   <script type="text/javascript">
     var wumiiPermaLink = "/blog/2013/03/30/back-propagation-neural-networks/";
     var wumiiTitle = "反向传播(BP)神经网络";
 	var wumiiTags = new Array();
 	
-	  
-		wumiiTags.push( "BPNN" );
-	  
-		wumiiTags.push( "GradientDescent" );
-	  
-		wumiiTags.push( "NeuralNetworks" );
-	  
-	
+	wumiiTags.push( "BPNN" ); wumiiTags.push( "GradientDescent" ); wumiiTags.push( "NeuralNetworks" ); 
 	
 	var wumiiCategories = new Array();
 	
-	  
-		wumiiTags.push( "PRML" );
-	  
+	wumiiCategories.push( "PRML" ); 
 	
+	wumiiTags = JSON.stringify(wumiiTags);
+	wumiiCategories = JSON.stringify(wumiiCategories);
     var wumiiSitePrefix = "http://ibillxia.github.io";
     var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
   </script>
@@ -362,7 +355,7 @@ BP算法的目标是使得实际输出approximate期望输出，即使得训练�
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">Bill Xia</span></span>
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about">Bill Xia</a></span></span>
 
       
 
@@ -522,8 +515,8 @@ BP算法的目标是使得实际输出approximate期望输出，即使得训练�
 
     </div>
   </div>
-  <footer role="contentinfo"><p id="footer">
-   <span class="credit" style="text-align: left;">Copyright &copy; 2009 - 2014 - Bill Xia -
+  <footer role="contentinfo"><p id="footer" style="margin-bottom: 0em ">
+   <span class="credit" style="text-align: left;">Copyright &copy; 2009 - 2014   <a href="/about">Bill Xia</a>  
 	Powered by <a href="http://octopress.org">Octopress</a></span>
   
   <span style="float:right;">

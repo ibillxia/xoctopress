@@ -27,26 +27,21 @@
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Bill's Blog" type="application/atom+xml">  
-
+  
   <!-- Wumii Scripts Start -->
   <script type="text/javascript">
     var wumiiPermaLink = "/blog/2013/05/22/audio-signal-processing-time-domain-Voice-Activity-Detection/";
     var wumiiTitle = "语音信号处理之时域分析-端点检测及Python实现";
 	var wumiiTags = new Array();
 	
-	  
-		wumiiTags.push( "Python" );
-	  
-		wumiiTags.push( "VAD" );
-	  
-	
+	wumiiTags.push( "Python" ); wumiiTags.push( "VAD" ); 
 	
 	var wumiiCategories = new Array();
 	
-	  
-		wumiiTags.push( "ASSP" );
-	  
+	wumiiCategories.push( "ASSP" ); 
 	
+	wumiiTags = JSON.stringify(wumiiTags);
+	wumiiCategories = JSON.stringify(wumiiCategories);
     var wumiiSitePrefix = "http://ibillxia.github.io";
     var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
   </script>
@@ -381,7 +376,7 @@ http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/paper/endPointDete
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">Bill Xia</span></span>
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about">Bill Xia</a></span></span>
 
       
 
@@ -541,8 +536,8 @@ http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/paper/endPointDete
 
     </div>
   </div>
-  <footer role="contentinfo"><p id="footer">
-   <span class="credit" style="text-align: left;">Copyright &copy; 2009 - 2014 - Bill Xia -
+  <footer role="contentinfo"><p id="footer" style="margin-bottom: 0em ">
+   <span class="credit" style="text-align: left;">Copyright &copy; 2009 - 2014   <a href="/about">Bill Xia</a>  
 	Powered by <a href="http://octopress.org">Octopress</a></span>
   
   <span style="float:right;">

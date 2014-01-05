@@ -27,28 +27,21 @@
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Bill's Blog" type="application/atom+xml">  
-
+  
   <!-- Wumii Scripts Start -->
   <script type="text/javascript">
     var wumiiPermaLink = "/blog/2012/09/23/EFI-and-operating-system/";
     var wumiiTitle = "EFI和操作系统";
 	var wumiiTags = new Array();
 	
-	  
-		wumiiTags.push( "BIOS" );
-	  
-		wumiiTags.push( "EFI" );
-	  
-		wumiiTags.push( "OS" );
-	  
-	
+	wumiiTags.push( "BIOS" ); wumiiTags.push( "EFI" ); wumiiTags.push( "OS" ); 
 	
 	var wumiiCategories = new Array();
 	
-	  
-		wumiiTags.push( "Technics" );
-	  
+	wumiiCategories.push( "Technics" ); 
 	
+	wumiiTags = JSON.stringify(wumiiTags);
+	wumiiCategories = JSON.stringify(wumiiCategories);
     var wumiiSitePrefix = "http://ibillxia.github.io";
     var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
   </script>
@@ -269,7 +262,7 @@ EFI系统不提供复杂的缓存器保护功能，它只具备简单的缓存�
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">Bill Xia</span></span>
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about">Bill Xia</a></span></span>
 
       
 
@@ -429,8 +422,8 @@ EFI系统不提供复杂的缓存器保护功能，它只具备简单的缓存�
 
     </div>
   </div>
-  <footer role="contentinfo"><p id="footer">
-   <span class="credit" style="text-align: left;">Copyright &copy; 2009 - 2014 - Bill Xia -
+  <footer role="contentinfo"><p id="footer" style="margin-bottom: 0em ">
+   <span class="credit" style="text-align: left;">Copyright &copy; 2009 - 2014   <a href="/about">Bill Xia</a>  
 	Powered by <a href="http://octopress.org">Octopress</a></span>
   
   <span style="float:right;">

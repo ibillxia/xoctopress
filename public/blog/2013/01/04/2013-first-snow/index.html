@@ -28,32 +28,21 @@
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Bill's Blog" type="application/atom+xml">  
-
+  
   <!-- Wumii Scripts Start -->
   <script type="text/javascript">
     var wumiiPermaLink = "/blog/2013/01/04/2013-first-snow/";
     var wumiiTitle = "2013年第一场雪";
 	var wumiiTags = new Array();
 	
-	  
-		wumiiTags.push( "BaochuTower" );
-	  
-		wumiiTags.push( "Life" );
-	  
-		wumiiTags.push( "Snow" );
-	  
-		wumiiTags.push( "WestLake" );
-	  
-		wumiiTags.push( "ZJU" );
-	  
-	
+	wumiiTags.push( "BaochuTower" ); wumiiTags.push( "Life" ); wumiiTags.push( "Snow" ); wumiiTags.push( "WestLake" ); wumiiTags.push( "ZJU" ); 
 	
 	var wumiiCategories = new Array();
 	
-	  
-		wumiiTags.push( "Life" );
-	  
+	wumiiCategories.push( "Life" ); 
 	
+	wumiiTags = JSON.stringify(wumiiTags);
+	wumiiCategories = JSON.stringify(wumiiCategories);
     var wumiiSitePrefix = "http://ibillxia.github.io";
     var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
   </script>
@@ -276,7 +265,7 @@ ZJG大草坪上的求是鹰：</br>
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">Bill Xia</span></span>
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about">Bill Xia</a></span></span>
 
       
 
@@ -436,8 +425,8 @@ ZJG大草坪上的求是鹰：</br>
 
     </div>
   </div>
-  <footer role="contentinfo"><p id="footer">
-   <span class="credit" style="text-align: left;">Copyright &copy; 2009 - 2014 - Bill Xia -
+  <footer role="contentinfo"><p id="footer" style="margin-bottom: 0em ">
+   <span class="credit" style="text-align: left;">Copyright &copy; 2009 - 2014   <a href="/about">Bill Xia</a>  
 	Powered by <a href="http://octopress.org">Octopress</a></span>
   
   <span style="float:right;">

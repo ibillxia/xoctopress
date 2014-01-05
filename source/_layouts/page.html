@@ -22,17 +22,15 @@ layout: default
       {% unless page.sharing == false %}
         {% include post/sharing.html %}
       {% endunless %}
+	  
+	  <!-- Wumii Section Start -->
+	  <section>
+		<div class="entry-content"><script type="text/javascript" id="wumiiRelatedItems"></script></div>
+	  </section>
+	  <!-- Wumii Section End -->
     </footer>
   {% endunless %}
 </article>
-
-<section>
-	<!-- Wumii Scripts Start -->
-	<div class="entry-content">
-		<script type="text/javascript" id="wumiiRelatedItems"></script>
-	</div>
-	<!-- Wumii Scripts End -->
-</section>
 
 {% if site.disqus_short_name and page.comments == true %}
   <section>
