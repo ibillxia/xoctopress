@@ -4,7 +4,7 @@
   <title><![CDATA[Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-02-19T14:20:22+08:00</updated>
+  <updated>2014-03-02T15:06:41+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -12,6 +12,587 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Koding——一个惊艳的在线编程开发平台]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/03/01/koding-an-amazing-online-development-environment/"/>
+    <updated>2014-03-01T22:43:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/03/01/koding-an-amazing-online-development-environment</id>
+    <content type="html"><![CDATA[<p>最近在v2ex上发现了一个非常酷的云编程发开平台——Koding，与大家分享一下，主要介绍一下它的基本功能和操作。</p>
+
+
+<h2>What is Koding?</h2>
+
+
+<p>Koding是一个在线的编程开发平台，致力于简化全球化的合作项目开发，并为每个人提供免费计算和开发资源。它已不仅仅是一个在线的编辑器那么简单，
+而是通过提供免费的虚拟机（vm），上面安装了ubuntu操作系统，有真实的终端，允许开发者进行go、nodejs、ruby、python、php、js、C/C++等语言的开发，
+可以安装各种工具和应用，。更主要的是，它是完全在线的，可以从世界上的任何地方访问，只需要一个浏览器。不仅如此，他还具有完美的社交功能，
+可以和团队成员在线协作。</p>
+
+
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014030101.png"></center>
+
+
+<!--more-->
+
+
+
+
+<h2>Activity Feed</h2>
+
+
+<p>在Koding的<a href="https://koding.com/Activity">Activity面板</a>，是用户间交流的媒介，在这里可以看到一系列的状态更新、代码片段或用户动态。在这里你可以
+创建主题，参与某些主题的讨论，可以关注他人，基本的社交功能都一应俱全。</p>
+
+
+
+
+<h2>Development on Koding</h2>
+
+
+<p>这是Koding的主体部分。在这里你可以像在本地计算机进行开发一样，当然这个可以在线操作，可以实现云同步，随时随地都可以访问，有木有很高大上？
+在这里你可以导入自己的GitHub项目，在浏览器中进行项目开发，可以向GitHub push你的项目更新。这里有在线终端，有在线文本编辑器，还有内置浏览器。
+除了和在本地编程开发一样的功能以外，还可以自行配置和添加vm，设置自己的独立域名等。下面我们来看看vm的一些硬件参数，主要是cpu、内存、硬盘、网络等。</p>
+
+
+<p>硬件信息概要，要加sudo使用根权限并输入密码，不加short参数可以查看详细信息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ sudo lshw -short 
+</span><span class='line'>[sudo] password for ibillxia:         
+</span><span class='line'>H/W path    Device   Class      Description
+</span><span class='line'>===========================================
+</span><span class='line'>                     system     Computer
+</span><span class='line'>/0                   bus        Motherboard
+</span><span class='line'>/0/0                 memory     15GiB System memory
+</span><span class='line'>/0/1                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/2                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/3                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/4                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/5                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/6                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/7                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/8                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/100               bridge     440FX - 82441FX PMC [Natoma]
+</span><span class='line'>/0/100/1             bridge     82371SB PIIX3 ISA [Natoma/Triton II]
+</span><span class='line'>/0/100/1.1           storage    82371SB PIIX3 IDE [Natoma/Triton II]
+</span><span class='line'>/0/100/1.2           bus        82371SB PIIX3 USB [Natoma/Triton II]
+</span><span class='line'>/0/100/1.3           bridge     82371AB/EB/MB PIIX4 ACPI
+</span><span class='line'>/0/100/2             display    GD 5446
+</span><span class='line'>/0/100/3             network    Virtio network device
+</span><span class='line'>/0/100/4             storage    Virtio block device
+</span><span class='line'>/0/100/5             memory     RAM memory
+</span><span class='line'>/1          eth0     network    Ethernet interface
+</span><span class='line'>/2          gretap0  network    Ethernet interface</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看cpu信息，E5-2630 8核2.30GHz，本文只摘取第1个核的信息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ cat /proc/cpuinfo 
+</span><span class='line'>processor       : 0
+</span><span class='line'>vendor_id       : GenuineIntel
+</span><span class='line'>cpu family      : 6
+</span><span class='line'>model           : 45
+</span><span class='line'>model name      : Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>stepping        : 7
+</span><span class='line'>microcode       : 0x1
+</span><span class='line'>cpu MHz         : 2299.998
+</span><span class='line'>cache size      : 4096 KB
+</span><span class='line'>physical id     : 0
+</span><span class='line'>siblings        : 1
+</span><span class='line'>core id         : 0
+</span><span class='line'>cpu cores       : 1
+</span><span class='line'>apicid          : 0
+</span><span class='line'>initial apicid  : 0
+</span><span class='line'>fpu             : yes
+</span><span class='line'>fpu_exception   : yes
+</span><span class='line'>cpuid level     : 13
+</span><span class='line'>wp              : yes
+</span><span class='line'>flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt aes xsave avx hyperv
+</span><span class='line'>isor lahf_lm xsaveopt
+</span><span class='line'>bogomips        : 4599.99
+</span><span class='line'>clflush size    : 64
+</span><span class='line'>cache_alignment : 64
+</span><span class='line'>address sizes   : 40 bits physical, 48 bits virtual
+</span><span class='line'>power management:</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看内存信息，共16GB内存</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ cat /proc/meminfo                                                                                                                                                                                                                             
+</span><span class='line'>MemTotal:       16433708 kB
+</span><span class='line'>MemFree:         8506472 kB
+</span><span class='line'>Buffers:          332884 kB
+</span><span class='line'>Cached:          5334908 kB
+</span><span class='line'>SwapCached:            0 kB
+</span><span class='line'>Active:          3936496 kB
+</span><span class='line'>Inactive:        2222980 kB
+</span><span class='line'>Active(anon):    2093920 kB
+</span><span class='line'>Inactive(anon):    10856 kB
+</span><span class='line'>Active(file):    1842576 kB
+</span><span class='line'>Inactive(file):  2212124 kB
+</span><span class='line'>Unevictable:        5552 kB
+</span><span class='line'>Mlocked:            5552 kB
+</span><span class='line'>SwapTotal:             0 kB
+</span><span class='line'>SwapFree:              0 kB
+</span><span class='line'>Dirty:                 0 kB
+</span><span class='line'>Writeback:             8 kB
+</span><span class='line'>AnonPages:        482832 kB
+</span><span class='line'>Mapped:            41668 kB
+</span><span class='line'>Shmem:           1623556 kB
+</span><span class='line'>Slab:            1522048 kB
+</span><span class='line'>SReclaimable:    1225180 kB
+</span><span class='line'>SUnreclaim:       296868 kB
+</span><span class='line'>KernelStack:        6312 kB
+</span><span class='line'>PageTables:        84660 kB
+</span><span class='line'>NFS_Unstable:          0 kB
+</span><span class='line'>Bounce:                0 kB
+</span><span class='line'>WritebackTmp:          0 kB
+</span><span class='line'>CommitLimit:     8216852 kB
+</span><span class='line'>Committed_AS:    5225664 kB
+</span><span class='line'>VmallocTotal:   34359738367 kB
+</span><span class='line'>VmallocUsed:       45688 kB
+</span><span class='line'>VmallocChunk:   34359561000 kB
+</span><span class='line'>HardwareCorrupted:     0 kB
+</span><span class='line'>AnonHugePages:     18432 kB
+</span><span class='line'>HugePages_Total:       0
+</span><span class='line'>HugePages_Free:        0
+</span><span class='line'>HugePages_Rsvd:        0
+</span><span class='line'>HugePages_Surp:        0
+</span><span class='line'>Hugepagesize:       2048 kB
+</span><span class='line'>DirectMap4k:      245748 kB
+</span><span class='line'>DirectMap2M:     7094272 kB
+</span><span class='line'>DirectMap1G:     9437184 kB</span></code></pre></td></tr></table></div></figure>
+
+
+<p>硬盘测速，才219kB/s，不是一般的慢啊</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ dd if=/dev/zero of=test bs=64k count=2k oflag=dsync
+</span><span class='line'>2048+0 records in
+</span><span class='line'>2048+0 records out
+</span><span class='line'>134217728 bytes (134 MB) copied, 612.942 s, 219 kB/s</span></code></pre></td></tr></table></div></figure>
+
+
+<p>网速测试，一般般</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ ping www.github.com  # 测试1
+</span><span class='line'>PING github.com (192.30.252.129) 56(84) bytes of data.
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=1 ttl=54 time=73.2 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=2 ttl=54 time=75.9 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=3 ttl=54 time=72.4 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=4 ttl=54 time=72.3 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=5 ttl=54 time=66.2 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=6 ttl=54 time=66.1 ms
+</span><span class='line'>^C
+</span><span class='line'>--- github.com ping statistics ---
+</span><span class='line'>6 packets transmitted, 6 received, 0% packet loss, time 5001ms
+</span><span class='line'>rtt min/avg/max/mdev = 66.117/71.077/75.947/3.656 ms
+</span><span class='line'>ibillxia@vm-0:~$ ping www.stackoverflow.com    # 测试2
+</span><span class='line'>PING stackoverflow.com (198.252.206.140) 56(84) bytes of data.
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=1 ttl=49 time=76.1 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=2 ttl=49 time=88.4 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=3 ttl=49 time=75.1 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=4 ttl=49 time=75.1 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=5 ttl=49 time=75.3 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=6 ttl=49 time=82.6 ms
+</span><span class='line'>^C
+</span><span class='line'>--- stackoverflow.com ping statistics ---
+</span><span class='line'>6 packets transmitted, 6 received, 0% packet loss, time 5005ms
+</span><span class='line'>rtt min/avg/max/mdev = 75.130/78.813/88.437/5.061 ms
+</span><span class='line'>ibillxia@vm-0:~$ ping www.facebook.com     # 测试3
+</span><span class='line'>PING star.c10r.facebook.com (31.13.77.81) 56(84) bytes of data.
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=1 ttl=81 time=153 ms
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=2 ttl=81 time=153 ms
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=3 ttl=81 time=153 ms
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=4 ttl=81 time=153 ms
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=5 ttl=81 time=153 ms
+</span><span class='line'>^C
+</span><span class='line'>--- star.c10r.facebook.com ping statistics ---
+</span><span class='line'>6 packets transmitted, 5 received, 16% packet loss, time 5006ms
+</span><span class='line'>rtt min/avg/max/mdev = 153.577/153.740/153.951/0.449 ms</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p>再来看看一些系统和软件信息。</p>
+
+
+<p>查看linux内核版本、系统体系结构及预安装软件版本</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ uname -a 
+</span><span class='line'>Linux vm-0.ibillxia.koding.kd.io 3.13.0-5-generic #20 SMP Mon Jan 20 19:56:12 PST 2014 x86_64 x86_64 x86_64 GNU/Linux
+</span><span class='line'>ibillxia@vm-0:~$ git --version
+</span><span class='line'>git version 1.8.1.2
+</span><span class='line'>ibillxia@vm-0:~$ mysql --version
+</span><span class='line'>mysql  Ver 14.14 Distrib 5.5.32, for debian-linux-gnu (x86_64) using readline 6.2
+</span><span class='line'>ibillxia@vm-0:~$ apache2 -v
+</span><span class='line'>Server version: Apache/2.2.22 (Ubuntu)
+</span><span class='line'>Server built:   Jul 12 2013 13:18:14</span></code></pre></td></tr></table></div></figure>
+
+
+<p>常用编程语言版本</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ gcc --version
+</span><span class='line'>gcc (Ubuntu/Linaro 4.7.3-1ubuntu1) 4.7.3
+</span><span class='line'>Copyright (C) 2012 Free Software Foundation, Inc.
+</span><span class='line'>This is free software; see the source for copying conditions.  There is NO
+</span><span class='line'>warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+</span><span class='line'>
+</span><span class='line'>ibillxia@vm-0:~$ g++ --version
+</span><span class='line'>g++ (Ubuntu/Linaro 4.7.3-1ubuntu1) 4.7.3
+</span><span class='line'>Copyright (C) 2012 Free Software Foundation, Inc.
+</span><span class='line'>This is free software; see the source for copying conditions.  There is NO
+</span><span class='line'>warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+</span><span class='line'>
+</span><span class='line'>ibillxia@vm-0:~$ java -version
+</span><span class='line'>java version "1.7.0_25"
+</span><span class='line'>OpenJDK Runtime Environment (IcedTea 2.3.10) (7u25-2.3.10-1ubuntu0.13.04.2)
+</span><span class='line'>OpenJDK 64-Bit Server VM (build 23.7-b01, mixed mode)
+</span><span class='line'>ibillxia@vm-0:~$ go version  
+</span><span class='line'>go version go1.1.1 linux/amd64
+</span><span class='line'>ibillxia@vm-0:~$ ruby --version
+</span><span class='line'>ruby 1.9.3p194 (2012-04-20 revision 35410) [x86_64-linux]
+</span><span class='line'>ibillxia@vm-0:~$ php --version
+</span><span class='line'>PHP 5.4.9-4ubuntu2.3 (cli) (built: Sep  4 2013 19:32:25) 
+</span><span class='line'>Copyright (c) 1997-2012 The PHP Group
+</span><span class='line'>Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies
+</span><span class='line'>ibillxia@vm-0:~$ python --version                                                                                                                                                                                                                                     
+</span><span class='line'>Python 2.7.4
+</span><span class='line'>ibillxia@vm-0:~$ perl --version
+</span><span class='line'> 
+</span><span class='line'>This is perl 5, version 14, subversion 2 (v5.14.2) built for x86_64-linux-gnu-thread-multi
+</span><span class='line'>(with 80 registered patches, see perl -V for more detail)
+</span><span class='line'> 
+</span><span class='line'>Copyright 1987-2011, Larry Wall
+</span><span class='line'> 
+</span><span class='line'>Perl may be copied only under the terms of either the Artistic License or the
+</span><span class='line'>GNU General Public License, which may be found in the Perl 5 source kit.
+</span><span class='line'> 
+</span><span class='line'>Complete documentation for Perl, including FAQ lists, should be found on
+</span><span class='line'>this system using "man perl" or "perldoc perl".  If you have access to the
+</span><span class='line'>Internet, point your browser at http://www.perl.org/, the Perl Home Page.</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h2>Installing and Using KDApps</h2>
+
+
+<p>除了系统已安装的基本应用外，用户还可以在<a href="https://koding.com/Apps">Koding/Apps</a>上选择一些官方的apps安装到自己的vm上。可以
+在线绘图、编辑照片等等。</p>
+
+
+
+
+<h2>Online Teamwork</h2>
+
+
+<p>Koding还具有团退协作功能，你可以创建自己的group或参加到别人的group中。加入到一个team后，系统会分配你一个Session ID，通过这个ID你可以进入
+到队友的vm当中，然后你们相互之间都可以看到对方的编码动态。</p>
+
+
+
+
+<p>关于Koding的更多内容，请戳<a href="http://learn.koding.com/getting-started/">Learn Koding</a>。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[互联网引发的制造业革命——读《创客》]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/02/23/makers-the-new-industrial-evolution/"/>
+    <updated>2014-02-23T22:07:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/02/23/makers-the-new-industrial-evolution</id>
+    <content type="html"><![CDATA[<p>其实很早之前就买了这本书，是在13年6月份和『看见』、『黑客与画家』等一起买的吧，看完这两本书后也就开始看『创客』了，
+但都是断断续续的看，没有花比较集中的时间，而且感觉前面几章将的内容没有那么大的吸引力。后来双11做活动，又买了10来本书，
+其中有雷军、周鸿祎等IT大佬的传记，还有几本成功励志类、文学类的书，就又跳着去看这些书了。开学初闲着无聊就又拿起这本书
+来看了，看到了第二部分后，才发现原来这本书是如此之好，特别是开源硬件、众筹、云工厂等新兴工业和商业模式，让人印象深刻。</p>
+
+
+
+
+<h2>作者&内容简介</h2>
+
+
+<p>这本书的作者是克里斯•安德森，一个很多人耳熟能详的名字。现任『连线』杂志主编，是3D Robotics和DIY Drones的联合创始人，
+也是『纽约时报』畅销书『长尾理论』及『免费：商业的未来』的作者。</p>
+
+
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014022301.jpg"></center>
+
+
+<p>『创客：新工业革命』一书以独特的视角分析了传统的制造业在汹涌澎湃的互联网浪潮中发生的翻天覆地的变化。在互联网这个广阔媒介的
+笼罩下，每个人都可以分享自己的idea、设计方案和产品原型，也可以评论和完善他人的idea、方案和产品，每个人都可以DIY，都可以自己动手
+创造出新的东西。只要你敢想敢做，nothing is impossible！在长尾效应无法避免的情况下，每个人都可以设计个性化的产品，解决个性化的
+问题，新发明不断涌现。3D打印的兴起，使得新产品的制造更加模块化，更加便捷。硬件设计的开源，又加剧了产品的分化和个性化，也使得其
+更新换代和性能提升更快。云工厂又使得发明者可以不用白手起家建立加工厂，从而更加便捷的将自己的设计付诸实践。而众筹这种新的集资模式
+又解决了发明者自尽缺乏的后顾之忧，而且提前为之提供了市场需求情况。所有的这些因素，使得制造业空前的繁荣，一场新的工业革命正在萌发。</p>
+
+
+<!--more-->
+
+
+
+
+<h2>长尾效应&DIY&发明革命</h2>
+
+
+<p>长尾（The Long Tail），或译长尾效应，最初由克里斯·安德森（Chris Anderson）于2004年发表于自家的<a href="http://www.wired.com/wired/archive/12.10/tail.html">杂志</a>，
+用来描述诸如亚马逊公司、Netflix和Real.com/Rhapsody之类的网站之商业和经济模式。是指那些不受到重视的、销量小但种类多的产品或服务
+由于总量巨大，累积起来的总收益超过主流产品的现象。下图中纵轴为“人气”，横轴为“产品”，黄色部分即为长尾。
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014022302.png"></center>
+在互联网领域，长尾效应尤为显著。比如亚马逊上的书籍的销售情况，<a href="http://papers.ssrn.com/sol3/papers.cfm?abstract_id=400940">Erik</a>等
+用指数曲线研究了亚马逊网站的书本销售量和销售排名的关系，并发现亚马逊40%的书本销售来自于**本地书店里不卖**的书本。在亚马逊这个案例上，
+可应用“长尾”概念解释：它一半左右的销售来自于比较热门的商品，而另一半却来自相对不那么热门的商品。这跟传统
+的“<a href="http://zh.wikipedia.org/wiki/%E4%BA%8C%E5%85%AB%E5%AE%9A%E5%BE%8B">二八定律</a>”完全相反。这使得我们可以逆向的思考，不再紧盯着
+那20%的大众化产品，而去关注后80%的“长尾巴”，同样也可以很有前途。</p>
+
+
+<p>在小众产品市场中，DIY（即do it yourself）可谓独树一帜，占据着举足轻重的地位。在这个充满个性化的时代里，个性就是时尚，独一无二
+永远是时尚一族的追求。虽然DIY已经有半个多世纪的历史，但在如今的互联网环境下，DIY更是发挥到了极致：DIY电脑、音箱、手机，DIY网站、个人博客，
+DIY首饰、工艺品，DIY家具、房屋，DIY台历、杯子、布偶、玩具。。。可以自己设计个性化的服装图案，可以自己组装各种硬件设备。书中作者
+的外公DIY了自家的garden的灌溉系统，使之自动化甚至可以远程遥控，并将系统申请了专利。书中还有对玩具DIY、对乐高机器人DIY的例子。</p>
+
+
+<p>互联网的存在，使得DIY的产品无论从数量还是质量上，都产生了很大的飞跃，很多新的设计方法和实现方式都具有申请专利或发明的资质，
+每个人都可以成为名副其实的发明家，只要你敢于发现、敢于创造。互联网的资源与idea分享的开放环境，使得发明创造的空间急剧膨胀，而时间逐渐
+缩短，各种新技术不断涌现，创业的浪潮居高不下，创业和发明甚至已成为一种时尚。</p>
+
+
+
+
+<h2>3D打印&开源软硬件</h2>
+
+
+<p>最近两年3D打印还挺火的，只需要向3D打印机输入三维的设计模型，即可打印出一个三维的产品。随着技术的更新、新材料的研制，3D打印机能够
+制作的东西越来越多、越来越复杂，各种小型的装饰品、日用品、玩具模型等，都是小case，在不远的未来连汽车都可以打印了，多么神奇！3D打印的
+兴起，使得产品的设计者们只需要使用CAD软件，对产品进行三维建模，然后将数字化的模型输入到打印机，即可得到成型的产品，不用另外话时间去
+组装。对产品进行改进，只需要在CAD软件中对模型设计进行修改和优化，产品的生产周期大大压缩。</p>
+
+
+<p>在书中，作者将开源硬件单独设立了一张，篇幅还不小。现如今，硬件电路都可以用计算机代码（如硬件描述语言VHDL等）和图文来描述和设计，
+硬件的设计方案都数字化、信息化了，开源出它的设计方案在互联网上，人们可以随意对其进行添加新模块或删改或组合，形成新的硬件，实现新的
+应用场景。书中提到的比较典型的开源硬件要数Arduino了，这是包含很多常见功能模块的硬件开发板，有很多可自选的组件（甚至可以和智能手机互联），
+可以编程，从而可以实现各种很酷的功能，比如爬行机器人、小飞行器、智能垃圾桶、音乐魔方等等，比如Arduino中文社区中展示的一个非常酷的
+<a href="http://www.arduino.cn/article-3-1.html">万向轴语音机器人</a>。</p>
+
+
+
+
+<h2>云工厂&众筹</h2>
+
+
+<p>也许我们要DIY的产品还无法用3D打印机来制造，也许我们要hack的东西也不是通过现成的开源软硬件就能实现，现在我们不用担心这些了，因为
+现在的互联网可谓无所不能，我们可以通过云工厂来为我们生产定制的产品。互联网的存在，使得我们不用亲临工厂，在网络上就可以寻找合适的代
+工厂，无论它在国内还是海外。网上开店开工厂，早已不是什么新鲜事了。早在90年代末，互联网才刚刚兴起的时候，本书的作者就认识了当今中国
+网上商城的大佬——马云，当时马云就开始将各种公司信息搬到网上。而现如今，很多网上商城不仅可以提供现成的产品，而且可以接受私人定制的产
+品。</p>
+
+
+<p>也许我们没有资金来购买昂贵原材料，也许我们没有能力去做产品的市场调查，因为现在我们有了众筹这种新的互联网集资模式。众筹的思路是，
+发明者在网络上发布自己的产品方案和原型，寻求需要该产品的网友的支持，无论是对你进行资金支持，还是对你进行精神鼓励。有需求者还可以提前
+以优惠的价格预定，提前支付。现在网上这样的众筹平台已经有很多了，作者在书中提到了Kickstarter等，国内有点名时间(demotime)等等，上面有
+很多很有意思的项目，大家可以去看看。在众筹平台上，创意的发布者需要提供产品的方案及可行性，需要筹集的资金量，以及筹集周期，然后让网友
+来投票，提供意见，预定产品。如果在筹集结束前能够达到预定的金额，那么就可以顺利进入实质生产阶段了。人们不用再去寻找非常困难而且风险
+很大的贷款或风险投资。</p>
+
+
+<p>有了云工厂和众筹这些完美的平台，创意的实现可谓零门槛，所有你需要做的就是展开思维的翅膀，在生活中去发现、去创造。</p>
+
+
+
+
+<h2>未来</h2>
+
+
+<p>互联网的普及，新技术、新思维的不断涌现，互联网正在对传统制造业产生巨大的冲击，特别是处于80%的长尾部分的传统制造业。“创客运动”的
+天平偏向于最佳创新模式，而非最廉价的劳动力，人才与创新对企业的发展越来越重要，制造业正在发生深刻的变革，未来充满着机遇和挑战！Are you READY？！</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如果长颈鹿哭了，它会不会要哽咽好久]]></title>
@@ -3455,164 +4036,6 @@ ComputeNorm.exe 将得分进行规整</br>
 </p>
 
 
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[VALSE2013]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/04/22/VALSE2013/"/>
-    <updated>2013-04-22T22:28:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/04/22/VALSE2013</id>
-    <content type="html"><![CDATA[<h3>学术研讨</h3>
-
-
-<p>VALSE是Vision And Learning SEminar的缩写，它主要目的是为计算机视觉、图像处理、模式识别与机器学习研究领域内的中国青年学者（以70后研发
-人员为主）提供一个深层次学术交流的舞台。虽然参与会议和做报告的人主要是做视觉的，但很多问题是机器学习和模式识别当中的一般性问题，所以我这
-个搞语音的也去打酱油了^_^。</p>
-
-
-
-
-<p>今年的VALSE在南京东南大学召开，参加会议的人数超出预期，会场爆满，仅学校的老师和公司的研究人员就占了会场大半，学生沦落到只能座最后两排，
-或者座分会场（这个太不科学了-_-!）。会程安排也很紧凑，中午几乎没有休息时间，吃饭都很赶，而下午也很晚（6点半左右）才结束。这次会议有好几个
-perfect的报告，但也有些不太感兴趣的，有的甚至感觉很2。除了一些报告，还有两个主题讨论会，印象中主要包括三个论题：学术界与工业界的Gap及衔接
-问题，深度学习是否是计算机视觉的终极解决方案，计算机视觉要不要从生物视觉机理中受启发等。</p>
-
-
-
-
-<p>闲话少说，言归正传，数萝卜下窖的讲讲这两天的经历吧。
-第一天上午，第一个做报告的是MSRA的张磊，主要讲了计算机视觉的一些基本问题，从AI的历史将起，提到了Turing Test，是人工智能
-的Benchmark。而CV的一个基本问题是Object Recognition，人们的研究经历了从之前的Model Based到如今的Data Driven及Big Data的过程，各种模型和方法可谓
-层出不穷，然而对于真正解决问题、真正达到人类一般的视觉智能，还相差甚远。接着他讲了关于在路灯下找钥匙的故事（详询http://tongyanyan.blog.edu.cn/2006/427512.html），
-听了这个故事后，感觉那个找钥匙的人很滑稽可笑，然而再想想我们自己正在做的研究，是不是在某种程度上和故事中的这个人一样呢。通过这个故事，他引出自己
-的观点：要想解决Object Recognition这个问题或者说要解决CV的问题，就需要More Effective Representation & Match。接下来讲在Representation方面一些研究
-人员提出的一些人工设计的Feature，而在Match方面则从Point、Line、Plane、Volume（点线面体）进行了详尽的讲述。最后还提了一下Deep Neural Network在CV中的
-应用，可以discover hidden patterns。虽然对CV中的很多概念和模型方法不太了解，但感觉还是挺有收获的。</p>
-
-
-
-
-<p>上午的后两个报告都是讲Sparse的，虽然之前看过关于Sparse Coding的东西，但当他们在上面讲的，主要偏重与Sparse这个问题的优化求解方法及其变形，
-涉及到很多数学公式和推导，感觉很枯燥，加之晚睡早起，有点犯困，所以基本没有听进去。贾佳亚的报告还似懂非懂，而陈欢欢的Sparse Bayesian Learning
-表示完全没听懂。个人感觉Sparse还是很重要的，所以在弄完Deep Learning这个专题后，我想有必要对这两个报告及其相关论文再做深入的学习和研究。</p>
-
-
-<!--more-->
-
-
-<p>中午3个东南大学的同学请我们实验室的在他们学校食堂吃饭，虽然不太记得他们名字了，真心感谢他们！</p>
-
-
-
-
-<p>下午第一个报告是高新波的IQA&VALSE，主要讲了图像质量评价的一些东西，虽然也提到了一些生物视觉方面的东西，感觉很没趣，基本没怎么听，打了个盹。
-第二个报告是俞洪波的关于生物视觉方面的东西，很感兴趣，他从深层复杂网络结构、神经元、突触、离子通道、蛋白等多个层面上讲了视觉系统的信息处理流程，
-后面还提到了视觉功能柱，指出了视觉神经元具有很强的选择性，不同部位的神经元对不同方向、距离的视觉信息具有选择性的激活增强，最后还讲了一些模拟
-视觉系统的计算模型，并描述了一些实验，虽然对报告题目中的Self Organization Model到底是什么还不是很清楚，但对生物视觉系统有了更进一步的了解，
-而且知道了他们是怎么获取神经元激活区域的。</p>
-
-
-
-
-<p>下午的第2个Session的第一个报告是颜水成的Fashion Recommendation，包括Hair Style，Makeup，Clothing，Shoes等的Recommendation，不太感冒，只是对他重复提到
-的关于华人做研究的一个问题深表同感，他说华人做研究其实很不错的，能在很多TOP会议期刊发Paper甚至Best Paper，但原创性的问题却很少，我们都在提高别人的Citation，
-所以华人还需要在发现问题方面多下功夫，而不是仅仅在解决问题方面。后面两个报告一个是王亦洲的General Purpose Vision，表示没听懂。最后一个报告是王晓刚的Crowd 
-Video Surveillance，主要是讲在Video中识别人并跟踪人的移动，或者统计视场中人的数量之类的，只是感性的了解了一下，印象里报告中好像没有提到什么具体的CV技术，
-只是举了一个人体位置跟踪的例子，还有一个用在足球视屏中运动员跟踪的例子。</p>
-
-
-
-
-<p>第二天上午第一个Session是两个报告，一个是陈小武的Image/Video/3D Scene Understanding and Editing，主要分以下四个方面：Illumination Learning and Synthesis，
-Labeling and Lavering and Editing，Estimating 3D Model from a single Image，Video Event Representation and Inference，总体感觉讲的内容涉及到很多东西，甚至他的
-学生不仅懂CV，还要懂美术、剪纸等，而且他们每年都会发CVPR、ICCV、ECCV之类的，感觉还挺NB的。另外一个报告是非常期待的于凯的关于深度学习和大数据的报告，但听了之后，
-感觉有些Depressed，因为他的报告中没有涉及Deep Learning的一些细节的东西，诸如RBM的原理及其训练等，基本上只是泛泛而谈，之前对Deep Learning做了深入的调研和学习，
-自我感觉Deep Learning也没什么神秘的，虽然对Gibbs采样和CD算法的理论还没有完全理解清楚，但我觉得Deep Learning更多的是一种思想方法，在Deep Architecture中，Knowledge
-通过一层一层抽象和提取后，对于Classification、Clustering等任务具有更有效Representation，而且在Training Error非常小的情况下，还是可以再Testing中获得理想的Error Ratio，
-相比Shallow Architecture，不存在模型Over Fitting的问题。另外，有人提到Deep Architecture中Layer数目的确定的问题，于凯的回答是，在Neural Networks中加一层后，进行Deep 
-Learning的过程，如果相对于没加该层得到的Test Error更小，并且是非常有效的性能提升，那么就加进这一层。然后同样的，再加一层，再进行Deep Learning，以此类推。</p>
-
-
-
-
-<p>上午的后一个Session是关于CV在Industry中的Application，先是来在Industry中的一些研究开发人员对他们目前的工作做一些简短的介绍，感觉某些公司有严重的广告嫌疑，很是讨厌。
-然后是讨论阶段，各自就CV在学术界和工业界之间的Gap发表意见，总结起来主要有以下观点：一方面学术界与工业界的Gap是必要的，学术必须要超前，这样工业界才可能将其成熟的应用；
-另一方面，学术界与工业界的Gap可以通过在工业界设置研究院（比如MSRA、百度最近在硅谷设置深度学习研究院之类），这样可以加快学术成果应用于工业界的进程，学术最终的目的就是
-在工业界中发挥巨大作用，服务广大民众，给社会带来价值。</p>
-
-
-
-
-<p>上午的Panel严重超时了，直到快1点了才结束，去餐馆吃饭，我们跟老板说我们下午要考试，让快点上菜，结果上菜速度果然飞快，而我们吃得也很快，基本上一盘菜一会儿就吃光，
-真是高效啊，哈哈！</p>
-
-
-
-
-<p>下午首先是一个Panel，讨论（更确切的说是辩论）了两个主题，一个是关于计算机视觉是否要借鉴吸收生物神经视觉的结果，另一个是Deep Learning是否是CV的终极解决方案，这两个辩论
-都非常精彩，笑点不断。Panel开始之前，首先是两位报告者发言，首先上台的是 @老师木（袁进辉），他自我介绍了一番，然后讲了讲生物视觉与计算机视觉的紧密联系，认为计算机视觉要想
-取得重大突破，就必须借鉴生物视觉的研究的发现。另外一位是李学龙老师，很有个性，只写了一张PPT，但发言时却如滔滔江水绵绵不绝，可以听得出，他对生物视觉也非常了解，也认为计算机
-视觉必须借鉴生物视觉的一些研究成果。后面的讨论非常精彩，将学术娱乐化了。这两个论题本身就很具争议性，正反两方各执其词，要辩论出个是非来，还真需要真才实学。</p>
-
-
-
-
-<p>Panel完之后是两个报告，一个是吴建鑫的Approximating Additive Kernel for Large Scale Vision Tasks，没怎么听懂。另一个是张敏灵的Multi-label Learning，感觉很没趣，主要是
-觉得这并不是一个新问题，但在图像标注方面确实是一个很重要的问题。</p>
-
-
-
-
-<p>最后，还可以从一些微博内容中获取更多关于VALSE2013的信息，可以搜索主题\#VALSE\# 或\#VALSE2013\#，或者关注 @潘布衣（会议Chair潘刚）、@张磊MSRA、@余凯_西二旗民工、
-@老师木等等。。。</p>
-
-
-
-
-<h3>游玩休闲</h3>
-
-
-<p>我们周五下午6点多到，下雨了。坐地铁然后走到旅馆，吃晚饭就8点了，但还好雨也听了，我们就去附近的夫子庙、秦淮河逛了逛。
-<center><img src="http://ibillxia.github.io/images/2013/IMAG2013042201.jpg"></center>
-第二天晚上去阅江楼逛了逛，到哪儿才发现晚上关门，坑爹啊！不过在外面远眺夜晚的阅江楼也不错，然后走了一个把小时到南京长江大桥。
-<center><img src="http://ibillxia.github.io/images/2013/IMAG2013042202.jpg"></center>
-第三天晚上就待在住处。因为订的第四天下午6点多的票，所以白天就可以尽情的去玩玩了。第一站来到了中山园陵
-<center><img src="http://ibillxia.github.io/images/2013/IMAG2013042203.jpg"></center>
-只可惜周一不开放，被挡在“天下为公”的门外。原打算接下来要去的雨花台、大屠杀纪念馆也不开放，坑爹啊！
-<center><img src="http://ibillxia.github.io/images/2013/IMAG2013042204.jpg"></center>
-木办法，就在里面找了一个开放的十朝历史博物馆去了
-<center><img src="http://ibillxia.github.io/images/2013/IMAG2013042205.jpg"></center>
-然后去总统府了，就在外面看了看
-<center><img src="http://ibillxia.github.io/images/2013/IMAG2013042206.jpg"></center>
-再然后去玄武门，一到哪儿就又下雨了
-<center><img src="http://ibillxia.github.io/images/2013/IMAG2013042207.jpg"></center>
-进里面看了看玄武湖，然后就直接回旅馆了
-<center><img src="http://ibillxia.github.io/images/2013/IMAG2013042208.jpg"></center>
-</p>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[深度学习及其在语音方面的应用]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing/"/>
-    <updated>2013-04-17T22:43:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/04/17/Deep-Learning-and-its-application-in-audio-and-speech-processing</id>
-    <content type="html"><![CDATA[<p>以下是今天在组会上讲的内容，与大家分享一下。有些地方我也没有完全理解，欢迎大家一起来讨论。</p>
-
-
-<p><center>
-<embed width="780"
-    height="574"
-    name="plugin"
-    src="http://ibillxia.github.io/upload/Deep Learning - Bill Xia.pdf"
-    type="application/pdf"
-/>
-</center></p>
 
 ]]></content>
   </entry>

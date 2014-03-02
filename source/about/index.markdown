@@ -28,10 +28,12 @@ I am a postgraduate student in Computer Science Department, Zhejiang University 
 * 开源工具：HTK, CMU-Sphinx/pocket-sphinx, Alize, VoiceBox  
 * 其他：IDA pro, cool edit pro  
 
-## 我在社交网络
+## 我的网络社交
 [GitHub](https://github.com/ibillxia)  [Facebook](https://www.facebook.com/ibillxia)   [Tiwtter](https://twitter.com/ibillxia)  [LinkedIn](http://www.linkedin.com/profile/view?id=303741237&trk=nav_responsive_tab_profile_pic)  
 [新浪微博](http://weibo.com/ibillxia)  [豆瓣](http://www.douban.com/people/ibillxia/)  [知乎](http://www.zhihu.com/people/ibillxia)  [V2EX](http://www.v2ex.com/?r=ibillxia)  
-新闻报道：[CCTV13](http://tv.cntv.cn/vodplay/e58c8785e00a4ead9b83dfae5b53f12a/860010-1102010100)  [杭州日报](http://hzdaily.hangzhou.com.cn/hzrb/html/2013-05/24/content_1501396.htm) 
+新闻报道：
+[CCTV13 - 浙江杭州最新科研成果：大白鼠听人话](http://tv.cntv.cn/vodplay/e58c8785e00a4ead9b83dfae5b53f12a/860010-1102010100)  
+[杭州日报 - “嫁接”了机器视觉的大白鼠在沙盘迷宫中寻觅阿汤哥的照片](http://hzdaily.hangzhou.com.cn/hzrb/html/2013-05/24/content_1501396.htm) 
 
 ## 联系我  
 E-mail(G+/Hangouts): ibillxia AT gmail DOT com.   
@@ -39,7 +41,7 @@ PS: 最近准备申请实习职位，职位意向如下：
 * 语音/机器学习算法相关职位  
 * 云平台研发及运维  
 * 移动互联网/Web后端开发  
-* 地点在杭州或上海  
+* 地点在杭州
 个人详细简历：[个人简历](http://ibillxia.github.io/upload/个人简历-v2.0.pdf)。
 如贵公司有合适的相关实习职位且认为我能够胜任，请邮件联系本人，感激不尽。
 

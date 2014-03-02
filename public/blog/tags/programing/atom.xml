@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Programing | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/programing/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-02-19T14:20:22+08:00</updated>
+  <updated>2014-03-02T15:06:41+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -12,6 +12,457 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Koding——一个惊艳的在线编程开发平台]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/03/01/koding-an-amazing-online-development-environment/"/>
+    <updated>2014-03-01T22:43:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/03/01/koding-an-amazing-online-development-environment</id>
+    <content type="html"><![CDATA[<p>最近在v2ex上发现了一个非常酷的云编程发开平台——Koding，与大家分享一下，主要介绍一下它的基本功能和操作。</p>
+
+
+<h2>What is Koding?</h2>
+
+
+<p>Koding是一个在线的编程开发平台，致力于简化全球化的合作项目开发，并为每个人提供免费计算和开发资源。它已不仅仅是一个在线的编辑器那么简单，
+而是通过提供免费的虚拟机（vm），上面安装了ubuntu操作系统，有真实的终端，允许开发者进行go、nodejs、ruby、python、php、js、C/C++等语言的开发，
+可以安装各种工具和应用，。更主要的是，它是完全在线的，可以从世界上的任何地方访问，只需要一个浏览器。不仅如此，他还具有完美的社交功能，
+可以和团队成员在线协作。</p>
+
+
+<center><img src="/images/2014/IMAG2014030101.png"></center>
+
+
+<!--more-->
+
+
+
+
+<h2>Activity Feed</h2>
+
+
+<p>在Koding的<a href="https://koding.com/Activity">Activity面板</a>，是用户间交流的媒介，在这里可以看到一系列的状态更新、代码片段或用户动态。在这里你可以
+创建主题，参与某些主题的讨论，可以关注他人，基本的社交功能都一应俱全。</p>
+
+
+
+
+<h2>Development on Koding</h2>
+
+
+<p>这是Koding的主体部分。在这里你可以像在本地计算机进行开发一样，当然这个可以在线操作，可以实现云同步，随时随地都可以访问，有木有很高大上？
+在这里你可以导入自己的GitHub项目，在浏览器中进行项目开发，可以向GitHub push你的项目更新。这里有在线终端，有在线文本编辑器，还有内置浏览器。
+除了和在本地编程开发一样的功能以外，还可以自行配置和添加vm，设置自己的独立域名等。下面我们来看看vm的一些硬件参数，主要是cpu、内存、硬盘、网络等。</p>
+
+
+<p>硬件信息概要，要加sudo使用根权限并输入密码，不加short参数可以查看详细信息
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ sudo lshw -short
+</span><span class='line'>[sudo] password for ibillxia:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>H/W path    Device   Class      Description&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>                 system     Computer
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>/0                   bus        Motherboard
+</span><span class='line'>/0/0                 memory     15GiB System memory
+</span><span class='line'>/0/1                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/2                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/3                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/4                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/5                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/6                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/7                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/8                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/100               bridge     440FX - 82441FX PMC [Natoma]
+</span><span class='line'>/0/100/1             bridge     82371SB PIIX3 ISA [Natoma/Triton II]
+</span><span class='line'>/0/100/1.1           storage    82371SB PIIX3 IDE [Natoma/Triton II]
+</span><span class='line'>/0/100/1.2           bus        82371SB PIIX3 USB [Natoma/Triton II]
+</span><span class='line'>/0/100/1.3           bridge     82371AB/EB/MB PIIX4 ACPI
+</span><span class='line'>/0/100/2             display    GD 5446
+</span><span class='line'>/0/100/3             network    Virtio network device
+</span><span class='line'>/0/100/4             storage    Virtio block device
+</span><span class='line'>/0/100/5             memory     RAM memory
+</span><span class='line'>/1          eth0     network    Ethernet interface
+</span><span class='line'>/2          gretap0  network    Ethernet interface</span></code></pre></td></tr></table></div></figure></notextile></div>
+查看cpu信息，E5-2630 8核2.30GHz，本文只摘取第1个核的信息
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ cat /proc/cpuinfo
+</span><span class='line'>processor       : 0
+</span><span class='line'>vendor_id       : GenuineIntel
+</span><span class='line'>cpu family      : 6
+</span><span class='line'>model           : 45
+</span><span class='line'>model name      : Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>stepping        : 7
+</span><span class='line'>microcode       : 0x1
+</span><span class='line'>cpu MHz         : 2299.998
+</span><span class='line'>cache size      : 4096 KB
+</span><span class='line'>physical id     : 0
+</span><span class='line'>siblings        : 1
+</span><span class='line'>core id         : 0
+</span><span class='line'>cpu cores       : 1
+</span><span class='line'>apicid          : 0
+</span><span class='line'>initial apicid  : 0
+</span><span class='line'>fpu             : yes
+</span><span class='line'>fpu_exception   : yes
+</span><span class='line'>cpuid level     : 13
+</span><span class='line'>wp              : yes
+</span><span class='line'>flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt aes xsave avx hyperv
+</span><span class='line'>isor lahf_lm xsaveopt
+</span><span class='line'>bogomips        : 4599.99
+</span><span class='line'>clflush size    : 64
+</span><span class='line'>cache_alignment : 64
+</span><span class='line'>address sizes   : 40 bits physical, 48 bits virtual
+</span><span class='line'>power management:</span></code></pre></td></tr></table></div></figure></notextile></div>
+查看内存信息，共16GB内存
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ cat /proc/meminfo                                                                                                                                                                                                                           &lt;br/>
+</span><span class='line'>MemTotal:       16433708 kB
+</span><span class='line'>MemFree:         8506472 kB
+</span><span class='line'>Buffers:          332884 kB
+</span><span class='line'>Cached:          5334908 kB
+</span><span class='line'>SwapCached:            0 kB
+</span><span class='line'>Active:          3936496 kB
+</span><span class='line'>Inactive:        2222980 kB
+</span><span class='line'>Active(anon):    2093920 kB
+</span><span class='line'>Inactive(anon):    10856 kB
+</span><span class='line'>Active(file):    1842576 kB
+</span><span class='line'>Inactive(file):  2212124 kB
+</span><span class='line'>Unevictable:        5552 kB
+</span><span class='line'>Mlocked:            5552 kB
+</span><span class='line'>SwapTotal:             0 kB
+</span><span class='line'>SwapFree:              0 kB
+</span><span class='line'>Dirty:                 0 kB
+</span><span class='line'>Writeback:             8 kB
+</span><span class='line'>AnonPages:        482832 kB
+</span><span class='line'>Mapped:            41668 kB
+</span><span class='line'>Shmem:           1623556 kB
+</span><span class='line'>Slab:            1522048 kB
+</span><span class='line'>SReclaimable:    1225180 kB
+</span><span class='line'>SUnreclaim:       296868 kB
+</span><span class='line'>KernelStack:        6312 kB
+</span><span class='line'>PageTables:        84660 kB
+</span><span class='line'>NFS_Unstable:          0 kB
+</span><span class='line'>Bounce:                0 kB
+</span><span class='line'>WritebackTmp:          0 kB
+</span><span class='line'>CommitLimit:     8216852 kB
+</span><span class='line'>Committed_AS:    5225664 kB
+</span><span class='line'>VmallocTotal:   34359738367 kB
+</span><span class='line'>VmallocUsed:       45688 kB
+</span><span class='line'>VmallocChunk:   34359561000 kB
+</span><span class='line'>HardwareCorrupted:     0 kB
+</span><span class='line'>AnonHugePages:     18432 kB
+</span><span class='line'>HugePages_Total:       0
+</span><span class='line'>HugePages_Free:        0
+</span><span class='line'>HugePages_Rsvd:        0
+</span><span class='line'>HugePages_Surp:        0
+</span><span class='line'>Hugepagesize:       2048 kB
+</span><span class='line'>DirectMap4k:      245748 kB
+</span><span class='line'>DirectMap2M:     7094272 kB
+</span><span class='line'>DirectMap1G:     9437184 kB</span></code></pre></td></tr></table></div></figure></notextile></div>
+硬盘测速，才219kB/s，不是一般的慢啊
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ dd if=/dev/zero of=test bs=64k count=2k oflag=dsync
+</span><span class='line'>2048+0 records in
+</span><span class='line'>2048+0 records out
+</span><span class='line'>134217728 bytes (134 MB) copied, 612.942 s, 219 kB/s</span></code></pre></td></tr></table></div></figure></notextile></div>
+网速测试，一般般
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ ping www.github.com  # 测试1
+</span><span class='line'>PING github.com (192.30.252.129) 56(84) bytes of data.
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=1 ttl=54 time=73.2 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=2 ttl=54 time=75.9 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=3 ttl=54 time=72.4 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=4 ttl=54 time=72.3 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=5 ttl=54 time=66.2 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=6 ttl=54 time=66.1 ms
+</span><span class='line'>^C
+</span><span class='line'>--- github.com ping statistics ---
+</span><span class='line'>6 packets transmitted, 6 received, 0% packet loss, time 5001ms
+</span><span class='line'>rtt min/avg/max/mdev = 66.117/71.077/75.947/3.656 ms
+</span><span class='line'>ibillxia@vm-0:~$ ping www.stackoverflow.com    # 测试2
+</span><span class='line'>PING stackoverflow.com (198.252.206.140) 56(84) bytes of data.
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=1 ttl=49 time=76.1 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=2 ttl=49 time=88.4 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=3 ttl=49 time=75.1 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=4 ttl=49 time=75.1 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=5 ttl=49 time=75.3 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=6 ttl=49 time=82.6 ms
+</span><span class='line'>^C
+</span><span class='line'>--- stackoverflow.com ping statistics ---
+</span><span class='line'>6 packets transmitted, 6 received, 0% packet loss, time 5005ms
+</span><span class='line'>rtt min/avg/max/mdev = 75.130/78.813/88.437/5.061 ms
+</span><span class='line'>ibillxia@vm-0:~$ ping www.facebook.com     # 测试3
+</span><span class='line'>PING star.c10r.facebook.com (31.13.77.81) 56(84) bytes of data.
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=1 ttl=81 time=153 ms
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=2 ttl=81 time=153 ms
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=3 ttl=81 time=153 ms
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=4 ttl=81 time=153 ms
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=5 ttl=81 time=153 ms
+</span><span class='line'>^C
+</span><span class='line'>--- star.c10r.facebook.com ping statistics ---
+</span><span class='line'>6 packets transmitted, 5 received, 16% packet loss, time 5006ms
+</span><span class='line'>rtt min/avg/max/mdev = 153.577/153.740/153.951/0.449 ms</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>再来看看一些系统和软件信息。</p>
+
+
+<p>查看linux内核版本、系统体系结构及预安装软件版本
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ uname -a
+</span><span class='line'>Linux vm-0.ibillxia.koding.kd.io 3.13.0-5-generic #20 SMP Mon Jan 20 19:56:12 PST 2014 x86_64 x86_64 x86_64 GNU/Linux
+</span><span class='line'>ibillxia@vm-0:~$ git --version
+</span><span class='line'>git version 1.8.1.2
+</span><span class='line'>ibillxia@vm-0:~$ mysql --version
+</span><span class='line'>mysql  Ver 14.14 Distrib 5.5.32, for debian-linux-gnu (x86_64) using readline 6.2
+</span><span class='line'>ibillxia@vm-0:~$ apache2 -v
+</span><span class='line'>Server version: Apache/2.2.22 (Ubuntu)
+</span><span class='line'>Server built:   Jul 12 2013 13:18:14</span></code></pre></td></tr></table></div></figure></notextile></div>
+常用编程语言版本
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ gcc --version
+</span><span class='line'>gcc (Ubuntu/Linaro 4.7.3-1ubuntu1) 4.7.3
+</span><span class='line'>Copyright (C) 2012 Free Software Foundation, Inc.
+</span><span class='line'>This is free software; see the source for copying conditions.  There is NO
+</span><span class='line'>warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>ibillxia@vm-0:~$ g++ --version
+</span><span class='line'>g++ (Ubuntu/Linaro 4.7.3-1ubuntu1) 4.7.3
+</span><span class='line'>Copyright (C) 2012 Free Software Foundation, Inc.
+</span><span class='line'>This is free software; see the source for copying conditions.  There is NO
+</span><span class='line'>warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>ibillxia@vm-0:~$ java -version
+</span><span class='line'>java version "1.7.0_25"
+</span><span class='line'>OpenJDK Runtime Environment (IcedTea 2.3.10) (7u25-2.3.10-1ubuntu0.13.04.2)
+</span><span class='line'>OpenJDK 64-Bit Server VM (build 23.7-b01, mixed mode)
+</span><span class='line'>ibillxia@vm-0:~$ go version&lt;br/>
+</span><span class='line'>go version go1.1.1 linux/amd64
+</span><span class='line'>ibillxia@vm-0:~$ ruby --version
+</span><span class='line'>ruby 1.9.3p194 (2012-04-20 revision 35410) [x86_64-linux]
+</span><span class='line'>ibillxia@vm-0:~$ php --version
+</span><span class='line'>PHP 5.4.9-4ubuntu2.3 (cli) (built: Sep  4 2013 19:32:25)
+</span><span class='line'>Copyright (c) 1997-2012 The PHP Group
+</span><span class='line'>Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies
+</span><span class='line'>ibillxia@vm-0:~$ python --version                                                                                                                                                                                                                                   &lt;br/>
+</span><span class='line'>Python 2.7.4
+</span><span class='line'>ibillxia@vm-0:~$ perl --version&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>This is perl 5, version 14, subversion 2 (v5.14.2) built for x86_64-linux-gnu-thread-multi
+</span><span class='line'>(with 80 registered patches, see perl -V for more detail)&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Copyright 1987-2011, Larry Wall&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Perl may be copied only under the terms of either the Artistic License or the
+</span><span class='line'>GNU General Public License, which may be found in the Perl 5 source kit.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Complete documentation for Perl, including FAQ lists, should be found on
+</span><span class='line'>this system using "man perl" or "perldoc perl".  If you have access to the
+</span><span class='line'>Internet, point your browser at http://www.perl.org/, the Perl Home Page.</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Installing and Using KDApps</h2>
+
+
+<p>除了系统已安装的基本应用外，用户还可以在<a href="https://koding.com/Apps">Koding/Apps</a>上选择一些官方的apps安装到自己的vm上。可以
+在线绘图、编辑照片等等。</p>
+
+
+
+
+<h2>Online Teamwork</h2>
+
+
+<p>Koding还具有团退协作功能，你可以创建自己的group或参加到别人的group中。加入到一个team后，系统会分配你一个Session ID，通过这个ID你可以进入
+到队友的vm当中，然后你们相互之间都可以看到对方的编码动态。</p>
+
+
+
+
+<p>关于Koding的更多内容，请戳<a href="http://learn.koding.com/getting-started/">Learn Koding</a>。</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[凸优化简介]]></title>
