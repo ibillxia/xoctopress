@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: MicroBlog | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/microblog/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[<h3>微博首先是媒体</h3>
 
 
-<center><img src="/images/2011/IMAG2011041701.jpg"></center>
+<center>{% img /images/2011/IMAG2011041701.jpg %}</center>
 
 
 <p>但更确切点说，它是自媒体。它即是名人、权威们的自媒体，也是草根们的自媒体。在中国，草根现在靠着微薄，也有了些话语权，但声音还比较稚嫩，

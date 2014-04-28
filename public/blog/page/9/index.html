@@ -9,52 +9,55 @@
   <meta name="author" content="Bill Xia">
 
   
-  <meta name="description" content="In mathematics, the log sum inequality is very useful for proving several theorems in information theory. 1.Statements Suppose ai and bi are &hellip;">
+  <meta name="description" content="Yesterday is History, Tomorrow a Mystery, Today is a Gift, Thats why it's called the Present！">
   
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="wumiiVerification" content="9662b89d-2629-4073-b85d-0966259c0ee1" />
 
   
-  <link rel="canonical" href="http://ibillxia.github.io/blog/page/9/">
+  <link rel="canonical" href="http://ibillxia.github.io/blog/page/9">
   <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Bill's Blog" type="application/atom+xml">  
-  
-  <!-- Wumii Scripts Start -->
+  <link href="/atom.xml" rel="alternate" title="Bill's Blog" type="application/atom+xml">
   <script type="text/javascript">
-    var wumiiPermaLink = "/blog/page/9/index.html";
-    var wumiiTitle = "";
-	var wumiiTags = new Array();
-	
-	
-	
-	var wumiiCategories = new Array();
-	
-	
-	
-	wumiiTags = JSON.stringify(wumiiTags);
-	wumiiCategories = JSON.stringify(wumiiCategories);
-    var wumiiSitePrefix = "http://ibillxia.github.io";
-    var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
-  </script>
-  <script type="text/javascript" src="http://widget.wumii.cn/ext/relatedItemsWidget"></script>
-  <a href="http://www.wumii.com/widget/relatedItems" style="border:0;">
-	<img src="http://static.wumii.cn/images/pixel.png" alt="wumii recommendation" style="border:0;padding:0;margin:0;" />
-  </a>
-  <!-- Wumii Scripts End -->
-  
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
 
-<!-- mathjax config similar to math.stackexchange -->
+$(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+<!-- MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
@@ -86,527 +89,6 @@
 </script>
 
 
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-39460228-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Bill's Blog</a></h1>
-  
-    <h2>Program Hard, Play Hard, Live Crazy!</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://www.google.com/" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:ibillxia.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Home</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-<!--   <li><a href="/blog/categories">Categories</a></li>
-  <li><a href="/blog/tags">Tags</a></li> -->
-  <li><a href="/about">About</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-<header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/14/the-log-sum-inequanlity/">The Log Sum Inequality</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-14T21:42:00+08:00" pubdate data-updated="true">Aug 14<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/08/14/the-log-sum-inequanlity/#disqus_thread">Comments</a>
-        
-      </p>
-    
-</header>
-
-
-
-  <div class="entry-content"><p>In  mathematics, the log sum inequality is very useful for proving several theorems in information theory.</p>
-
-
-
-
-<h2>1.Statements</h2>
-
-
-<p>Suppose ai and bi are nonnegative numbers. The log sum inequality states that</br>
-<center>$\sum_{i=1}^{n}a_{i}log \frac{a_{i}}{b_{i}} \seq a log \frac{a}{b}$,</center>
-where $a=\sum a_{i}$ and $b=\sum b_{i}$. The equality established if and only if $a_{i}/b{i}$ are equal for all $i$.
-</p>
-
-
-
-
-<h2>2.Proof</h2>
-
-
-<h3>(1)Convex functioin</h3>
-
-
-<p>In mathematics, a real-valued function F(x) defined on an interval is called convex (or convex downward or concave 
-upward) if the graph of the function lies below the line segment joining any two points of the graph. Equivalently, a 
-function is convex if its epigraph (the set of points on or above the graph of the function) is a convex set.</p>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/08/14/the-log-sum-inequanlity/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-<header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/13/GMM-SVM-NAP-Method-in-Speaker-Recognition/">GMM-SVM-NAP Method in Speaker Recognition</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-13T22:38:00+08:00" pubdate data-updated="true">Aug 13<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/08/13/GMM-SVM-NAP-Method-in-Speaker-Recognition/#disqus_thread">Comments</a>
-        
-      </p>
-    
-</header>
-
-
-
-  <div class="entry-content"><h2>1.Gaussian Mixture Models(GMM)</h2>
-
-
-<p>For a D-dimensional feature vector, x, the mixture density used for the likelihood function is deﬁned as</br>
-<center>$p(x|\lambda) = \sum_{i=1}^{M}w_{i}p_{i}(x)$.</center></br>
-The density is a weighted linear combination of $M$ unimodal Gaussian densities , $p_{i}(x)$</br>
-<center>$p_{i}(x) = \frac{1}{(2\pi)^{D/2}|\sum _{i}|^{1/2}} exp[-\frac{1}{2}(x-\mu_{i})^{T}(\sum _{i})^{-1}(x-\mu_{i})]$.</center></br>
-</p>
-
-
-
-
-<h2>2.Support Vector Machines(SVM)</h2>
-
-
-<p>An SVM is a two-class classifier constructed from sums of a kernel function $K(• , •)$</br>
-<center>$f(x) = \sum_{i=1}{N}\alpha_{i} t_{i} K(x,x_{i}) + d$.</center></br>
-$t_{i}$ are the ideal outputs,  $\sum_{i=1}{N}\alpha_{i} t_{i}=0$ and $\alpha_{i} > 0$,$x_{i}$ are support vectors and obtained 
-from the training set by an optimization process.</br>
-$K(. , .)$ is constrained to have certain properties (the Mercer condition), so that it can be expressed as</br>
-<center>$K(x,y) = b(x)^{T} b(y)$.</center></br>
-Kernel function examples: <a href="http://www.shamoxia.com/html/y2010/2292.html">http://www.shamoxia.com/html/y2010/2292.html</a>
-</p>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/08/13/GMM-SVM-NAP-Method-in-Speaker-Recognition/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-<header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/20/PCA-based-speaker-recognition/">基于主成分分析分类器的说话人识别</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-20T22:08:00+08:00" pubdate data-updated="true">Jul 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/07/20/PCA-based-speaker-recognition/#disqus_thread">Comments</a>
-        
-      </p>
-    
-</header>
-
-
-
-  <div class="entry-content"><h2>1.说话人分类常用算法</h2>
-
-
-<p>说话人分类是说话人识别中的一大主题，目前已经发展了很多方法，这些方法大致可以分为两类：</br>
-(1)基于概率分布的高复杂度的精确分类算法，如高斯混合模型（Gaussian Mixture Model，GMM）、隐马尔科夫
-模型（Hidden Markov Model，HMM）和支持向量机（Support Vector Machine，SVM）模型；</br>
-(2)基于模板的低复杂度的分类算法，如向量量化方法（Vector Quantization，VQ）。</br>
-第一类说话人分类算法能取得不错的效果，但他们的高复杂度使得进行说话人识别需要很长时间，不适合于实时应用。
-而第二类说话人匪类算法虽然复杂度低，但当系统中说话人的人数增加时，识别性能下降得很快。</p>
-
-
-
-
-<p>Wu Junwen，Zhang Xuegong提出了一种基于PCA的分类器（即主成分子空间（Principal Component Subspace，PCS）分类器），
-作为一种线性分类器，其复杂度低于以上第一类算法，又表现出很好的分类能力。另外，我们还可以根据截断误差子空间来构造分类器，
-称为TES（Truncation Error Subspace）分类器。这两种分类器反映了主成分分析方法的两个方面，结合两种分类器可得到混合分类器，
-称其为P&T分类器。</p>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/07/20/PCA-based-speaker-recognition/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-<header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/18/MFCC-feature-extraction/">MFCC参数提取及Matalab实现</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-18T20:10:00+08:00" pubdate data-updated="true">Jul 18<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/07/18/MFCC-feature-extraction/#disqus_thread">Comments</a>
-        
-      </p>
-    
-</header>
-
-
-
-  <div class="entry-content"><h2>1.概述</h2>
-
-
-<p>Mel倒谱系数（Mel-frequency cepstral coefficients，MFCC）是受人的听觉系统研究成果推动而导出的声学特征。
-研究发现，当两个音调的频率差小于临界带宽时，人就会把两个音调听成一个(屏蔽效应)。Mel刻度是对这一临界带宽的
-度量方法之一, MFCC在语音识别领域应用广泛。本文详细介绍了Mel频率倒谱系数参数的6大提取步骤。</p>
-
-
-
-
-<h2>2.什么是Mel频率倒谱系数？</h2>
-
-
-<p>Mel频率倒谱系数（Mel Frequency Cepstrum Coefficient）的缩写是MFCC，Mel频率是基于人耳听觉特性提出来的，
-它与Hz频率成非线性对应关系。Mel频率倒谱系数(MFCC)则是利用它们之间的这种关系，计算得到的Hz频谱特征。</p>
-
-
-
-
-<p>用录音设备录制一段模拟语音信号后，经由自定的取样频率(如8000 Hz、16000 Hz等)采样后转换(A/D)为数字语音信号。
-由于在时域(time domain)上语音信号的波形变化相当快速、不易观察，因此一般都会在频域(frequency domain)上来观察，
-其频谱是随着时间而缓慢变化的，因此通常可以假设在一较短时间中，其语音信号的特性是稳定的，通常我们定义这个较短
-时间为一帧(frame)，根据人的语音的音调周期值的变化，一般取10~20ms。</p>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/07/18/MFCC-feature-extraction/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-<header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/17/covariance-matrix-and-correlation-matrix/">协方差矩阵和相关系数矩阵</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-17T12:35:00+08:00" pubdate data-updated="true">Jul 17<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/07/17/covariance-matrix-and-correlation-matrix/#disqus_thread">Comments</a>
-        
-      </p>
-    
-</header>
-
-
-
-  <div class="entry-content"><h2>1.概述</h2>
-
-
-<p>首先从随机变量的方差的性质讲起。</br>
-设$X$，$Y$是两个随机变量，$E(X)$，$E(Y)$，$D(X)$，$D(Y)$分别为各自的期望和方差，则有:</br>
-<center>$D(X+Y)=D(X)+D(Y)+2E{(X-E(X))(Y-E(Y))} $.   (1)</center></br>
-特别的，当$X$，$Y$相互独立时，有:</br>
-<center>$D(X+Y)=D(X)+D(Y) $.    (2)</center></br>
-对比（1）式和（2）式知，$X$，$Y$相互独立时还应该有:</br>
-<center>$E{(X-E(X))(Y-E(Y))} =0 $.      (3)</center></br>
-这意味着当$E{(X-E(X))(Y-E(Y))}\neq 0$时，X与Y不相互独立，而是存在一定关系的。</p>
-
-
-
-
-<h2>2.相关系数和协方差</h2>
-
-
-<p>
-我们把$E{(X-E(X))(Y-E(Y))}$拿出来，单独定义一个概念，即协方差，记为$Cov(X,Y)$，即：
-<center>$Cov(X,Y)=E{(X-E(X))(Y-E(Y))} $.     (4)</center></br>
-而</br>
-<center>$\rho _{XY} = \frac{Cov(X,Y)}{\sqrt{DX}\sqrt{DY}}$.     (5)</center></br>
-称为随机变量$X$，$Y$的<strong>相关系数</strong>。</br>
-将$Cov(X,Y)$的定义式展开，易得：
-<center>$Cov(X,Y)=E(XY)-E(X)E(Y)$.      (6)</center></br>
-我们常常用这一式子计算<strong>协方差</strong>。
-</p>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/07/17/covariance-matrix-and-correlation-matrix/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/10/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-    <a class="next" href="/blog/page/8/">Newer &rarr;</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (11)</a></li><li><a href='/blog/categories/program'>Program (25)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li></ul>
-</section>
-<section>
-  <h1>Tag Cloud</h1>
-    <span id="tag-cloud"><embed type='application/x-shockwave-flash' src='/javascripts/tagcloud.swf'width='100%' height='250' bgcolor='#ffffff' id='tagcloudflash' name='tagcloudflash' quality='high' allowscriptaccess='always'flashvars="tcolor=0x333333&amp;tcolor2=0x333333&amp;hicolor=0x000000&amp;tspeed=100&amp;distr=true&amp;mode=tags&amp;tagcloud=%3Ctags%3E%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2F36kr%27+style%3D%27font-size%3A+14.666666666666666%25%27%3E36Kr%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2F3dprint%27+style%3D%27font-size%3A+14.666666666666666%25%27%3E3DPrint%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2F8-queen%27+style%3D%27font-size%3A+14.666666666666666%25%27%3E8-Queen%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Facf%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EACF%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fai%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EAI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Falize%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EAlize%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Falsa%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EALSA%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fann%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EANN%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fapi%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EAPI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fasr%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EASR%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fassert%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Eassert%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Faudio%27+style%3D%27font-size%3A+21.333333333333336%25%27%3EAudio%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fautoencoder%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EAutoEncoder%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbaochutower%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBaochuTower%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbci%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBCI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbios%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBIOS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbiovision%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBioVision%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fboltzmann%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBoltzmann%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbom%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBOM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbpnn%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EBPNN%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbsd%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBSD%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbuffer%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Ebuffer%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fc%27+style%3D%27font-size%3A+23.0%25%27%3EC%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcalm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECalm%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcloud%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECloud%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcnn%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECNN%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcochlea%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECochlea%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcompany%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECompany%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcompile%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECompile%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fconference%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EConference%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fconvex%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EConvex%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcorrelation%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECorrelation%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcovariance%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECovariance%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcrawler%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ECrawler%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcrowdfunding%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECrowdfunding%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdebug%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDebug%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdebug%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Edebug%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdeeplearning%27+style%3D%27font-size%3A+18.0%25%27%3EDeepLearning%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdevice%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDevice%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdfs%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDFS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdiy%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDIY%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdom%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDOM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdp%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EDP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdragon%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDragon%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Febm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EEBM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fefi%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EEFI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Femail%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EEmail%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Feulercircuit%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EEulerCircuit%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fexception%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EException%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ffflush%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Efflush%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ffft%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EFFT%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ffleaphp%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EFleaPHP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ffourier%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EFourier%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ffunction%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EFunction%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fgmm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EGMM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fgoogle%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EGoogle%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fgoto%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Egoto%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fgradientdescent%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EGradientDescent%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fhardware%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHardware%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fhealth%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHealth%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fheritrix%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHeritrix%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fhiking%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHiking%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fhopfield%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHopfield%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fhtk%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EHTK%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fhtml%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHTML%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fidf%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIDF%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fidle%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Eidle%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fifly%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EiFly%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Finequality%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EInequality%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Finnovation%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EInnovation%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fintelligence%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIntelligence%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Finternet%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EInternet%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fio%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIO%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fip%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fit%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIT%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fjensen%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EJensen%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fjulius%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EJulius%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fkernel%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EKernel%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fknowledge%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EKnowledge%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flearning%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ELearning%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flenet%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ELeNet%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flife%27+style%3D%27font-size%3A+23.0%25%27%3ELife%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flink%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ELink%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flinkedin%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ELinkedin%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flinux%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ELinux%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flongjmp%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Elongjmp%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flove%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ELove%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flucene%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ELucene%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmachinelearning%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EMachineLearning%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmagicsquare%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMagicSquare%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmaker%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMaker%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmanagement%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EManagement%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmatlab%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EMatlab%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmatrix%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMatrix%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmfcc%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMFCC%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmicroblog%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMicroBlog%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmis%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMIS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmotto%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMotto%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fnap%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ENAP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fneural%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ENeural%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fneuralnetworks%27+style%3D%27font-size%3A+26.333333333333336%25%27%3ENeuralNetworks%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fnuance%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ENuance%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fnutch%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ENutch%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Foctpress%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOctpress%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fonline%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOnline%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Foptimization%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOptimization%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fos%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Foss%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOSS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpagerank%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPageRank%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpain%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPain%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fparser%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EParser%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpca%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPCA%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpcm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPCM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fperceptron%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EPerceptron%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fphp%27+style%3D%27font-size%3A+24.666666666666664%25%27%3EPHP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpitch%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EPitch%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpitchtracking%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPitchTracking%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fprim%27+style%3D%27font-size%3A+18.0%25%27%3EPrim%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fprint%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPrint%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fprintf%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Eprintf%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fproduct%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EProduct%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fprofit%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EProfit%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fprograming%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EPrograming%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fprogramtest%27+style%3D%27font-size%3A+24.666666666666664%25%27%3EProgramTest%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpython%27+style%3D%27font-size%3A+23.0%25%27%3EPython%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fquery%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EQuery%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fquicksort%27+style%3D%27font-size%3A+19.666666666666668%25%27%3EQuickSort%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Frat%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Erat%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fratbot%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ERatbot%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Frbm%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ERBM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Frecord%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ERecord%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Frepresentation%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ERepresentation%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Frobot%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Erobot%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Frwth%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ERWTH%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsafety%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESafety%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsapi%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESAPI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fselect%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESELECT%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsetjmp%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Esetjmp%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsignalprocess%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESignalProcess%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsnoopy%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESnoopy%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsnow%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESnow%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsns%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ESNS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsparsecoding%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESparseCoding%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fspeakerrecognition%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ESpeakerRecognition%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fspectrogram%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESpectrogram%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fspeech%27+style%3D%27font-size%3A+18.0%25%27%3ESpeech%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsphinx%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESphinx%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fspider%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESpider%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsports%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESports%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fspro%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESPro%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsql%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ESQL%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fstack%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EStack%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fstartup%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EStartUp%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fstory%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EStory%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fstring%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EString%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsuccess%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESuccess%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsvm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESVM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fswimming%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESwimming%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ftechnic%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETechnic%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ftechnics%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETechnics%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ftimbre%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETimbre%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ftruth%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETruth%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ftts%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETTS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fucenter%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUCenter%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fui%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fuml%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EUML%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Funicode%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUnicode%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Funionfindset%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EUnionFindSet%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Funix%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUnix%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Futf8%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUTF8%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fva-arg%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Eva_arg%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvad%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVAD%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvalse%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVALSE%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvc%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVC%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fviavoice%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EviaVoice%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvision%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVision%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvisualstudio%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVisualStudio%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvolume%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVolume%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvpr%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EVPR%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fwave%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EWave%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fwearable%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EWearable%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fweb%27+style%3D%27font-size%3A+18.0%25%27%3EWeb%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fwestlake%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EWestLake%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fwindows%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EWindows%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fyouth%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EYouth%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fzcr%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EZCR%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fzju%27+style%3D%27font-size%3A+28.0%25%27%3EZJU%3C%2Fa%3E+%3C%2Ftags%3E"></span>
-</section>
-<section>
-  <h1>Recent Comments</h1>
-  <script type="text/javascript" src="http://ibillxia.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
-</section>
-
-<section>
-  <h1>Sina Weibo</h1>
-  <ul id="weibo">
-    <li>
-		<iframe 
-			width="100%" 
-			height="550" 
-			class="share_self"  
-			frameborder="0" 
-			scrolling="no" 
-			src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2704795533&verifier=9551ab13&dpc=1">
-		</iframe>
-	</li>
-  </ul>
-</section>
-
-<section>
-	<h2>Reading List</h2>
-	<div>
-		<script type="text/javascript" src="http://www.douban.com/service/badge/65527470/?show=collection&amp;n=16&amp;columns=4" ></script>
-	</div>
-</section>
-<section>
-  <h1>CC License</h1>
-  <p align="center"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png"></a></p>
-  <p>Except where otherwise noted, content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a></p>
-</section>
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p id="footer" style="margin-bottom: 0em ">
-   <span class="credit" style="text-align: left;">Copyright &copy; 2009 - 2014   <a href="/about">Bill Xia</a>  
-	Powered by <a href="http://octopress.org">Octopress</a></span>
-  
-  <span style="float:right;">
-	  <a href="/">Home</a> | 
-	  <a href="/blog/archives">Archives</a> | 
-	  <a href="/about">About</a>
-  </span>
-</p>
-
-<p id = "back-top">
-	<a href="#top"><span></span>Back to Top</a>
-</p>
-
-<style type="text/css">
-#back-top {
-	position: fixed;
-	bottom: 50px;
-	right: 100px;
-}
-
-#back-top a {
-	width: 80px;
-	display: block;
-	text-align: center;
-	font: 11px/100% Arial, Helvetica, sans-serif;
-	text-transform: uppercase;
-	text-decoration: none;
-	color: #bbb;
-
-	/* transition */
-	-webkit-transition: 1s;
-	-moz-transition: 1s;
-	transition: 1s;
-}
-#back-top a:hover {
-	color: #000;
-}
-
-/* arrow icon (span tag) */
-#back-top span {
-	width: 80px;
-	height: 80px;
-	display: block;
-	margin-bottom: 7px;
-	background: #ddd url(http://ibillxia.github.com/images/up-arrow.png) no-repeat center center;
-
-	/* rounded corners */
-	-webkit-border-radius: 15px;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
-
-	/* transition */
-	-webkit-transition: 1s;
-	-moz-transition: 1s;
-	transition: 1s;
-}
-
-#back-top a:hover span {
-	background-color: #888;
-}
-
-</style>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -634,6 +116,895 @@ $(document).ready(function(){
 
 });
 </script>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39460228-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Bill's Blog</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/tags">Tags</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://www.google.com/" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:ibillxia.github.io" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+  
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2010/07/19/ucenter-sync-login-mechanism/">UCenter同步登陆机制</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-19T14:34:00+08:00" pubdate data-updated="true">Jul 19<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/07/19/ucenter-sync-login-mechanism/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>UC同步登陆机制</h2>
+
+
+<p>以用户登录为例介绍UC的同步机制，其它注销，改密码，消息，头像，好友均类同。UC同步登陆的过程如下：</p>
+
+
+
+
+<p>1.从用户xxx在某一应用程序的login.php，输入用户名，密码讲起。</br>
+先用uc_user_login函数到uc server验证此用户和密码，如正确，则写入session,写入cookies，并更新应用程序会员表中的登录ip，
+登录时间。用户感觉不到这个过程。</p>
+
+
+
+
+<p>2.然后通过uc_user_synlogin通知uc server 用户xxx登录成功,这个过程可能使用ajax，用户感觉不到通知过程。</p>
+
+
+
+
+<p>3.uc server收到这个消息后，马上命令手下，把xxx登录的消息，像令牌环一样，发给所有愿意接收（后台中那个是否开启同步登录）
+这个消息的其它应用程序。其实就是带参数访问一下各应用程序的uc.php,用户感觉不到这个过程。</p>
+
+
+
+
+<p>4.各应用程序靠api下的uc.php来接收uc server发来的消息，并对uc server言听计从，让干什么就干什么。现在，收到让xxx用户
+在你的程序中登录的命令，马上执行。</br>
+并写本应用程序的session，并且使用p3p, 写入相同域或不同域的cookies.   用户感觉不到这个过程。</p>
+
+
+
+
+<p>5.最后所有和uc整合的程序，xxx均登录成功。用户从www.test.com/bbs登录后， 跳到www.test.com/news同样显示登录。
+因为bbs 和news系统在后台均已登录。</p>
+
+
+
+
+<p>6.应用程序与uc server的会话结束。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2010/07/18/UML-based-library-management-system-requirement-analysis-and-system-design/">基于UML的图书管理系统的需求分析</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-18T10:06:00+08:00" pubdate data-updated="true">Jul 18<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/07/18/UML-based-library-management-system-requirement-analysis-and-system-design/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一个图书馆的图书资料库在正常运转中总是面对大量的读者信息、书籍信息以及两者相互作用产生的借书信息、还书信息。
+图书馆作为一个信息资源的集散地，图书和用户借阅资料繁多，包含着很多的信息数据。图书管理系统的开发和应用主要通过
+两个步骤来实现：首先是基于系统功能的需求分析，其次是系统模型的设计和实现。
+</p>
+
+
+
+
+<h2>1.需求分析</h2>
+
+
+<p>需求分析是软件工程过程的一个重要阶段,其中一个主要任务是确定系统的功能需求,采用面向对象方法,基于UML的可视化
+系统需求分析,因为有用户的积极参与,既可以加快设计者对于问题的理解,又能够在系统描述方面减少语义差异,保证分析的
+正确性。需求分析的目标就是建立需求模型,即从功能需求出发建立用例模型, UML的用例视图从用户的需求中提取,以盒图的
+方式描述待开发的系统的功能需求。每个用例都指定了客户的需求即他们需要系统干什么。用例图为设计活动不仅记录需求
+而且还提供了一种挖掘的信息, 它记录了需求到设计结果之间的映射关系,能够确保设计结果具有明确的根据或者说具有可
+维护性,基于UML的软件开发过程是以用例驱动的。</p>
+
+
+
+
+<p>首先我们进行角色识别，角色识别的任务是找出所有可能与系统发生交互行为的外部实体、对象、系统。它们的行为不受系统控制，
+但是可以提供输入给系统。对于一所大学的图书管理系统，基本的功能是完成图书的借阅和相关信息的管理，服务的对象有本科生，
+研究生，教师，及其他学校的学生，还有社会人员，这些人可归结为一类即读者。而为帮助读者顺利完成借还书的可以是工作人员，
+可以是自动借还书机，他们可以归结为一类即图书管理人员。因此对于一个图书管理系统主要有两类角色，读者、图书管理员。</p>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/07/18/UML-based-library-management-system-requirement-analysis-and-system-design/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2010/06/21/how-to-live-a-meaningful-life-yuminhong/">怎么过有意义的日子-俞敏洪</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-21T23:21:00+08:00" pubdate data-updated="true">Jun 21<span>st</span>, 2010</time>
+        
+         | <a href="/blog/2010/06/21/how-to-live-a-meaningful-life-yuminhong/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>当时，我们班50个同学，25个男生25个女生。一开始我听完这个数字就特别兴奋，但是没想到我们班的女生没一个正眼瞧我一眼的。到了2001年的时候,我们全班同学聚会，
+大家从世界各地赶回来。蓦然回首，大家突然发现班上挺没出息的，普通话也讲不好的，默默无闻的那个人怎么就成了全班最出色的了。这个时候女同学们都热情的走上来
+握住我的手，后悔当初没下手。</p>
+
+
+
+
+<p>所以后来大学女生问我，俞老师我们现在找男朋友要什么标准.我说很简单，参考我的长相。当然如果长得像我，那是绝对不能放过的。凡是长得比我难看的也不要放过，
+因为这个世界上的规律就是，越难看的人内涵越丰富。</p>
+
+
+
+
+<p>大三的时候我最喜欢读的是《红楼梦》，而且刚好读到林黛玉咳嗽而死的那一章。结果发现自己也在吐血。到医院，医生一查说得了肺结核立刻关起来，一关就是一年。
+我跟医生说像我这样的小伙子怎么会得肺结核呢？医生让我讲讲现状。我说，您看我学习特别刻苦，可成绩就是上不去，班里没有一个女孩子喜欢我。他说，这种情况不得
+肺结核是完全不可能的。</p>
+
+
+
+
+<p>但这个病也给我带来了心态上的调整，因为我在大学一二年级，想要追赶我的同学就是我的精神支柱。但是到了三年级，病了一年后我完全改变了，我觉得活着就挺好。
+然后我就给自己订了一个最低标准，至少保证大学毕业拿到毕业证书，最后国家给我分配一份工作就挺好。虽然我并没有放弃努力，结果反而获得一个更加开阔的心胸。
+所以，到现在为止我学会了永远不要去比，因为总有比你更加优秀的，也总有比你更加落后的。</p>
+
+
+
+
+<p>这个世界上最正确的是跟自己比，想一想今天是不是比昨天进步了一点，想一想明年是不是比今年更加好一点。想一想，10年以后的你是不是比今年的你要更加出色。
+这样的心态一直保持到我大学毕业。</p>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/06/21/how-to-live-a-meaningful-life-yuminhong/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2010/04/10/10-stories-in-management/">管理的十个寓言故事</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-04-10T12:36:00+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/04/10/10-stories-in-management/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>▲ (一)相信自己是一只雄鹰 ▲</h2>
+
+
+<p>一个人在高山之巅的鹰巢里，抓到了一只幼鹰，他把幼鹰带回家，养在鸡笼里。这只幼鹰和鸡一起啄食、嬉闹和休息。它以为自己是一只鸡。 
+这只鹰渐渐长大，羽翼丰满了，主人想把它训练成猎鹰，可是由于终日和鸡混在一起，它已经变得和鸡完全一样，根本没有飞的愿望了。 主人试了
+各种办法，都毫无效果，最后把它带到山顶上，一把将它扔了出去。这只鹰像块石头似的，直掉下去，慌乱之中它拼命地扑打翅膀，就这样，它
+终于飞了起来！ </p>
+
+
+
+
+<p><strong>秘诀1：磨练召唤成功的力量。</strong></p>
+
+
+
+
+<h2>▲ (二)五枚金币 ▲</h2>
+
+
+<p>有个叫阿巴格的人生活在内蒙古草原上。有一次，年少的阿巴格和他爸爸在草原上迷了路，阿巴格又累又怕，到最后快走不动了。爸爸就从兜里
+掏出５枚硬币，把一枚硬币埋在草地里，把其余４枚放在阿巴格的手上，说：“人生有５枚金币，童年、少年、青年、中年、老年各有一枚，你现在
+才用了一枚，就是埋在草地里的那一枚，你不能把５枚都扔在草原里，你要一点点地用，每一次都用出不同来，这样才不枉人生一世。今天我们一定
+要走出草原，你将来也一定要走出草原。世界很大，人活着，就要多走些地方，多看看，不要让你的金币没有用就扔掉。”在父亲的鼓励下，那天阿巴格
+走出了草原。长大后，阿巴格离开了家乡，成了一名优秀的船长。 </p>
+
+
+
+
+<p><strong>秘诀2：珍惜生命，就能走出挫折的沼泽地。</strong></p>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/04/10/10-stories-in-management/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/21/a-love-program/">一个爱情程序</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-21T22:13:00+08:00" pubdate data-updated="true">Jan 21<span>st</span>, 2010</time>
+        
+         | <a href="/blog/2010/01/21/a-love-program/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一个很有趣的爱情程序</p>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RESULT   love(boy,   girl)     
+</span><span class='line'>  {     
+</span><span class='line'>  　　if(   boy.有房()   AND   boy.有车()   )     
+</span><span class='line'>  　　{     
+</span><span class='line'>  　　　boy.Set(Nothing);     
+</span><span class='line'>  　　　return   girl.嫁给(boy);     
+</span><span class='line'>  　　}     
+</span><span class='line'>  　　else   if(   girl.愿意等()   )     
+</span><span class='line'>  　　{     
+</span><span class='line'>  　　　next_year:     
+</span><span class='line'>  　　　for(   day=1;   day&lt;=365;   day++)     
+</span><span class='line'>  　　　{     
+</span><span class='line'>  　　　　if(   day   ==   情人节   )     
+</span><span class='line'>  　　　　　if(   boy.GiveGirl(玫瑰)   )     
+</span><span class='line'>  　　　　　　girl.感情++;     
+</span><span class='line'>  　　　　　else     
+</span><span class='line'>  　　　　　　girl.感情--;     
+</span><span class='line'>  　　　　if(   day   ==   girl.生日)     
+</span><span class='line'>  　　　　　if(   boy.GiveGirl(玫瑰)   )     
+</span><span class='line'>  　　　　　　girl.感情++;     
+</span><span class='line'>  　　　　　else     
+</span><span class='line'>  　　　　　　girl.感情--;     
+</span><span class='line'>  　　　　boy.拼命赚钱();     
+</span><span class='line'>  　　　}     
+</span><span class='line'>  　　　年龄++;     
+</span><span class='line'>  　　　girl.感情--;     
+</span><span class='line'>  　　　if(   boy.有房()   AND   boy.有车()   )     
+</span><span class='line'>  　　　{     
+</span><span class='line'>  　　　　boy.Set(Nothing);     
+</span><span class='line'>  　　　　return   girl.嫁给(boy);     
+</span><span class='line'>  　　　}     
+</span><span class='line'>  　　　else   if(   boy.赚钱   >   100,000   AND   girl.感情   >   8   )     
+</span><span class='line'>  　　　　goto   next_year;     
+</span><span class='line'>  　　　else     
+</span><span class='line'>  　　　　return   girl.goto(   another_boy);     
+</span><span class='line'>  　　}     
+</span><span class='line'>  　　return   girl.goto(   another_boy);
+</span><span class='line'>  }
+</span><span class='line'>//有看懂吗，看懂了就很有意思。看不懂就加油！！</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2009/09/03/mayun-vs-niugensheng-vs-shiyuzhu/">马云VS牛根生VS史玉柱</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-09-03T21:47:00+08:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2009</time>
+        
+         | <a href="/blog/2009/09/03/mayun-vs-niugensheng-vs-shiyuzhu/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>马云经典语录</h2>
+
+
+<p><center><img src="/images/2009/IMAG2009090301.jpg"></center></p>
+
+
+<p>1.当你成功的时候，你说的所有话都是真理。 </br>
+2.我永远相信只要永不放弃，我们还是有机会的。最后，我们还是坚信一点，这世界上只要有梦想，只要不断努力，
+只要不断学习，不管你长得如何，不管是这样，还是那样，男人的长相往往和他的的才华成反比。今天很残酷，
+明天更残酷，后天很美好，但绝对大部分是死在明天晚上，所以每个人不要放弃今天。 </br>
+3.孙正义跟我有同一个观点，一个方案是一流的Idea加三流的实施；另外一个方案，一流的实施加三流的Idea，哪个好？
+我们俩同时选择一流的实施，三流的Idea。 </br>
+4.我既要扔鞭炮，又要扔炸弹。扔鞭炮是为了吸引别人的注意，迷惑敌人；扔炸弹才是我真正的目的。不过，我可不会告诉你
+我什么时候扔鞭炮，什么时候扔炸弹。游戏就是要虚虚实实，这样才开心。如果你在游戏中感到很痛苦，那说明你的玩法选错了。</br> 
+5.“其实，有的时候人的最大问题就在于他说的都是对的” 。 </br>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2009/09/03/mayun-vs-niugensheng-vs-shiyuzhu/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2009/08/17/brief-history-of-visual-studio/">Visual Studio 历史简介</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-08-17T12:37:00+08:00" pubdate data-updated="true">Aug 17<span>th</span>, 2009</time>
+        
+         | <a href="/blog/2009/08/17/brief-history-of-visual-studio/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>注：本文为转载。</p>
+
+
+<p>N年前，江湖上流传着几个大佬的故事，他们说：Dev-C++灵活又小巧，C++ Builder开发效率高；Turbo C是万人迷，Visual Studio的资格老。
+可如今，江湖上只剩下最后一个大佬Visual Studio了，其他几位不是支持者渐少，不成气候，就是转投他人怀抱，中道衰落，让人难免生出
+几分遗憾。但是反过来，我们又对Visual Studio这位“江湖最后的大佬”增添几分敬仰之情。据说这位大佬又要出新的版本，我们这些江湖
+八卦者，哪有错过的道理。要想深入的了解一个人，需要从他的童年开始。我们想了解Visual Studio，故事也就要从它的1.0开始。</p>
+
+
+
+
+<p>Visual Studio 可以用来创建 Windows 平台下的 Windows 应用程序和网络应用程序，也可以用来创建网络服务、智能设备应用程序和 Office 插件。 </p>
+
+
+
+
+<p>1992年4月，微软发布了革命性的操作系统Windows 3.1，把个人计算机引进了真正的视窗时代。微软在原有C++开发工具Microsoft C/C++ 7.0的基础上，
+开创性地引进了MFC(Microsoft Foundation Classes)库，完善了源代码，成为Microsoft C/C++ 8.0，也就是Visual C++ 1.0，并于1992年发布。Visual 
+C++ 1.0是真正意义上的Windows IDE，这也是Visual Studio的最初原型。虽然以现在的眼光来看，这个界面非常简陋和粗糙，但是它脱离了DOS界面，让
+用户可以在图形化的界面下进行开发，把软件开发带入了可视化(Visual)开发的时代。从此，大佬的时代开始了。</p>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2009/08/17/brief-history-of-visual-studio/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2009/08/02/17-general-mistakes-found-in-iter/">IT人成长路上最容易犯的17个错误</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-08-02T20:28:00+08:00" pubdate data-updated="true">Aug 2<span>nd</span>, 2009</time>
+        
+         | <a href="/blog/2009/08/02/17-general-mistakes-found-in-iter/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>来源：中国IT实验室整理 时间：2009-7-1 作者：佚名</p>
+
+
+
+
+<p>记得刚参加工作时（那是97年），中国的IT刚刚兴起，那时，作为一个IT人士是一件很光荣的事，而那时的我正在做电气和电子相关的工作。
+99年第一次跳槽，进入了IT行业做软件开发。至今，中国的IT已经走过了十多年。但昔日的“光荣一员”却成为了现在的“IT农民工”，这究竟是怎么了？
+是中国的IT发展已经很好了所造成的吗？不是！在我看来中国的IT还比较的原始，还有很大的提升空间。我认为造成这一切的都是我们自己，是人！
+是我们的意识和方法问题。还记得刚从事软件行业时，当时有一句话很流行，这句话现在应当还能听到，那就是：做IT是吃青春饭。说实现在的，
+一直以来我对于这句话一点都不认同，但最近慢慢的觉得有道理。这种意识的转变不是因为自己在职业生崖上出现了什么问题，而是观察身边的人
+发现这句话还真有道理。由于不注意方法和不转变意识，我们当中的不少人过着“有工作没有生活”的日子，被工作压得失去了激情。接下来，让我
+说说我能想到或是看到的一些问题。 </p>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2009/08/02/17-general-mistakes-found-in-iter/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2009/07/26/four-interesting-problem-in-math/">数学趣题四则</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-07-26T10:07:00+08:00" pubdate data-updated="true">Jul 26<span>th</span>, 2009</time>
+        
+         | <a href="/blog/2009/07/26/four-interesting-problem-in-math/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>一、N阶幻方问题</h2>
+
+
+<p>
+1）N为奇数时：</br>
+2）N为偶数时：</br>
+   ①把1~n2按顺序排列成n×n方阵；</br>
+   ②把方阵分成四象限，和正交坐标似的，圆心在方阵正中
+然后假象建立一个正交的坐标，那么就有个X、Y轴</br>
+   ③把数（1，1）和（-1，1）对调把数（2，2）和（-2，2）对调调（1.1）（2.2）一直到（n.n）</br>
+这只调了四分之一，其它方向也要对调，调的时候要注意先X全调了，再调Y轴</br>
+如果是8阶的，要调2次，6阶的调1.5次 </br>
+就是说6阶的，你全部调完一次，再调上刚才说的四个方向里的两个就可以了，当然这两个方向要一个X轴的，一个Y轴的 </br>
+其实是任意一点，选个数字，让他从（X.Y）到（X+n.Y+n）对调就可以，（X+n.Y+n）注意取余，编的时候，要用到“余”就好解多了，
+其实老师教的奇数阶的解法用的也是“余”</br>
+要细细体会的话，其实偶数阶的解法和奇数阶的解法有很多相似的地方
+</p>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2009/07/26/four-interesting-problem-in-math/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2009/07/23/useful-queries-methods-in-MS-SQL-Server/">Sql Server数据库常用的查询语句</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-07-23T22:31:00+08:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2009</time>
+        
+         | <a href="/blog/2009/07/23/useful-queries-methods-in-MS-SQL-Server/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>一、表操作 </h2>
+
+
+<p>例 1 对于表的教学管理数据库中的表 STUDENTS ，可以定义如下： 
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Create TABLE STUDENTS (SNO NUMERIC (6, 0) NOT NULL 
+</span><span class='line'>SNAME CHAR (8) NOT NULL 
+</span><span class='line'>AGE NUMERIC(3,0) 
+</span><span class='line'>SEX CHAR(2) 
+</span><span class='line'>BPLACE CHAR(20) 
+</span><span class='line'>PRIMARY KEY(SNO))</span></code></pre></td></tr></table></div></figure>
+</p>
+
+
+
+
+<p>例 2 对于表的教学管理数据库中的表 ENROLLS ，可以定义如下： </p>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Create TABLE ENROLLS(SNO NUMERIC(6,0) NOT NULL 
+</span><span class='line'>CNO CHAR(4) NOT NULL 
+</span><span class='line'>GRADE INT 
+</span><span class='line'>PRIMARY KEY(SNO,CNO) 
+</span><span class='line'>FOREIGN KEY(SNO) REFERENCES STUDENTS(SNO) 
+</span><span class='line'>FOREIGN KEY(CNO) REFERENCES COURSES(CNO) 
+</span><span class='line'>CHECK ((GRADE IS NULL) or (GRADE BETWEEN 0 AND 100)))</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2009/07/23/useful-queries-methods-in-MS-SQL-Server/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  <ul class="pager">
+    
+    <li class="previous"><a href="/blog/page/10/">&larr; Older</a></li>
+    
+    <li><a href="/blog/archives">Blog Archives</a></li>
+    
+    <li class="next"><a href="/blog/page/8/">Newer &rarr;</a></li>
+    
+  </ul>
+</div>
+<aside class="sidebar-nav span3">
+  
+    <section>
+  <h2>Categories</h2>
+    <ul id="category-list">
+		<li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (12)</a></li><li><a href='/blog/categories/program'>Program (29)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li>
+	</ul>
+</section>
+<section>
+  <h2>Tags</h2>
+  <ul class="tag-cloud">
+	<a style="font-size: 93%" href="/blog/tags/alize/">Alize</a>
+<a style="font-size: 137%" href="/blog/tags/audio/">Audio</a>
+<a style="font-size: 146%" href="/blog/tags/c/">C</a>
+<a style="font-size: 93%" href="/blog/tags/convex/">Convex</a>
+<a style="font-size: 112%" href="/blog/tags/deeplearning/">DeepLearning</a>
+<a style="font-size: 93%" href="/blog/tags/htk/">HTK</a>
+<a style="font-size: 146%" href="/blog/tags/life/">Life</a>
+<a style="font-size: 93%" href="/blog/tags/love/">Love</a>
+<a style="font-size: 93%" href="/blog/tags/machinelearning/">MachineLearning</a>
+<a style="font-size: 93%" href="/blog/tags/matlab/">Matlab</a>
+<a style="font-size: 159%" href="/blog/tags/neuralnetworks/">NeuralNetworks</a>
+<a style="font-size: 93%" href="/blog/tags/nuance/">Nuance</a>
+<a style="font-size: 153%" href="/blog/tags/php/">PHP</a>
+<a style="font-size: 112%" href="/blog/tags/prim/">Prim</a>
+<a style="font-size: 153%" href="/blog/tags/programtest/">ProgramTest</a>
+<a style="font-size: 93%" href="/blog/tags/programing/">Programing</a>
+<a style="font-size: 146%" href="/blog/tags/python/">Python</a>
+<a style="font-size: 126%" href="/blog/tags/quicksort/">QuickSort</a>
+<a style="font-size: 93%" href="/blog/tags/rbm/">RBM</a>
+<a style="font-size: 93%" href="/blog/tags/speakerrecognition/">SpeakerRecognition</a>
+<a style="font-size: 112%" href="/blog/tags/speech/">Speech</a>
+<a style="font-size: 93%" href="/blog/tags/uml/">UML</a>
+<a style="font-size: 93%" href="/blog/tags/vpr/">VPR</a>
+<a style="font-size: 112%" href="/blog/tags/web/">Web</a>
+<a style="font-size: 165%" href="/blog/tags/zju/">ZJU</a>
+
+  </ul>
+</section><section>
+  <h2>Recent Comments</h2>
+  <script type="text/javascript" src="http://ibillxia.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=22"></script>
+  <a href="http://disqus.com/">Powered by Disqus</a>
+</section>
+
+<section>
+  <h2>Sina Weibo</h2>
+  <ul id="weibo">
+	<iframe 
+		width="100%" 
+		height="550" 
+		class="share_self"  
+		frameborder="0" 
+		scrolling="no" 
+		src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2704795533&verifier=9551ab13&dpc=1">
+	</iframe>
+  </ul>
+</section>
+
+<section>
+	<h2>Reading List</h2>
+	<ul>
+		<script type="text/javascript" src="http://www.douban.com/service/badge/65527470/?show=collection&amp;n=12&amp;columns=3" ></script>
+	</ul>
+</section>
+<section>
+  <h2>Copyleft</h2>
+  <p align="center"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png"></a></p>
+  <p>Except where otherwise noted, content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a></p>
+</section>
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><p id = "back-top">
+	<a href="#top"><span></span>Back to Top</a>
+</p>
+<hr>
+<p>
+  Copyright &copy; 2009 - 2014 - <a href="http://about.me/ibillxia">Bill Xia</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> - Theme by <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> </span>
+</p>
+
 </footer>
   
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: ZCR | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/zcr/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -54,109 +54,65 @@
 
 
 <p>ZCR的Python实现如下：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import math
-</span><span class='line'>import numpy as np
-</span><span class='line'>
-</span><span class='line'>def ZeroCR(waveData,frameSize,overLap):
-</span><span class='line'>    wlen = len(waveData)
-</span><span class='line'>    step = frameSize - overLap
-</span><span class='line'>    frameNum = math.ceil(wlen/step)
-</span><span class='line'>    zcr = np.zeros((frameNum,1))
-</span><span class='line'>    for i in range(frameNum):
-</span><span class='line'>        curFrame = waveData[np.arange(i*step,min(i*step+frameSize,wlen))]
-</span><span class='line'>        #To avoid DC bias, usually we need to perform mean subtraction on each frame
-</span><span class='line'>        #ref: http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/basicFeatureZeroCrossingRate.asp
-</span><span class='line'>        curFrame = curFrame - np.mean(curFrame) # zero-justified
-</span><span class='line'>        zcr[i] = sum(curFrame[0:-1]*curFrame[1::]&lt;=0)
-</span><span class='line'>    return zcr</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+import math
+import numpy as np
+
+def ZeroCR(waveData,frameSize,overLap):
+    wlen = len(waveData)
+    step = frameSize - overLap
+    frameNum = math.ceil(wlen/step)
+    zcr = np.zeros((frameNum,1))
+    for i in range(frameNum):
+        curFrame = waveData[np.arange(i*step,min(i*step+frameSize,wlen))]
+        #To avoid DC bias, usually we need to perform mean subtraction on each frame
+        #ref: http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/basicFeatureZeroCrossingRate.asp
+        curFrame = curFrame - np.mean(curFrame) # zero-justified
+        zcr[i] = sum(curFrame[0:-1]*curFrame[1::]<=0)
+    return zcr
+{% endcodeblock %}
 </p>
 
 <p>对于给定语音文件aeiou.wav，利用上面的函数计算ZCR的代码如下：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import math
-</span><span class='line'>import wave
-</span><span class='line'>import numpy as np
-</span><span class='line'>import pylab as pl
-</span><span class='line'>
-</span><span class='line'># ============ test the algorithm =============
-</span><span class='line'># read wave file and get parameters.
-</span><span class='line'>fw = wave.open('aeiou.wav','rb')
-</span><span class='line'>params = fw.getparams()
-</span><span class='line'>print(params)
-</span><span class='line'>nchannels, sampwidth, framerate, nframes = params[:4]
-</span><span class='line'>str_data = fw.readframes(nframes)
-</span><span class='line'>wave_data = np.fromstring(str_data, dtype=np.short)
-</span><span class='line'>wave_data.shape = -1, 1
-</span><span class='line'>#wave_data = wave_data.T
-</span><span class='line'>fw.close()
-</span><span class='line'>
-</span><span class='line'># calculate Zero Cross Rate
-</span><span class='line'>frameSize = 256
-</span><span class='line'>overLap = 0
-</span><span class='line'>zcr = ZeroCR(wave_data,frameSize,overLap)
-</span><span class='line'>
-</span><span class='line'># plot the wave
-</span><span class='line'>time = np.arange(0, len(wave_data)) * (1.0 / framerate)
-</span><span class='line'>time2 = np.arange(0, len(zcr)) * (len(wave_data)/len(zcr) / framerate)
-</span><span class='line'>pl.subplot(211)
-</span><span class='line'>pl.plot(time, wave_data)
-</span><span class='line'>pl.ylabel("Amplitude")
-</span><span class='line'>pl.subplot(212)
-</span><span class='line'>pl.plot(time2, zcr)
-</span><span class='line'>pl.ylabel("ZCR")
-</span><span class='line'>pl.xlabel("time (seconds)")
-</span><span class='line'>pl.show()</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+import math
+import wave
+import numpy as np
+import pylab as pl
+
+# ============ test the algorithm =============
+# read wave file and get parameters.
+fw = wave.open('aeiou.wav','rb')
+params = fw.getparams()
+print(params)
+nchannels, sampwidth, framerate, nframes = params[:4]
+str_data = fw.readframes(nframes)
+wave_data = np.fromstring(str_data, dtype=np.short)
+wave_data.shape = -1, 1
+#wave_data = wave_data.T
+fw.close()
+
+# calculate Zero Cross Rate
+frameSize = 256
+overLap = 0
+zcr = ZeroCR(wave_data,frameSize,overLap)
+
+# plot the wave
+time = np.arange(0, len(wave_data)) * (1.0 / framerate)
+time2 = np.arange(0, len(zcr)) * (len(wave_data)/len(zcr) / framerate)
+pl.subplot(211)
+pl.plot(time, wave_data)
+pl.ylabel("Amplitude")
+pl.subplot(212)
+pl.plot(time2, zcr)
+pl.ylabel("ZCR")
+pl.xlabel("time (seconds)")
+pl.show()
+{% endcodeblock %}
 </p>
 
 <p>运行以上程序得到下图：
-<center><img src="/images/2013/IMAG2013051502.png"></center>
+<center>{% img /images/2013/IMAG2013051502.png %}</center>
 </p>
 
 <h2>参考（References）</h2>

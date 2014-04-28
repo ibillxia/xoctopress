@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Motto | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/motto/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -19,7 +19,7 @@
     <updated>2011-07-19T10:07:00+08:00</updated>
     <id>http://ibillxia.github.io/blog/2011/07/19/75-mottos-to-make-you-calm-down</id>
     <content type="html"><![CDATA[<p>
-<center><img src="/images/2011/IMAG2011071901.jpg"></center>
+<center>{% img /images/2011/IMAG2011071901.jpg %}</center>
 1、心外无物，闲看庭前花开花落；去留无意，漫随天外云卷云舒。</br>
 
 2、静以修身，俭以养德，非淡泊无以明志，非宁静无以致远。</br>
@@ -102,7 +102,7 @@
 34、最大的浪费是我们不认识自己的智慧，不明白自己拥有全宇宙的力量。</br>
 
 35、解脱自己执著的概念、黑暗的思想和绑住的感情，才叫现世解脱。不要以为天上云间有个地方可去——那样跑到哪里都没用。</br>
-<center><img src="/images/2011/IMAG2011071902.jpg"></center>
+<center>{% img /images/2011/IMAG2011071902.jpg %}</center>
 36、当我们往内静观时，会发现什么都没有，没有身体，没有物质，只有真实的能量存在，那就是我们的源头。只要我们不把自己当成这个肉体，
 就可以明白我们的来处，真实的能量才是万物的源头。</br>
 
@@ -204,7 +204,7 @@
 74、有时环境有一些被压迫的情况，那时要我们学习无畏的精神和勇敢的功课，惟有乐观地看事情，运用肯定的爱力，才能胜过否定的力量。</br>
 
 75、试着做个个性坚强的人，只要相信是好的，就坚持下去，不要让别人动摇我们。既然这世界罕有好的典范，就让我们成为好的典范吧！
-<center><img src="/images/2011/IMAG2011071903.jpg"></center>
+<center>{% img /images/2011/IMAG2011071903.jpg %}</center>
 </p>
 
 ]]></content>

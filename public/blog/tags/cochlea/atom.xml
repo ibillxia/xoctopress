@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Cochlea | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/cochlea/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -28,7 +28,7 @@
 
 <p>听觉系统可分为两大部分，即耳朵和听觉中枢。其中耳朵又分为外耳、中耳、内耳、听神经，听觉中枢则纵跨脑干、中脑、丘脑的大脑皮层，
 是感觉系统中最长的中枢通路之一。</br>
-<center><img src="/images/2012/IMAG2012122101.jpg"></center>
+<center>{% img /images/2012/IMAG2012122101.jpg %}</center>
 <center>图 1 双耳听觉系统</center>
 </p>
 
@@ -40,7 +40,7 @@
 
 <p><strong>耳朵(外围部分)</strong>
 耳朵包括整个的听觉周围系统，即外耳、中耳、内耳以及与脑部相连的听神经，如图2所示。
-<center><img src="/images/2012/IMAG2012122102.jpg"></center>
+<center>{% img /images/2012/IMAG2012122102.jpg %}</center>
 <center>图2 人耳结构图</center>
 </p>
 
@@ -74,7 +74,7 @@
 槌骨有一个长柄，连接到可以移动的鼓膜；砧骨是锤骨和镫骨之间的桥梁；镫骨是人体最小的命名骨。三块骨头的排列，使鼓膜的震动引起的
 锤骨震动，再导致砧骨的震动，从而导致镫骨的震动，这个传递过程称为听骨链。推动卵圆窗的镫骨足板，它会导致耳蜗（内耳的一部份）
 内的流体运动。</br>
-<center><img src="/images/2012/IMAG2012122103.jpg"></center>
+<center>{% img /images/2012/IMAG2012122103.jpg %}</center>
 <center>图3 中耳结构</center>
 </p>
 
@@ -148,7 +148,7 @@
 
 
 <p>耳蜗位于骨前庭的前内侧，是一个外形呈蜗牛状卷曲的神经体，长约3.5cm，最宽处约0.32cm，呈螺旋状盘旋2.5～2.75圈，如图4所示。</br>
-<center><img src="/images/2012/IMAG2012122104.jpg"></center>
+<center>{% img /images/2012/IMAG2012122104.jpg %}</center>
 <center>图4 耳蜗的结构</center>
 </p>
 
@@ -159,7 +159,7 @@
 鼓阶，内含外淋巴液体，鼓阶中的外淋巴在耳蜗顶部通过蜗孔与前庭阶中的外淋巴交通。赖斯纳氏膜（前庭膜）分隔前庭阶和蜗管，基底膜
 分隔蜗管和鼓阶。听觉转导器官柯蒂氏器坐落于基底膜之上、蜗管内部。听神经的纤维通过基底膜与内毛细胞和外毛细胞形成突触连接，其
 细胞体位于在耳蜗中心部的螺旋神经节。</br>
-<center><img src="/images/2012/IMAG2012122105.jpg"></center>
+<center>{% img /images/2012/IMAG2012122105.jpg %}</center>
 <center>图5 耳蜗横截面</center>
 </p>
 

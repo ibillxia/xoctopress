@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: UI | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/ui/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -34,12 +34,11 @@
 
 
 <p>相关的HTML代码很简单，在source/_include/custom/footer.html中添加如下代码：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;p id = "back-top">
-</span><span class='line'>        &lt;a href="#top">&lt;span>&lt;/span>Back to Top&lt;/a>
-</span><span class='line'>    &lt;/p></span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+    <p id = "back-top">
+        <a href="#top"><span></span>Back to Top</a>
+    </p>
+{% endcodeblock %}
 </p>
 
 
@@ -51,111 +50,64 @@
 
 
 <p>对应的CSS样式的设置如下：（这段代码同样的放在source/_include/custom/footer.html文件中）
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;style type="text/css">
-</span><span class='line'>#back-top {
-</span><span class='line'>    position: fixed;
-</span><span class='line'>    bottom: 50px;
-</span><span class='line'>    right: 100px;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>#back-top a {
-</span><span class='line'>    width: 80px;
-</span><span class='line'>    display: block;
-</span><span class='line'>    text-align: center;
-</span><span class='line'>    font: 11px/100% Arial, Helvetica, sans-serif;
-</span><span class='line'>    text-transform: uppercase;
-</span><span class='line'>    text-decoration: none;
-</span><span class='line'>    color: #bbb;
-</span><span class='line'>
-</span><span class='line'>    /* transition */
-</span><span class='line'>    -webkit-transition: 1s;
-</span><span class='line'>    -moz-transition: 1s;
-</span><span class='line'>    transition: 1s;
-</span><span class='line'>}
-</span><span class='line'>#back-top a:hover {
-</span><span class='line'>    color: #000;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>/* arrow icon (span tag) */
-</span><span class='line'>#back-top span {
-</span><span class='line'>    width: 80px;
-</span><span class='line'>    height: 80px;
-</span><span class='line'>    display: block;
-</span><span class='line'>    margin-bottom: 7px;
-</span><span class='line'>    background: #ddd url(../../images/up-arrow.png) no-repeat center center;
-</span><span class='line'>
-</span><span class='line'>    /* rounded corners */
-</span><span class='line'>    -webkit-border-radius: 15px;
-</span><span class='line'>    -moz-border-radius: 15px;
-</span><span class='line'>    border-radius: 15px;
-</span><span class='line'>
-</span><span class='line'>    /* transition */
-</span><span class='line'>    -webkit-transition: 1s;
-</span><span class='line'>    -moz-transition: 1s;
-</span><span class='line'>    transition: 1s;
-</span><span class='line'>}
-</span><span class='line'>/*
-</span><span class='line'>#back-top a:hover span {
-</span><span class='line'>    background-color: #888;
-</span><span class='line'>}
-</span><span class='line'>*/
-</span><span class='line'>&lt;/style></span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+<style type="text/css">
+#back-top {
+    position: fixed;
+    bottom: 50px;
+    right: 100px;
+}
+
+#back-top a {
+    width: 80px;
+    display: block;
+    text-align: center;
+    font: 11px/100% Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #bbb;
+
+    /* transition */
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    transition: 1s;
+}
+#back-top a:hover {
+    color: #000;
+}
+
+/* arrow icon (span tag) */
+#back-top span {
+    width: 80px;
+    height: 80px;
+    display: block;
+    margin-bottom: 7px;
+    background: #ddd url(../../images/up-arrow.png) no-repeat center center;
+
+    /* rounded corners */
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+
+    /* transition */
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    transition: 1s;
+}
+/*
+#back-top a:hover span {
+    background-color: #888;
+}
+*/
+</style>
+{% endcodeblock %}
 </p>
 
 
 
 
 <p>上面的css中用到了一张图片up-arrow.png，放在source/images/目录下，图片如下：
-<center><img src="/images/up-arrow.png"></center>
+<center>{% img /images/up-arrow.png %}</center>
 这是从google image里面随便找的一个，你也可以找一个自己喜欢的图片。
 </p>
 
@@ -166,62 +118,36 @@
 
 
 <p>HTML和CSS样式设置好了之后，最后就是添加JavaScript事件响应代码了，这里是基于jQuery实现的。代码如下：（这段代码还是放在source/_include/custom/footer.html文件中）
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js">&lt;/script>
-</span><span class='line'>&lt;script type="text/javascript">
-</span><span class='line'>$(document).ready(function(){
-</span><span class='line'>
-</span><span class='line'>    // hide #back-top first
-</span><span class='line'>    $("#back-top").hide();
-</span><span class='line'>    
-</span><span class='line'>    // fade in #back-top
-</span><span class='line'>    $(function () {
-</span><span class='line'>        $(window).scroll(function () {
-</span><span class='line'>            if ($(this).scrollTop() > 100) {
-</span><span class='line'>                $('#back-top').fadeIn();
-</span><span class='line'>            } else {
-</span><span class='line'>                $('#back-top').fadeOut();
-</span><span class='line'>            }
-</span><span class='line'>        });
-</span><span class='line'>
-</span><span class='line'>        // scroll body to 0px on click
-</span><span class='line'>        $('#back-top a').click(function () {
-</span><span class='line'>            $('body,html').animate({
-</span><span class='line'>                scrollTop: 0
-</span><span class='line'>            }, 800);
-</span><span class='line'>            return false;
-</span><span class='line'>        });
-</span><span class='line'>    });
-</span><span class='line'>
-</span><span class='line'>});
-</span><span class='line'>&lt;/script></span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+    // hide #back-top first
+    $("#back-top").hide();
+    
+    // fade in #back-top
+    $(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 100) {
+                $('#back-top').fadeIn();
+            } else {
+                $('#back-top').fadeOut();
+            }
+        });
+
+        // scroll body to 0px on click
+        $('#back-top a').click(function () {
+            $('body,html').animate({
+                scrollTop: 0
+            }, 800);
+            return false;
+        });
+    });
+
+});
+</script>
+{% endcodeblock %}
 </p>
 
 

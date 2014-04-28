@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: ALSA | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/alsa/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Linux的OSS和ALSA声音系统简介及其比较]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it%27s-comparision/"/>
+    <link href="http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-its-comparision/"/>
     <updated>2013-09-08T19:46:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it's-comparision</id>
+    <id>http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-its-comparision</id>
     <content type="html"><![CDATA[<h2>概述</h2>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: PCA | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/pca/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -90,8 +90,8 @@
 
 <h2>4.实验结果</h2>
 <p>分别在无噪语料库YOHO和有噪语料库PHONE做实验，得到如下结果：</br>
-<center><img src="/images/2012/IMAG2012072001.jpg"></center></br>
-<center><img src="/images/2012/IMAG2012072002.jpg"></center>
+<center>{% img /images/2012/IMAG2012072001.jpg %}</center></br>
+<center>{% img /images/2012/IMAG2012072002.jpg %}</center>
 </p>
 
 <h2>5.复杂度分析</h2>

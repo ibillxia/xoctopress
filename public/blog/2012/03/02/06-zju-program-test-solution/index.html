@@ -9,68 +9,55 @@
   <meta name="author" content="Bill Xia">
 
   
-  <meta name="description" content="06年浙大研究生复试机试题解 A题：还是A+B（hdoj1229）（九度1015） 水题，简直水得不能再水 Problem A 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-#include &lt;stdio.h>
-#include &lt;string.h>
-int &hellip;">
+  <meta name="description" content="Yesterday is History, Tomorrow a Mystery, Today is a Gift, Thats why it's called the Present！">
   
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="wumiiVerification" content="9662b89d-2629-4073-b85d-0966259c0ee1" />
 
   
-  <link rel="canonical" href="http://ibillxia.github.io/blog/2012/03/02/06-zju-program-test-solution/">
+  <link rel="canonical" href="http://ibillxia.github.io/blog/2012/03/02/06-zju-program-test-solution">
   <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Bill's Blog" type="application/atom+xml">  
-  
-  <!-- Wumii Scripts Start -->
+  <link href="/atom.xml" rel="alternate" title="Bill's Blog" type="application/atom+xml">
   <script type="text/javascript">
-    var wumiiPermaLink = "/blog/2012/03/02/06-zju-program-test-solution/";
-    var wumiiTitle = "06年浙大复试机试题解";
-	var wumiiTags = new Array();
-	
-	wumiiTags.push( "Prim" ); wumiiTags.push( "ProgramTest" ); wumiiTags.push( "Stack" ); wumiiTags.push( "ZJU" ); 
-	
-	var wumiiCategories = new Array();
-	
-	wumiiCategories.push( "Program" ); 
-	
-	wumiiTags = JSON.stringify(wumiiTags);
-	wumiiCategories = JSON.stringify(wumiiCategories);
-    var wumiiSitePrefix = "http://ibillxia.github.io";
-    var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
-  </script>
-  <script type="text/javascript" src="http://widget.wumii.cn/ext/relatedItemsWidget"></script>
-  <a href="http://www.wumii.com/widget/relatedItems" style="border:0;">
-	<img src="http://static.wumii.cn/images/pixel.png" alt="wumii recommendation" style="border:0;padding:0;margin:0;" />
-  </a>
-  <!-- Wumii Scripts End -->
-  
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
 
-<!-- mathjax config similar to math.stackexchange -->
+$(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+<!-- MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
@@ -102,6 +89,34 @@ int &hellip;">
 </script>
 
 
+<script type="text/javascript">
+$(document).ready(function(){
+
+	// hide #back-top first
+	$("#back-top").hide();
+	
+	// fade in #back-top
+	$(function () {
+		$(window).scroll(function () {
+			if ($(this).scrollTop() > 100) {
+				$('#back-top').fadeIn();
+			} else {
+				$('#back-top').fadeOut();
+			}
+		});
+
+		// scroll body to 0px on click
+		$('#back-top a').click(function () {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 800);
+			return false;
+		});
+	});
+
+});
+</script>
+
 
   
   <script type="text/javascript">
@@ -120,41 +135,51 @@ int &hellip;">
 </head>
 
 <body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Bill's Blog</a></h1>
-  
-    <h2>Program Hard, Play Hard, Live Crazy!</h2>
-  
-</hgroup>
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://www.google.com/" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:ibillxia.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Home</a></li>
+      <a class="brand" href="/">Bill's Blog</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
-<!--   <li><a href="/blog/categories">Categories</a></li>
-  <li><a href="/blog/tags">Tags</a></li> -->
+  <li><a href="/blog/tags">Tags</a></li>
   <li><a href="/about">About</a></li>
 </ul>
 
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://www.google.com/" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:ibillxia.github.io" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
 </nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
   
-<header>
+  <header class="page-header">
     
       <h1 class="entry-title">06年浙大复试机试题解</h1>
     
@@ -178,11 +203,10 @@ int &hellip;">
         
       </p>
     
-</header>
+  </header>
 
 
-
-  <div class="entry-content"><p>
+<div class="entry-content"><p>
 06年浙大研究生复试机试题解
 </p>
 
@@ -656,6 +680,10 @@ int &hellip;">
 
 
 </div>
+<div id="copyleft" class="well" >
+	<span>Original Link: <a rel="full-article" href="">http://ibillxia.github.io/blog/2012/03/02/06-zju-program-test-solution/</a></br>
+	Attribution - NON-Commercial - ShareAlike - Copyright &copy; <a href="http://about.me/ibillxia">Bill Xia</a> <span>
+</div>
 
 
   <footer>
@@ -663,7 +691,7 @@ int &hellip;">
       
   
 
-<span class="byline author vcard">Posted by <span class="fn"><a href="/about">Bill Xia</a></span></span>
+<span class="byline author vcard">Posted by <span class="fn"><a href="http://about.me/ibillxia">Bill Xia</a></span></span>
 
       
 
@@ -678,78 +706,108 @@ int &hellip;">
 
 
 <time datetime="2012-03-02T12:12:00+08:00" pubdate data-updated="true">Mar 2<span>nd</span>, 2012</time>
-      Category: 
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/program/'>Program</a>
-  
-</span>
-
-
-      Tags: 
-
-<span class="tags">
-  
-    <a class='category' href='/blog/tags/prim/'>Prim</a>, <a class='category' href='/blog/tags/programtest/'>ProgramTest</a>, <a class='category' href='/blog/tags/stack/'>Stack</a>, <a class='category' href='/blog/tags/zju/'>ZJU</a>
-  
-</span>
-
-
+		
+		
+		
+		  <span class="categories">Posted in <a class='category' href='/blog/categories/program/'>Program</a></span>
+		
+		
+		  <span class="tags">Tagged with <a class='tag' href='/blog/tags/prim/'>Prim</a>, <a class='tag' href='/blog/tags/programtest/'>ProgramTest</a>, <a class='tag' href='/blog/tags/stack/'>Stack</a>, <a class='tag' href='/blog/tags/zju/'>ZJU</a></span>
+		
     </p>
     
       <div class="sharing">
-<!-- JiaThis Button BEGIN -->
-<div class="jiathis_style_32x32">
-	<a class="jiathis_button_tsina"></a>
-	<a class="jiathis_button_renren"></a>
-	<a class="jiathis_button_tqq"></a>
-	<a class="jiathis_button_qzone"></a>
-	<a class="jiathis_button_douban"></a>
-	<a class="jiathis_button_fb"></a>
-	<a class="jiathis_button_twitter"></a>
-	<a class="jiathis_button_tumblr"></a>
-	<a class="jiathis_button_googleplus"></a>
-	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank">More</a>
-	<a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1362901762548695" charset="utf-8"></script>
-<!-- JiaThis Button END -->
+  
+  
+  
 </div>
 
     
-    <p class="meta">
+	 <ul class="pager">
       
-        <a class="basic-alignment left" href="/blog/2012/03/01/05-zju-program-test-solution/" title="Previous Post: 05年浙大复试机试题解">&laquo; 05年浙大复试机试题解</a>
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/03/01/05-zju-program-test-solution/" title="Previous Post:
+        05年浙大复试机试题解">&laquo; 05年浙大复试机试题解</a></li>
       
+      <li><a href="/blog/archives">Blog Archives</a></li>
       
-        <a class="basic-alignment right" href="/blog/2012/03/03/07-zju-program-test-solution/" title="Next Post: 07年浙大复试机试题解">07年浙大复试机试题解 &raquo;</a>
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/03/03/07-zju-program-test-solution/"
+        title="Next Post: 07年浙大复试机试题解">07年浙大复试机试题解
+        &raquo;</a></li>
       
-    </p>
+    </ul>
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+   
   </footer>
 </article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
-
-</div>
-
-<aside class="sidebar">
+<aside class="sidebar-nav span3">
   
     <section>
-  <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (11)</a></li><li><a href='/blog/categories/program'>Program (25)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li></ul>
+  <h2>Categories</h2>
+    <ul id="category-list">
+		<li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (12)</a></li><li><a href='/blog/categories/program'>Program (29)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li>
+	</ul>
 </section>
 <section>
-  <h1>Tag Cloud</h1>
-    <span id="tag-cloud"><embed type='application/x-shockwave-flash' src='/javascripts/tagcloud.swf'width='100%' height='250' bgcolor='#ffffff' id='tagcloudflash' name='tagcloudflash' quality='high' allowscriptaccess='always'flashvars="tcolor=0x333333&amp;tcolor2=0x333333&amp;hicolor=0x000000&amp;tspeed=100&amp;distr=true&amp;mode=tags&amp;tagcloud=%3Ctags%3E%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2F36kr%27+style%3D%27font-size%3A+14.666666666666666%25%27%3E36Kr%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2F3dprint%27+style%3D%27font-size%3A+14.666666666666666%25%27%3E3DPrint%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2F8-queen%27+style%3D%27font-size%3A+14.666666666666666%25%27%3E8-Queen%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Facf%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EACF%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fai%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EAI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Falize%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EAlize%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Falsa%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EALSA%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fann%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EANN%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fapi%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EAPI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fasr%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EASR%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fassert%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Eassert%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Faudio%27+style%3D%27font-size%3A+21.333333333333336%25%27%3EAudio%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fautoencoder%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EAutoEncoder%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbaochutower%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBaochuTower%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbci%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBCI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbios%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBIOS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbiovision%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBioVision%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fboltzmann%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBoltzmann%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbom%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBOM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbpnn%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EBPNN%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbsd%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EBSD%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fbuffer%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Ebuffer%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fc%27+style%3D%27font-size%3A+23.0%25%27%3EC%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcalm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECalm%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcloud%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECloud%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcnn%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECNN%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcochlea%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECochlea%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcompany%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECompany%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcompile%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECompile%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fconference%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EConference%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fconvex%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EConvex%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcorrelation%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECorrelation%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcovariance%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECovariance%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcrawler%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ECrawler%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fcrowdfunding%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ECrowdfunding%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdebug%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDebug%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdebug%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Edebug%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdeeplearning%27+style%3D%27font-size%3A+18.0%25%27%3EDeepLearning%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdevice%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDevice%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdfs%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDFS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdiy%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDIY%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdom%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDOM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdp%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EDP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fdragon%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EDragon%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Febm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EEBM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fefi%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EEFI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Femail%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EEmail%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Feulercircuit%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EEulerCircuit%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fexception%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EException%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ffflush%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Efflush%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ffft%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EFFT%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ffleaphp%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EFleaPHP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ffourier%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EFourier%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ffunction%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EFunction%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fgmm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EGMM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fgoogle%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EGoogle%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fgoto%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Egoto%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fgradientdescent%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EGradientDescent%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fhardware%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHardware%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fhealth%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHealth%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fheritrix%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHeritrix%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fhiking%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHiking%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fhopfield%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHopfield%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fhtk%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EHTK%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fhtml%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EHTML%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fidf%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIDF%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fidle%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Eidle%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fifly%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EiFly%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Finequality%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EInequality%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Finnovation%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EInnovation%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fintelligence%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIntelligence%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Finternet%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EInternet%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fio%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIO%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fip%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fit%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EIT%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fjensen%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EJensen%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fjulius%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EJulius%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fkernel%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EKernel%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fknowledge%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EKnowledge%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flearning%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ELearning%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flenet%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ELeNet%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flife%27+style%3D%27font-size%3A+23.0%25%27%3ELife%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flink%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ELink%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flinkedin%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ELinkedin%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flinux%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ELinux%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flongjmp%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Elongjmp%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flove%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ELove%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Flucene%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ELucene%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmachinelearning%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EMachineLearning%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmagicsquare%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMagicSquare%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmaker%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMaker%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmanagement%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EManagement%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmatlab%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EMatlab%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmatrix%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMatrix%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmfcc%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMFCC%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmicroblog%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMicroBlog%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmis%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMIS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fmotto%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EMotto%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fnap%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ENAP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fneural%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ENeural%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fneuralnetworks%27+style%3D%27font-size%3A+26.333333333333336%25%27%3ENeuralNetworks%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fnuance%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ENuance%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fnutch%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ENutch%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Foctpress%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOctpress%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fonline%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOnline%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Foptimization%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOptimization%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fos%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Foss%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EOSS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpagerank%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPageRank%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpain%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPain%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fparser%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EParser%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpca%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPCA%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpcm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPCM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fperceptron%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EPerceptron%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fphp%27+style%3D%27font-size%3A+24.666666666666664%25%27%3EPHP%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpitch%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EPitch%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpitchtracking%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPitchTracking%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fprim%27+style%3D%27font-size%3A+18.0%25%27%3EPrim%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fprint%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EPrint%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fprintf%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Eprintf%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fproduct%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EProduct%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fprofit%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EProfit%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fprograming%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EPrograming%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fprogramtest%27+style%3D%27font-size%3A+24.666666666666664%25%27%3EProgramTest%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fpython%27+style%3D%27font-size%3A+23.0%25%27%3EPython%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fquery%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EQuery%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fquicksort%27+style%3D%27font-size%3A+19.666666666666668%25%27%3EQuickSort%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Frat%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Erat%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fratbot%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ERatbot%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Frbm%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ERBM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Frecord%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ERecord%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Frepresentation%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ERepresentation%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Frobot%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Erobot%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Frwth%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ERWTH%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsafety%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESafety%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsapi%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESAPI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fselect%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESELECT%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsetjmp%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Esetjmp%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsignalprocess%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESignalProcess%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsnoopy%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESnoopy%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsnow%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESnow%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsns%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ESNS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsparsecoding%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESparseCoding%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fspeakerrecognition%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ESpeakerRecognition%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fspectrogram%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESpectrogram%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fspeech%27+style%3D%27font-size%3A+18.0%25%27%3ESpeech%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsphinx%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESphinx%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fspider%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESpider%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsports%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESports%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fspro%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESPro%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsql%27+style%3D%27font-size%3A+16.333333333333332%25%27%3ESQL%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fstack%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EStack%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fstartup%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EStartUp%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fstory%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EStory%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fstring%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EString%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsuccess%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESuccess%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fsvm%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESVM%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fswimming%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ESwimming%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ftechnic%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETechnic%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ftechnics%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETechnics%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ftimbre%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETimbre%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ftruth%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETruth%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Ftts%27+style%3D%27font-size%3A+14.666666666666666%25%27%3ETTS%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fucenter%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUCenter%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fui%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUI%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fuml%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EUML%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Funicode%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUnicode%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Funionfindset%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EUnionFindSet%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Funix%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUnix%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Futf8%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EUTF8%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fva-arg%27+style%3D%27font-size%3A+14.666666666666666%25%27%3Eva_arg%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvad%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVAD%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvalse%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVALSE%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvc%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVC%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fviavoice%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EviaVoice%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvision%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVision%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvisualstudio%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVisualStudio%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvolume%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EVolume%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fvpr%27+style%3D%27font-size%3A+16.333333333333332%25%27%3EVPR%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fwave%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EWave%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fwearable%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EWearable%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fweb%27+style%3D%27font-size%3A+18.0%25%27%3EWeb%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fwestlake%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EWestLake%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fwindows%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EWindows%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fyouth%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EYouth%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fzcr%27+style%3D%27font-size%3A+14.666666666666666%25%27%3EZCR%3C%2Fa%3E+%3Ca+href%3D%27http%3A%2F%2Fibillxia.github.io%2Fblog%2Ftags%2Fzju%27+style%3D%27font-size%3A+28.0%25%27%3EZJU%3C%2Fa%3E+%3C%2Ftags%3E"></span>
-</section>
-<section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
+  <h2>Tags</h2>
+  <ul class="tag-cloud">
+	<a style="font-size: 93%" href="/blog/tags/alize/">Alize</a>
+<a style="font-size: 137%" href="/blog/tags/audio/">Audio</a>
+<a style="font-size: 146%" href="/blog/tags/c/">C</a>
+<a style="font-size: 93%" href="/blog/tags/convex/">Convex</a>
+<a style="font-size: 112%" href="/blog/tags/deeplearning/">DeepLearning</a>
+<a style="font-size: 93%" href="/blog/tags/htk/">HTK</a>
+<a style="font-size: 146%" href="/blog/tags/life/">Life</a>
+<a style="font-size: 93%" href="/blog/tags/love/">Love</a>
+<a style="font-size: 93%" href="/blog/tags/machinelearning/">MachineLearning</a>
+<a style="font-size: 93%" href="/blog/tags/matlab/">Matlab</a>
+<a style="font-size: 159%" href="/blog/tags/neuralnetworks/">NeuralNetworks</a>
+<a style="font-size: 93%" href="/blog/tags/nuance/">Nuance</a>
+<a style="font-size: 153%" href="/blog/tags/php/">PHP</a>
+<a style="font-size: 112%" href="/blog/tags/prim/">Prim</a>
+<a style="font-size: 153%" href="/blog/tags/programtest/">ProgramTest</a>
+<a style="font-size: 93%" href="/blog/tags/programing/">Programing</a>
+<a style="font-size: 146%" href="/blog/tags/python/">Python</a>
+<a style="font-size: 126%" href="/blog/tags/quicksort/">QuickSort</a>
+<a style="font-size: 93%" href="/blog/tags/rbm/">RBM</a>
+<a style="font-size: 93%" href="/blog/tags/speakerrecognition/">SpeakerRecognition</a>
+<a style="font-size: 112%" href="/blog/tags/speech/">Speech</a>
+<a style="font-size: 93%" href="/blog/tags/uml/">UML</a>
+<a style="font-size: 93%" href="/blog/tags/vpr/">VPR</a>
+<a style="font-size: 112%" href="/blog/tags/web/">Web</a>
+<a style="font-size: 165%" href="/blog/tags/zju/">ZJU</a>
+
+  </ul>
+</section><section>
+    <h2>Recent Posts</h2>
+	<ul>
+    
+      <li class="post">
+        <a href="/blog/2014/04/28/configure-twitter-bootstrap-theme-in-octopress/">给Octopress博客配置Twitter Bootstrap主题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/24/next-permutation-and-analysis-of-its-stl-implementation/">全排列及某排列的后继的求解及其STL实现的分析</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/swap-two-variables-in-place/">原地交换两个变量的值</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/16/go-concurrent-programming-first-try/">Go并发编程初探</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/10/top-10-open-source-recommendation-systems/">TOP 10开源的推荐系统简介</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/03/01/koding-an-amazing-online-development-environment/">Koding——一个惊艳的在线编程开发平台</a>
@@ -771,57 +829,36 @@ int &hellip;">
         <a href="/blog/2013/10/30/why-web-companies-all-are-beginning-to-play-hardware-products/">互联网公司为什么都在玩硬件？</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it%27s-comparision/">Linux的OSS和ALSA声音系统简介及其比较</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language/">PCM WAVE格式详解及用C语言实现wave文件的读取</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog/">给Octpress博客添加返回顶部按钮</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/28/swimming-tutorial-with-gif-images/">蛙泳、自由泳、仰泳、蝶泳图解动画教你游泳</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/04/a-simple-code-for-wave-recording-using-windows-api/">用Windows API实现一个简单的录音程序</a>
-      </li>
-    
-  </ul>
+	</ul>
 </section>
 <section>
-  <h1>Recent Comments</h1>
-  <script type="text/javascript" src="http://ibillxia.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+  <h2>Recent Comments</h2>
+  <script type="text/javascript" src="http://ibillxia.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=22"></script>
+  <a href="http://disqus.com/">Powered by Disqus</a>
 </section>
 
 <section>
-  <h1>Sina Weibo</h1>
+  <h2>Sina Weibo</h2>
   <ul id="weibo">
-    <li>
-		<iframe 
-			width="100%" 
-			height="550" 
-			class="share_self"  
-			frameborder="0" 
-			scrolling="no" 
-			src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2704795533&verifier=9551ab13&dpc=1">
-		</iframe>
-	</li>
+	<iframe 
+		width="100%" 
+		height="550" 
+		class="share_self"  
+		frameborder="0" 
+		scrolling="no" 
+		src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2704795533&verifier=9551ab13&dpc=1">
+	</iframe>
   </ul>
 </section>
 
 <section>
 	<h2>Reading List</h2>
-	<div>
-		<script type="text/javascript" src="http://www.douban.com/service/badge/65527470/?show=collection&amp;n=16&amp;columns=4" ></script>
-	</div>
+	<ul>
+		<script type="text/javascript" src="http://www.douban.com/service/badge/65527470/?show=collection&amp;n=12&amp;columns=3" ></script>
+	</ul>
 </section>
 <section>
-  <h1>CC License</h1>
+  <h2>Copyleft</h2>
   <p align="center"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png"></a></p>
   <p>Except where otherwise noted, content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a></p>
 </section>
@@ -831,99 +868,15 @@ int &hellip;">
 
     </div>
   </div>
-  <footer role="contentinfo"><p id="footer" style="margin-bottom: 0em ">
-   <span class="credit" style="text-align: left;">Copyright &copy; 2009 - 2014   <a href="/about">Bill Xia</a>  
-	Powered by <a href="http://octopress.org">Octopress</a></span>
-  
-  <span style="float:right;">
-	  <a href="/">Home</a> | 
-	  <a href="/blog/archives">Archives</a> | 
-	  <a href="/about">About</a>
-  </span>
-</p>
-
-<p id = "back-top">
+  <footer role="contentinfo" class="page-footer"><p id = "back-top">
 	<a href="#top"><span></span>Back to Top</a>
 </p>
+<hr>
+<p>
+  Copyright &copy; 2009 - 2014 - <a href="http://about.me/ibillxia">Bill Xia</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> - Theme by <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> </span>
+</p>
 
-<style type="text/css">
-#back-top {
-	position: fixed;
-	bottom: 50px;
-	right: 100px;
-}
-
-#back-top a {
-	width: 80px;
-	display: block;
-	text-align: center;
-	font: 11px/100% Arial, Helvetica, sans-serif;
-	text-transform: uppercase;
-	text-decoration: none;
-	color: #bbb;
-
-	/* transition */
-	-webkit-transition: 1s;
-	-moz-transition: 1s;
-	transition: 1s;
-}
-#back-top a:hover {
-	color: #000;
-}
-
-/* arrow icon (span tag) */
-#back-top span {
-	width: 80px;
-	height: 80px;
-	display: block;
-	margin-bottom: 7px;
-	background: #ddd url(http://ibillxia.github.com/images/up-arrow.png) no-repeat center center;
-
-	/* rounded corners */
-	-webkit-border-radius: 15px;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
-
-	/* transition */
-	-webkit-transition: 1s;
-	-moz-transition: 1s;
-	transition: 1s;
-}
-
-#back-top a:hover span {
-	background-color: #888;
-}
-
-</style>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-
-	// hide #back-top first
-	$("#back-top").hide();
-	
-	// fade in #back-top
-	$(function () {
-		$(window).scroll(function () {
-			if ($(this).scrollTop() > 100) {
-				$('#back-top').fadeIn();
-			} else {
-				$('#back-top').fadeOut();
-			}
-		});
-
-		// scroll body to 0px on click
-		$('#back-top a').click(function () {
-			$('body,html').animate({
-				scrollTop: 0
-			}, 800);
-			return false;
-		});
-	});
-
-});
-</script>
 </footer>
   
 

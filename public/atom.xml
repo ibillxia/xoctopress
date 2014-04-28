@@ -4,7 +4,7 @@
   <title><![CDATA[Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:12:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -12,6 +12,1246 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[给Octopress博客配置Twitter Bootstrap主题]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/04/28/configure-twitter-bootstrap-theme-in-octopress/"/>
+    <updated>2014-04-28T22:37:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/04/28/configure-twitter-bootstrap-theme-in-octopress</id>
+    <content type="html"><![CDATA[<p>很长一段时间以来就看到各种基于 Twitter Bootstrap 主题的博客很清爽，而且对 Tag 的归档也做得很赞，于是很想将自己的博客也换成 Bootstrap 的主题，随着看到的博客越来越多，自己的 Octopress 主题先得越来越臃肿，而 Tags 归档功能也相形见绌，更换主题的欲望越来越强烈了。于是乎，趁这个周末捣鼓了一番，最终大功告成，在这里分享一下具体过程。</p>
+
+<h2>Bootstrap 主题的安装</h2>
+
+<p>首先下载适用于 Octopress 的 <a href="https://github.com/bkutil/bootstrap-theme">Bootstrap主题</a> 并解压缩到博客的 .theme 目录，然后安装：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake install['bootstrap']</span></code></pre></td></tr></table></div></figure>
+
+
+<p>安装的过程中可能会提示有 sass 或其他依赖库的语法错误神马的，这是因为 sass 的版本过低，可以通过如下命令来跟新：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle update sass</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<p>其他库的升级类推。升级完这些依赖后，要修改你的 Octopress 博客的根目录下的 Gemfile 中的版本说明。最后再重新运行上上条的 rake install 指令。这样就完成主体的安装了，是不是很简单（实际操作中遇到问题的话，一般都是 jekyll 等各种的库的版本及相互间的依赖问题，通过 bundle update 基本上都能搞定）。安装完了之后，可以运行 rake generate 和 rake preview 来看看效果了。</p>
+
+<h2>配置 Tags 归档</h2>
+
+<p>接下来是配置类似 <a href="http://ibillxia.github.io/blog/tags/">这种显示结果</a> 的 Tags 归档页面了。</p>
+
+<p>首先，需要安装 <a href="https://github.com/plusjade/jekyll-bootstrap">jekyll-bootstrap</a> 的一些东西，请先下载并解压。主要是 <em>includes/JB/ 目录下的内容，将 JB 文件夹拷贝到 $BLOG_HOME/source/</em>includes/ 目录下，还有 jekyll-bootstrap 根目录下的 tags.html 拷贝到你想展示 Tags 的目录，并在 _config.yml 文件中配置 tag_dir 项的值为该目录，例如我这里的配置是：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>tag_dir: blog/tags</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所以我的 tags.html 文件放在了 $BLOG_HOME/source/blog/tags 目录下，并将 tags.html 重命名为 index.html。</p>
+
+<p>这些配置好了后，你就可以先运行 rake generate 和 rake preview 来看看效果。可以发现 Tags 归档页的显示还是不太友好。那么我们需要加入一些自己的 css 样式。这里我参考了 pluskid 师兄的博客的 css 代码并略有修改，在我新建的 $BLOG_HOME/source/stylesheets/style.css 文件中加入如下代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* tag_box */
+</span><span class='line'>.tag_box {
+</span><span class='line'>  list-style:none;
+</span><span class='line'>  margin:0;
+</span><span class='line'>  padding:2px 0 ;
+</span><span class='line'>  overflow:hidden;
+</span><span class='line'>}
+</span><span class='line'>.tag_box li {
+</span><span class='line'>  line-height:20px;
+</span><span class='line'>  margin:0;
+</span><span class='line'>}
+</span><span class='line'>.tag_box.inline li {
+</span><span class='line'>  float:left;
+</span><span class='line'>  padding:2px 0 ;
+</span><span class='line'>}
+</span><span class='line'>.tag_box a {
+</span><span class='line'>  padding: 2px;
+</span><span class='line'>  margin: 2px;
+</span><span class='line'>  background: #eee;
+</span><span class='line'>  color:#005F6B;
+</span><span class='line'>  border-radius: 3px;
+</span><span class='line'>  text-decoration:none;
+</span><span class='line'>}
+</span><span class='line'>.tag_box a span{
+</span><span class='line'>  vertical-align:super;
+</span><span class='line'>  font-size:0.8em;
+</span><span class='line'>}
+</span><span class='line'>.tag_box a.active {
+</span><span class='line'>  background:#57A957;
+</span><span class='line'>  border:1px solid #4C964D;
+</span><span class='line'>  color:#FFF;
+</span><span class='line'>}
+</span><span class='line'>/* tag_box end */</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意，这里由于新加了 css 文件，要让其生效，需要在 html 模板中加入引用，具体我是在 $BLOG_HOME/source/_includes/head.html 文件中加入如下代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;link href="http://ibillxia.github.io/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css"&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你也可以直接在 html 模板中加入 css 代码而不用新建 css 文件并添加引用。</p>
+
+<p>至此，已经配置完成了 ^_^ 可以运行 rake generate 和 rake preview 来看看最终效果了。</p>
+
+<p>PS：本博客的主题及插件相关文件和代码可以看我的 GitHub Repo：<a href="https://github.com/ibillxia/xoctopress">xoctopress</a>. 如有问题，可以参考这些代码。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[全排列及某排列的后继的求解及其STL实现的分析]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/04/24/next-permutation-and-analysis-of-its-stl-implementation/"/>
+    <updated>2014-04-24T23:24:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/04/24/next-permutation-and-analysis-of-its-stl-implementation</id>
+    <content type="html"><![CDATA[<p>在Leetcode上有好几道全排列相关的题，一直以来只是会写基于递归的全排列生成算法，遇到这几道题后，搜了下一些非递归的实现方法，发现其实全排列的生成还是很有规律的有木有！这里就总结一下递归和非递归的全排列生成方法，并分析一下 STL 的实现。</p>
+
+<p>递归和非递归实现全排列生成的方法也分别有多种，递归法有基于交换的，有基于链接的，还有回溯，非递归法有排序、回溯、求模等，关于所有这些方法的具体实现参见 <a href="http://mengliao.blog.51cto.com/876134/824079">全排列的六种算法</a>. 本文只实现一种递归和一种非递归算法，并在最后对 STL 的非递归算法进行分析。</p>
+
+<h2>递归法求全排列</h2>
+
+<p>递归法的基本思路是这样的：</p>
+
+<blockquote><p>首先选一个元素排在第一个（有 n 中选法）；
+然后递归的对剩下的所有元素进行全排列；
+直到一个元素的全排列是其本身。</p></blockquote>
+
+<p>假设给定的元素序列为 &lt;e1, e2, &#8230;, en>，其全排列表示为 P(e1, e2, &#8230;, en)，则对递归的第一步展开有：</p>
+
+<blockquote><p>P(e1, e2, &#8230;, en) = {
+&lt;e1, P(e2, e3, &#8230;, en)>,
+&lt;e2, P(e1, e3, &#8230;, en)>,
+&#8230; &#8230;
+&lt;en, P(e1, e2, &#8230;, e(n-1))> }</p></blockquote>
+
+<!-- more -->
+
+
+<p> 一个简单的实现如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void recursive_permute(int A[],int i,int n){
+</span><span class='line'>  if(i==n-1){
+</span><span class='line'>      for(int j=0;j&lt;n;j++)
+</span><span class='line'>          cout&lt;&lt;A[j]&lt;&lt;" ";
+</span><span class='line'>      cout&lt;&lt;endl;
+</span><span class='line'>      return;
+</span><span class='line'>  }
+</span><span class='line'>  for(int j=i;j&lt;n;j++){
+</span><span class='line'>      swap(A[i],A[j]);  // choose A[j] as the ith element
+</span><span class='line'>      recursive_permute(A,i+1,n);
+</span><span class='line'>      swap(A[i],A[j]);  // reset to enter next for
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个实现非常精简易懂，但却存在一个问题，那就是当数组 A 中存在重复元素时，得到的排列是有重复的，这是因为在第8行的循环中，可能会选取重复的 A[j] 值。 为了去掉重复排列，我们可以在选取第 i 个数 A[j] 之前（即交换 A[i] 和 A[j] 之前），判断值为 A[j] 的元素是否选取过，即要判断在 A[i] 到 A[j-1] 中是否存在与 A[j] 相等的元素，如果出现过，说明 A[i] 选 A[j] 这个排列已经生成过了，可以直接跳过当前的 A[j] 看看是否可以选取 A[j+1] 作为 A[i] 了。比如上面的 e1 = e2，那么无重复的全排列应该是：</p>
+
+<blockquote><p>P(e1, e2, &#8230;, en) = {
+&lt;e1, P(e2, e3, &#8230;, en)>,
+&lt;e3, P(e1, e2, e4, &#8230;, en)>,
+&#8230; &#8230;
+&lt;en, P(e1, e2, &#8230;, e(n-1))> }</p></blockquote>
+
+<p>添加这个限制的递归实现代码如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void recursive_permute2(int A[],int i,int n){
+</span><span class='line'>  if(i==n-1){
+</span><span class='line'>      for(int j=0;j&lt;n;j++)
+</span><span class='line'>          cout&lt;&lt;A[j]&lt;&lt;" ";
+</span><span class='line'>      cout&lt;&lt;endl;
+</span><span class='line'>      return;
+</span><span class='line'>  }
+</span><span class='line'>  for(int j=i;j&lt;n;j++){
+</span><span class='line'>      int k;
+</span><span class='line'>      for(k=i;k&lt;j;k++)if(A[k]==A[j])break; // A[j] already used
+</span><span class='line'>      if(k&lt;j)continue;
+</span><span class='line'>      swap(A[i],A[j]);  // choose A[j] as the ith element
+</span><span class='line'>      recursive_permute2(A,i+1,n);
+</span><span class='line'>      swap(A[i],A[j]);  // reset to enter next for
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>至此，递归法实现全排列的求解就总结到这儿了，下面来看看非递归怎么实现。</p>
+
+<h2>非递归法求全排列</h2>
+
+<p>非递归法求全排列的一种最常用算法是基于字典序的全排列生成算法，其基本思路为，先解决生成一个序列在字典序下的下一个排列这个问题，然后利用这个来一次求解每一个排列。其中求解给定序列在字典序下的下一个排列序列的基本思想如下：</p>
+
+<blockquote><ol>
+<li>对于给定序列 &lt;e1, e2, &#8230;, en> 从右往左找到第一个非递增点，设下标为 i；</li>
+<li>从右往左查找第一个比 e[i] 大的数，设其下标为 j;</li>
+<li>交换 e[i] 和 e[j] 的值；</li>
+<li>将序列 e[i+1..n] 逆置。</li>
+</ol>
+</blockquote>
+
+<p>举个例子，如下图（修改自 <a href="http://fisherlei.blogspot.com/2012/12/leetcode-next-permutation.html">Next Permutation 解题报告</a> ）所示：</p>
+
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014042401.png"></center>
+
+
+<p>上面的说明已经很接近伪代码了，具体实现如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bool next_permute(int A[],int n){
+</span><span class='line'>  int i,j;
+</span><span class='line'>  // step .1
+</span><span class='line'>  if(n&lt;2)return false;
+</span><span class='line'>  for(i=n-2;i&gt;=0;i--){
+</span><span class='line'>      if(A[i]&lt;A[i+1])break;
+</span><span class='line'>  }
+</span><span class='line'>  if(i&lt;0)return false; // A[0] is maximum, no next permute for it
+</span><span class='line'>  // step .2
+</span><span class='line'>  for(j=n-1;j&gt;i;j--){
+</span><span class='line'>      if(A[j]&gt;A[i])break;
+</span><span class='line'>  }
+</span><span class='line'>  // step .3
+</span><span class='line'>  swap(A[i],A[j]);
+</span><span class='line'>  // step .4
+</span><span class='line'>  while(++i &lt; --n){
+</span><span class='line'>      swap(A[i],A[n]);
+</span><span class='line'>  }
+</span><span class='line'>  return true;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里将其返回值定义为 bool 类型，可以方便后面求解全排列时调用：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void non_recursive_permute(int A[],int n){
+</span><span class='line'>  sort(A,A+n);
+</span><span class='line'>  int i;
+</span><span class='line'>  do{
+</span><span class='line'>      for(i=0;i&lt;n;i++)cout&lt;&lt;A[i]&lt;&lt;" ";
+</span><span class='line'>      cout&lt;&lt;endl;
+</span><span class='line'>  }while(next_permute(A,n));
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面这个函数即实现了按字典序生成全排列的功能，而且对于输入含有重复值的情况，不会生成重复的排列。对于非递归实现，很容易分析其时间复杂度，next_permute 的时间复杂度为 O(n)，而 non_recursive_permute 的时间复杂度为 O(n*n!)。</p>
+
+<h2>STL 中 next permute 的实现</h2>
+
+<p>下面来分析一下 STL 中是如何实现 next permute 的，在 stl_algo.h 中我们可以找到 next_permutation 的实现，基本思路也是按照上面的四步走来实现的，具体见如下代码及注释：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> *  @brief  Permute range into the next @a dictionary ordering.
+</span><span class='line'> *  @ingroup sorting_algorithms
+</span><span class='line'> *  @param  first  Start of range.
+</span><span class='line'> *  @param  last   End of range.
+</span><span class='line'> *  @return  False if wrapped to first permutation, true otherwise.
+</span><span class='line'> *
+</span><span class='line'> *  Treats all permutations of the range as a set of @a dictionary sorted
+</span><span class='line'> *  sequences.  Permutes the current sequence into the next one of this set.
+</span><span class='line'> *  Returns true if there are more sequences to generate.  If the sequence
+</span><span class='line'> *  is the largest of the set, the smallest is generated and false returned.
+</span><span class='line'>*/
+</span><span class='line'>template&lt;typename _BidirectionalIterator&gt;
+</span><span class='line'>bool
+</span><span class='line'>next_permutation(_BidirectionalIterator __first,
+</span><span class='line'>                 _BidirectionalIterator __last)
+</span><span class='line'>{
+</span><span class='line'>    // concept requirements
+</span><span class='line'>    __glibcxx_function_requires(_BidirectionalIteratorConcept&lt;
+</span><span class='line'>                                _BidirectionalIterator&gt;)
+</span><span class='line'>    __glibcxx_function_requires(_LessThanComparableConcept&lt;
+</span><span class='line'>                                typename iterator_traits&lt;_BidirectionalIterator&gt;::value_type&gt;)
+</span><span class='line'>    __glibcxx_requires_valid_range(__first, __last);
+</span><span class='line'>
+</span><span class='line'>    if (__first == __last)  // 容器中没有元素，没有 next permute
+</span><span class='line'>        return false;
+</span><span class='line'>    _BidirectionalIterator __i = __first;
+</span><span class='line'>    ++__i;
+</span><span class='line'>    if (__i == __last)  // 容器中只有一个元素，同没有
+</span><span class='line'>        return false;
+</span><span class='line'>    __i = __last;
+</span><span class='line'>    --__i;  // 将 __i 指向最后一个元素
+</span><span class='line'>
+</span><span class='line'>    for(;;) {
+</span><span class='line'>        _BidirectionalIterator __ii = __i;  
+</span><span class='line'>        --__i;
+</span><span class='line'>        if (*__i &lt; *__ii) {  // step .1, 这里的 __i 就相当于上面step 1中的i
+</span><span class='line'>            _BidirectionalIterator __j = __last;
+</span><span class='line'>            while (!(*__i &lt; *--__j)) {  // step .2, 这里的 __j 就相当上面 step 2中的j
+</span><span class='line'>            }
+</span><span class='line'>            std::iter_swap(__i, __j);  // step .3 交换
+</span><span class='line'>            std::reverse(__ii, __last);  // step .4 逆置
+</span><span class='line'>            return true;
+</span><span class='line'>        }
+</span><span class='line'>        if (__i == __first) {  // 直到 __i = __first 还是没有 *__i &lt; *__ii ，说明序列是递减排列的
+</span><span class='line'>            std::reverse(__first, __last); // 本应该没有下一个排列，但这里将字典序中第一个排列作为最后一个排列的 next permute
+</span><span class='line'>            return false; // 这里返回 false 而不是 true
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里是用双向迭代器对容器中的元素进行操作的，一个调用的实例如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vector&lt;vector&lt;int&gt; &gt; permute(vector&lt;int&gt; &num) {
+</span><span class='line'>  vector&lt;vector&lt;int&gt; &gt; ans;
+</span><span class='line'>  sort(num.begin(),num.end());
+</span><span class='line'>  do{
+</span><span class='line'>      ans.push_back(num);
+</span><span class='line'>  }while(next_permutation(num.begin(),num.end()));
+</span><span class='line'>  return ans;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看到，其实 STL 的 next permute 的实现跟我们的非递归算法是一致的。但这里有两个问题：一是，这里看似有二重循环（在 for 中套 while ），但实际上复杂度是 n+n =》 O(n) 的（可以为什么要写成这种二重循环的形式捏？不解）；二是，我们可以看到在 for 循环中，对 __ii 这个变量进行了多次声明，为什么不将其声明放在 for 外面捏？（虽然待排列的元素数 n 不会很大，但这样多次声明一个迭代器变量，虽不会占用过多内存，但在声明时调用构造函数和析构函数也是有一定的时间开销的吧，虽然相对于求全排列的复杂度 O(n*n!) 几乎可以忽略不计）</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[原地交换两个变量的值]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/04/11/swap-two-variables-in-place/"/>
+    <updated>2014-04-11T22:27:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/04/11/swap-two-variables-in-place</id>
+    <content type="html"><![CDATA[<h2>引子</h2>
+
+<p>在码代码的过程中，不经意间就会遇到需要交换两个变量的情况，一般情况下都是通过新定义一个同类型的变量来中转，但自己也知道可以不用定义新变量直接原地交换，但具体如何原地交换以及其中可能隐藏的bug却了解得不是很清楚，于是乎google了一下，发现这里面还真是有很多学问呢，这里整理和总结一下。</p>
+
+<p>原地交换两个变量，最主要有加减法和异或法。</p>
+
+<p>本文完整代码链接：<a href="../upload/code/20140411.cpp">20140411.cpp</a></p>
+
+<h2>加减法</h2>
+
+<p>加减法最简单、最好理解了，设待交换的两个变量分别为 a 和 b ，首先将两者的和赋给 a ；然后将 a 与 b的差赋给 b ，这样 b 就是 a 原来的值了；最后再将 a 与 b 的差赋给 a ，这样 a 就是 b 原来的值了。具体代码如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>inline template &lt;class T&gt;
+</span><span class='line'>void xswap(T &a,T &b){
+</span><span class='line'>    a=a+b;
+</span><span class='line'>  //printf("a=%u\n",a);
+</span><span class='line'>    b=a-b;
+</span><span class='line'>    a=a-b;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<p>当然也可以先减后加：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>inline template &lt;class T&gt;
+</span><span class='line'>void xswap2(T &a,T &b){
+</span><span class='line'>    a=a-b;
+</span><span class='line'>  //printf("a=%u\n",a);
+</span><span class='line'>    b=a+b;
+</span><span class='line'>    a=b-a;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里实现的原理与先加后减类似。粗一看，这样实现两个变量的原地交换很简单有效。但是，这其中有一个很隐秘的bug，就是溢出的问题，在先加后减的实现中，如果 a 与 b 的和大于该类型的能表示的最大值，会发生神马捏？我写了一个 main 函数来简单的测试了一下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int main()
+</span><span class='line'>{
+</span><span class='line'>    unsigned char a=255,b=1;
+</span><span class='line'>    printf("a=%u,b=%u\n",a,b);
+</span><span class='line'>    xswap(a,b);
+</span><span class='line'>    printf("a=%u,b=%u\n",a,b);
+</span><span class='line'>    return 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>将上面的 xswap 函数中的注释取消，编译运行后（使用Code::Blocks 13.12 MinGW g++编译），得到如下输出：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>a=255,b=1
+</span><span class='line'>a=0
+</span><span class='line'>a=1,b=255</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看到其中第2行输出的 a 的值为 0，产生了上溢（如果 a , b 同为负，可能产生下溢）。虽然最后交换的结果还是对的，但溢出的部分可能对内存中其他变量产生不可预测的后果。因此，不建议这么实现原地交换两个变量，如果实在需要用这种方法，一定要在进行加或减之前，判断时候回产生溢出。</p>
+
+<h2>异或法</h2>
+
+<p>异或法的基本原理类似，但还利用了异或的如下两个特性： a ^ 0 = a, a ^ a = 0. 用异或来实现两个变量的交换如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>template &lt;class T&gt;
+</span><span class='line'>inline void xswap3(T &a,T &b){
+</span><span class='line'>    a=a^b;
+</span><span class='line'>    b=a^b;
+</span><span class='line'>    a=b^a;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由于异或是按位运算的，所以不存在溢出问题。因此，如果一定要原地实现两个变量的交换的话，建议用异或的方法。</p>
+
+<h2>原地交换多个变量</h2>
+
+<p>实际上，我们还可以利用上面的思想，将两个变量扩展到多个变量的原地交换，例如三个变量的交换：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>template &lt;class T&gt;
+</span><span class='line'>inline void swap3(T &a,T &b,T &c){
+</span><span class='line'>    a=a^b;
+</span><span class='line'>    b=a^b;
+</span><span class='line'>    a=b^a;
+</span><span class='line'>    b=b^c;
+</span><span class='line'>    c=b^c;
+</span><span class='line'>    b=b^c;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>即先交换 a 和 b，再交换 b (=a) 和 c。另外，上面的式子可以简化和压缩到一个式子，具体的技巧读者可以自行google，这里不提倡这么做。</p>
+
+<h2>STL是如何实现swap的</h2>
+
+<p>最后，我们来看看STL标准库是如何实现swap的（这里的实现版本是 move.h 文件中的一个，在 STL 中还有针对 vector, string, tree, map, multimap, deque 的 swap 函数）。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'>*  @brief Swaps two values.
+</span><span class='line'>*  @ingroup mutating_algorithms
+</span><span class='line'>*  @param  __a  A thing of arbitrary type.
+</span><span class='line'>*  @param  __b  Another thing of arbitrary type.
+</span><span class='line'>*  @return   Nothing.
+</span><span class='line'>*/
+</span><span class='line'>template&lt;typename _Tp&gt;
+</span><span class='line'>inline void
+</span><span class='line'>swap(_Tp& __a, _Tp& __b)
+</span><span class='line'>{
+</span><span class='line'>  // concept requirements
+</span><span class='line'>  __glibcxx_function_requires(_SGIAssignableConcept&lt;_Tp&gt;)
+</span><span class='line'>
+</span><span class='line'>  _Tp __tmp = _GLIBCXX_MOVE(__a);
+</span><span class='line'>  __a = _GLIBCXX_MOVE(__b);
+</span><span class='line'>  __b = _GLIBCXX_MOVE(__tmp);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看到，这里新声明了一个变量 __tmp 来中转。至于为什么没有原地进行交换，一个可能的解释是：对于 inline 函数来说，函数调用的代码会直接被改函数体替换，再经过编译优化，最后可能只需要借助一个寄存器变量就可以实现两个变量的交换了，这是非常快的，与通过按位的异或运算的实现，在性能上区别不是太大。</p>
+
+<h2>update</h2>
+
+<p>关于溢出的更深入的讨论，可以看看陈浩的最新博文 <a href="http://coolshell.cn/articles/11466.html">C语言的整型溢出问题</a> . 这里面有提到溢出的几个危害，还有关于 C 语言标准、编译器对溢出是如何处理和对待的，以及如何写代码实现预先判断溢出。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Go并发编程初探]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/03/16/go-concurrent-programming-first-try/"/>
+    <updated>2014-03-16T23:35:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/03/16/go-concurrent-programming-first-try</id>
+    <content type="html"><![CDATA[<h2>概述</h2>
+
+<p>最近在做的一个项目，需要对大量数据进行一些基本的统计和处理，整个程序的思路很简单，但处理起来却很慢，特别是有二重循环的地方，龟速前进，眼看着16核32线程
+的服务器只有一个线程被利用，束手无策。之前一直听说Go是一门对并发编程有很好的支持的语言，七牛的许牛大力推崇Go语言，于是就开始了对Go并行编程的探索之旅。</p>
+
+
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014031601.jpg"></center>
+
+
+
+
+<!--more-->
+
+
+
+
+<h2>一些准备工作</h2>
+
+
+<p>在正式开始Go并行编程之前，首先我们需要准备Go的编程开发环境：Go编译器、Go编辑器。</br>
+在<a href="http://golang.org/">golang的官网</a>上有go的下载链接：</br>
+<a href="http://code.google.com/p/go/downloads/list">http://code.google.com/p/go/downloads/list</a></br>
+我选择的是go1.2.1.windows-amd64.msi安装包，下载完后直接点击该安装包，按照默认选项安装即可。安装完后，可以在命令行中查看go版本以检查是否安装成功：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\Users\Bill&gt;go version
+</span><span class='line'>go version go1.2.1 windows/amd64</span></code></pre></td></tr></table></div></figure>
+
+然后，我们需要安装一个用于Go开发的IDE。当然也可以用通用的文本编辑器就可以，比如notepad、vi等，但这都是一些轻量级的，对于初学者来说还是不太合适的。
+网上有很多推荐的IDE，主要有LiteIDE、Eclipse+Goclipse、GoIde等，以及vim/emacs搭配go插件等，这里我选择的是LiteIDE，下载地址：</br>
+<a href="http://sourceforge.net/projects/liteide/files/x21/">http://sourceforge.net/projects/liteide/files/x21/</a></br>
+下载安装后，我们就可以开始go编程了。可以先运行一个Hello world程序，这里就不演示了，具体见：<a href="http://tour.golangtc.com/#1">Go 指南</a>
+</p>
+
+
+
+
+<p>关于Go的一些特性的介绍这里也不讲了，有兴趣的可以移步酷壳的这两篇文章<a href="http://coolshell.cn/articles/8460.html">Go 语言简介（上）— 语法</a> 
+和 <a href="http://coolshell.cn/articles/8489.html">Go 语言简介（下）— 特性</a>。下面我们直接进入Go并发编程。</p>
+
+
+
+
+<h2>Go并发编程</h2>
+
+
+<h4>#0x01.goroutine</h4>
+
+
+<p>优雅的并发编程范式，完善的并发支持，出色的并发性能是Go语言区别于其他语言的一大特色。在Go中，通过一种叫做goroutine的go协程这种轻量级线程来支持
+并发编程范式。协程是比进程和线程更轻量级的线程，go语言标准库提供的所有系统调用操作都会出让CPU给其他goroutine，协程的切换管理不依赖于系统的线程和
+进程，也不依赖于CPU的核心数量。下面我们来看一个简单的goroutine的实例。
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package main
+</span><span class='line'>
+</span><span class='line'>import "fmt"
+</span><span class='line'>
+</span><span class='line'>func main() {
+</span><span class='line'>  arr := [10]int{}
+</span><span class='line'>  for i := 0; i &lt; 10; i++ {
+</span><span class='line'>      fmt.Print("Result of ", i, ":")
+</span><span class='line'>      go func() {
+</span><span class='line'>          arr[i] = i + i*i
+</span><span class='line'>          fmt.Println(arr[i])
+</span><span class='line'>      }()
+</span><span class='line'>  }
+</span><span class='line'>  fmt.Println("Done")
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+Go从main package的main()函数开始执行，这段代码的功能是计算arr[i]=i+i*i，其中i取值从0到9，每一个i计算完后立即输出。其中go为golang的关键字，启动
+一个协程（goroutine）。程序的运行的结果是什么呢？我们期望的结果应该是这样的吧：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Result of 0:0
+</span><span class='line'>Result of 1:2
+</span><span class='line'>Result of 2:6
+</span><span class='line'>Result of 3:12
+</span><span class='line'>Result of 4:20
+</span><span class='line'>Result of 5:30
+</span><span class='line'>Result of 6:42
+</span><span class='line'>Result of 7:56
+</span><span class='line'>Result of 8:72
+</span><span class='line'>Result of 9:90
+</span><span class='line'>Done</span></code></pre></td></tr></table></div></figure>
+
+可是在LiteIDE中运行后，却会发现结果是这样子的：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Result of 0:Result of 1:Result of 2:Result of 3:Result of 4:Result of 5:Result of 6:Result of 7:Result of 8:Result of 9:Done</span></code></pre></td></tr></table></div></figure>
+
+这是为神马捏？怎么第9~12行的go func(){&#8230;}() 这段代码好像更笨就没有执行嘛？！莫非这是golang的bug？</p>
+
+
+
+
+<p>其实，这与golang的程序执行顺序有关。go程序从初始化main package并执行main()函数开始，当main()函数返回时，程序退出，且程序并不等待其他goroutine
+（非主goroutine）结束。于是上面的程序中，主函数虽然启动了10gegoroutine，但都没来得及执行，程序就已经退出了。那么怎么解决这个问题捏？很显然，我们
+在退出程序之前，需要判断这些创建的goroutine执行完了没。我们可以用一个全局变量来计数执行了的协程数，如果计数变量小于10，我们就等待或sleep。</p>
+
+
+
+
+<h4>#0x02.并发通讯</h4>
+
+
+<p>等一等，多个协程读写同一个变量，我们是不是需要对这个变量枷锁呀？答案是肯定的，我们可以采用类似与C/C++的线程通讯、数据共享的思路来实现，如下：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package main
+</span><span class='line'>
+</span><span class='line'>import (
+</span><span class='line'>  "fmt"
+</span><span class='line'>  "runtime"
+</span><span class='line'>  "sync"
+</span><span class='line'>)
+</span><span class='line'>
+</span><span class='line'>func main() {
+</span><span class='line'>  var cnt int = 0  // 全局计数器
+</span><span class='line'>  mylock := &sync.Mutex{}  // 互斥锁
+</span><span class='line'>  arr := [10]int{}
+</span><span class='line'>  for i := 0; i &lt; 10; i++ {
+</span><span class='line'>      fmt.Print("Result of ", i, ":")
+</span><span class='line'>      go func() {
+</span><span class='line'>          arr[i] = i + i*i
+</span><span class='line'>          fmt.Println(arr[i])
+</span><span class='line'>          mylock.Lock() // 写之前枷锁
+</span><span class='line'>          cnt++
+</span><span class='line'>          mylock.Unlock() // 写之后释放锁
+</span><span class='line'>      }()
+</span><span class='line'>  }
+</span><span class='line'>  for {
+</span><span class='line'>      mylock.Lock() // 读之前枷锁
+</span><span class='line'>      temp := cnt
+</span><span class='line'>      mylock.Unlock() // 读之后释放锁
+</span><span class='line'>      runtime.Gosched() // 协程切换
+</span><span class='line'>      if temp &gt;= 10 {
+</span><span class='line'>          break
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>  fmt.Println("Done")
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+执行以上程序，应该能够得到我们之前预期的那样的结果吧？可以运行之后，我们发现，结果却是这样的：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Result of 0:Result of 1:Result of 2:Result of 3:Result of 4:Result of 5:Result of 6:Result of 7:Result of 8:Result of 9:panic: runtime error: index out of range
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+出现了运行时错误，数组下表越界了？！第17行还是没有输出？！经过一番修改，得到如下代码：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package main
+</span><span class='line'>
+</span><span class='line'>import (
+</span><span class='line'>  "fmt"
+</span><span class='line'>  "runtime"
+</span><span class='line'>  "sync"
+</span><span class='line'>)
+</span><span class='line'>
+</span><span class='line'>func main() {
+</span><span class='line'>  var cnt int = 0  // 全局计数器
+</span><span class='line'>  mylock := &sync.Mutex{}  // 互斥锁
+</span><span class='line'>  arr := [11]int{}
+</span><span class='line'>  for i := 0; i &lt; 10; i++ {
+</span><span class='line'>      go func() {
+</span><span class='line'>          arr[i] = i + i*i
+</span><span class='line'>          mylock.Lock() // 写之前枷锁
+</span><span class='line'>          cnt++
+</span><span class='line'>          mylock.Unlock() // 写之后释放锁
+</span><span class='line'>      }()
+</span><span class='line'>  }
+</span><span class='line'>  for {
+</span><span class='line'>      mylock.Lock() // 读之前枷锁
+</span><span class='line'>      temp := cnt
+</span><span class='line'>      mylock.Unlock() // 读之后释放锁
+</span><span class='line'>      runtime.Gosched() // 协程切换
+</span><span class='line'>      if temp &gt;= 10 {
+</span><span class='line'>          break
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>  for i := 0; i &lt; 11; i++ {
+</span><span class='line'>      fmt.Println("Result of ", i, ":", arr[i])
+</span><span class='line'>  }
+</span><span class='line'>  fmt.Println("Done")
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+这下应该能得到预期的结果了吧。可以运行程序后，有傻眼了，结果是：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Result of  0 : 0
+</span><span class='line'>Result of  1 : 0
+</span><span class='line'>Result of  2 : 0
+</span><span class='line'>Result of  3 : 0
+</span><span class='line'>Result of  4 : 0
+</span><span class='line'>Result of  5 : 0
+</span><span class='line'>Result of  6 : 0
+</span><span class='line'>Result of  7 : 0
+</span><span class='line'>Result of  8 : 0
+</span><span class='line'>Result of  9 : 0
+</span><span class='line'>Result of  10 : 110
+</span><span class='line'>Done</span></code></pre></td></tr></table></div></figure>
+
+神马？arr[0]~arr[9]肿么都是0，肿么会冒出一个arr[10]=110？！即使把第15、16行顺序互换，得到的结果还是一样！！！这真是一场噩梦啊！！！仔细对比许书上的例子，
+我们发现，这里使用的是匿名函数创建协程，匿名函数中使用了全局的变量，而每次使用go关键字创建协程后，程序不是继续往下执行，而是继续返回到for这一行来执行，首先i++，
+然后判断i<10，成立就继续执行并创建协程，10个协程创建完了之后，才真正开始匿名函数的执行，而此时i已经是10了，对于每一个协程i都是10，因此最终只计算了一个arr[10]=110，
+这也是为什么申请10个单位的数组时会出现运行时错误。而这完全不是我们所要的结果，那么怎么办呢？我们不妨用带参数的匿名函数来试试？如下：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package main
+</span><span class='line'>
+</span><span class='line'>import (
+</span><span class='line'>  "fmt"
+</span><span class='line'>  "runtime"
+</span><span class='line'>  "sync"
+</span><span class='line'>)
+</span><span class='line'>
+</span><span class='line'>func main() {
+</span><span class='line'>  var cnt int = 0  // 全局计数器
+</span><span class='line'>  mylock := &sync.Mutex{}  // 互斥锁
+</span><span class='line'>  arr := [11]int{}
+</span><span class='line'>  for i := 0; i &lt; 10; i++ {
+</span><span class='line'>      go func(i int) { // 这里的i是形参
+</span><span class='line'>          arr[i] = i + i*i
+</span><span class='line'>          mylock.Lock() // 写之前枷锁
+</span><span class='line'>          cnt++
+</span><span class='line'>          mylock.Unlock() // 写之后释放锁
+</span><span class='line'>      }(i) // 这里的i是实参
+</span><span class='line'>  }
+</span><span class='line'>  for {
+</span><span class='line'>      mylock.Lock() // 读之前枷锁
+</span><span class='line'>      temp := cnt
+</span><span class='line'>      mylock.Unlock() // 读之后释放锁
+</span><span class='line'>      runtime.Gosched() // 协程切换
+</span><span class='line'>      if temp &gt;= 10 {
+</span><span class='line'>          break
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>  for i := 0; i &lt; 11; i++ {
+</span><span class='line'>      fmt.Println("Result of ", i, ":", arr[i])
+</span><span class='line'>  }
+</span><span class='line'>  fmt.Println("Done")
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+终于，我们总算得到了想要的结果了，经过不懈努力终于大功告成。这里没创建一个协程，都有一个实参值传给形参，在匿名函数中就不存在共享的全局变量i了。
+然而，在让我们回头看看我们的代码，却会发现，这与一般的多线程程序有什么区别的，而且写起来会感觉更麻烦，有过之而无不及啊！</p>
+
+
+
+
+<p>想象一下，在一个大的系统中具有无数的锁、无数的共享变量、无数的业务逻辑与错误处理分支，那将是一场噩梦。这噩梦就是众多C/C++开发者正在经历的，其实Java和C#开发
+者也好不到哪里去。Go语言既然以并发编程作为语言的最核心优势，当然不至于将这样的问题用这么无奈的方式来解决。Go语言提供的是另一种通信模型，即以消息机制而非共享
+内存作为通信方式。</p>
+
+
+
+
+<h4>#0x03.channel</h4>
+
+
+<p>Go语言提供的消息通信机制被称为channel，接下来我们将详细介绍channel。现在，让我们用Go语言社区的那句著名的口号来开始这一小节： </br>
+<blockquote><p>不要通过共享内存来通信，而应该通过通信来共享内存。</p></blockquote>
+channel是Go语言在语言级别提供的goroutine间的通信方式，可以使用channel在两个或多个goroutine之间传递消息。channel是进程内的通信方式，因此通过channel传递
+对象的过程和调用函数时的参数传递行为比较一致，比如也可以传递指针等。如果需要跨进程通信，建议用分布式系统的方法来解决，比如使用Socket或者HTTP等通信协议。
+channel是类型相关的。也就是说，一个channel只能传递一种类型的值，这个类型需要在声明channel时指定。我们先看下用channel的方式重写上面的例子是什么样子的
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package main
+</span><span class='line'>
+</span><span class='line'>import "fmt"
+</span><span class='line'>
+</span><span class='line'>func main() {
+</span><span class='line'>  chs := make([]chan int, 10) // 申请一个10维的channel数组
+</span><span class='line'>  arr := [11]int{}
+</span><span class='line'>  for i := 0; i &lt; 10; i++ {
+</span><span class='line'>      chs[i] = make(chan int) // 对每个channel初始化
+</span><span class='line'>      go func(ch chan int, i int) {
+</span><span class='line'>          arr[i] = i + i*i
+</span><span class='line'>          ch &lt;- 1  // 写channel，应该在函数体的最后一行，许书（P94，代码清单4-4）上有bug
+</span><span class='line'>      }(chs[i], i)
+</span><span class='line'>  }
+</span><span class='line'>  for _, ch := range chs {
+</span><span class='line'>      &lt;-ch // 读channel
+</span><span class='line'>  }
+</span><span class='line'>  for i := 0; i &lt; 11; i++ {
+</span><span class='line'>      fmt.Println("Result of ", i, ":", arr[i])
+</span><span class='line'>  }
+</span><span class='line'>  fmt.Println("Done")
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+在这段代码中，我们给每个goroutine分配了一个channel，在每个goroutine执行完时对该goroutine的channel进行写操作，而在第16行进行读操作，对于每个channel，
+只有完成了写操作之后，才可以进行读取，否则会处于阻塞状态。因此在10个goroutine没有执行完之前，main函数是不会退出的。这样是不是比共享内存的方式更简单
+而优雅呢？其实，我们还可以对代码继续进行简化，可以将匿名函数的传递的channel参数省去，而在匿名函数内部直接使用全局的chs[i]，匿名函数可以修改为如下：
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>go func(i int) {
+</span><span class='line'>  arr[i] = i + i*i
+</span><span class='line'>  chs[i] &lt;- 1  // 写channel
+</span><span class='line'>}(i)</span></code></pre></td></tr></table></div></figure>
+
+</p>
+
+
+
+
+<p>到这里，go的并行编程基本已经入门了，关于channel的更多详细的用法可以参见参考资料。</p>
+
+
+
+
+<h2>参考资料</h2>
+
+
+<p>[1] golang 官方主页：<a href="http://golang.org/">http://golang.org/</a></br>
+[2] go语言编程，许世伟
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TOP 10开源的推荐系统简介]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/03/10/top-10-open-source-recommendation-systems/"/>
+    <updated>2014-03-10T22:29:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/03/10/top-10-open-source-recommendation-systems</id>
+    <content type="html"><![CDATA[<p>最近这两年推荐系统特别火，本文搜集整理了一些比较好的开源推荐系统，即有轻量级的适用于做研究的SVDFeature、LibMF、LibFM等，也有重量级的适用于工业系统的
+Mahout、Oryx、EasyRecd等，供大家参考。PS：这里的top 10仅代表个人观点。</p>
+
+
+<h2>#1.SVDFeature</h2>
+
+
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014031001.png"></center>
+
+
+<p>主页：<a href="http://svdfeature.apexlab.org/wiki/Main_Page">http://svdfeature.apexlab.org/wiki/Main_Page</a> 语言：C++</br>
+一个feature-based协同过滤和排序工具，由上海交大Apex实验室开发，代码质量较高。在KDD Cup 2012中获得第一名，KDD Cup 2011中获得第三名，相关论文
+发表在2012的JMLR中，这足以说明它的高大上。</br>
+SVDFeature包含一个很灵活的Matrix Factorization推荐框架，能方便的实现SVD、SVD++等方法, 是单模型推荐算法中精度最高的一种。SVDFeature代码精炼，可以用
+相对较少的内存实现较大规模的单机版矩阵分解运算。另外含有Logistic regression的model，可以很方便的用来进行ensemble。</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<h2>#2.LibMF</h2>
+
+
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014031002.gif"></center>
+
+
+<p>主页：<a href="http://www.csie.ntu.edu.tw/~cjlin/libmf/">http://www.csie.ntu.edu.tw/~cjlin/libmf/</a> 语言：C++</br>
+作者<a href="http://www.csie.ntu.edu.tw/~cjlin/">Chih-Jen Lin</a>来自大名鼎鼎的台湾国立大学，他们在机器学习领域享有盛名，近年连续多届KDD Cup竞赛上均
+获得优异成绩，并曾连续多年获得冠军。台湾大学的风格非常务实，业界常用的LibSVM， Liblinear等都是他们开发的，开源代码的效率和质量都非常高。</br>
+LibMF在矩阵分解的并行化方面作出了很好的贡献，针对SGD（随即梯度下降）优化方法在并行计算中存在的locking problem和memory discontinuity问题，提出了一种
+矩阵分解的高效算法FPSGD（Fast Parallel SGD），根据计算节点的个数来划分评分矩阵block，并分配计算节点。系统介绍可以见这篇
+<a href="http://www.csie.ntu.edu.tw/~cjlin/papers/libmf.pdf">论文</a>（ACM Recsys 2013的 Best paper Award）。</p>
+
+
+
+
+<h2>#3.LibFM</h2>
+
+
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014031003.jpg"></center>
+
+
+<p>主页：<a href="http://www.libfm.org/">http://www.libfm.org/</a> 语言：C++</br>
+作者是德国Konstanz大学的Steffen Rendle，他用LibFM同时玩转KDD Cup 2012 Track1和Track2两个子竞赛单元，都取得了很好的成绩，说明LibFM是非常管用的利器。</br>
+LibFM是专门用于矩阵分解的利器，尤其是其中实现了MCMC（Markov Chain Monte Carlo）优化算法，比常见的SGD优化方法精度要高，但运算速度要慢一些。当然LibFM中还
+实现了SGD、SGDA（Adaptive SGD）、ALS（Alternating Least Squares）等算法。</p>
+
+
+
+
+<h2>#4.Lenskit</h2>
+
+
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014031004.png"></center>
+
+
+<p>主页：<a href="http://lenskit.grouplens.org/">http://lenskit.grouplens.org/</a> 语言Java</br>
+<p>这个Java开发的开源推荐系统，来自美国的明尼苏达大学的GroupLens团队，也是推荐领域知名的测试数据集Movielens的作者。</br>
+该源码托管在GitHub上，<a href="https://github.com/grouplens/lenskit">https://github.com/grouplens/lenskit</a>。主要包含lenskit-api,lenskit-core,
+lenskit-knn,lenskit-svd,lenskit-slopone,lenskit-parent,lenskit-data-structures,lenskit-eval,lenskit-test等模块，主要实现了k-NN，SVD，Slope-One等
+典型的推荐系统算法。</p>
+
+<h2>#5.GraphLab</h2>
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014031005.png"></center>
+<p>主页：<a href="http://docs.graphlab.org/collaborative_filtering.html">GraphLab - Collaborative Filtering</a> 语言：C++</br>
+Graphlab是基于C++开发的一个高性能分布式graph处理挖掘系统，特点是对迭代的并行计算处理能力强（这方面是hadoop的弱项），由于功能独到，GraphLab在业界名声很响。
+用GraphLab来进行大数据量的random walk或graph-based的推荐算法非常有效。Graphlab虽然名气比较响亮（CMU开发），但是对一般数据量的应用来说可能还用不上。</br>
+GraphLab主要实现了ALS，CCD++，SGD，Bias-SGD，SVD++，Weighted-ALS，Sparse-ALS，Non-negative Matrix Factorization，Restarted Lanczos Algorithm等算法。</p>
+
+<h2>#6.Mahout</h2>
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014031006.png"></center>
+<p>主页：<a href="http://mahout.apache.org/">http://mahout.apache.org/</a> 语言：Java</br>
+Mahout 是 Apache Software Foundation (ASF) 开发的一个全新的开源项目，其主要目标是创建一些可伸缩的机器学习算法，供开发人员在 Apache 在许可下免费
+使用。Mahout项目是由 Apache Lucene社区中对机器学习感兴趣的一些成员发起的，他们希望建立一个可靠、文档翔实、可伸缩的项目，在其中实现一些常见的用于
+聚类和分类的机器学习算法。该社区最初基于 Ngetal. 的文章 “Map-Reduce for Machine Learning on Multicore”，但此后在发展中又并入了更多广泛的机器学习
+方法，包括Collaborative Filtering（CF），Dimensionality Reduction，Topic Models等。此外，通过使用 Apache Hadoop 库，Mahout 可以有效地扩展到云中。</br>
+在Mahout的Recommendation类算法中，主要有User-Based CF，Item-Based CF，ALS，ALS on Implicit Feedback，Weighted MF，SVD++，Parallel SGD等。</p>
+
+<h2>#7.Myrrix</h2>
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014031007.png"></center>
+<p>主页：<a href="http://myrrix.com/">http://myrrix.com/</a> 语言：Java</br>
+Myrrix最初是Mahout的作者之一Sean Owen基于Mahout开发的一个试验性质的推荐系统。目前Myrrix已经是一个完整的、实时的、可扩展的集群和推荐系统，主要
+架构分为两部分：服务层：在线服务，响应请求、数据读入、提供实时推荐；计算层：用于分布式离线计算，在后台使用分布式机器学习算法为服务层更新机器学习
+模型。Myrrix使用这两个层构建了一个完整的推荐系统，服务层是一个HTTP服务器，能够接收更新，并在毫秒级别内计算出更新结果。服务层可以单独使用，无需
+计算层，它会在本地运行机器学习算法。计算层也可以单独使用，其本质是一系列的Hadoop jobs。目前Myrrix以被 Cloudera 并入Oryx项目。</p>
+
+<h2>#8.EasyRec</h2>
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014031008.png"></center>
+<p>主页：<a href="http://easyrec.org/">http://easyrec.org/</a> 语言：Java</br>
+EasyRec是一个易集成、易扩展、功能强大且具有可视化管理的推荐系统，更像一个完整的推荐产品，包括了数据录入模块、管理模块、推荐挖掘、离线分析等。
+EasyRec可以同时给多个不同的网站提供推荐服务，通过tenant来区分不同的网站。架设EasyRec服务器，为网站申请tenant，通过tenant就可以很方便的集成到
+网站中。通过各种不同的数据收集（view,buy.rating）API收集到网站的用户行为，EasyRec通过离线分析，就可以产生推荐信息，您的网站就可以通过
+Recommendations和Community Rankings来进行推荐业务的实现。</p>
+
+<h2>#9.Waffles</h2>
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014031009.png"></center>
+<p>主页：<a href="http://waffles.sourceforge.net/">http://waffles.sourceforge.net/</a> 语言：C++</br>
+Waffles英文原意是蜂蜜甜饼，在这里却指代一个非常强大的机器学习的开源工具包。Waffles里包含的算法特别多，涉及机器学习的方方面面，推荐系统位于
+其中的Waffles_recommend tool，大概只占整个Waffles的1/10的内容，其它还有分类、聚类、采样、降维、数据可视化、音频处理等许许多多工具包，估计
+能与之媲美的也就数Weka了。</p>
+
+<h2>#10.RapidMiner</h2>
+<center><img src="http://ibillxia.github.io/images/2014/IMAG2014031010.png"></center>
+<p>主页：<a href="http://rapidminer.com/">http://rapidminer.com/</a> 语言：Java</br>
+RapidMiner（前身是Yale）是一个比较成熟的数据挖掘解决方案，包括常见的机器学习、NLP、推荐、预测等方法（推荐只占其中很小一部分），而且带有GUI的
+数据分析环境，数据ETL、预处理、可视化、评估、部署等整套系统都有。另外RapidMiner提供commercial license，提供R语言接口，感觉在向着一个商用的
+数据挖掘公司的方向在前进。</br>
+======================================分割线======================================</p>
+
+<p>开源的推荐系统大大小小的还有很多，以上只是介绍了一些在学术界和工业界比较流行的TOP 10，而且基本上都是用C++/Java实现的，在参考资料[1]、[2]中还提
+到的有Crab（Python）、CofiRank（C++）、MyMediaLite（.NET/C#）、PREA（Java）、Python-recsys（Python）、Recommendable（Ruby）、Recommenderlab（R）、
+Oryx（Java）、recommendify（Ruby）、RecDB（SQL）等等，当然GitHub上还有更多。。。即有适合单机运行的，也有适合集群的。虽然使用的编程语言不同，但实现
+的算法都大同小异，主要是SVD、SGD、ALS、MF、CF及其改进算法等。</p>
+
+<h2>参考资料</h2>
+<p>[1]<a href="http://blog.csdn.net/cserchen/article/details/14231153">推荐系统开源软件列表汇总和点评</a></br>
+[2]<a href="http://www.oschina.net/search?scope=project&tag1=0&tag2=0&lang=0&os=0&q=%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F">开源中国社区 - 搜索：推荐系统</a>
+</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Koding——一个惊艳的在线编程开发平台]]></title>
@@ -1345,9 +2585,9 @@ inWatch智能腕表：提供时间、音乐、上网、拨打电话等功能，�
   
   <entry>
     <title type="html"><![CDATA[Linux的OSS和ALSA声音系统简介及其比较]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it%27s-comparision/"/>
+    <link href="http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-its-comparision/"/>
     <updated>2013-09-08T19:46:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it&#8217;s-comparision</id>
+    <id>http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-its-comparision</id>
     <content type="html"><![CDATA[<h2>概述</h2>
 
 
@@ -3460,582 +4700,6 @@ import进来，因为ms与numpy的版本有冲突，出现了什么“numpy.dtyp
 [1]Pitch (音高): http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/basicFeaturePitch.asp</br>
 [2]Wiki： http://zh.wikipedia.org/wiki/音高
 </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[语音信号处理之时域分析-过零率及其Python实现]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/05/15/audio-signal-processing-time-domain-ZeroCR-python-realization/"/>
-    <updated>2013-05-15T21:44:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/05/15/audio-signal-processing-time-domain-ZeroCR-python-realization</id>
-    <content type="html"><![CDATA[<h2>过零率（Zero Crossing Rate）</h2>
-
-
-<p>概念：过零率（Zero Crossing Rate，ZCR）是指在每帧中，语音信号通过零点（从正变为负或从负变为正）的次数。
-这个特征已在语音识别和音乐信息检索领域得到广泛使用，是对敲击的声音的分类的关键特征。</p>
-
-
-
-
-<p>ZCR的数学形式化定义为：
-<center>$zcr = \frac{1}{T-1}\sum_{t=1}^{T-1}\pi\{s_{t}s_{t-1}<0\}$.</center>
-其中$s$是采样点的值，$T$为帧长，函数$\pi\{A\}$在A为真是值为1，否则为0.
-</p>
-
-
-
-
-<p>特性：</br>
-(1).一般而言，清音（unvoiced sound）和环境噪音的ZCR都大于浊音（voiced sound）；</br>
-(2).由于清音和环境噪音的ZCR大小相近，因而不能够通过ZCR来区分它们；</br>
-(3).在实际当中，过零率经常与短时能量特性相结合来进行端点检测，尤其是ZCR用来检测清音的起止点；</br>
-(4).有时也可以用ZCR来进行粗略的基频估算，但这是非常不可靠的，除非有后续的修正（refine）处理过程。
-</p>
-
-
-
-
-<!--more-->
-
-
-
-
-<h2>ZCR的Python实现</h2>
-
-
-<p>ZCR的Python实现如下：
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import math
-</span><span class='line'>import numpy as np
-</span><span class='line'>
-</span><span class='line'>def ZeroCR(waveData,frameSize,overLap):
-</span><span class='line'>    wlen = len(waveData)
-</span><span class='line'>    step = frameSize - overLap
-</span><span class='line'>    frameNum = math.ceil(wlen/step)
-</span><span class='line'>    zcr = np.zeros((frameNum,1))
-</span><span class='line'>    for i in range(frameNum):
-</span><span class='line'>        curFrame = waveData[np.arange(i*step,min(i*step+frameSize,wlen))]
-</span><span class='line'>        #To avoid DC bias, usually we need to perform mean subtraction on each frame
-</span><span class='line'>        #ref: http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/basicFeatureZeroCrossingRate.asp
-</span><span class='line'>        curFrame = curFrame - np.mean(curFrame) # zero-justified
-</span><span class='line'>        zcr[i] = sum(curFrame[0:-1]*curFrame[1::]&lt;=0)
-</span><span class='line'>    return zcr</span></code></pre></td></tr></table></div></figure>
-
-</p>
-
-
-
-
-<p>对于给定语音文件aeiou.wav，利用上面的函数计算ZCR的代码如下：
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import math
-</span><span class='line'>import wave
-</span><span class='line'>import numpy as np
-</span><span class='line'>import pylab as pl
-</span><span class='line'>
-</span><span class='line'># ============ test the algorithm =============
-</span><span class='line'># read wave file and get parameters.
-</span><span class='line'>fw = wave.open('aeiou.wav','rb')
-</span><span class='line'>params = fw.getparams()
-</span><span class='line'>print(params)
-</span><span class='line'>nchannels, sampwidth, framerate, nframes = params[:4]
-</span><span class='line'>str_data = fw.readframes(nframes)
-</span><span class='line'>wave_data = np.fromstring(str_data, dtype=np.short)
-</span><span class='line'>wave_data.shape = -1, 1
-</span><span class='line'>#wave_data = wave_data.T
-</span><span class='line'>fw.close()
-</span><span class='line'>
-</span><span class='line'># calculate Zero Cross Rate
-</span><span class='line'>frameSize = 256
-</span><span class='line'>overLap = 0
-</span><span class='line'>zcr = ZeroCR(wave_data,frameSize,overLap)
-</span><span class='line'>
-</span><span class='line'># plot the wave
-</span><span class='line'>time = np.arange(0, len(wave_data)) * (1.0 / framerate)
-</span><span class='line'>time2 = np.arange(0, len(zcr)) * (len(wave_data)/len(zcr) / framerate)
-</span><span class='line'>pl.subplot(211)
-</span><span class='line'>pl.plot(time, wave_data)
-</span><span class='line'>pl.ylabel("Amplitude")
-</span><span class='line'>pl.subplot(212)
-</span><span class='line'>pl.plot(time2, zcr)
-</span><span class='line'>pl.ylabel("ZCR")
-</span><span class='line'>pl.xlabel("time (seconds)")
-</span><span class='line'>pl.show()</span></code></pre></td></tr></table></div></figure>
-
-</p>
-
-
-
-
-<p>运行以上程序得到下图：
-<center><img src="http://ibillxia.github.io/images/2013/IMAG2013051502.png"></center>
-</p>
-
-
-
-
-<h2>参考（References）</h2>
-
-
-<p>
-[1]Zero Crossing Rate (過零率): http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/basicFeatureZeroCrossingRate.asp?title=5-3%20Zero%20Crossing%20Rate%20(%B9L%B9s%B2v)&language=english</br>
-[2]Wiki: http://zh.wikipedia.org/zh/过零率
-</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[语音信号处理之时域分析-音量及其Python实现]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/05/15/audio-signal-process-time-domain-volume-python-realization/"/>
-    <updated>2013-05-15T19:36:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/05/15/audio-signal-process-time-domain-volume-python-realization</id>
-    <content type="html"><![CDATA[<h2>1.概述（Introduction）</h2>
-
-
-<p>本系列文主要介绍语音信号时域的4个基本特征及其Python实现，这4个基本特征是：</br>
-(1)音量（Volume）；</br>
-(2)过零率（Zero-Crossing-Rate）；</br>
-(3)音高（Pitch）；</br>
-(4)音色（Timbre）。
-</p>
-
-
-
-
-<h2>2.音量（Volume）</h2>
-
-
-<p>音量代表声音的强度，可由一个窗口或一帧内信号振幅的大小来衡量，一般有两种度量方法：</br>
-（1）每个帧的振幅的绝对值的总和：
-<center>$volume = \sum_{i=1}^{n}|s_{i}|$.</center>
-其中$s_{i}$为第该帧的$i$个采样点，$n$为该帧总的采样点数。这种度量方法的计算量小，但不太符合人的听觉感受。</br>
-（2）幅值平方和的常数对数的10倍：
-<center>$volume = 10 * log_{10}\sum_{i=1}^{n}s_{i}^{2}$.</center>
-它的单位是分贝（Decibels），是一个对数强度值，比较符合人耳对声音大小的感觉，但计算量稍复杂。
-</p>
-
-
-<!--more-->
-
-
-<p>音量计算的Python实现如下：</p>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import math
-</span><span class='line'>import numpy as np
-</span><span class='line'>
-</span><span class='line'># method 1: absSum
-</span><span class='line'>def calVolume(waveData, frameSize, overLap):
-</span><span class='line'>    wlen = len(waveData)
-</span><span class='line'>    step = frameSize - overLap
-</span><span class='line'>    frameNum = int(math.ceil(wlen*1.0/step))
-</span><span class='line'>    volume = np.zeros((frameNum,1))
-</span><span class='line'>    for i in range(frameNum):
-</span><span class='line'>        curFrame = waveData[np.arange(i*step,min(i*step+frameSize,wlen))]
-</span><span class='line'>        curFrame = curFrame - np.median(curFrame) # zero-justified
-</span><span class='line'>        volume[i] = np.sum(np.abs(curFrame))
-</span><span class='line'>    return volume
-</span><span class='line'>
-</span><span class='line'># method 2: 10 times log10 of square sum
-</span><span class='line'>def calVolumeDB(waveData, frameSize, overLap):
-</span><span class='line'>    wlen = len(waveData)
-</span><span class='line'>    step = frameSize - overLap
-</span><span class='line'>    frameNum = int(math.ceil(wlen*1.0/step))
-</span><span class='line'>    volume = np.zeros((frameNum,1))
-</span><span class='line'>    for i in range(frameNum):
-</span><span class='line'>        curFrame = waveData[np.arange(i*step,min(i*step+frameSize,wlen))]
-</span><span class='line'>        curFrame = curFrame - np.mean(curFrame) # zero-justified
-</span><span class='line'>        volume[i] = 10*np.log10(np.sum(curFrame*curFrame))
-</span><span class='line'>    return volume</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p>对于给定语音文件aeiou.wav，利用上面的函数计算音量曲线的代码如下：</p>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import wave
-</span><span class='line'>import pylab as pl
-</span><span class='line'>import numpy as np
-</span><span class='line'>import Volume as vp
-</span><span class='line'>
-</span><span class='line'># ============ test the algorithm =============
-</span><span class='line'># read wave file and get parameters.
-</span><span class='line'>fw = wave.open('aeiou.wav','r')
-</span><span class='line'>params = fw.getparams()
-</span><span class='line'>print(params)
-</span><span class='line'>nchannels, sampwidth, framerate, nframes = params[:4]
-</span><span class='line'>strData = fw.readframes(nframes)
-</span><span class='line'>waveData = np.fromstring(strData, dtype=np.int16)
-</span><span class='line'>waveData = waveData*1.0/max(abs(waveData))  # normalization
-</span><span class='line'>fw.close()
-</span><span class='line'>
-</span><span class='line'># calculate volume
-</span><span class='line'>frameSize = 256
-</span><span class='line'>overLap = 128
-</span><span class='line'>volume11 = vp.calVolume(waveData,frameSize,overLap)
-</span><span class='line'>volume12 = vp.calVolumeDB(waveData,frameSize,overLap)
-</span><span class='line'>
-</span><span class='line'># plot the wave
-</span><span class='line'>time = np.arange(0, nframes)*(1.0/framerate)
-</span><span class='line'>time2 = np.arange(0, len(volume11))*(frameSize-overLap)*1.0/framerate
-</span><span class='line'>pl.subplot(311)
-</span><span class='line'>pl.plot(time, waveData)
-</span><span class='line'>pl.ylabel("Amplitude")
-</span><span class='line'>pl.subplot(312)
-</span><span class='line'>pl.plot(time2, volume11)
-</span><span class='line'>pl.ylabel("absSum")
-</span><span class='line'>pl.subplot(313)
-</span><span class='line'>pl.plot(time2, volume12, c="g")
-</span><span class='line'>pl.ylabel("Decibel(dB)")
-</span><span class='line'>pl.xlabel("time (seconds)")
-</span><span class='line'>pl.show()</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<p>运行以上程序得到下图：
-<center><img src="http://ibillxia.github.io/images/2013/IMAG2013051501.png"></center>
-</p>
-
-
-
-
-<h2>参考（References）</h2>
-
-
-<p>[1]Volume (音量):http://neural.cs.nthu.edu.tw/jang/books/audiosignalprocessing/basicFeatureVolume.asp?title=5-2%20Volume%20(%AD%B5%B6q)</br>
-[2]用Python做科学计算-声音的输入输出:http://hyry.dip.jp:8000/pydoc/wave_pyaudio.html</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[语音信号处理基础学习笔记之时域处理]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/05/08/speech-processing-in-time-domain/"/>
-    <updated>2013-05-08T23:13:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/05/08/speech-processing-in-time-domain</id>
-    <content type="html"><![CDATA[<p>语音信号的分析分为时域、频域、倒谱域等，时域分析简单、运算量小、物理意义明确，但对于语音识别而言，
-更为有效的是频域的分析方法，那么为什么还有进行时域的分析呢？</p>
-
-
-
-
-<p>语音信号具有时变特性，但在短时内可以看做是平稳的，所以语音的时域分析是建立在“短时”的条件下的，经研究统计，
-语音信号在帧长为10ms~30ms内是相对平稳的。</p>
-
-
-
-
-<p>语音信号是模拟信号，在进行处理之前，要进行数字化，模拟信号数字化的一般方法是采样，按照Nyquist采样定理进行
-采样（一般在8K~10KHz）后，在进行量化（一般用8bit，也有16bit等）和编码，变为数字信号。</p>
-
-
-
-
-<p>在语音信号数字化之后，就可以开始对其进行处理了，首先是预处理，由于语音信号的平均功率谱受声门激励和口鼻辐射的影响，
-高频端大约在800Hz以上按6dB/倍频程跌落，为此要在预处理中进行预加重。预加重的目的是提升高频部分，是信号变得平坦，
-以便于进行频谱分析或声道参数分析。预加重可以用具有6dB/倍频程的提升高频特性的预加重数字滤波器实现。预处理的另一
-方面工作是分帧和加窗：分帧的帧长一般在10ms~30ms，分帧既可以是连续的，也可以是有部分over-lap；短时分析的实质是
-对信号加窗，一般采用Hamming窗，其他的还有矩形窗、汉宁窗等，如下图所示。
-<center><img src="http://ibillxia.github.io/images/2013/IMAG2013050801.png"></center>
-</p>
-
-
-
-
-<!--more-->
-
-
-
-
-<p>好了，经过预处理之后就可以真正开始进行时域分析了，这里的时域分析主要包含短时平均能量、短时过零分析、短时自相
-关分析以及高阶统计量分析等。</p>
-
-
-
-
-<p>短时平均能量（Short Time Average Energy）可以理解为先计算信号格采样值的平方，然后用一个移动窗h(n-m)选取出一个个
-短时平方序列，并将各段的平方值求和，从而得到短时能量序列。短时平均能量（En）可以用来从清音中区分浊音（浊音的En比
-清音大得多），可以用来确定声母和韵母、无声与有声、连字等的分界，还可以作为一种超音段信息用于语音识别。但短时平均
-能量En对于高电平信号可能产生溢出，此时可以采用短时平均幅度（Short Time Average Magnitude）来度量语音信号幅度的变化。</p>
-
-
-
-
-<p>信号的幅度值从正值到负值要经过零点，从负值到正值也要经过零点，称为过零，统计信号在单位时间（如1s）内过零的次数，
-就成为过零率。如果信号按段分割，就成为短时，把各段信号的过零率做统计平均，就是短时平均过零率（Short Time Average Cross 
-Zero Ratio）。短时平均过零率（Zn）可以作为“频率”来理解。过零率可以用来定量的分析清音/浊音，特别是在背景噪声电平较大时
-更为有效（相比短时平均能量而言），有时还可以同时结合Zn和En来进行判定。</p>
-
-
-
-
-<p>如果说短时平均过零率是描述复杂波形“频率”特征的一个参数，那么短时平均上升过零间隔（Short Time Rise Zero-Crossing Inteval）
-就是描述复杂波形“周期”特性的参数。研究表明：在一定噪声背景下，该参数具有很好的稳健性，对不同的语音具有很好的差异性。</p>
-
-
-
-
-<p>自相关函数是偶函数，语音信号的短时自相关函数（Short Time Autocorrelation Function）可以理解为序列[x(n)x(n-k)]通过一个
-冲激响应为hk(n)的数字滤波器的输出，即有Rn(k) = [x(n)x(n-k)]*hk(n)。短时自相关函数是语音信号时域分析中的一个重要参量，但是
-运算量很大。短时平均幅度差函数AMDF（Short Time Average Magnitude Difference Function）与自相关函数有类似的功效，但运算量
-可降低许多，所以在语音信号处理中应用广泛。</p>
-
-
-
-
-<p>最后是高阶统计量了。近来高阶统计量在语音信号处理中应用也越来越多，高阶统计量一般指高阶矩(Moment)、高阶累积量(Cumulant)以及
-他们的谱——高阶矩谱和高阶累积量谱。首先定义了随机变量x的（第一）特征函数（也称为矩生成函数），实际为它的密度函数f(x)的傅里叶变换。
-然后定义了第二特征函数（也称为累积量生成函数），它是第一特征函数的对数。还有随机变量x的k阶矩（mk）的定义，它是x的k次幂与f(x)的
-乘积在x∈R上的积分。类似的还有k阶中心矩（μk）的定义，都与概率论中的定义差不多。现在，可以对第一、二特征函数进行泰勒展开，可以得
-到ck（x的k阶累积量）和mk之间的一些关系，可以发现k<4时，ck=μk，此时ck的物理意义与μk的物理意义相同，而k>=4时，则不相等。对于c3，
-描述了概率分布的对称性，通过定义一个新的概念——偏度（Skewness，也称为偏态系数）来衡量。对于c4，文中为了简化，假设了x的均值为0，
-然后定义了一个称为峰态（也称峰度，Kurtosis）的概念，以表示分布相对于正太分布的尖锐或平坦程度。后面两小节分别对此进行了从单个
-随机变量到多个随机变量的推广的分析和随机变量服从高斯分布（正态分布）的特殊情形做了分析。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[五一登高远足]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/05/01/go-hiking-International-Labour-Day/"/>
-    <updated>2013-05-01T22:01:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/05/01/go-hiking-International-Labour-Day</id>
-    <content type="html"><![CDATA[<p>五一天晴气爽，登高望远，强身健体！只可惜“不畏浮云遮望眼，只缘身在最高层” 这句诗在空气严重污染的今天已不适用了！</p>
-
-
-
-
-<p><img src="http://ibillxia.github.io/images/2013/IMAG2013050101.jpg">
-
-<!-- more -->
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050102.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050103.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050104.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050105.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050106.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050107.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050108.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050109.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050110.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050111.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050112.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050113.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050114.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050115.jpg">
-
-<img src="http://ibillxia.github.io/images/2013/IMAG2013050116.jpg">
-</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用Alize等工具构建说话人识别平台]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/04/26/building-speaker-recognition-system-using-alize-etc/"/>
-    <updated>2013-04-26T22:07:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/04/26/building-speaker-recognition-system-using-alize-etc</id>
-    <content type="html"><![CDATA[<p>前段时间有好几位同学询问如何用Alize实现说话人识别的问题，由于寒假前赶Paper，来不及详细解答，更没时间写Demo。
-开学后不久抽时间写了一个Demo，并上传到了GitHub：https://github.com/ibillxia/VoicePrintReco/tree/master/Demo</p>
-
-
-
-
-<p>下面将利用Alize+SPro进行简单的GMM-Based的说话人识别的基本流程总结如下：</br>
-1.Features extraction 特征提取</br>
-sfbcep.exe（MFCC）或slpcep.exe（LPCC）</br>
-
-2.Silence removal 静音检测和去除</br>
-NormFeat.exe 先能量规整</br>
-EnergyDetector.exe 基于能量检测的静音去除</br>
-
-3.Features Normalization 特征规整</br>
-NormFeat.exe 再使用这个工具进行特征规整</br>
-
-4.World model training</br>
-TrainWorld.exe 训练UBM</br>
-
-5.Target model training</br>
-TrainWorld.exe 在训练好UBM的基础上训练training set和testing set的GMM</br>
-
-6.Testing</br>
-ComputeTest.exe 将testing set 的GMM在training set的GMM上进行测试和打分</br>
-
-7.Score Normalization</br>
-ComputeNorm.exe 将得分进行规整</br>
-
-8. Compute EER 计算等错误率</br>
-你可以查查计算EER的matlab代码，NIST SRE的官网上有下载（http://www.itl.nist.gov/iad/mig//tools/DETware_v2.1.targz.htm）。</br>
-</p>
-
-
-
-
-<!--more-->
-
-
-
-
-<p>关于各步骤中参数的问题，可以在命令行“工具 -help”来查看该工具个参数的具体含义，另外还可参考Alize源码中各个工具的test目录中提供的实例，
-而关于每个工具的作用及理论知识则需要查看相关论文。</p>
-
-
-
-
-<p>常见问题及解答: http://mistral.univ-avignon.fr/mediawiki/index.php/Frequently_asked_questions</p>
-
-
-
-
-<p>更多问题请在Google论坛（https://groups.google.com/forum/?fromgroups=&hl=zh-CN#!forum/alize&#8212;voice-print-recognition）提出，大家一起讨论！</p>
-
-
-
-
-<h3>推荐资料</h3>
-
-
-<p>
-[1] ALIZE - User Manual: http://mistral.univ-avignon.fr/doc/userguide_alize.001.pdf</br>
-[2] LIA_SPKDET Package documentation: http://mistral.univ-avignon.fr/doc/userguide_LIA_SpkDet.002.pdf</br>
-[3] Reference System based on speech modality ALIZE/LIA RAL: http://www-clips.imag.fr/geod/User/laurent.besacier/NEW-TPs/TP-Biometrie/tools/CommentsLBInstall/doc.pdf</br>
-[4] Jean-Francois Bonastre, etc. ALIZE/SpkDet: a state-of-the-art open source software for speaker recognition</br>
-[5] TOMMIE GANNERT. A Speaker Veri?cation System Under The Scope: Alize</br>
-[6] Alize Wiki: http://mistral.univ-avignon.fr/mediawiki/index.php/Main_Page
-</p>
-
-
 
 ]]></content>
   </entry>

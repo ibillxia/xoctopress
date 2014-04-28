@@ -9,52 +9,55 @@
   <meta name="author" content="Bill Xia">
 
   
-  <meta name="description" content="About Me Mar 3rd, 2013 Introduction I am a postgraduate student in Computer Science Department, Zhejiang University since Sep.6, 2012. My mainly &hellip;">
+  <meta name="description" content="Yesterday is History, Tomorrow a Mystery, Today is a Gift, Thats why it's called the Present！">
   
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="wumiiVerification" content="9662b89d-2629-4073-b85d-0966259c0ee1" />
 
   
-  <link rel="canonical" href="http://ibillxia.github.io/about/">
+  <link rel="canonical" href="http://ibillxia.github.io/about">
   <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Bill's Blog" type="application/atom+xml">  
-  
-  <!-- Wumii Scripts Start -->
+  <link href="/atom.xml" rel="alternate" title="Bill's Blog" type="application/atom+xml">
   <script type="text/javascript">
-    var wumiiPermaLink = "/about/index.html";
-    var wumiiTitle = "About Me";
-	var wumiiTags = new Array();
-	
-	
-	
-	var wumiiCategories = new Array();
-	
-	
-	
-	wumiiTags = JSON.stringify(wumiiTags);
-	wumiiCategories = JSON.stringify(wumiiCategories);
-    var wumiiSitePrefix = "http://ibillxia.github.io";
-    var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
-  </script>
-  <script type="text/javascript" src="http://widget.wumii.cn/ext/relatedItemsWidget"></script>
-  <a href="http://www.wumii.com/widget/relatedItems" style="border:0;">
-	<img src="http://static.wumii.cn/images/pixel.png" alt="wumii recommendation" style="border:0;padding:0;margin:0;" />
-  </a>
-  <!-- Wumii Scripts End -->
-  
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
 
-<!-- mathjax config similar to math.stackexchange -->
+$(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+<!-- MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
@@ -86,6 +89,34 @@
 </script>
 
 
+<script type="text/javascript">
+$(document).ready(function(){
+
+	// hide #back-top first
+	$("#back-top").hide();
+	
+	// fade in #back-top
+	$(function () {
+		$(window).scroll(function () {
+			if ($(this).scrollTop() > 100) {
+				$('#back-top').fadeIn();
+			} else {
+				$('#back-top').fadeOut();
+			}
+		});
+
+		// scroll body to 0px on click
+		$('#back-top a').click(function () {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 800);
+			return false;
+		});
+	});
+
+});
+</script>
+
 
   
   <script type="text/javascript">
@@ -104,41 +135,51 @@
 </head>
 
 <body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Bill's Blog</a></h1>
-  
-    <h2>Program Hard, Play Hard, Live Crazy!</h2>
-  
-</hgroup>
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://www.google.com/" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:ibillxia.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Home</a></li>
+      <a class="brand" href="/">Bill's Blog</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
-<!--   <li><a href="/blog/categories">Categories</a></li>
-  <li><a href="/blog/tags">Tags</a></li> -->
+  <li><a href="/blog/tags">Tags</a></li>
   <li><a href="/about">About</a></li>
 </ul>
 
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://www.google.com/" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:ibillxia.github.io" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
 </nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article role="article">
+  <div class="container">
+    <div class="row-fluid">
+      
+<article role="article" class="span9">
+
   
-  <header>
+  <header class="page-header">
     <h1 class="entry-title">About Me</h1>
     <p class="meta">
 
@@ -231,58 +272,57 @@ PS: 最近准备申请实习职位，职位意向如下：<br/>
 
 <time datetime="2013-03-03T23:40:00+08:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2013</time>
         
-        
       </p>
       
         <div class="sharing">
-<!-- JiaThis Button BEGIN -->
-<div class="jiathis_style_32x32">
-	<a class="jiathis_button_tsina"></a>
-	<a class="jiathis_button_renren"></a>
-	<a class="jiathis_button_tqq"></a>
-	<a class="jiathis_button_qzone"></a>
-	<a class="jiathis_button_douban"></a>
-	<a class="jiathis_button_fb"></a>
-	<a class="jiathis_button_twitter"></a>
-	<a class="jiathis_button_tumblr"></a>
-	<a class="jiathis_button_googleplus"></a>
-	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank">More</a>
-	<a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1362901762548695" charset="utf-8"></script>
-<!-- JiaThis Button END -->
+  
+  
+  
 </div>
 
       
-	  
-	  <!-- Wumii Section Start -->
-	  <section>
-		<div class="entry-content"><script type="text/javascript" id="wumiiRelatedItems"></script></div>
-	  </section>
-	  <!-- Wumii Section End -->
+      
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+      </section>
+      
     </footer>
   
 </article>
 
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
-
-</div>
-
-
-<aside class="sidebar">
+<aside class="sidebar-nav span3">
   
     <section>
-  <h1>Categories</h1>
-    <ul id="category-list"><li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (11)</a></li><li><a href='/blog/categories/program'>Program (25)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li></ul>
+  <h2>Categories</h2>
+    <ul id="category-list">
+		<li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (12)</a></li><li><a href='/blog/categories/program'>Program (29)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li>
+	</ul>
 </section>
 <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
+    <h2>Recent Posts</h2>
+	<ul>
+    
+      <li class="post">
+        <a href="/blog/2014/04/28/configure-twitter-bootstrap-theme-in-octopress/">给Octopress博客配置Twitter Bootstrap主题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/24/next-permutation-and-analysis-of-its-stl-implementation/">全排列及某排列的后继的求解及其STL实现的分析</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/11/swap-two-variables-in-place/">原地交换两个变量的值</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/16/go-concurrent-programming-first-try/">Go并发编程初探</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/10/top-10-open-source-recommendation-systems/">TOP 10开源的推荐系统简介</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/03/01/koding-an-amazing-online-development-environment/">Koding——一个惊艳的在线编程开发平台</a>
@@ -304,57 +344,36 @@ PS: 最近准备申请实习职位，职位意向如下：<br/>
         <a href="/blog/2013/10/30/why-web-companies-all-are-beginning-to-play-hardware-products/">互联网公司为什么都在玩硬件？</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it%27s-comparision/">Linux的OSS和ALSA声音系统简介及其比较</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language/">PCM WAVE格式详解及用C语言实现wave文件的读取</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog/">给Octpress博客添加返回顶部按钮</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/28/swimming-tutorial-with-gif-images/">蛙泳、自由泳、仰泳、蝶泳图解动画教你游泳</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/04/a-simple-code-for-wave-recording-using-windows-api/">用Windows API实现一个简单的录音程序</a>
-      </li>
-    
-  </ul>
+	</ul>
 </section>
 <section>
-  <h1>Recent Comments</h1>
-  <script type="text/javascript" src="http://ibillxia.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+  <h2>Recent Comments</h2>
+  <script type="text/javascript" src="http://ibillxia.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=22"></script>
+  <a href="http://disqus.com/">Powered by Disqus</a>
 </section>
 
 <section>
-  <h1>Sina Weibo</h1>
+  <h2>Sina Weibo</h2>
   <ul id="weibo">
-    <li>
-		<iframe 
-			width="100%" 
-			height="550" 
-			class="share_self"  
-			frameborder="0" 
-			scrolling="no" 
-			src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2704795533&verifier=9551ab13&dpc=1">
-		</iframe>
-	</li>
+	<iframe 
+		width="100%" 
+		height="550" 
+		class="share_self"  
+		frameborder="0" 
+		scrolling="no" 
+		src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2704795533&verifier=9551ab13&dpc=1">
+	</iframe>
   </ul>
 </section>
 
 <section>
 	<h2>Reading List</h2>
-	<div>
-		<script type="text/javascript" src="http://www.douban.com/service/badge/65527470/?show=collection&amp;n=16&amp;columns=4" ></script>
-	</div>
+	<ul>
+		<script type="text/javascript" src="http://www.douban.com/service/badge/65527470/?show=collection&amp;n=12&amp;columns=3" ></script>
+	</ul>
 </section>
 <section>
-  <h1>CC License</h1>
+  <h2>Copyleft</h2>
   <p align="center"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png"></a></p>
   <p>Except where otherwise noted, content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a></p>
 </section>
@@ -364,99 +383,15 @@ PS: 最近准备申请实习职位，职位意向如下：<br/>
 
     </div>
   </div>
-  <footer role="contentinfo"><p id="footer" style="margin-bottom: 0em ">
-   <span class="credit" style="text-align: left;">Copyright &copy; 2009 - 2014   <a href="/about">Bill Xia</a>  
-	Powered by <a href="http://octopress.org">Octopress</a></span>
-  
-  <span style="float:right;">
-	  <a href="/">Home</a> | 
-	  <a href="/blog/archives">Archives</a> | 
-	  <a href="/about">About</a>
-  </span>
-</p>
-
-<p id = "back-top">
+  <footer role="contentinfo" class="page-footer"><p id = "back-top">
 	<a href="#top"><span></span>Back to Top</a>
 </p>
+<hr>
+<p>
+  Copyright &copy; 2009 - 2014 - <a href="http://about.me/ibillxia">Bill Xia</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> - Theme by <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> </span>
+</p>
 
-<style type="text/css">
-#back-top {
-	position: fixed;
-	bottom: 50px;
-	right: 100px;
-}
-
-#back-top a {
-	width: 80px;
-	display: block;
-	text-align: center;
-	font: 11px/100% Arial, Helvetica, sans-serif;
-	text-transform: uppercase;
-	text-decoration: none;
-	color: #bbb;
-
-	/* transition */
-	-webkit-transition: 1s;
-	-moz-transition: 1s;
-	transition: 1s;
-}
-#back-top a:hover {
-	color: #000;
-}
-
-/* arrow icon (span tag) */
-#back-top span {
-	width: 80px;
-	height: 80px;
-	display: block;
-	margin-bottom: 7px;
-	background: #ddd url(http://ibillxia.github.com/images/up-arrow.png) no-repeat center center;
-
-	/* rounded corners */
-	-webkit-border-radius: 15px;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
-
-	/* transition */
-	-webkit-transition: 1s;
-	-moz-transition: 1s;
-	transition: 1s;
-}
-
-#back-top a:hover span {
-	background-color: #888;
-}
-
-</style>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-
-	// hide #back-top first
-	$("#back-top").hide();
-	
-	// fade in #back-top
-	$(function () {
-		$(window).scroll(function () {
-			if ($(this).scrollTop() > 100) {
-				$('#back-top').fadeIn();
-			} else {
-				$('#back-top').fadeOut();
-			}
-		});
-
-		// scroll body to 0px on click
-		$('#back-top a').click(function () {
-			$('body,html').animate({
-				scrollTop: 0
-			}, 800);
-			return false;
-		});
-	});
-
-});
-</script>
 </footer>
   
 

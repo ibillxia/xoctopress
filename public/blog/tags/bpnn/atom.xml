@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: BPNN | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/bpnn/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -51,7 +51,7 @@
 
 
 <p>一个典型的BP神经网络模型如图1所示。</br>
-<center><img src="/images/2013/IMAG2013033001.jpg"></center>
+<center>{% img /images/2013/IMAG2013033001.jpg %}</center>
 <center>图1 典型的BP神经网络模型</center></p>
 
 

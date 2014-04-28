@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PRML | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/categories/prml/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:12:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -12,6 +12,137 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[TOP 10开源的推荐系统简介]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/03/10/top-10-open-source-recommendation-systems/"/>
+    <updated>2014-03-10T22:29:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/03/10/top-10-open-source-recommendation-systems</id>
+    <content type="html"><![CDATA[<p>最近这两年推荐系统特别火，本文搜集整理了一些比较好的开源推荐系统，即有轻量级的适用于做研究的SVDFeature、LibMF、LibFM等，也有重量级的适用于工业系统的
+Mahout、Oryx、EasyRecd等，供大家参考。PS：这里的top 10仅代表个人观点。</p>
+
+
+<h2>#1.SVDFeature</h2>
+
+
+<center><img src="/images/2014/IMAG2014031001.png"></center>
+
+
+<p>主页：<a href="http://svdfeature.apexlab.org/wiki/Main_Page">http://svdfeature.apexlab.org/wiki/Main_Page</a> 语言：C++</br>
+一个feature-based协同过滤和排序工具，由上海交大Apex实验室开发，代码质量较高。在KDD Cup 2012中获得第一名，KDD Cup 2011中获得第三名，相关论文
+发表在2012的JMLR中，这足以说明它的高大上。</br>
+SVDFeature包含一个很灵活的Matrix Factorization推荐框架，能方便的实现SVD、SVD++等方法, 是单模型推荐算法中精度最高的一种。SVDFeature代码精炼，可以用
+相对较少的内存实现较大规模的单机版矩阵分解运算。另外含有Logistic regression的model，可以很方便的用来进行ensemble。</p>
+
+
+
+
+<!--more-->
+
+
+
+
+<h2>#2.LibMF</h2>
+
+
+<center><img src="/images/2014/IMAG2014031002.gif"></center>
+
+
+<p>主页：<a href="http://www.csie.ntu.edu.tw/~cjlin/libmf/">http://www.csie.ntu.edu.tw/~cjlin/libmf/</a> 语言：C++</br>
+作者<a href="http://www.csie.ntu.edu.tw/~cjlin/">Chih-Jen Lin</a>来自大名鼎鼎的台湾国立大学，他们在机器学习领域享有盛名，近年连续多届KDD Cup竞赛上均
+获得优异成绩，并曾连续多年获得冠军。台湾大学的风格非常务实，业界常用的LibSVM， Liblinear等都是他们开发的，开源代码的效率和质量都非常高。</br>
+LibMF在矩阵分解的并行化方面作出了很好的贡献，针对SGD（随即梯度下降）优化方法在并行计算中存在的locking problem和memory discontinuity问题，提出了一种
+矩阵分解的高效算法FPSGD（Fast Parallel SGD），根据计算节点的个数来划分评分矩阵block，并分配计算节点。系统介绍可以见这篇
+<a href="http://www.csie.ntu.edu.tw/~cjlin/papers/libmf.pdf">论文</a>（ACM Recsys 2013的 Best paper Award）。</p>
+
+
+
+
+<h2>#3.LibFM</h2>
+
+
+<center><img src="/images/2014/IMAG2014031003.jpg"></center>
+
+
+<p>主页：<a href="http://www.libfm.org/">http://www.libfm.org/</a> 语言：C++</br>
+作者是德国Konstanz大学的Steffen Rendle，他用LibFM同时玩转KDD Cup 2012 Track1和Track2两个子竞赛单元，都取得了很好的成绩，说明LibFM是非常管用的利器。</br>
+LibFM是专门用于矩阵分解的利器，尤其是其中实现了MCMC（Markov Chain Monte Carlo）优化算法，比常见的SGD优化方法精度要高，但运算速度要慢一些。当然LibFM中还
+实现了SGD、SGDA（Adaptive SGD）、ALS（Alternating Least Squares）等算法。</p>
+
+
+
+
+<h2>#4.Lenskit</h2>
+
+
+<center><img src="/images/2014/IMAG2014031004.png"></center>
+
+
+<p>主页：<a href="http://lenskit.grouplens.org/">http://lenskit.grouplens.org/</a> 语言Java</br>
+<p>这个Java开发的开源推荐系统，来自美国的明尼苏达大学的GroupLens团队，也是推荐领域知名的测试数据集Movielens的作者。</br>
+该源码托管在GitHub上，<a href="https://github.com/grouplens/lenskit">https://github.com/grouplens/lenskit</a>。主要包含lenskit-api,lenskit-core,
+lenskit-knn,lenskit-svd,lenskit-slopone,lenskit-parent,lenskit-data-structures,lenskit-eval,lenskit-test等模块，主要实现了k-NN，SVD，Slope-One等
+典型的推荐系统算法。</p>
+
+<h2>#5.GraphLab</h2>
+<center><img src="/images/2014/IMAG2014031005.png"></center>
+<p>主页：<a href="http://docs.graphlab.org/collaborative_filtering.html">GraphLab - Collaborative Filtering</a> 语言：C++</br>
+Graphlab是基于C++开发的一个高性能分布式graph处理挖掘系统，特点是对迭代的并行计算处理能力强（这方面是hadoop的弱项），由于功能独到，GraphLab在业界名声很响。
+用GraphLab来进行大数据量的random walk或graph-based的推荐算法非常有效。Graphlab虽然名气比较响亮（CMU开发），但是对一般数据量的应用来说可能还用不上。</br>
+GraphLab主要实现了ALS，CCD++，SGD，Bias-SGD，SVD++，Weighted-ALS，Sparse-ALS，Non-negative Matrix Factorization，Restarted Lanczos Algorithm等算法。</p>
+
+<h2>#6.Mahout</h2>
+<center><img src="/images/2014/IMAG2014031006.png"></center>
+<p>主页：<a href="http://mahout.apache.org/">http://mahout.apache.org/</a> 语言：Java</br>
+Mahout 是 Apache Software Foundation (ASF) 开发的一个全新的开源项目，其主要目标是创建一些可伸缩的机器学习算法，供开发人员在 Apache 在许可下免费
+使用。Mahout项目是由 Apache Lucene社区中对机器学习感兴趣的一些成员发起的，他们希望建立一个可靠、文档翔实、可伸缩的项目，在其中实现一些常见的用于
+聚类和分类的机器学习算法。该社区最初基于 Ngetal. 的文章 “Map-Reduce for Machine Learning on Multicore”，但此后在发展中又并入了更多广泛的机器学习
+方法，包括Collaborative Filtering（CF），Dimensionality Reduction，Topic Models等。此外，通过使用 Apache Hadoop 库，Mahout 可以有效地扩展到云中。</br>
+在Mahout的Recommendation类算法中，主要有User-Based CF，Item-Based CF，ALS，ALS on Implicit Feedback，Weighted MF，SVD++，Parallel SGD等。</p>
+
+<h2>#7.Myrrix</h2>
+<center><img src="/images/2014/IMAG2014031007.png"></center>
+<p>主页：<a href="http://myrrix.com/">http://myrrix.com/</a> 语言：Java</br>
+Myrrix最初是Mahout的作者之一Sean Owen基于Mahout开发的一个试验性质的推荐系统。目前Myrrix已经是一个完整的、实时的、可扩展的集群和推荐系统，主要
+架构分为两部分：服务层：在线服务，响应请求、数据读入、提供实时推荐；计算层：用于分布式离线计算，在后台使用分布式机器学习算法为服务层更新机器学习
+模型。Myrrix使用这两个层构建了一个完整的推荐系统，服务层是一个HTTP服务器，能够接收更新，并在毫秒级别内计算出更新结果。服务层可以单独使用，无需
+计算层，它会在本地运行机器学习算法。计算层也可以单独使用，其本质是一系列的Hadoop jobs。目前Myrrix以被 Cloudera 并入Oryx项目。</p>
+
+<h2>#8.EasyRec</h2>
+<center><img src="/images/2014/IMAG2014031008.png"></center>
+<p>主页：<a href="http://easyrec.org/">http://easyrec.org/</a> 语言：Java</br>
+EasyRec是一个易集成、易扩展、功能强大且具有可视化管理的推荐系统，更像一个完整的推荐产品，包括了数据录入模块、管理模块、推荐挖掘、离线分析等。
+EasyRec可以同时给多个不同的网站提供推荐服务，通过tenant来区分不同的网站。架设EasyRec服务器，为网站申请tenant，通过tenant就可以很方便的集成到
+网站中。通过各种不同的数据收集（view,buy.rating）API收集到网站的用户行为，EasyRec通过离线分析，就可以产生推荐信息，您的网站就可以通过
+Recommendations和Community Rankings来进行推荐业务的实现。</p>
+
+<h2>#9.Waffles</h2>
+<center><img src="/images/2014/IMAG2014031009.png"></center>
+<p>主页：<a href="http://waffles.sourceforge.net/">http://waffles.sourceforge.net/</a> 语言：C++</br>
+Waffles英文原意是蜂蜜甜饼，在这里却指代一个非常强大的机器学习的开源工具包。Waffles里包含的算法特别多，涉及机器学习的方方面面，推荐系统位于
+其中的Waffles_recommend tool，大概只占整个Waffles的1/10的内容，其它还有分类、聚类、采样、降维、数据可视化、音频处理等许许多多工具包，估计
+能与之媲美的也就数Weka了。</p>
+
+<h2>#10.RapidMiner</h2>
+<center><img src="/images/2014/IMAG2014031010.png"></center>
+<p>主页：<a href="http://rapidminer.com/">http://rapidminer.com/</a> 语言：Java</br>
+RapidMiner（前身是Yale）是一个比较成熟的数据挖掘解决方案，包括常见的机器学习、NLP、推荐、预测等方法（推荐只占其中很小一部分），而且带有GUI的
+数据分析环境，数据ETL、预处理、可视化、评估、部署等整套系统都有。另外RapidMiner提供commercial license，提供R语言接口，感觉在向着一个商用的
+数据挖掘公司的方向在前进。</br>
+======================================分割线======================================</p>
+
+<p>开源的推荐系统大大小小的还有很多，以上只是介绍了一些在学术界和工业界比较流行的TOP 10，而且基本上都是用C++/Java实现的，在参考资料[1]、[2]中还提
+到的有Crab（Python）、CofiRank（C++）、MyMediaLite（.NET/C#）、PREA（Java）、Python-recsys（Python）、Recommendable（Ruby）、Recommenderlab（R）、
+Oryx（Java）、recommendify（Ruby）、RecDB（SQL）等等，当然GitHub上还有更多。。。即有适合单机运行的，也有适合集群的。虽然使用的编程语言不同，但实现
+的算法都大同小异，主要是SVD、SGD、ALS、MF、CF及其改进算法等。</p>
+
+<h2>参考资料</h2>
+<p>[1]<a href="http://blog.csdn.net/cserchen/article/details/14231153">推荐系统开源软件列表汇总和点评</a></br>
+[2]<a href="http://www.oschina.net/search?scope=project&tag1=0&tag2=0&lang=0&os=0&q=%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F">开源中国社区 - 搜索：推荐系统</a>
+</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[VALSE2013]]></title>
@@ -718,194 +849,6 @@ bias是n1×(n2-kw+1)×(n3-kh+1)的矩阵，kw,kh是卷积核的宽度高度(图�
 [3] Convolutional Networks for Images Speech and Time-Series.</br>
 [4] 基于卷积网络的三维模型特征提取. 王添翼.</br>
 [5] 卷积神经网络的研究及其在车牌识别系统中的应用. 陆璐.
-</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[反向传播(BP)神经网络]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/03/30/back-propagation-neural-networks/"/>
-    <updated>2013-03-30T21:37:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/03/30/back-propagation-neural-networks</id>
-    <content type="html"><![CDATA[<p>前面几篇文章中对神经网络和深度学习进行一些简介，包括神经网络的发展历史、基本概念和常见的几种神经网络以及神经网络的学习方法等，
-本文具体来介绍一下一种非常常见的神经网络模型——反向传播(Back Propagation)神经网络。</p>
-
-
-
-
-<h2>1.概述</h2>
-
-
-<p>BP（Back Propagation）神经网络是1986年由Rumelhart和McCelland为首的科研小组提出，参见他们发表在Nature上的论文
-<em><a href="http://www.cs.toronto.edu/~hinton/absps/naturebp.pdf">Learning representations by back-propagating errors</a></em>
-值得一提的是，该文的第三作者Geoffrey E. Hinton就是在深度学习邻域率先取得突破的神犇。
-</p>
-
-
-
-
-<p>BP神经网络是一种按误差逆传播算法训练的多层前馈网络，是目前应用最广泛的神经网络模型之一。BP网络能学习和存贮大量的
-输入-输出模式映射关系，而无需事前揭示描述这种映射关系的数学方程。它的学习规则是使用最速下降法，通过反向传播来不断
-调整网络的权值和阈值，使网络的误差平方和最小。</p>
-
-
-
-
-<!-- more -->
-
-
-
-
-<h2>2.BP网络模型</h2>
-
-
-<p>一个典型的BP神经网络模型如图1所示。</br>
-<center><img src="/images/2013/IMAG2013033001.jpg"></center>
-<center>图1 典型的BP神经网络模型</center></p>
-
-
-
-
-<p>BP神经网络与其他神经网络模型类似，不同的是，BP神经元的传输函数为非线性函数(而在感知机中为阶跃函数，在线性神经网络中为线性函数)，最常用的
-是log-sigmoid函数或tan-sigmoid函数。BP神经网络(BPNN)一般为多层神经网络，图1中所示的BP神经网络的隐层的传输函数即为非线性函数，隐层可以有多层，
-而输出层的传输函数为线性函数，当然也可以是非线性函数，只不过线性函数的输出结果取值范围较大，而非线性函数则限制在较小范围（如logsig函数输出
-取值在(0,1)区间）。图1所示的神经网络的输入输出关系如下：</br>
-1)输入层与隐层的关系：</br>
-<center>$\boldsymbol{h} = \mathit{f_{1}} (\boldsymbol{W^{(1)}x}+\boldsymbol{b^{(1)}})$.</center>
-其中$\boldsymbol{x}$为$m$维特征向量(列向量)，$\boldsymbol{W^{(1)}}$为$n × m$维权值矩阵，$\boldsymbol{b^{(1)}}$为$n$维的偏置(bias)向量(列向量)。</br>
-2)隐层与输出层的关系：</br>
-<center>$\boldsymbol{y} = \mathit{f_{2}} (\boldsymbol{W^{(2)}h}+\boldsymbol{b^{(2)}})$.</center>
-</p>
-
-
-
-
-<h2>3.BP网络的学习方法</h2>
-
-
-<p>神经网络的关键之一是权值的确定，也即神经网络的学习，下面主要讨论一下BP神经网络的学习方法，它是一种监督学习的方法。</br>
-假定我们有$q$个带label的样本(即输入)$p_{1},p_{2},...,p_{q}$，对应的label(即期望输出Target)为$T_{1},T_{2},...,T_{q}$，神经网络的实际输出
-为$a2_{1},a2_{2},...,a2_{q}$，隐层的输出为$a1[.]$那么可以定义误差函数：</br>
-<center>$\boldsymbol{E(W,B)} = \frac{1}{2}\sum_{k=1}^{n}(t_{k} - a2_{k})^{2} $.</center>
-BP算法的目标是使得实际输出approximate期望输出，即使得训练误差最小化。BP算法利用梯度下降(Gradient Descent)法来求权值的变化及
-误差的反向传播。对于图1中的BP神经网络，我们首先计算输出层的权值的变化量，从第$i$个输入到第$k$个输出的权值改变为：</br>
-<center>$\Delta w2_{ki} = - \eta \frac{\partial E}{\partial w2_{ki}} \\
-= - \eta \frac{\partial E}{\partial a2_{k}} \frac{\partial a2_{k}}{\partial w2_{ki}} \\
-= \eta (t_{k}-a2_{k})f_{2}'a1_{i} = \eta \delta_{ki}a1_{i}$.</center>
-其中$\eta$为学习速率。同理可得：</br>
-<center>$\Delta b2_{ki} = - \eta \frac{\partial E}{\partial b2_{ki}} 
-= - \eta \frac{\partial E}{\partial a2_{k}} \frac{\partial a2_{k}}{\partial b2_{ki}}
-= \eta (t_{k}-a2_{k})f_{2}' = \eta \delta_{ki}$.</center>
-而隐层的权值变化为：</br>
-<center>$\Delta w1_{ij} = - \eta \frac{\partial E}{\partial w1_{ij}} 
-= - \eta \frac{\partial E}{\partial a2_{k}} \frac{\partial a2_{k}}{\partial a1_{i}} \frac{\partial a1_{i}}{\partial w1_{ij}}
-= \eta \sum_{k=1}^{n}(t_{k}-a2_{k})f_{2}'w2_{ki}f_{1}'p_{j} = \eta \delta_{ij}p_{j}$.</center>
-其中，$\delta_{ij} = e_{i}f_{1}', e_{i} = \sum_{k=1}^{n}\delta_{ki}w2_{ki}$</br>
-同理可得，$\Delta b1_{i} = \eta \delta_{ij}$。</br>
-这里我们注意到，输出层的误差为$e_{j},j=1..n$，隐层的误差为$e_{i},i=1..m$，其中$e_{i}$可以认为是$e_{j}$的加权组合，由于作用函数的
-存在，$e_{j}$的等效作用为$\delta_{ji} = e_{j}f'()$。
-</p>
-
-
-
-
-<h2>4.BP网络的设计</h2>
-
-
-<p>在进行BP网络的设计是，一般应从网络的层数、每层中的神经元个数和激活函数、初始值以及学习速率等几个方面来进行考虑，下面是一些选取的原则。</p>
-
-
-
-
-<p><strong>1.网络的层数</strong></br>
-理论已经证明，具有偏差和至少一个S型隐层加上一个线性输出层的网络，能够逼近任何有理函数，增加层数可以进一步降低误差，提高精度，但同时也是网络
-复杂化。另外不能用仅具有非线性激活函数的单层网络来解决问题，因为能用单层网络解决的问题，用自适应线性网络也一定能解决，而且自适应线性网络的
-运算速度更快，而对于只能用非线性函数解决的问题，单层精度又不够高，也只有增加层数才能达到期望的结果。
-</p>
-
-
-
-
-<p><strong>2.隐层神经元的个数</strong></br>
-网络训练精度的提高，可以通过采用一个隐含层，而增加其神经元个数的方法来获得，这在结构实现上要比增加网络层数简单得多。一般而言，我们用精度和
-训练网络的时间来恒量一个神经网络设计的好坏：</br>
-（1）神经元数太少时，网络不能很好的学习，训练迭代的次数也比较多，训练精度也不高。</br>
-（2）神经元数太多时，网络的功能越强大，精确度也更高，训练迭代的次数也大，可能会出现过拟合(over fitting)现象。</br>
-由此，我们得到神经网络隐层神经元个数的选取原则是：在能够解决问题的前提下，再加上一两个神经元，以加快误差下降速度即可。
-</p>
-
-
-
-
-<p><strong>3.初始权值的选取</strong></br>
-一般初始权值是取值在$(-1,1)$之间的随机数。另外威得罗等人在分析了两层网络是如何对一个函数进行训练后，提出选择初始权值量级为$\sqrt[r]{s}$的策略，
-其中$r$为输入个数，$s$为第一层神经元个数。
-</p>
-
-
-
-
-<p><strong>4.学习速率</strong></br>
-学习速率一般选取为$0.01 - 0.8$，大的学习速率可能导致系统的不稳定，但小的学习速率导致收敛太慢，需要较长的训练时间。对于较复杂的网络，
-在误差曲面的不同位置可能需要不同的学习速率，为了减少寻找学习速率的训练次数及时间，比较合适的方法是采用变化的自适应学习速率，使网络在
-不同的阶段设置不同大小的学习速率。
-</p>
-
-
-
-
-<p><strong>5.期望误差的选取</strong></br>
-在设计网络的过程中，期望误差值也应当通过对比训练后确定一个合适的值，这个合适的值是相对于所需要的隐层节点数来确定的。一般情况下，可以同时对两个不同
-的期望误差值的网络进行训练，最后通过综合因素来确定其中一个网络。
-</p>
-
-
-
-
-<h2>5.BP网络的局限性</h2>
-
-
-<p>BP网络具有以下的几个问题：</br>
-<strong>(1)需要较长的训练时间</strong>：这主要是由于学习速率太小所造成的，可采用变化的或自适应的学习速率来加以改进。</br>
-<strong>(2)完全不能训练</strong>：这主要表现在网络的麻痹上，通常为了避免这种情况的产生，一是选取较小的初始权值，而是采用较小的学习速率。</br>
-<strong>(3)局部最小值</strong>：这里采用的梯度下降法可能收敛到局部最小值，采用多层网络或较多的神经元，有可能得到更好的结果。
-</p>
-
-
-
-
-<h2>6.BP网络的改进</h2>
-
-
-<p>BP算法改进的主要目标是加快训练速度，避免陷入局部极小值等，常见的改进方法有带动量因子算法、自适应学习速率、变化的学习速率以及作用函数后缩法等。
-动量因子法的基本思想是在反向传播的基础上，在每一个权值的变化上加上一项正比于前次权值变化的值，并根据反向传播法来产生新的权值变化。而自适应学习
-速率的方法则是针对一些特定的问题的。改变学习速率的方法的原则是，若连续几次迭代中，若目标函数对某个权倒数的符号相同，则这个权的学习速率增加，
-反之若符号相反则减小它的学习速率。而作用函数后缩法则是将作用函数进行平移，即加上一个常数。</p>
-
-
-
-
-<h2>7.BP网络实现异或</h2>
-
-
-<p>见参考文献[7]或Andrew Ng. 的ML公开课的第8讲。</p>
-
-
-<p>另外BP算法的讲解及C++实现参见[4]。</p>
-
-
-
-
-<h2>参考文献</h2>
-
-
-<p>[1]An Introduction to Back-Propagation Neural Networks: http://www.seattlerobotics.org/encoder/nov98/neural.html</br>
-[2]Wiki - Backpropagation: http://en.wikipedia.org/wiki/Backpropagation</br>
-[3]Chapter 7 The backpropagation algorithm of Neural Networks - A Systematic Introduction by Raúl Rojas: http://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf</br>
-[4]Back-propagation Neural Net - C++ 实现: http://www.codeproject.com/Articles/13582/Back-propagation-Neural-Net</br>
-[5]《Visual C++数字图像模式识别技术及工程实践》(第3章)，求实科技 张宏林</br>
-[6]《Matlab神经网络设置及应用》(第5章)，周品，清华大学出版社
 </p>
 
 ]]></content>

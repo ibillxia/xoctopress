@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Program | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/categories/program/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:12:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -12,6 +12,783 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[给Octopress博客配置Twitter Bootstrap主题]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/04/28/configure-twitter-bootstrap-theme-in-octopress/"/>
+    <updated>2014-04-28T22:37:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/04/28/configure-twitter-bootstrap-theme-in-octopress</id>
+    <content type="html"><![CDATA[<p>很长一段时间以来就看到各种基于 Twitter Bootstrap 主题的博客很清爽，而且对 Tag 的归档也做得很赞，于是很想将自己的博客也换成 Bootstrap 的主题，随着看到的博客越来越多，自己的 Octopress 主题先得越来越臃肿，而 Tags 归档功能也相形见绌，更换主题的欲望越来越强烈了。于是乎，趁这个周末捣鼓了一番，最终大功告成，在这里分享一下具体过程。</p>
+
+<h2>Bootstrap 主题的安装</h2>
+
+<p>首先下载适用于 Octopress 的 <a href="https://github.com/bkutil/bootstrap-theme">Bootstrap主题</a> 并解压缩到博客的 .theme 目录，然后安装：</p>
+
+<p><code>
+rake install['bootstrap']
+</code></p>
+
+<p>安装的过程中可能会提示有 sass 或其他依赖库的语法错误神马的，这是因为 sass 的版本过低，可以通过如下命令来跟新：</p>
+
+<p><code>
+bundle update sass
+</code></p>
+
+<!-- more -->
+
+
+<p>其他库的升级类推。升级完这些依赖后，要修改你的 Octopress 博客的根目录下的 Gemfile 中的版本说明。最后再重新运行上上条的 rake install 指令。这样就完成主体的安装了，是不是很简单（实际操作中遇到问题的话，一般都是 jekyll 等各种的库的版本及相互间的依赖问题，通过 bundle update 基本上都能搞定）。安装完了之后，可以运行 rake generate 和 rake preview 来看看效果了。</p>
+
+<h2>配置 Tags 归档</h2>
+
+<p>接下来是配置类似 <a href="http://ibillxia.github.io/blog/tags/">这种显示结果</a> 的 Tags 归档页面了。</p>
+
+<p>首先，需要安装 <a href="https://github.com/plusjade/jekyll-bootstrap">jekyll-bootstrap</a> 的一些东西，请先下载并解压。主要是 <em>includes/JB/ 目录下的内容，将 JB 文件夹拷贝到 $BLOG_HOME/source/</em>includes/ 目录下，还有 jekyll-bootstrap 根目录下的 tags.html 拷贝到你想展示 Tags 的目录，并在 _config.yml 文件中配置 tag_dir 项的值为该目录，例如我这里的配置是：</p>
+
+<p><code>
+tag_dir: blog/tags
+</code></p>
+
+<p>所以我的 tags.html 文件放在了 $BLOG_HOME/source/blog/tags 目录下，并将 tags.html 重命名为 index.html。</p>
+
+<p>这些配置好了后，你就可以先运行 rake generate 和 rake preview 来看看效果。可以发现 Tags 归档页的显示还是不太友好。那么我们需要加入一些自己的 css 样式。这里我参考了 pluskid 师兄的博客的 css 代码并略有修改，在我新建的 $BLOG_HOME/source/stylesheets/style.css 文件中加入如下代码：</p>
+
+<p><code>
+/* tag_box */
+.tag_box {
+  list-style:none;
+  margin:0;
+  padding:2px 0 ;
+  overflow:hidden;
+}
+.tag_box li {
+  line-height:20px;
+  margin:0;
+}
+.tag_box.inline li {
+  float:left;
+  padding:2px 0 ;
+}
+.tag_box a {
+  padding: 2px;
+  margin: 2px;
+  background: #eee;
+  color:#005F6B;
+  border-radius: 3px;
+  text-decoration:none;
+}
+.tag_box a span{
+  vertical-align:super;
+  font-size:0.8em;
+}
+.tag_box a.active {
+  background:#57A957;
+  border:1px solid #4C964D;
+  color:#FFF;
+}
+/* tag_box end */
+</code></p>
+
+<p>注意，这里由于新加了 css 文件，要让其生效，需要在 html 模板中加入引用，具体我是在 $BLOG_HOME/source/_includes/head.html 文件中加入如下代码：</p>
+
+<p><code>
+&lt;link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css"&gt;
+</code></p>
+
+<p>你也可以直接在 html 模板中加入 css 代码而不用新建 css 文件并添加引用。</p>
+
+<p>至此，已经配置完成了 ^_^ 可以运行 rake generate 和 rake preview 来看看最终效果了。</p>
+
+<p>PS：本博客的主题及插件相关文件和代码可以看我的 GitHub Repo：<a href="https://github.com/ibillxia/xoctopress">xoctopress</a>. 如有问题，可以参考这些代码。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[全排列及某排列的后继的求解及其STL实现的分析]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/04/24/next-permutation-and-analysis-of-its-stl-implementation/"/>
+    <updated>2014-04-24T23:24:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/04/24/next-permutation-and-analysis-of-its-stl-implementation</id>
+    <content type="html"><![CDATA[<p>在Leetcode上有好几道全排列相关的题，一直以来只是会写基于递归的全排列生成算法，遇到这几道题后，搜了下一些非递归的实现方法，发现其实全排列的生成还是很有规律的有木有！这里就总结一下递归和非递归的全排列生成方法，并分析一下 STL 的实现。</p>
+
+<p>递归和非递归实现全排列生成的方法也分别有多种，递归法有基于交换的，有基于链接的，还有回溯，非递归法有排序、回溯、求模等，关于所有这些方法的具体实现参见 <a href="http://mengliao.blog.51cto.com/876134/824079">全排列的六种算法</a>. 本文只实现一种递归和一种非递归算法，并在最后对 STL 的非递归算法进行分析。</p>
+
+<h2>递归法求全排列</h2>
+
+<p>递归法的基本思路是这样的：</p>
+
+<blockquote><p>首先选一个元素排在第一个（有 n 中选法）；
+然后递归的对剩下的所有元素进行全排列；
+直到一个元素的全排列是其本身。</p></blockquote>
+
+<p>假设给定的元素序列为 &lt;e1, e2, ..., en>，其全排列表示为 P(e1, e2, ..., en)，则对递归的第一步展开有：</p>
+
+<blockquote><p>P(e1, e2, ..., en) = {
+&lt;e1, P(e2, e3, ..., en)>,
+&lt;e2, P(e1, e3, ..., en)>,
+... ...
+&lt;en, P(e1, e2, ..., e(n-1))> }</p></blockquote>
+
+<!-- more -->
+
+
+<p> 一个简单的实现如下：</p>
+
+<p>```
+void recursive_permute(int A[],int i,int n){</p>
+
+<pre><code>if(i==n-1){
+    for(int j=0;j&lt;n;j++)
+        cout&lt;&lt;A[j]&lt;&lt;" ";
+    cout&lt;&lt;endl;
+    return;
+}
+for(int j=i;j&lt;n;j++){
+    swap(A[i],A[j]);  // choose A[j] as the ith element
+    recursive_permute(A,i+1,n);
+    swap(A[i],A[j]);  // reset to enter next for
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>这个实现非常精简易懂，但却存在一个问题，那就是当数组 A 中存在重复元素时，得到的排列是有重复的，这是因为在第8行的循环中，可能会选取重复的 A[j] 值。 为了去掉重复排列，我们可以在选取第 i 个数 A[j] 之前（即交换 A[i] 和 A[j] 之前），判断值为 A[j] 的元素是否选取过，即要判断在 A[i] 到 A[j-1] 中是否存在与 A[j] 相等的元素，如果出现过，说明 A[i] 选 A[j] 这个排列已经生成过了，可以直接跳过当前的 A[j] 看看是否可以选取 A[j+1] 作为 A[i] 了。比如上面的 e1 = e2，那么无重复的全排列应该是：</p>
+
+<blockquote><p>P(e1, e2, ..., en) = {
+&lt;e1, P(e2, e3, ..., en)>,
+&lt;e3, P(e1, e2, e4, ..., en)>,
+... ...
+&lt;en, P(e1, e2, ..., e(n-1))> }</p></blockquote>
+
+<p>添加这个限制的递归实现代码如下：</p>
+
+<p>```
+void recursive_permute2(int A[],int i,int n){</p>
+
+<pre><code>if(i==n-1){
+    for(int j=0;j&lt;n;j++)
+        cout&lt;&lt;A[j]&lt;&lt;" ";
+    cout&lt;&lt;endl;
+    return;
+}
+for(int j=i;j&lt;n;j++){
+    int k;
+    for(k=i;k&lt;j;k++)if(A[k]==A[j])break; // A[j] already used
+    if(k&lt;j)continue;
+    swap(A[i],A[j]);  // choose A[j] as the ith element
+    recursive_permute2(A,i+1,n);
+    swap(A[i],A[j]);  // reset to enter next for
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>至此，递归法实现全排列的求解就总结到这儿了，下面来看看非递归怎么实现。</p>
+
+<h2>非递归法求全排列</h2>
+
+<p>非递归法求全排列的一种最常用算法是基于字典序的全排列生成算法，其基本思路为，先解决生成一个序列在字典序下的下一个排列这个问题，然后利用这个来一次求解每一个排列。其中求解给定序列在字典序下的下一个排列序列的基本思想如下：</p>
+
+<blockquote><ol>
+<li>对于给定序列 &lt;e1, e2, ..., en> 从右往左找到第一个非递增点，设下标为 i；</li>
+<li>从右往左查找第一个比 e[i] 大的数，设其下标为 j;</li>
+<li>交换 e[i] 和 e[j] 的值；</li>
+<li>将序列 e[i+1..n] 逆置。</li>
+</ol>
+</blockquote>
+
+<p>举个例子，如下图（修改自 <a href="http://fisherlei.blogspot.com/2012/12/leetcode-next-permutation.html">Next Permutation 解题报告</a> ）所示：</p>
+
+<center><img src="/images/2014/IMAG2014042401.png"></center>
+
+
+<p>上面的说明已经很接近伪代码了，具体实现如下：</p>
+
+<p>```
+bool next_permute(int A[],int n){</p>
+
+<pre><code>int i,j;
+// step .1
+if(n&lt;2)return false;
+for(i=n-2;i&gt;=0;i--){
+    if(A[i]&lt;A[i+1])break;
+}
+if(i&lt;0)return false; // A[0] is maximum, no next permute for it
+// step .2
+for(j=n-1;j&gt;i;j--){
+    if(A[j]&gt;A[i])break;
+}
+// step .3
+swap(A[i],A[j]);
+// step .4
+while(++i &lt; --n){
+    swap(A[i],A[n]);
+}
+return true;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>这里将其返回值定义为 bool 类型，可以方便后面求解全排列时调用：</p>
+
+<p>```
+void non_recursive_permute(int A[],int n){</p>
+
+<pre><code>sort(A,A+n);
+int i;
+do{
+    for(i=0;i&lt;n;i++)cout&lt;&lt;A[i]&lt;&lt;" ";
+    cout&lt;&lt;endl;
+}while(next_permute(A,n));
+</code></pre>
+
+<p>}
+```</p>
+
+<p>上面这个函数即实现了按字典序生成全排列的功能，而且对于输入含有重复值的情况，不会生成重复的排列。对于非递归实现，很容易分析其时间复杂度，next_permute 的时间复杂度为 O(n)，而 non_recursive_permute 的时间复杂度为 O(n*n!)。</p>
+
+<h2>STL 中 next permute 的实现</h2>
+
+<p>下面来分析一下 STL 中是如何实现 next permute 的，在 stl_algo.h 中我们可以找到 next_permutation 的实现，基本思路也是按照上面的四步走来实现的，具体见如下代码及注释：</p>
+
+<p>```
+/<em>*
+ *  @brief  Permute range into the next @a dictionary ordering.
+ *  @ingroup sorting_algorithms
+ *  @param  first  Start of range.
+ *  @param  last   End of range.
+ *  @return  False if wrapped to first permutation, true otherwise.
+ *
+ *  Treats all permutations of the range as a set of @a dictionary sorted
+ *  sequences.  Permutes the current sequence into the next one of this set.
+ *  Returns true if there are more sequences to generate.  If the sequence
+ *  is the largest of the set, the smallest is generated and false returned.
+</em>/
+template<typename _BidirectionalIterator>
+bool
+next_permutation(_BidirectionalIterator __first,</p>
+
+<pre><code>             _BidirectionalIterator __last)
+</code></pre>
+
+<p>{</p>
+
+<pre><code>// concept requirements
+__glibcxx_function_requires(_BidirectionalIteratorConcept&lt;
+                            _BidirectionalIterator&gt;)
+__glibcxx_function_requires(_LessThanComparableConcept&lt;
+                            typename iterator_traits&lt;_BidirectionalIterator&gt;::value_type&gt;)
+__glibcxx_requires_valid_range(__first, __last);
+
+if (__first == __last)  // 容器中没有元素，没有 next permute
+    return false;
+_BidirectionalIterator __i = __first;
+++__i;
+if (__i == __last)  // 容器中只有一个元素，同没有
+    return false;
+__i = __last;
+--__i;  // 将 __i 指向最后一个元素
+
+for(;;) {
+    _BidirectionalIterator __ii = __i;  
+    --__i;
+    if (*__i &lt; *__ii) {  // step .1, 这里的 __i 就相当于上面step 1中的i
+        _BidirectionalIterator __j = __last;
+        while (!(*__i &lt; *--__j)) {  // step .2, 这里的 __j 就相当上面 step 2中的j
+        }
+        std::iter_swap(__i, __j);  // step .3 交换
+        std::reverse(__ii, __last);  // step .4 逆置
+        return true;
+    }
+    if (__i == __first) {  // 直到 __i = __first 还是没有 *__i &lt; *__ii ，说明序列是递减排列的
+        std::reverse(__first, __last); // 本应该没有下一个排列，但这里将字典序中第一个排列作为最后一个排列的 next permute
+        return false; // 这里返回 false 而不是 true
+    }
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>这里是用双向迭代器对容器中的元素进行操作的，一个调用的实例如下：</p>
+
+<p>```
+vector&lt;vector<int> > permute(vector<int> &amp;num) {</p>
+
+<pre><code>vector&lt;vector&lt;int&gt; &gt; ans;
+sort(num.begin(),num.end());
+do{
+    ans.push_back(num);
+}while(next_permutation(num.begin(),num.end()));
+return ans;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>可以看到，其实 STL 的 next permute 的实现跟我们的非递归算法是一致的。但这里有两个问题：一是，这里看似有二重循环（在 for 中套 while ），但实际上复杂度是 n+n =》 O(n) 的（可以为什么要写成这种二重循环的形式捏？不解）；二是，我们可以看到在 for 循环中，对 __ii 这个变量进行了多次声明，为什么不将其声明放在 for 外面捏？（虽然待排列的元素数 n 不会很大，但这样多次声明一个迭代器变量，虽不会占用过多内存，但在声明时调用构造函数和析构函数也是有一定的时间开销的吧，虽然相对于求全排列的复杂度 O(n*n!) 几乎可以忽略不计）</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[原地交换两个变量的值]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/04/11/swap-two-variables-in-place/"/>
+    <updated>2014-04-11T22:27:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/04/11/swap-two-variables-in-place</id>
+    <content type="html"><![CDATA[<h2>引子</h2>
+
+<p>在码代码的过程中，不经意间就会遇到需要交换两个变量的情况，一般情况下都是通过新定义一个同类型的变量来中转，但自己也知道可以不用定义新变量直接原地交换，但具体如何原地交换以及其中可能隐藏的bug却了解得不是很清楚，于是乎google了一下，发现这里面还真是有很多学问呢，这里整理和总结一下。</p>
+
+<p>原地交换两个变量，最主要有加减法和异或法。</p>
+
+<p>本文完整代码链接：<a href="../upload/code/20140411.cpp">20140411.cpp</a></p>
+
+<h2>加减法</h2>
+
+<p>加减法最简单、最好理解了，设待交换的两个变量分别为 a 和 b ，首先将两者的和赋给 a ；然后将 a 与 b的差赋给 b ，这样 b 就是 a 原来的值了；最后再将 a 与 b 的差赋给 a ，这样 a 就是 b 原来的值了。具体代码如下：</p>
+
+<p>```
+inline template <class T>
+void xswap(T &amp;a,T &amp;b){</p>
+
+<pre><code>a=a+b;
+//printf("a=%u\n",a);
+b=a-b;
+a=a-b;
+</code></pre>
+
+<p>}
+```</p>
+
+<!-- more -->
+
+
+<p>当然也可以先减后加：</p>
+
+<p>```
+inline template <class T>
+void xswap2(T &amp;a,T &amp;b){</p>
+
+<pre><code>a=a-b;
+//printf("a=%u\n",a);
+b=a+b;
+a=b-a;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>这里实现的原理与先加后减类似。粗一看，这样实现两个变量的原地交换很简单有效。但是，这其中有一个很隐秘的bug，就是溢出的问题，在先加后减的实现中，如果 a 与 b 的和大于该类型的能表示的最大值，会发生神马捏？我写了一个 main 函数来简单的测试了一下：</p>
+
+<p>```
+int main()
+{</p>
+
+<pre><code>unsigned char a=255,b=1;
+printf("a=%u,b=%u\n",a,b);
+xswap(a,b);
+printf("a=%u,b=%u\n",a,b);
+return 0;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>将上面的 xswap 函数中的注释取消，编译运行后（使用Code::Blocks 13.12 MinGW g++编译），得到如下输出：</p>
+
+<p><code>
+a=255,b=1
+a=0
+a=1,b=255
+</code></p>
+
+<p>可以看到其中第2行输出的 a 的值为 0，产生了上溢（如果 a , b 同为负，可能产生下溢）。虽然最后交换的结果还是对的，但溢出的部分可能对内存中其他变量产生不可预测的后果。因此，不建议这么实现原地交换两个变量，如果实在需要用这种方法，一定要在进行加或减之前，判断时候回产生溢出。</p>
+
+<h2>异或法</h2>
+
+<p>异或法的基本原理类似，但还利用了异或的如下两个特性： a ^ 0 = a, a ^ a = 0. 用异或来实现两个变量的交换如下：</p>
+
+<p>```
+template <class T>
+inline void xswap3(T &amp;a,T &amp;b){</p>
+
+<pre><code>a=a^b;
+b=a^b;
+a=b^a;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>由于异或是按位运算的，所以不存在溢出问题。因此，如果一定要原地实现两个变量的交换的话，建议用异或的方法。</p>
+
+<h2>原地交换多个变量</h2>
+
+<p>实际上，我们还可以利用上面的思想，将两个变量扩展到多个变量的原地交换，例如三个变量的交换：</p>
+
+<p>```
+template <class T>
+inline void swap3(T &amp;a,T &amp;b,T &amp;c){</p>
+
+<pre><code>a=a^b;
+b=a^b;
+a=b^a;
+b=b^c;
+c=b^c;
+b=b^c;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>即先交换 a 和 b，再交换 b (=a) 和 c。另外，上面的式子可以简化和压缩到一个式子，具体的技巧读者可以自行google，这里不提倡这么做。</p>
+
+<h2>STL是如何实现swap的</h2>
+
+<p>最后，我们来看看STL标准库是如何实现swap的（这里的实现版本是 move.h 文件中的一个，在 STL 中还有针对 vector, string, tree, map, multimap, deque 的 swap 函数）。</p>
+
+<p>```
+/<em>*
+*  @brief Swaps two values.
+*  @ingroup mutating_algorithms
+*  @param  <strong>a  A thing of arbitrary type.
+*  @param  </strong>b  Another thing of arbitrary type.
+*  @return   Nothing.
+</em>/
+template<typename _Tp>
+inline void
+swap(<em>Tp&amp; __a, </em>Tp&amp; <strong>b)
+{
+  // concept requirements
+  </strong>glibcxx_function_requires(_SGIAssignableConcept<_Tp>)</p>
+
+<p>  <em>Tp __tmp = </em>GLIBCXX_MOVE(<strong>a);
+  </strong>a = <em>GLIBCXX_MOVE(<strong>b);
+  </strong>b = </em>GLIBCXX_MOVE(__tmp);
+}
+```</p>
+
+<p>可以看到，这里新声明了一个变量 __tmp 来中转。至于为什么没有原地进行交换，一个可能的解释是：对于 inline 函数来说，函数调用的代码会直接被改函数体替换，再经过编译优化，最后可能只需要借助一个寄存器变量就可以实现两个变量的交换了，这是非常快的，与通过按位的异或运算的实现，在性能上区别不是太大。</p>
+
+<h2>update</h2>
+
+<p>关于溢出的更深入的讨论，可以看看陈浩的最新博文 <a href="http://coolshell.cn/articles/11466.html">C语言的整型溢出问题</a> . 这里面有提到溢出的几个危害，还有关于 C 语言标准、编译器对溢出是如何处理和对待的，以及如何写代码实现预先判断溢出。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Go并发编程初探]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/03/16/go-concurrent-programming-first-try/"/>
+    <updated>2014-03-16T23:35:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/03/16/go-concurrent-programming-first-try</id>
+    <content type="html"><![CDATA[<h2>概述</h2>
+
+<p>最近在做的一个项目，需要对大量数据进行一些基本的统计和处理，整个程序的思路很简单，但处理起来却很慢，特别是有二重循环的地方，龟速前进，眼看着16核32线程
+的服务器只有一个线程被利用，束手无策。之前一直听说Go是一门对并发编程有很好的支持的语言，七牛的许牛大力推崇Go语言，于是就开始了对Go并行编程的探索之旅。</p>
+
+
+<center><img src="/images/2014/IMAG2014031601.jpg"></center>
+
+
+
+
+<!--more-->
+
+
+
+
+<h2>一些准备工作</h2>
+
+
+<p>在正式开始Go并行编程之前，首先我们需要准备Go的编程开发环境：Go编译器、Go编辑器。</br>
+在<a href="http://golang.org/">golang的官网</a>上有go的下载链接：</br>
+<a href="http://code.google.com/p/go/downloads/list">http://code.google.com/p/go/downloads/list</a></br>
+我选择的是go1.2.1.windows-amd64.msi安装包，下载完后直接点击该安装包，按照默认选项安装即可。安装完后，可以在命令行中查看go版本以检查是否安装成功：
+
+```
+C:\Users\Bill>go version
+go version go1.2.1 windows/amd64
+```
+
+然后，我们需要安装一个用于Go开发的IDE。当然也可以用通用的文本编辑器就可以，比如notepad、vi等，但这都是一些轻量级的，对于初学者来说还是不太合适的。
+网上有很多推荐的IDE，主要有LiteIDE、Eclipse+Goclipse、GoIde等，以及vim/emacs搭配go插件等，这里我选择的是LiteIDE，下载地址：</br>
+<a href="http://sourceforge.net/projects/liteide/files/x21/">http://sourceforge.net/projects/liteide/files/x21/</a></br>
+下载安装后，我们就可以开始go编程了。可以先运行一个Hello world程序，这里就不演示了，具体见：<a href="http://tour.golangtc.com/#1">Go 指南</a>
+</p>
+
+
+
+
+<p>关于Go的一些特性的介绍这里也不讲了，有兴趣的可以移步酷壳的这两篇文章<a href="http://coolshell.cn/articles/8460.html">Go 语言简介（上）— 语法</a> 
+和 <a href="http://coolshell.cn/articles/8489.html">Go 语言简介（下）— 特性</a>。下面我们直接进入Go并发编程。</p>
+
+
+
+
+<h2>Go并发编程</h2>
+
+
+<h4>#0x01.goroutine</h4>
+
+
+<p>优雅的并发编程范式，完善的并发支持，出色的并发性能是Go语言区别于其他语言的一大特色。在Go中，通过一种叫做goroutine的go协程这种轻量级线程来支持
+并发编程范式。协程是比进程和线程更轻量级的线程，go语言标准库提供的所有系统调用操作都会出让CPU给其他goroutine，协程的切换管理不依赖于系统的线程和
+进程，也不依赖于CPU的核心数量。下面我们来看一个简单的goroutine的实例。
+
+```
+package main
+
+import "fmt"
+
+func main() {
+    arr := [10]int{}
+    for i := 0; i < 10; i++ {
+        fmt.Print("Result of ", i, ":")
+        go func() {
+            arr[i] = i + i*i
+            fmt.Println(arr[i])
+        }()
+    }
+    fmt.Println("Done")
+}
+```
+
+Go从main package的main()函数开始执行，这段代码的功能是计算arr[i]=i+i*i，其中i取值从0到9，每一个i计算完后立即输出。其中go为golang的关键字，启动
+一个协程（goroutine）。程序的运行的结果是什么呢？我们期望的结果应该是这样的吧：
+
+```
+Result of 0:0
+Result of 1:2
+Result of 2:6
+Result of 3:12
+Result of 4:20
+Result of 5:30
+Result of 6:42
+Result of 7:56
+Result of 8:72
+Result of 9:90
+Done
+```
+
+可是在LiteIDE中运行后，却会发现结果是这样子的：
+
+```
+Result of 0:Result of 1:Result of 2:Result of 3:Result of 4:Result of 5:Result of 6:Result of 7:Result of 8:Result of 9:Done
+```
+
+这是为神马捏？怎么第9~12行的go func(){...}() 这段代码好像更笨就没有执行嘛？！莫非这是golang的bug？</p>
+
+<p>其实，这与golang的程序执行顺序有关。go程序从初始化main package并执行main()函数开始，当main()函数返回时，程序退出，且程序并不等待其他goroutine
+（非主goroutine）结束。于是上面的程序中，主函数虽然启动了10gegoroutine，但都没来得及执行，程序就已经退出了。那么怎么解决这个问题捏？很显然，我们
+在退出程序之前，需要判断这些创建的goroutine执行完了没。我们可以用一个全局变量来计数执行了的协程数，如果计数变量小于10，我们就等待或sleep。</p>
+
+<h4>#0x02.并发通讯</h4>
+<p>等一等，多个协程读写同一个变量，我们是不是需要对这个变量枷锁呀？答案是肯定的，我们可以采用类似与C/C++的线程通讯、数据共享的思路来实现，如下：
+
+```
+package main
+
+import (
+    "fmt"
+    "runtime"
+    "sync"
+)
+
+func main() {
+    var cnt int = 0  // 全局计数器
+    mylock := &sync.Mutex{}  // 互斥锁
+    arr := [10]int{}
+    for i := 0; i < 10; i++ {
+        fmt.Print("Result of ", i, ":")
+        go func() {
+            arr[i] = i + i*i
+            fmt.Println(arr[i])
+            mylock.Lock() // 写之前枷锁
+            cnt++
+            mylock.Unlock() // 写之后释放锁
+        }()
+    }
+    for {
+        mylock.Lock() // 读之前枷锁
+        temp := cnt
+        mylock.Unlock() // 读之后释放锁
+        runtime.Gosched() // 协程切换
+        if temp >= 10 {
+            break
+        }
+    }
+    fmt.Println("Done")
+}
+```
+
+执行以上程序，应该能够得到我们之前预期的那样的结果吧？可以运行之后，我们发现，结果却是这样的：
+
+```
+Result of 0:Result of 1:Result of 2:Result of 3:Result of 4:Result of 5:Result of 6:Result of 7:Result of 8:Result of 9:panic: runtime error: index out of range
+...
+```
+
+出现了运行时错误，数组下表越界了？！第17行还是没有输出？！经过一番修改，得到如下代码：
+
+```
+package main
+
+import (
+    "fmt"
+    "runtime"
+    "sync"
+)
+
+func main() {
+    var cnt int = 0  // 全局计数器
+    mylock := &sync.Mutex{}  // 互斥锁
+    arr := [11]int{}
+    for i := 0; i < 10; i++ {
+        go func() {
+            arr[i] = i + i*i
+            mylock.Lock() // 写之前枷锁
+            cnt++
+            mylock.Unlock() // 写之后释放锁
+        }()
+    }
+    for {
+        mylock.Lock() // 读之前枷锁
+        temp := cnt
+        mylock.Unlock() // 读之后释放锁
+        runtime.Gosched() // 协程切换
+        if temp >= 10 {
+            break
+        }
+    }
+    for i := 0; i < 11; i++ {
+        fmt.Println("Result of ", i, ":", arr[i])
+    }
+    fmt.Println("Done")
+}
+```
+
+这下应该能得到预期的结果了吧。可以运行程序后，有傻眼了，结果是：
+
+```
+Result of  0 : 0
+Result of  1 : 0
+Result of  2 : 0
+Result of  3 : 0
+Result of  4 : 0
+Result of  5 : 0
+Result of  6 : 0
+Result of  7 : 0
+Result of  8 : 0
+Result of  9 : 0
+Result of  10 : 110
+Done
+```
+
+神马？arr[0]~arr[9]肿么都是0，肿么会冒出一个arr[10]=110？！即使把第15、16行顺序互换，得到的结果还是一样！！！这真是一场噩梦啊！！！仔细对比许书上的例子，
+我们发现，这里使用的是匿名函数创建协程，匿名函数中使用了全局的变量，而每次使用go关键字创建协程后，程序不是继续往下执行，而是继续返回到for这一行来执行，首先i++，
+然后判断i<10，成立就继续执行并创建协程，10个协程创建完了之后，才真正开始匿名函数的执行，而此时i已经是10了，对于每一个协程i都是10，因此最终只计算了一个arr[10]=110，
+这也是为什么申请10个单位的数组时会出现运行时错误。而这完全不是我们所要的结果，那么怎么办呢？我们不妨用带参数的匿名函数来试试？如下：
+
+```
+package main
+
+import (
+    "fmt"
+    "runtime"
+    "sync"
+)
+
+func main() {
+    var cnt int = 0  // 全局计数器
+    mylock := &sync.Mutex{}  // 互斥锁
+    arr := [11]int{}
+    for i := 0; i < 10; i++ {
+        go func(i int) { // 这里的i是形参
+            arr[i] = i + i*i
+            mylock.Lock() // 写之前枷锁
+            cnt++
+            mylock.Unlock() // 写之后释放锁
+        }(i) // 这里的i是实参
+    }
+    for {
+        mylock.Lock() // 读之前枷锁
+        temp := cnt
+        mylock.Unlock() // 读之后释放锁
+        runtime.Gosched() // 协程切换
+        if temp >= 10 {
+            break
+        }
+    }
+    for i := 0; i < 11; i++ {
+        fmt.Println("Result of ", i, ":", arr[i])
+    }
+    fmt.Println("Done")
+}
+```
+
+终于，我们总算得到了想要的结果了，经过不懈努力终于大功告成。这里没创建一个协程，都有一个实参值传给形参，在匿名函数中就不存在共享的全局变量i了。
+然而，在让我们回头看看我们的代码，却会发现，这与一般的多线程程序有什么区别的，而且写起来会感觉更麻烦，有过之而无不及啊！</p>
+
+<p>想象一下，在一个大的系统中具有无数的锁、无数的共享变量、无数的业务逻辑与错误处理分支，那将是一场噩梦。这噩梦就是众多C/C++开发者正在经历的，其实Java和C#开发
+者也好不到哪里去。Go语言既然以并发编程作为语言的最核心优势，当然不至于将这样的问题用这么无奈的方式来解决。Go语言提供的是另一种通信模型，即以消息机制而非共享
+内存作为通信方式。</p>
+
+<h4>#0x03.channel</h4>
+<p>Go语言提供的消息通信机制被称为channel，接下来我们将详细介绍channel。现在，让我们用Go语言社区的那句著名的口号来开始这一小节： </br>
+<blockquote><p>不要通过共享内存来通信，而应该通过通信来共享内存。</p></blockquote>
+channel是Go语言在语言级别提供的goroutine间的通信方式，可以使用channel在两个或多个goroutine之间传递消息。channel是进程内的通信方式，因此通过channel传递
+对象的过程和调用函数时的参数传递行为比较一致，比如也可以传递指针等。如果需要跨进程通信，建议用分布式系统的方法来解决，比如使用Socket或者HTTP等通信协议。
+channel是类型相关的。也就是说，一个channel只能传递一种类型的值，这个类型需要在声明channel时指定。我们先看下用channel的方式重写上面的例子是什么样子的
+
+```
+package main
+
+import "fmt"
+
+func main() {
+    chs := make([]chan int, 10) // 申请一个10维的channel数组
+    arr := [11]int{}
+    for i := 0; i < 10; i++ {
+        chs[i] = make(chan int) // 对每个channel初始化
+        go func(ch chan int, i int) {
+            arr[i] = i + i*i
+            ch <- 1  // 写channel，应该在函数体的最后一行，许书（P94，代码清单4-4）上有bug
+        }(chs[i], i)
+    }
+    for _, ch := range chs {
+        <-ch // 读channel
+    }
+    for i := 0; i < 11; i++ {
+        fmt.Println("Result of ", i, ":", arr[i])
+    }
+    fmt.Println("Done")
+}
+```
+
+在这段代码中，我们给每个goroutine分配了一个channel，在每个goroutine执行完时对该goroutine的channel进行写操作，而在第16行进行读操作，对于每个channel，
+只有完成了写操作之后，才可以进行读取，否则会处于阻塞状态。因此在10个goroutine没有执行完之前，main函数是不会退出的。这样是不是比共享内存的方式更简单
+而优雅呢？其实，我们还可以对代码继续进行简化，可以将匿名函数的传递的channel参数省去，而在匿名函数内部直接使用全局的chs[i]，匿名函数可以修改为如下：
+
+```
+go func(i int) {
+    arr[i] = i + i*i
+    chs[i] <- 1  // 写channel
+}(i)
+```
+
+</p>
+
+<p>到这里，go的并行编程基本已经入门了，关于channel的更多详细的用法可以参见参考资料。</p>
+
+<h2>参考资料</h2>
+<p>[1] golang 官方主页：<a href="http://golang.org/">http://golang.org/</a></br>
+[2] go语言编程，许世伟
+</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PCM WAVE格式详解及用C语言实现wave文件的读取]]></title>
@@ -351,1111 +1128,6 @@ Data: 真正的语音数据部分。</br>
 [2]Resource Interchange File Format: http://en.wikipedia.org/wiki/Resource_Interchange_File_Format </br>
 [3]基于Visual C++6.0的声音文件操作: http://www.yesky.com/20030414/1663116_1.shtml
 </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[给Octpress博客添加返回顶部按钮]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog/"/>
-    <updated>2013-06-30T10:47:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog</id>
-    <content type="html"><![CDATA[<p>有时候，博客文章太长，需要返回顶部时，需要用鼠标拖着滚动条向上好半天，这里提供一个用jQuery来实现的动态上滚的示例。
-这个示例完全参考和翻译自webdesignerwall的blog：<a href="http://webdesignerwall.com/tutorials/animated-scroll-to-top">http://webdesignerwall.com/tutorials/animated-scroll-to-top</a>，
-其中有部分删改，并在本人的blog上实现。</p>
-
-
-
-
-<p>主要包含HTML和CSS的设计，基于jQuery的JS的设计。另外还有一点小trick</p>
-
-
-
-
-<h2>Design & CSS</h2>
-
-
-<p>相关的HTML代码很简单，在source/_include/custom/footer.html中添加如下代码：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;p id = "back-top">
-</span><span class='line'>        &lt;a href="#top">&lt;span>&lt;/span>Back to Top&lt;/a>
-</span><span class='line'>    &lt;/p></span></code></pre></td></tr></table></div></figure></notextile></div>
-</p>
-
-
-
-
-<!--more-->
-
-
-
-
-<p>对应的CSS样式的设置如下：（这段代码同样的放在source/_include/custom/footer.html文件中）
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;style type="text/css">
-</span><span class='line'>#back-top {
-</span><span class='line'>    position: fixed;
-</span><span class='line'>    bottom: 50px;
-</span><span class='line'>    right: 100px;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>#back-top a {
-</span><span class='line'>    width: 80px;
-</span><span class='line'>    display: block;
-</span><span class='line'>    text-align: center;
-</span><span class='line'>    font: 11px/100% Arial, Helvetica, sans-serif;
-</span><span class='line'>    text-transform: uppercase;
-</span><span class='line'>    text-decoration: none;
-</span><span class='line'>    color: #bbb;
-</span><span class='line'>
-</span><span class='line'>    /* transition */
-</span><span class='line'>    -webkit-transition: 1s;
-</span><span class='line'>    -moz-transition: 1s;
-</span><span class='line'>    transition: 1s;
-</span><span class='line'>}
-</span><span class='line'>#back-top a:hover {
-</span><span class='line'>    color: #000;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>/* arrow icon (span tag) */
-</span><span class='line'>#back-top span {
-</span><span class='line'>    width: 80px;
-</span><span class='line'>    height: 80px;
-</span><span class='line'>    display: block;
-</span><span class='line'>    margin-bottom: 7px;
-</span><span class='line'>    background: #ddd url(../../images/up-arrow.png) no-repeat center center;
-</span><span class='line'>
-</span><span class='line'>    /* rounded corners */
-</span><span class='line'>    -webkit-border-radius: 15px;
-</span><span class='line'>    -moz-border-radius: 15px;
-</span><span class='line'>    border-radius: 15px;
-</span><span class='line'>
-</span><span class='line'>    /* transition */
-</span><span class='line'>    -webkit-transition: 1s;
-</span><span class='line'>    -moz-transition: 1s;
-</span><span class='line'>    transition: 1s;
-</span><span class='line'>}
-</span><span class='line'>/*
-</span><span class='line'>#back-top a:hover span {
-</span><span class='line'>    background-color: #888;
-</span><span class='line'>}
-</span><span class='line'>*/
-</span><span class='line'>&lt;/style></span></code></pre></td></tr></table></div></figure></notextile></div>
-</p>
-
-
-
-
-<p>上面的css中用到了一张图片up-arrow.png，放在source/images/目录下，图片如下：
-<center><img src="/images/up-arrow.png"></center>
-这是从google image里面随便找的一个，你也可以找一个自己喜欢的图片。
-</p>
-
-
-
-
-<h2>jQuery部分</h2>
-
-
-<p>HTML和CSS样式设置好了之后，最后就是添加JavaScript事件响应代码了，这里是基于jQuery实现的。代码如下：（这段代码还是放在source/_include/custom/footer.html文件中）
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js">&lt;/script>
-</span><span class='line'>&lt;script type="text/javascript">
-</span><span class='line'>$(document).ready(function(){
-</span><span class='line'>
-</span><span class='line'>    // hide #back-top first
-</span><span class='line'>    $("#back-top").hide();
-</span><span class='line'>    
-</span><span class='line'>    // fade in #back-top
-</span><span class='line'>    $(function () {
-</span><span class='line'>        $(window).scroll(function () {
-</span><span class='line'>            if ($(this).scrollTop() > 100) {
-</span><span class='line'>                $('#back-top').fadeIn();
-</span><span class='line'>            } else {
-</span><span class='line'>                $('#back-top').fadeOut();
-</span><span class='line'>            }
-</span><span class='line'>        });
-</span><span class='line'>
-</span><span class='line'>        // scroll body to 0px on click
-</span><span class='line'>        $('#back-top a').click(function () {
-</span><span class='line'>            $('body,html').animate({
-</span><span class='line'>                scrollTop: 0
-</span><span class='line'>            }, 800);
-</span><span class='line'>            return false;
-</span><span class='line'>        });
-</span><span class='line'>    });
-</span><span class='line'>
-</span><span class='line'>});
-</span><span class='line'>&lt;/script></span></code></pre></td></tr></table></div></figure></notextile></div>
-</p>
-
-
-
-
-<h2>一个Trick</h2>
-
-
-<p>
-在上面的HTML代码中，我们将一个链接添加到了ID为#top的里面，这个#top标签是<body>标签的ID，这样即使浏览器不支持相关的JS，
-通过这个link也实现了返回顶部的功能。
-</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[用Windows API实现一个简单的录音程序]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/06/04/a-simple-code-for-wave-recording-using-windows-api/"/>
-    <updated>2013-06-04T23:59:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/06/04/a-simple-code-for-wave-recording-using-windows-api</id>
-    <content type="html"><![CDATA[<p>本文介绍如何使用Windows API来录制语音信号兵保存到wave文件中，主要用到三个结构体和几个wave开头的API函数（在Winmm.lib文件中）。其中三个结构体是WAVEFORMATEX、WAVEHDR、MMTIME，其详细定义都在MMSystem.h中定义，
-可以转到定义看其详细内容及每一项的英文注释。用到的API函数的详细用法可以参见MSDN： http://msdn.microsoft.com/en-us/library/windows/desktop/dd743847(v=vs.85).aspx
-详细的使用过程请看下文的源代码，这是一个Win32 Application，需要手动添加Winmm.lib的依赖。</p>
-
-
-
-
-<!--more-->
-
-
-
-
-<p>实例程序</p>
-
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-<span class='line-number'>151</span>
-<span class='line-number'>152</span>
-<span class='line-number'>153</span>
-<span class='line-number'>154</span>
-<span class='line-number'>155</span>
-<span class='line-number'>156</span>
-<span class='line-number'>157</span>
-<span class='line-number'>158</span>
-<span class='line-number'>159</span>
-<span class='line-number'>160</span>
-<span class='line-number'>161</span>
-<span class='line-number'>162</span>
-<span class='line-number'>163</span>
-<span class='line-number'>164</span>
-<span class='line-number'>165</span>
-<span class='line-number'>166</span>
-<span class='line-number'>167</span>
-<span class='line-number'>168</span>
-<span class='line-number'>169</span>
-<span class='line-number'>170</span>
-<span class='line-number'>171</span>
-<span class='line-number'>172</span>
-<span class='line-number'>173</span>
-<span class='line-number'>174</span>
-<span class='line-number'>175</span>
-<span class='line-number'>176</span>
-<span class='line-number'>177</span>
-<span class='line-number'>178</span>
-<span class='line-number'>179</span>
-<span class='line-number'>180</span>
-<span class='line-number'>181</span>
-<span class='line-number'>182</span>
-<span class='line-number'>183</span>
-<span class='line-number'>184</span>
-<span class='line-number'>185</span>
-<span class='line-number'>186</span>
-<span class='line-number'>187</span>
-<span class='line-number'>188</span>
-<span class='line-number'>189</span>
-<span class='line-number'>190</span>
-<span class='line-number'>191</span>
-<span class='line-number'>192</span>
-<span class='line-number'>193</span>
-<span class='line-number'>194</span>
-<span class='line-number'>195</span>
-<span class='line-number'>196</span>
-<span class='line-number'>197</span>
-<span class='line-number'>198</span>
-<span class='line-number'>199</span>
-<span class='line-number'>200</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// &lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;em> FileName: WinMain.cpp &lt;/em>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>**********
-</span><span class='line'>// 该源程序需要加入到 VC6 的 Win32 Application 的 empty Project 中
-</span><span class='line'>// 对于工程的 Link 选项，至少要包含以下库: msvcrt.lib Winmm.lib&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;atlstr.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;windows.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;Mmsystem.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>pragma comment(lib,"Winmm.lib")&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>char lpTemp[256];&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>DWORD FCC(LPSTR lpStr)
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>DWORD Number = lpStr[0] + lpStr[1] *0x100 + lpStr[2] *0x10000 + lpStr[3] *0x1000000 ;
-</span><span class='line'>return Number;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>DWORD datasize = 48000;
-</span><span class='line'>
-</span><span class='line'>// 设置录音采样参数
-</span><span class='line'>WAVEFORMATEX waveformat;
-</span><span class='line'>waveformat.wFormatTag=WAVE_FORMAT_PCM; // 指定录音格式
-</span><span class='line'>waveformat.nChannels=1;
-</span><span class='line'>waveformat.nSamplesPerSec=8000;
-</span><span class='line'>waveformat.nBlockAlign=1;
-</span><span class='line'>waveformat.wBitsPerSample=8;
-</span><span class='line'>waveformat.cbSize=0;
-</span><span class='line'>waveformat.nAvgBytesPerSec=waveformat.nChannels*waveformat.nSamplesPerSec*waveformat.wBitsPerSample/8;
-</span><span class='line'>
-</span><span class='line'>sprintf(lpTemp,"WAVEFORMATEX size = %lu", sizeof(WAVEFORMATEX));
-</span><span class='line'>MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
-</span><span class='line'>
-</span><span class='line'>HWAVEIN m_hWaveIn;
-</span><span class='line'>if ( !waveInGetNumDevs() )
-</span><span class='line'>{
-</span><span class='line'>    MessageBox(NULL,CString("没有可以使用的 WaveIn 通道"),CString("提示"),MB_OK);
-</span><span class='line'>    return 0;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>// 打开录音设备
-</span><span class='line'>int res = waveInOpen(&amp;m_hWaveIn,WAVE_MAPPER, &amp;waveformat, (DWORD)NULL,0L,CALLBACK_WINDOW); 
-</span><span class='line'>if ( res != MMSYSERR_NOERROR )
-</span><span class='line'>{
-</span><span class='line'>   sprintf(lpTemp, "打开 waveIn 通道失败，Error_Code = 0x%x", res );
-</span><span class='line'>   MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
-</span><span class='line'>   return 0;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>WAVEHDR m_pWaveHdr;
-</span><span class='line'>m_pWaveHdr.lpData = (char *)GlobalLock( GlobalAlloc(GMEM_MOVEABLE|GMEM_SHARE, datasize) );
-</span><span class='line'>memset(m_pWaveHdr.lpData, 0, datasize );
-</span><span class='line'>m_pWaveHdr.dwBufferLength = datasize;
-</span><span class='line'>m_pWaveHdr.dwBytesRecorded = 0;
-</span><span class='line'>m_pWaveHdr.dwUser = 0;
-</span><span class='line'>m_pWaveHdr.dwFlags = 0;
-</span><span class='line'>m_pWaveHdr.dwLoops = 0;
-</span><span class='line'>sprintf( lpTemp, "WAVEHDR size = %lu", sizeof(WAVEHDR) );
-</span><span class='line'>MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
-</span><span class='line'>
-</span><span class='line'>// 准备内存块录音
-</span><span class='line'>int resPrepare = waveInPrepareHeader( m_hWaveIn, &amp;m_pWaveHdr, sizeof(WAVEHDR) ); 
-</span><span class='line'>if ( resPrepare != MMSYSERR_NOERROR) 
-</span><span class='line'>{
-</span><span class='line'>    sprintf(lpTemp, "不能开辟录音头文件，Error_Code = 0x%03X", resPrepare );
-</span><span class='line'>    MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
-</span><span class='line'>    return 0;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>resPrepare = waveInAddBuffer( m_hWaveIn, &amp;m_pWaveHdr, sizeof(WAVEHDR) );
-</span><span class='line'>if ( resPrepare != MMSYSERR_NOERROR) 
-</span><span class='line'>{
-</span><span class='line'>    sprintf(lpTemp, "不能开辟录音用缓冲，Error_Code = 0x%03X", resPrepare );
-</span><span class='line'>    MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
-</span><span class='line'>    return 0;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>if (! waveInStart(m_hWaveIn) ) 
-</span><span class='line'>{
-</span><span class='line'>    MessageBox(NULL,CString("开始录音"),CString("提示"),MB_OK);
-</span><span class='line'>}
-</span><span class='line'>else 
-</span><span class='line'>{
-</span><span class='line'>    MessageBox(NULL,CString("开始录音失败"),CString("提示"),MB_OK);
-</span><span class='line'>    return 0;
-</span><span class='line'>}
-</span><span class='line'>Sleep(30000);
-</span><span class='line'>
-</span><span class='line'>MMTIME mmt;
-</span><span class='line'>mmt.wType = TIME_BYTES;
-</span><span class='line'>sprintf( lpTemp, "sizeof(MMTIME) = %d, sizeof(UINT) = %d", sizeof(MMTIME), sizeof(UINT) );
-</span><span class='line'>MessageBox(NULL,CString(lpTemp),CString("提示"),MB_OK);
-</span><span class='line'>
-</span><span class='line'>if (! waveInGetPosition(m_hWaveIn, &amp;mmt, sizeof(MMTIME)) )
-</span><span class='line'>{
-</span><span class='line'>    MessageBox(NULL,CString("取得现在音频位置"),CString("提示"),MB_OK);
-</span><span class='line'>}
-</span><span class='line'>else 
-</span><span class='line'>{
-</span><span class='line'>    MessageBox(NULL,CString("不能取得音频长度"),CString("提示"),MB_OK);
-</span><span class='line'>    return 0;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>if (mmt.wType != TIME_BYTES) 
-</span><span class='line'>{
-</span><span class='line'>    MessageBox(NULL,CString("指定的 TIME_BYTES 格式音频长度不支持"),CString("提示"),MB_OK);
-</span><span class='line'>    return 0;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>if (! waveInStop(m_hWaveIn) ) 
-</span><span class='line'>{
-</span><span class='line'>    MessageBox(NULL,CString("停止录音"),CString("提示"),MB_OK);
-</span><span class='line'>}
-</span><span class='line'>else  
-</span><span class='line'>{
-</span><span class='line'>    MessageBox(NULL,CString("停止录音失败"),CString("提示"),MB_OK);
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>if ( waveInReset(m_hWaveIn) ) 
-</span><span class='line'>{
-</span><span class='line'>    MessageBox(NULL,CString("重置内存区失败"),CString("提示"),MB_OK);
-</span><span class='line'>    return 0;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>m_pWaveHdr.dwBytesRecorded = mmt.u.cb;
-</span><span class='line'>DWORD NumToWrite=0;
-</span><span class='line'>DWORD dwNumber = 0;
-</span><span class='line'>HANDLE FileHandle = CreateFile( CString("myTest.wav"), GENERIC_WRITE, 
-</span><span class='line'>    FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-</span><span class='line'>
-</span><span class='line'>// memset(m_pWaveHdr.lpData, 0, datasize);
-</span><span class='line'>dwNumber = FCC("RIFF");
-</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
-</span><span class='line'>dwNumber = m_pWaveHdr.dwBytesRecorded + 18 + 20;
-</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
-</span><span class='line'>dwNumber = FCC("WAVE");
-</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
-</span><span class='line'>dwNumber = FCC("fmt ");
-</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
-</span><span class='line'>dwNumber = 18L;
-</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
-</span><span class='line'>WriteFile(FileHandle, &amp;waveformat, sizeof(WAVEFORMATEX), &amp;NumToWrite, NULL);
-</span><span class='line'>dwNumber = FCC("data");
-</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
-</span><span class='line'>dwNumber = m_pWaveHdr.dwBytesRecorded;
-</span><span class='line'>WriteFile(FileHandle, &amp;dwNumber, 4, &amp;NumToWrite, NULL);
-</span><span class='line'>WriteFile(FileHandle, m_pWaveHdr.lpData, m_pWaveHdr.dwBytesRecorded, &amp;NumToWrite, NULL);
-</span><span class='line'>SetEndOfFile(FileHandle);
-</span><span class='line'>CloseHandle( FileHandle );  
-</span><span class='line'>FileHandle = INVALID_HANDLE_VALUE; // 收尾关闭句柄
-</span><span class='line'>MessageBox(NULL,CString("应该已生成 myTest.wav 文件"),CString("提示"),MB_OK);
-</span><span class='line'>
-</span><span class='line'>if ( waveInUnprepareHeader(m_hWaveIn, &amp;m_pWaveHdr, sizeof(WAVEHDR)) ) 
-</span><span class='line'>{
-</span><span class='line'>    MessageBox(NULL,CString("Un_Prepare Header 失败"),CString("提示"),MB_OK);
-</span><span class='line'>}
-</span><span class='line'>else 
-</span><span class='line'>{
-</span><span class='line'>    MessageBox(NULL,CString("Un_Prepare Header 成功"),CString("提示"),MB_OK);
-</span><span class='line'>    return 0;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>if ( GlobalFree(GlobalHandle( m_pWaveHdr.lpData )) ) 
-</span><span class='line'>{
-</span><span class='line'>    MessageBox(NULL,CString("Global Free 失败"),CString("提示"),MB_OK);
-</span><span class='line'>}
-</span><span class='line'>else 
-</span><span class='line'>{
-</span><span class='line'>    MessageBox(NULL,CString("Global Free 成功"),CString("提示"),MB_OK);
-</span><span class='line'>    return 0;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>if (res == MMSYSERR_NOERROR ) // 关闭录音设备
-</span><span class='line'>{
-</span><span class='line'>    if (waveInClose(m_hWaveIn)==MMSYSERR_NOERROR)
-</span><span class='line'>    {
-</span><span class='line'>        MessageBox(NULL,CString("正常关闭录音设备"),CString("提示"),MB_OK);
-</span><span class='line'>    }
-</span><span class='line'>    else
-</span><span class='line'>    {
-</span><span class='line'>        MessageBox(NULL,CString("非正常关闭录音设备"),CString("提示"),MB_OK);
-</span><span class='line'>        return 0;
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>return 0;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}
-</span><span class='line'>// &lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;strong>&lt;em> End of File &lt;/em>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>&lt;/strong>*****</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>这里提供的代码有点杂乱，现已整理成一个小的接口，并提供了一个简单的示例，放在GitHub上：https://github.com/ibillxia/Demo/tree/master/DemoSpeechRecord</p>
-
-
-
-
-<p>参考：</br>
-[1]MSDN: http://msdn.microsoft.com/en-us/library/windows/desktop/dd743586(v=vs.85).aspx</br>
-[2]基于API的录音机程序: http://www.vckbase.com/index.php/wv/664
-</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Matlab代码优化方法几则]]></title>
-    <link href="http://ibillxia.github.io/blog/2012/04/25/matlab-code-optimization/"/>
-    <updated>2012-04-25T20:07:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2012/04/25/matlab-code-optimization</id>
-    <content type="html"><![CDATA[<p>1.计算向量、矩阵化，尽量减少for循环</br>
-因为MATLAB本来就是矩阵实验室的意思，他提供了极其强大而灵活的矩阵运算能力，你就没必要自己再用自己编写的for循环去实现矩阵运算的功能了。
-另外由于matlab是一种解释性语言，所以最忌讳直接使用循环语句。但在有些情况下，使用for循环可以提高程序的易读性，在效率提高不是很明显的
-情况下可以选择使用for循环。</p>
-
-
-
-
-<p>2.循环内大数组预先定义--预先分配空间</br>
-这一点原则是极其重要的，以至于在编写m程序时编辑器会给出提示“'ver' might be growing inside a loop.Consider prealloacting for speed.”</p>
-
-
-
-
-<p>3.尽可能利用matlab内部提供的函数</br>
-因为matlab内部提供的函数绝对是各种问题的最优算法，那写程序都是他们大师级人物写出来的，程序应该说相当高效，有现成的为什么不用那！
-这个原则就不用实际的程序测试了。</p>
-
-
-
-
-<p>4. 利用内置函数自动记录运行结果</br>
-matlab生成的结果变量只贮存在内存空间中，一旦matlab关闭则会丢失，很多时候需要手工将这些结果存储到我们需要的文件中。事实上，matlab提供
-了很多函数可以自动记录结果，如fprintf可以将数据写入txt文件，xlswrite可以将数据写入excel文件等等。这样自动化的命令可以缩减大量时间，
-从而提高效率。</p>
-
-
-
-
-<p>5. 在迫不得已要使用较多循环而每一步都很耗时的时候，可以将每一步的结果保存成mat文件，然后在循环的开头用if语句与exist函数进行判断，
-如果该文件存在的话，就直接进入下一次循环。这样做的好处是不会因为断电、电脑死机或误操作等原因而重头从第一个循环再次运行。</p>
-
-
-
-
-<p>6. 同时运行多的matlab进程。现在的电脑一般都是多核，一般一个matlab进程会占用一个cpu，因此可以在多核电脑上同时打开多个matlab窗口，
-从而执行不同的命令。如四核电脑上可以打开三个matlab窗口分别运行不同的程序，cpu的占用率约为80%，这样既加快了进度，又不会影响电脑的使用。</p>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[11年浙大复试机试题解]]></title>
-    <link href="http://ibillxia.github.io/blog/2012/03/07/11-zju-program-test-solution/"/>
-    <updated>2012-03-07T19:56:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2012/03/07/11-zju-program-test-solution</id>
-    <content type="html"><![CDATA[<p>
-11年浙大研究生复试机试题解
-</p>
-
-
-
-
-<h3>A题：A+B for Matrices （ 九度1001）</h3>
-
-
-<p>水题</p>
-
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem A </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>int m,n,a[10][10],b[10][10];
-</span><span class='line'>int main()
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>int i,j,cnt;
-</span><span class='line'>while(scanf("%d",&amp;m)&amp;&amp;m&gt;0){
-</span><span class='line'>    scanf("%d",&amp;n);
-</span><span class='line'>    for(i=0;i&lt;m;i++)
-</span><span class='line'>        for(j=0;j&lt;n;j++)
-</span><span class='line'>            scanf("%d",a[i]+j);
-</span><span class='line'>    for(i=0;i&lt;m;i++)
-</span><span class='line'>        for(j=0;j&lt;n;j++){
-</span><span class='line'>            scanf("%d",b[i]+j);
-</span><span class='line'>            a[i][j]+=b[i][j];
-</span><span class='line'>        }
-</span><span class='line'>    cnt=0;
-</span><span class='line'>    for(i=0;i&lt;m;i++){
-</span><span class='line'>        for(j=0;j&lt;n;j++)
-</span><span class='line'>            if(a[i][j])break;
-</span><span class='line'>        if(j==n)cnt++;
-</span><span class='line'>    }
-</span><span class='line'>    for(i=0;i&lt;n;i++){
-</span><span class='line'>        for(j=0;j&lt;m;j++)
-</span><span class='line'>            if(a[j][i])break;
-</span><span class='line'>        if(j==m)cnt++;
-</span><span class='line'>    }
-</span><span class='line'>    printf("%d\n",cnt);
-</span><span class='line'>}
-</span><span class='line'>return 0;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<!-- more -->
-
-
-<h3>B题：Grading（ 九度 1002 ）</h3>
-
-
-<p>继续水题！</p>
-
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem B </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>int main()
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>int p,t,g1,g2,g3,gj,t1,t2;
-</span><span class='line'>while(scanf("%d %d %d %d %d %d",&amp;p,&amp;t,&amp;g1,&amp;g2,&amp;g3,&amp;gj)!=EOF){
-</span><span class='line'>    if(g1-g2&lt;=t&amp;&amp;g2-g1&lt;=t){printf("%.1f\n",(g1+g2)/2.0);continue;}
-</span><span class='line'>    t1=g3&gt;g1 ? g3-g1 : g1-g3;
-</span><span class='line'>    t2=g3&gt;g2 ? g3-g2 : g2-g3;
-</span><span class='line'>    if(t1&gt;t&amp;&amp;t2&gt;t){printf("%.1f\n",(float)gj);continue;}
-</span><span class='line'>    if(t1&lt;=t&amp;&amp;t2&lt;=t) {
-</span><span class='line'>        if(g1&lt;g2)g1=g2;
-</span><span class='line'>        if(g1&lt;g3)g1=g3;
-</span><span class='line'>        printf("%.1f\n",(float)g1);
-</span><span class='line'>        continue;
-</span><span class='line'>    }
-</span><span class='line'>    if(t1&gt;t2)printf("%.1f\n",(g2+g3)/2.0);
-</span><span class='line'>    else printf("%.1f\n",(g1+g3)/2.0);
-</span><span class='line'>}
-</span><span class='line'>return 0;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h3>C题：Median（ 九度 1004）</h3>
-
-
-<p>再继续水题！</p>
-
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem C </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>long m,n,a[1000000],b[1000000];
-</span><span class='line'>int main()
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>int i,j,k,t,mid;
-</span><span class='line'>while(scanf("%d",&amp;m)!=EOF){
-</span><span class='line'>    for(i=0;i&lt;m;i++)scanf("%d",a+i);
-</span><span class='line'>    scanf("%d",&amp;n);
-</span><span class='line'>    for(i=0;i&lt;n;i++)scanf("%d",b+i);
-</span><span class='line'>    i=j=k=0;t=(m+n+1)/2;
-</span><span class='line'>    while(i&lt;m&amp;&amp;j&lt;n&amp;&amp;k&lt;t){
-</span><span class='line'>        if(a[i]&gt;b[j]){mid=b[j];j++;}
-</span><span class='line'>        else {mid=a[i];i++;}
-</span><span class='line'>        k++;
-</span><span class='line'>    }
-</span><span class='line'>    if(i==m&amp;&amp;k&lt;t){
-</span><span class='line'>        while(k&lt;t){j++;k++;}
-</span><span class='line'>        mid=b[j-1];
-</span><span class='line'>    }else if(j==n&amp;&amp;k&lt;t){
-</span><span class='line'>        while(k&lt;t){i++;k++;}
-</span><span class='line'>        mid=a[i-1];
-</span><span class='line'>    }
-</span><span class='line'>    printf("%d\n",mid);
-</span><span class='line'>}
-</span><span class='line'>return 0;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h3>D题：Graduate Admission（ 九度 1005）</h3>
-
-
-<p>有点麻烦，要细心！</p>
-
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem D </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdlib.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;memory.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>//m为学校数，n为学生数，k为学生填报的志愿数
-</span><span class='line'>//mq[i][0]为学校i计划招生数，mq[i][1]为学校实际招生数，
-</span><span class='line'>//mq[i][2] ~ mq[i][mq[i][1]+1]为招收的学生的学号
-</span><span class='line'>//ng[i][0]为学生学号，ng[i][1]为学生总成绩，ng[i][2]为学生面试成绩，
-</span><span class='line'>//ng[i][2]后面的k个数据是填报的志愿
-</span><span class='line'>int m,n,k,mq[100][1000],ng[40000][8];
-</span><span class='line'>int cmp1(const void&lt;em>a,const void&lt;/em>b){&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>int *t1,*t2;
-</span><span class='line'>t1=(int*)a;t2=(int*)b;
-</span><span class='line'>if(t1[1]!=t2[1])return t2[1]-t1[1];
-</span><span class='line'>else return t1[2]-t2[2];  //总分相同时，面试成绩高的笔试成绩低
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}
-</span><span class='line'>int cmp2(const void&lt;em>a,const void&lt;/em>b){return &lt;em>(int&lt;/em>)a-&lt;em>(int&lt;/em>)b;}
-</span><span class='line'>int main()
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>int i,j,t,p,q;
-</span><span class='line'>//freopen("in.txt","r",stdin);
-</span><span class='line'>//freopen("out.txt","w+",stdout);
-</span><span class='line'>while(scanf("%d %d %d",&amp;n,&amp;m,&amp;k)!=EOF){
-</span><span class='line'>    memset(mq,0,sizeof(mq));
-</span><span class='line'>    memset(ng,0,sizeof(ng));
-</span><span class='line'>    //输入部分
-</span><span class='line'>    for(i=0;i&lt;m;i++)scanf("%d",mq+i);
-</span><span class='line'>    for(i=0;i&lt;n;i++){
-</span><span class='line'>        ng[i][0]=i;
-</span><span class='line'>        for(j=1;j&lt;k+3;j++)
-</span><span class='line'>            scanf("%d",ng[i]+j);
-</span><span class='line'>        ng[i][1]=ng[i][1]+ng[i][2];
-</span><span class='line'>    }
-</span><span class='line'>    //处理部分
-</span><span class='line'>    qsort(ng,n,sizeof(ng[0]),cmp1);  //将考生按分数排名
-</span><span class='line'>    //debug:输出排名
-</span><span class='line'>    //for(i=0;i&lt;n;i++)printf("%2d:%2d %d %d %d\n",i,ng[i][0],ng[i][3],ng[i][4],ng[i][5]);
-</span><span class='line'>    for(i=0;i&lt;n;i++){  //将考生按名次分配给各学校
-</span><span class='line'>        for(j=3;j&lt;k+3;j++){ //从考生第一志愿开始选学校
-</span><span class='line'>            t=ng[i][j];  //排名为i的考生报考的第j-3个学校，学校编号为t
-</span><span class='line'>            if(mq[t][0]&gt;0){
-</span><span class='line'>                if(mq[t][0]&gt;mq[t][1]){   //在学校招生名额范围内
-</span><span class='line'>                    mq[t][1]++;
-</span><span class='line'>                    mq[t][mq[t][1]+1]=ng[i][0];  //学校t招收学生ng[i][0]
-</span><span class='line'>                    break;
-</span><span class='line'>                } else{   //招生名额范围外，排名相同的考生
-</span><span class='line'>                    p=mq[t][mq[t][1]+1];  //p为已招收的最后一个考生的学号
-</span><span class='line'>                    for(q=0;q&lt;i;q++)   //查找学号为p的考生排名后的位置k
-</span><span class='line'>                        if(ng[q][0]==p){p=q;break;}
-</span><span class='line'>                        if(ng[p][1]==ng[i][1]&amp;&amp;ng[p][2]==ng[i][2]){  //判断排名是否相同
-</span><span class='line'>                        mq[t][1]++;
-</span><span class='line'>                        mq[t][mq[t][1]+1]=ng[i][0];   //录取排名相同的考生
-</span><span class='line'>                        break;
-</span><span class='line'>                    }
-</span><span class='line'>                }
-</span><span class='line'>            }
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>    //输出部分
-</span><span class='line'>    for(i=0;i&lt;m;i++){ //分配给每个学校的学生，先按学号排序，再输出
-</span><span class='line'>        qsort(mq[i]+2,mq[i][1],sizeof(mq[i][2]),cmp2);
-</span><span class='line'>        if(mq[i][1]&gt;0)printf("%d",mq[i][2]);
-</span><span class='line'>        for(j=3;j&lt;mq[i][1]+2;j++)printf(" %d",mq[i][j]);
-</span><span class='line'>        printf("\n");
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>return 0;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>总体来说，这套题比较简单！</p>
-
-
 
 ]]></content>
   </entry>

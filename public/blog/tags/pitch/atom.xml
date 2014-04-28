@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Pitch | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/pitch/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -55,7 +55,7 @@
 
 <p>在切音框的过程中，我们允许左右音框的重叠，因此，我们定义「音框率」（Frame Rate）是每秒钟所出现的音框个数，如果取样频率是11025，音框长度是256 点，
 重叠点数是84，那么音框率就是11025/(256-84) = 64，换句话说，我们的电脑要能够每秒钟处理64 个音框，才能达到实时处理的要求。如下图所示：
-<center><img src="/images/2013/IMAG2013052901.png"></center>
+<center>{% img /images/2013/IMAG2013052901.png %}</center>
 </p>
 
 
@@ -98,116 +98,65 @@
 帧与它的下一帧的相似性，其定义如下：
 <center>$acf(\tau) = \sum_{i=0}^{n-1-\tau}s(i)s(i+\tau)$</center>
 其中$\tau$是一个延迟的时间间隔。在某个区间使得$acf(\tau)$取得最大值的那个$\tau$值就选为pitch的起止点，如下图所示：
-<center><img src="/images/2013/IMAG2013052902.png"></center>
+<center>{% img /images/2013/IMAG2013052902.png %}</center>
 也就是说，我们将原始语音信号与其平移延迟信号的重叠（时间上重叠）部分进行内积运算，从而得到ACF。下面看一个具体的实例，其代码如下：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import wave
-</span><span class='line'>import numpy as np
-</span><span class='line'>import pylab as pl
-</span><span class='line'>
-</span><span class='line'>def ACF(frame):
-</span><span class='line'>    flen = len(frame)
-</span><span class='line'>    acf = np.zeros(flen)
-</span><span class='line'>    for i in range(flen):
-</span><span class='line'>        acf[i] = np.sum(frame[i:flen]*frame[0:flen-i])
-</span><span class='line'>    return acf
-</span><span class='line'>
-</span><span class='line'># ============ test the algorithm =============
-</span><span class='line'># read wave file and get parameters.
-</span><span class='line'>fw = wave.open('a.wav','rb')
-</span><span class='line'>params = fw.getparams()
-</span><span class='line'>print(params)
-</span><span class='line'>nchannels, sampwidth, framerate, nframes = params[:4]
-</span><span class='line'>strData = fw.readframes(nframes)
-</span><span class='line'>waveData = np.fromstring(strData, dtype=np.int16)
-</span><span class='line'>waveData = waveData*1.0/max(abs(waveData))  # normalization
-</span><span class='line'>fw.close()
-</span><span class='line'>
-</span><span class='line'># plot the wave
-</span><span class='line'>time = np.arange(0, len(waveData)) * (1.0 / framerate)
-</span><span class='line'>
-</span><span class='line'>frameSize = 512
-</span><span class='line'>idx1 = 10000
-</span><span class='line'>idx2 = idx1+frameSize
-</span><span class='line'>index1 = idx1*1.0 / framerate
-</span><span class='line'>index2 = idx2*1.0 / framerate
-</span><span class='line'>acf = ACF(waveData[idx1:idx2])
-</span><span class='line'>#acf[0:10] = -acf[0]
-</span><span class='line'>#acfmax = np.argmax(acf)
-</span><span class='line'>#print(acfmax)
-</span><span class='line'>#print(framerate*1.0/acfmax)
-</span><span class='line'>
-</span><span class='line'>pl.subplot(311)
-</span><span class='line'>pl.plot(time, waveData)
-</span><span class='line'>pl.plot([index1,index1],[-1,1],'r')
-</span><span class='line'>pl.plot([index2,index2],[-1,1],'r')
-</span><span class='line'>pl.xlabel("time (seconds)")
-</span><span class='line'>pl.ylabel("Amplitude")
-</span><span class='line'>
-</span><span class='line'>pl.subplot(312)
-</span><span class='line'>pl.plot(np.arange(frameSize),waveData[idx1:idx2],'r')
-</span><span class='line'>pl.xlabel("index in 1 frame")
-</span><span class='line'>pl.ylabel("Amplitude")
-</span><span class='line'>
-</span><span class='line'>pl.subplot(313)
-</span><span class='line'>pl.plot(np.arange(frameSize),acf,'g')
-</span><span class='line'>pl.xlabel("index in 1 frame")
-</span><span class='line'>pl.ylabel("ACF")
-</span><span class='line'>pl.show()</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+import wave
+import numpy as np
+import pylab as pl
+
+def ACF(frame):
+    flen = len(frame)
+    acf = np.zeros(flen)
+    for i in range(flen):
+        acf[i] = np.sum(frame[i:flen]*frame[0:flen-i])
+    return acf
+
+# ============ test the algorithm =============
+# read wave file and get parameters.
+fw = wave.open('a.wav','rb')
+params = fw.getparams()
+print(params)
+nchannels, sampwidth, framerate, nframes = params[:4]
+strData = fw.readframes(nframes)
+waveData = np.fromstring(strData, dtype=np.int16)
+waveData = waveData*1.0/max(abs(waveData))  # normalization
+fw.close()
+
+# plot the wave
+time = np.arange(0, len(waveData)) * (1.0 / framerate)
+
+frameSize = 512
+idx1 = 10000
+idx2 = idx1+frameSize
+index1 = idx1*1.0 / framerate
+index2 = idx2*1.0 / framerate
+acf = ACF(waveData[idx1:idx2])
+#acf[0:10] = -acf[0]
+#acfmax = np.argmax(acf)
+#print(acfmax)
+#print(framerate*1.0/acfmax)
+
+pl.subplot(311)
+pl.plot(time, waveData)
+pl.plot([index1,index1],[-1,1],'r')
+pl.plot([index2,index2],[-1,1],'r')
+pl.xlabel("time (seconds)")
+pl.ylabel("Amplitude")
+
+pl.subplot(312)
+pl.plot(np.arange(frameSize),waveData[idx1:idx2],'r')
+pl.xlabel("index in 1 frame")
+pl.ylabel("Amplitude")
+
+pl.subplot(313)
+pl.plot(np.arange(frameSize),acf,'g')
+pl.xlabel("index in 1 frame")
+pl.ylabel("ACF")
+pl.show()
+{% endcodeblock %}
 程序运行结果如下图所示：
-<center><img src="/images/2013/IMAG2013052903.png"></center>
+<center>{% img /images/2013/IMAG2013052903.png %}</center>
 </p>
 
 
@@ -265,7 +214,7 @@ $40 < \frac{fs}{pp} < 1000$，从而得到pp的范围：$\frac{fs}{1000} < pp < 
 <p>概念：音高（Pitch）是语音信号的一个很重要的特征，直觉上而言它表示声音频率的高低，这个频率是指基本频率（基频），也即基本周期的倒数。
 若直接观察语音的波形，只要语音信号稳定，我们可以很容易的看出基本周期的存在。例如我们取一个包含256个采样点的帧，单独绘制波形图，就可以明显的
 看到它的基本周期。如下图所示：
-<center><img src="/images/2013/IMAG2013051601.png"></center>
+<center>{% img /images/2013/IMAG2013051601.png %}</center>
 其中最上面的波形为|a|的发音，中间的为上图中红色双竖线（位于语音区）所对应的帧的具体波形，而最下面的是上图中绿色双竖线（位于静音区）所
 对应的帧的具体波形。很容易看到中间的波形具有明显的周期性。
 </p>
@@ -275,96 +224,53 @@ $40 < \frac{fs}{pp} < 1000$，从而得到pp的范围：$\frac{fs}{1000} < pp < 
 
 
 <p>其代码如下：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import wave
-</span><span class='line'>import numpy as np
-</span><span class='line'>import pylab as pl
-</span><span class='line'>
-</span><span class='line'># ============ test the algorithm =============
-</span><span class='line'># read wave file and get parameters.
-</span><span class='line'>fw = wave.open('a.wav','rb')
-</span><span class='line'>params = fw.getparams()
-</span><span class='line'>print(params)
-</span><span class='line'>nchannels, sampwidth, framerate, nframes = params[:4]
-</span><span class='line'>strData = fw.readframes(nframes)
-</span><span class='line'>waveData = np.fromstring(strData, dtype=np.int16)
-</span><span class='line'>waveData = waveData*1.0/max(abs(waveData))  # normalization
-</span><span class='line'>fw.close()
-</span><span class='line'>
-</span><span class='line'># plot the wave
-</span><span class='line'>time = np.arange(0, len(waveData)) * (1.0 / framerate)
-</span><span class='line'>
-</span><span class='line'>index1 = 10000.0 / framerate
-</span><span class='line'>index2 = 10512.0 / framerate
-</span><span class='line'>index3 = 15000.0 / framerate
-</span><span class='line'>index4 = 15512.0 / framerate
-</span><span class='line'>
-</span><span class='line'>pl.subplot(311)
-</span><span class='line'>pl.plot(time, waveData)
-</span><span class='line'>pl.plot([index1,index1],[-1,1],'r')
-</span><span class='line'>pl.plot([index2,index2],[-1,1],'r')
-</span><span class='line'>pl.plot([index3,index3],[-1,1],'g')
-</span><span class='line'>pl.plot([index4,index4],[-1,1],'g')
-</span><span class='line'>pl.xlabel("time (seconds)")
-</span><span class='line'>pl.ylabel("Amplitude")
-</span><span class='line'>
-</span><span class='line'>pl.subplot(312)
-</span><span class='line'>pl.plot(np.arange(512),waveData[10000:10512],'r')
-</span><span class='line'>pl.plot([59,59],[-1,1],'b')
-</span><span class='line'>pl.plot([169,169],[-1,1],'b')
-</span><span class='line'>print(1/( (169-59)*1.0/framerate ))
-</span><span class='line'>pl.xlabel("index in 1 frame")
-</span><span class='line'>pl.ylabel("Amplitude")
-</span><span class='line'>
-</span><span class='line'>pl.subplot(313)
-</span><span class='line'>pl.plot(np.arange(512),waveData[15000:15512],'g')
-</span><span class='line'>pl.xlabel("index in 1 frame")
-</span><span class='line'>pl.ylabel("Amplitude")
-</span><span class='line'>pl.show()</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+import wave
+import numpy as np
+import pylab as pl
+
+# ============ test the algorithm =============
+# read wave file and get parameters.
+fw = wave.open('a.wav','rb')
+params = fw.getparams()
+print(params)
+nchannels, sampwidth, framerate, nframes = params[:4]
+strData = fw.readframes(nframes)
+waveData = np.fromstring(strData, dtype=np.int16)
+waveData = waveData*1.0/max(abs(waveData))  # normalization
+fw.close()
+
+# plot the wave
+time = np.arange(0, len(waveData)) * (1.0 / framerate)
+
+index1 = 10000.0 / framerate
+index2 = 10512.0 / framerate
+index3 = 15000.0 / framerate
+index4 = 15512.0 / framerate
+
+pl.subplot(311)
+pl.plot(time, waveData)
+pl.plot([index1,index1],[-1,1],'r')
+pl.plot([index2,index2],[-1,1],'r')
+pl.plot([index3,index3],[-1,1],'g')
+pl.plot([index4,index4],[-1,1],'g')
+pl.xlabel("time (seconds)")
+pl.ylabel("Amplitude")
+
+pl.subplot(312)
+pl.plot(np.arange(512),waveData[10000:10512],'r')
+pl.plot([59,59],[-1,1],'b')
+pl.plot([169,169],[-1,1],'b')
+print(1/( (169-59)*1.0/framerate ))
+pl.xlabel("index in 1 frame")
+pl.ylabel("Amplitude")
+
+pl.subplot(313)
+pl.plot(np.arange(512),waveData[15000:15512],'g')
+pl.xlabel("index in 1 frame")
+pl.ylabel("Amplitude")
+pl.show()
+{% endcodeblock %}
 </p>
 
 

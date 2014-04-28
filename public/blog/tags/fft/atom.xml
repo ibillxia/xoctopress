@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: FFT | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/fft/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -84,7 +84,7 @@ Lagrange, 1736-1813)和拉普拉斯(Pierre Simon de Laplace, 1749-1827)，当拉
 
 
 <p>下图是四种原信号图例：
-<center><img src="/images/2013/IMAG2013040401.jpg"></center>
+<center>{% img /images/2013/IMAG2013040401.jpg %}</center>
 </p>
 
 
@@ -201,9 +201,9 @@ Lagrange, 1736-1813)和拉普拉斯(Pierre Simon de Laplace, 1749-1827)，当拉
 <p>先来看一个变换实例，一个原始信号的长度是16，于是可以把这个信号分解9个余弦波和9个正弦波（一个长度为N的信号可以分解成N/2+1个正余弦信号，这是为什么呢？
 结合下面的18个正余弦图,我想从计算机处理精度上就不难理解，一个长度为N的信号，最多只能有N/2+1个不同频率，再多的频率就超过了计算机所能所处理的精度范围），
 如下图，9个正弦信号：
-<center><img src="/images/2013/IMAG2013040402.jpg"></center>
+<center>{% img /images/2013/IMAG2013040402.jpg %}</center>
 9个余弦信号：
-<center><img src="/images/2013/IMAG2013040403.jpg"></center>
+<center>{% img /images/2013/IMAG2013040403.jpg %}</center>
 </p>
 
 
@@ -211,7 +211,7 @@ Lagrange, 1736-1813)和拉普拉斯(Pierre Simon de Laplace, 1749-1827)，当拉
 
 <p>把以上所有信号相加即可得到原始信号，至于是怎么分别变换出9种不同频率信号的，我们先不急，先看看对于以上的变换结果，在程序中又是该怎么表示的，我们可以看看
 下面这个示例图：
-<center><img src="/images/2013/IMAG2013040404.jpg"></center>
+<center>{% img /images/2013/IMAG2013040404.jpg %}</center>
 </p>
 
 
@@ -269,7 +269,7 @@ Lagrange, 1736-1813)和拉普拉斯(Pierre Simon de Laplace, 1749-1827)，当拉
 我们以256Hz的采样率对这个信号进行采样，总共采样256点。按照我们上面的分析，Fn=(n-1)*Fs/N，我们可以知道，每两个点之间的间距就是1Hz，第n个点的频率就是n-1。
 我们的信号有3个频率：0Hz、50Hz、75Hz，应该分别在第1个点、第51个点、第76个点上出现峰值，其它各点应该接近0。实际情况如何呢？我们来看看FFT的结果的模值如图
 所示。
-<center><img src="/images/2013/IMAG2013040405.jpg"></center>
+<center>{% img /images/2013/IMAG2013040405.jpg %}</center>
 </p>
 
 <p>从图中我们可以看到，在第1点、第51点、和第76点附近有比较大的值。我们分别将这三个点附近的数据拿上来细看： </br>
@@ -291,7 +291,7 @@ Lagrange, 1736-1813)和拉普拉斯(Pierre Simon de Laplace, 1749-1827)，当拉
 <p>然后再来计算相位信息。直流信号没有相位可言，不用管它。先计算50Hz信号的相位，$atan2(-192, 332.55)=-0.5236$,结果是弧度，换算为角度就是$180*(-0.5236)/pi=-30.0001$。
 再计算75Hz信号的相位，$atan2(192, 3.4315E-12)=1.5708$弧度，换算成角度就是$180*1.5708/pi=90.0002$。可见，相位也是对的。根据FFT结果以及上面的分析计算，我们就可以写出
 信号的表达式了，它就是我们开始提供的信号。
-<center><img src="/images/2013/IMAG2013040406.jpg"></center>
+<center>{% img /images/2013/IMAG2013040406.jpg %}</center>
 </p>
 
 <p><b>总结：假设采样频率为Fs，采样点数为N，做FFT之后，某一点n（n从1开始）表示的频率为：$Fn=(n-1)*Fs/N$；该点的模值除以N/2就是对应该频率下的信号的幅度（对于直流信号是除以N）；

@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Crawler | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/crawler/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -289,428 +289,223 @@ submitlinks(\$URI) </br>
 <p>Demo 1：抓取百度首页示例</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?
-</span><span class='line'>include "Snoopy.class.php";
-</span><span class='line'>$snoopy = new Snoopy;
-</span><span class='line'>$snoopy->proxy_host = "www.baidu.com";
-</span><span class='line'>$snoopy->proxy_port = "8080";
-</span><span class='line'>$snoopy->agent = "(compatible; MSIE 4.01; MSN 2.5; AOL 4.0; Windows 98)";
-</span><span class='line'>$snoopy->referer = "http://www.baidu.com/";
-</span><span class='line'>$snoopy->cookies["SessionID"] = 238472834723489l;
-</span><span class='line'>$snoopy->cookies["favoriteColor"] = "RED";
-</span><span class='line'>$snoopy->rawheaders["Pragma"] = "no-cache";
-</span><span class='line'>$snoopy->maxredirs = 2;
-</span><span class='line'>$snoopy->offsiteok = false;
-</span><span class='line'>$snoopy->expandlinks = false;
-</span><span class='line'>$snoopy->user = "joe";
-</span><span class='line'>$snoopy->pass = "bloe";
-</span><span class='line'>if($snoopy->fetchtext("http://www.baidu.com"))
-</span><span class='line'>{
-</span><span class='line'>echo " &lt;PRE>".htmlspecialchars($snoopy->results)." &lt;/PRE>\n"; &lt;BR>
-</span><span class='line'>} &lt;BR>
-</span><span class='line'>else &lt;BR>
-</span><span class='line'>echo "error fetching document: ".$snoopy->error."\n";
-</span><span class='line'>?></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+&lt;?
+include "Snoopy.class.php";
+$snoopy = new Snoopy;
+$snoopy->proxy_host = "www.baidu.com";
+$snoopy->proxy_port = "8080";
+$snoopy->agent = "(compatible; MSIE 4.01; MSN 2.5; AOL 4.0; Windows 98)";
+$snoopy->referer = "http://www.baidu.com/";
+$snoopy->cookies["SessionID"] = 238472834723489l;
+$snoopy->cookies["favoriteColor"] = "RED";
+$snoopy->rawheaders["Pragma"] = "no-cache";
+$snoopy->maxredirs = 2;
+$snoopy->offsiteok = false;
+$snoopy->expandlinks = false;
+$snoopy->user = "joe";
+$snoopy->pass = "bloe";
+if($snoopy->fetchtext("http://www.baidu.com"))
+{
+echo " <PRE>".htmlspecialchars($snoopy->results)." </PRE>\n"; <BR>
+} <BR>
+else <BR>
+echo "error fetching document: ".$snoopy->error."\n";
+?>
+{% endcodeblock %}</p>
 
 <p>Demo 2: snoopy登录并采集phpchina示例 </p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-<span class='line-number'>151</span>
-<span class='line-number'>152</span>
-<span class='line-number'>153</span>
-<span class='line-number'>154</span>
-<span class='line-number'>155</span>
-<span class='line-number'>156</span>
-<span class='line-number'>157</span>
-<span class='line-number'>158</span>
-<span class='line-number'>159</span>
-<span class='line-number'>160</span>
-<span class='line-number'>161</span>
-<span class='line-number'>162</span>
-<span class='line-number'>163</span>
-<span class='line-number'>164</span>
-<span class='line-number'>165</span>
-<span class='line-number'>166</span>
-<span class='line-number'>167</span>
-<span class='line-number'>168</span>
-<span class='line-number'>169</span>
-<span class='line-number'>170</span>
-<span class='line-number'>171</span>
-<span class='line-number'>172</span>
-<span class='line-number'>173</span>
-<span class='line-number'>174</span>
-<span class='line-number'>175</span>
-<span class='line-number'>176</span>
-<span class='line-number'>177</span>
-<span class='line-number'>178</span>
-<span class='line-number'>179</span>
-<span class='line-number'>180</span>
-<span class='line-number'>181</span>
-<span class='line-number'>182</span>
-<span class='line-number'>183</span>
-<span class='line-number'>184</span>
-<span class='line-number'>185</span>
-<span class='line-number'>186</span>
-<span class='line-number'>187</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?php
-</span><span class='line'>//采集phpchina
-</span><span class='line'>set_time_limit(0);
-</span><span class='line'>require_once("Snoopy.class.php");
-</span><span class='line'>$snoopy=new Snoopy();
-</span><span class='line'>//登陆论坛
-</span><span class='line'>$submit_url = "http://www.phpchina.com/bbs/logging.php?action=login";
-</span><span class='line'>$submit_vars["loginmode"] = "normal";
-</span><span class='line'>$submit_vars["styleid"] = "1";
-</span><span class='line'>$submit_vars["cookietime"] = "315360000";
-</span><span class='line'>$submit_vars["loginfield"] = "username";
-</span><span class='line'>$submit_vars["username"] = "&lt;strong>&lt;em>"; //你的用户名
-</span><span class='line'>$submit_vars["password"] = "&lt;/em>&lt;/strong>**"; //你的密码
-</span><span class='line'>$submit_vars["questionid"] = "0";
-</span><span class='line'>$submit_vars["answer"] = "";
-</span><span class='line'>$submit_vars["loginsubmit"] = "提 交";
-</span><span class='line'>$snoopy->submit($submit_url,$submit_vars);&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>if ($snoopy->results)
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>//获取连接地址 
-</span><span class='line'>$snoopy-&gt;fetchlinks("http://www.phpchina.com/bbs"); 
-</span><span class='line'>$url=array(); 
-</span><span class='line'>$url=$snoopy-&gt;results; 
-</span><span class='line'>//print_r($url); 
-</span><span class='line'>foreach ($url as $key=&gt;$value) 
-</span><span class='line'>{ 
-</span><span class='line'>    //匹配http://www.phpchina.com/bbs/forumdisplay.php?fid=156&amp;sid=VfcqTR地址即论坛板块地址 
-</span><span class='line'>    if (!preg_match("/^(http:\/\/www\.phpchina\.com\/bbs\/forumdisplay\.php\?fid=)[0-9]*&amp;sid=[a-zA-Z]{6}/i",$value)) 
-</span><span class='line'>    { 
-</span><span class='line'>        unset($url[$key]); 
-</span><span class='line'>    } 
-</span><span class='line'>} 
-</span><span class='line'>//print_r($url); 
-</span><span class='line'>//获取到板块数组$url，循环访问，此处获取第一个模块第一页的数据 
-</span><span class='line'>$i=0; 
-</span><span class='line'>foreach ($url as $key=&gt;$value) 
-</span><span class='line'>{ 
-</span><span class='line'>    if ($i&gt;=1) 
-</span><span class='line'>    { 
-</span><span class='line'>        //测试限制 
-</span><span class='line'>        break; 
-</span><span class='line'>    } 
-</span><span class='line'>    else 
-</span><span class='line'>    { 
-</span><span class='line'>        //访问该模块，提取帖子的连接地址，正式访问里需要提取帖子分页的数据，然后根据分页数据提取帖子数据 
-</span><span class='line'>        $snoopy=new Snoopy(); 
-</span><span class='line'>        $snoopy-&gt;fetchlinks($value); 
-</span><span class='line'>        $tie=array(); 
-</span><span class='line'>        $tie[$i]=$snoopy-&gt;results; 
-</span><span class='line'>        //print_r($tie); 
-</span><span class='line'>        //转换数组 
-</span><span class='line'>        foreach ($tie[$i] as $key=&gt;$value) 
-</span><span class='line'>        { 
-</span><span class='line'>            //匹配http://www.phpchina.com/bbs/viewthread.php?tid=68127&amp;amp; extra=page%3D1&amp;amp;page=1&amp;sid=iBLZfK 
-</span><span class='line'>            if (!preg_match("/^(http:\/\/www\.phpchina\.com\/bbs\/viewthread\.php\?tid=)[0-9]*&amp;amp;extra=page\%3D1&amp;amp;page=[0-9]*&amp;sid=[a-zA-Z]{6}/i",$value)) 
-</span><span class='line'>            { 
-</span><span class='line'>                unset($tie[$i][$key]); 
-</span><span class='line'>            } 
-</span><span class='line'>        } 
-</span><span class='line'>        //print_r($tie[$i]); 
-</span><span class='line'>        //归类数组，将同一个帖子不同页面的内容放一个数组里 
-</span><span class='line'>        $left='';//连接左边公用地址 
-</span><span class='line'>        $j=0; 
-</span><span class='line'>        $page=array(); 
-</span><span class='line'>        foreach ($tie[$i] as $key=&gt;$value) 
-</span><span class='line'>        { 
-</span><span class='line'>            $left=substr($value,0,52); 
-</span><span class='line'>            $m=0; 
-</span><span class='line'>            foreach ($tie[$i] as $pkey=&gt;$pvalue) 
-</span><span class='line'>            { 
-</span><span class='line'>                //重组数组 
-</span><span class='line'>                if (substr($pvalue,0,52)==$left) 
-</span><span class='line'>                { 
-</span><span class='line'>                    $page[$j][$m]=$pvalue; 
-</span><span class='line'>                    $m++; 
-</span><span class='line'>                } 
-</span><span class='line'>            } 
-</span><span class='line'>            $j++; 
-</span><span class='line'>        } 
-</span><span class='line'>        //去除重复项开始 
-</span><span class='line'>        //$page=array_unique($page);只能用于一维数组 
-</span><span class='line'>        $paget[0]=$page[0]; 
-</span><span class='line'>        $nums=count($page); 
-</span><span class='line'>        for ($n=1;$n &lt;$nums;$n++) 
-</span><span class='line'>        { 
-</span><span class='line'>            $paget[$n]=array_diff($page[$n],$page[$n-1]); 
-</span><span class='line'>        } 
-</span><span class='line'>        //去除多维数组重复值结束 
-</span><span class='line'>        //去除数组空值 
-</span><span class='line'>        unset($page); 
-</span><span class='line'>        $page=array();//重新定义page数组 
-</span><span class='line'>        $page=array_filter($paget); 
-</span><span class='line'>        //print_r($page); 
-</span><span class='line'>        $u=0; 
-</span><span class='line'>        $title=array(); 
-</span><span class='line'>        $content=array(); 
-</span><span class='line'>        $temp=''; 
-</span><span class='line'>        $tt=array(); 
-</span><span class='line'>        foreach ($page as $key=&gt;$value) 
-</span><span class='line'>        { 
-</span><span class='line'>            //外围循环，针对一个帖子 
-</span><span class='line'>            if (is_array($value)) 
-</span><span class='line'>            { 
-</span><span class='line'>                foreach ($value as $k1=&gt;$v1) 
-</span><span class='line'>                { 
-</span><span class='line'>                    //页内循环，针对一个帖子的N页 
-</span><span class='line'>                    $snoopy=new Snoopy(); 
-</span><span class='line'>                    $snoopy-&gt;fetch($v1); 
-</span><span class='line'>                    $temp=$snoopy-&gt;results; 
-</span><span class='line'>                    //读取标题 
-</span><span class='line'>                    if (!preg_match_all("/ &lt;h2&gt;(.*) &lt;\/h2&gt;/i",$temp,$tt)) 
-</span><span class='line'>                    { 
-</span><span class='line'>                        echo "no title"; 
-</span><span class='line'>                        exit; 
-</span><span class='line'>                    } 
-</span><span class='line'>                    else 
-</span><span class='line'>                    { 
-</span><span class='line'>                        $title[$u]=$tt[1][1]; 
-</span><span class='line'>                    } 
-</span><span class='line'>                    unset($tt); 
-</span><span class='line'>                    //读取内容 
-</span><span class='line'>                    if (!preg_match_all("/ &lt;div id=\"postmessage_[0-9]{1,8}\" class=\"t_msgfont\"&gt;(.*) &lt;\/div&gt;/i",$temp,$tt)) 
-</span><span class='line'>                    { 
-</span><span class='line'>                        print_r($tt); 
-</span><span class='line'>                        echo "no content1"; 
-</span><span class='line'>                        exit; 
-</span><span class='line'>                    } 
-</span><span class='line'>                    else 
-</span><span class='line'>                    { 
-</span><span class='line'>                        foreach ($tt[1] as $c=&gt;$c2) 
-</span><span class='line'>                        { 
-</span><span class='line'>                            $content[$u].=$c2; 
-</span><span class='line'>                        } 
-</span><span class='line'>                    } 
-</span><span class='line'>                } 
-</span><span class='line'>            } 
-</span><span class='line'>            else 
-</span><span class='line'>            { 
-</span><span class='line'>                //直接取页内容 
-</span><span class='line'>                $snoopy=new Snoopy(); 
-</span><span class='line'>                $snoopy-&gt;fetch($value); 
-</span><span class='line'>                $temp=$snoopy-&gt;results; 
-</span><span class='line'>                //读取标题 
-</span><span class='line'>                if (!preg_match_all("/ &lt;h2&gt;(.*) &lt;\/h2&gt;/i",$temp,$tt)) 
-</span><span class='line'>                { 
-</span><span class='line'>                    echo "no title"; 
-</span><span class='line'>                    exit; 
-</span><span class='line'>                } 
-</span><span class='line'>                else 
-</span><span class='line'>                { 
-</span><span class='line'>                    $title[$u]=$tt[1][1]; 
-</span><span class='line'>                } 
-</span><span class='line'>                unset($tt); 
-</span><span class='line'>                //读取内容 
-</span><span class='line'>                if (!preg_match_all("/ &lt;div id=\"postmessage_[0-9]*\" class=\"t_msgfont\"&gt;(.*) &lt;\/div&gt;/i",$temp,$tt)) 
-</span><span class='line'>                { 
-</span><span class='line'>                    echo "no content2"; 
-</span><span class='line'>                    exit; 
-</span><span class='line'>                } 
-</span><span class='line'>                else 
-</span><span class='line'>                { 
-</span><span class='line'>                    foreach ($tt[1] as $c=&gt;$c2) 
-</span><span class='line'>                    { 
-</span><span class='line'>                        $content[$u].=$c2; 
-</span><span class='line'>                    } 
-</span><span class='line'>                } 
-</span><span class='line'>            } 
-</span><span class='line'>            $u++; 
-</span><span class='line'>        } 
-</span><span class='line'>        print_r($content); 
-</span><span class='line'>    } 
-</span><span class='line'>    $i++; 
-</span><span class='line'>} 
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}
-</span><span class='line'>else
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>echo "login failed"; 
-</span><span class='line'>exit; 
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}
-</span><span class='line'>?></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+&lt;?php
+//采集phpchina
+set_time_limit(0);
+require_once("Snoopy.class.php");
+$snoopy=new Snoopy();
+//登陆论坛
+$submit_url = "http://www.phpchina.com/bbs/logging.php?action=login";
+$submit_vars["loginmode"] = "normal";
+$submit_vars["styleid"] = "1";
+$submit_vars["cookietime"] = "315360000";
+$submit_vars["loginfield"] = "username";
+$submit_vars["username"] = "<strong><em>"; //你的用户名
+$submit_vars["password"] = "</em></strong>**"; //你的密码
+$submit_vars["questionid"] = "0";
+$submit_vars["answer"] = "";
+$submit_vars["loginsubmit"] = "提 交";
+$snoopy->submit($submit_url,$submit_vars);</p>
+
+<p>if ($snoopy->results)
+{</p>
+
+<pre><code>//获取连接地址 
+$snoopy-&gt;fetchlinks("http://www.phpchina.com/bbs"); 
+$url=array(); 
+$url=$snoopy-&gt;results; 
+//print_r($url); 
+foreach ($url as $key=&gt;$value) 
+{ 
+    //匹配http://www.phpchina.com/bbs/forumdisplay.php?fid=156&amp;sid=VfcqTR地址即论坛板块地址 
+    if (!preg_match("/^(http:\/\/www\.phpchina\.com\/bbs\/forumdisplay\.php\?fid=)[0-9]*&amp;sid=[a-zA-Z]{6}/i",$value)) 
+    { 
+        unset($url[$key]); 
+    } 
+} 
+//print_r($url); 
+//获取到板块数组$url，循环访问，此处获取第一个模块第一页的数据 
+$i=0; 
+foreach ($url as $key=&gt;$value) 
+{ 
+    if ($i&gt;=1) 
+    { 
+        //测试限制 
+        break; 
+    } 
+    else 
+    { 
+        //访问该模块，提取帖子的连接地址，正式访问里需要提取帖子分页的数据，然后根据分页数据提取帖子数据 
+        $snoopy=new Snoopy(); 
+        $snoopy-&gt;fetchlinks($value); 
+        $tie=array(); 
+        $tie[$i]=$snoopy-&gt;results; 
+        //print_r($tie); 
+        //转换数组 
+        foreach ($tie[$i] as $key=&gt;$value) 
+        { 
+            //匹配http://www.phpchina.com/bbs/viewthread.php?tid=68127&amp;amp; extra=page%3D1&amp;amp;page=1&amp;sid=iBLZfK 
+            if (!preg_match("/^(http:\/\/www\.phpchina\.com\/bbs\/viewthread\.php\?tid=)[0-9]*&amp;amp;extra=page\%3D1&amp;amp;page=[0-9]*&amp;sid=[a-zA-Z]{6}/i",$value)) 
+            { 
+                unset($tie[$i][$key]); 
+            } 
+        } 
+        //print_r($tie[$i]); 
+        //归类数组，将同一个帖子不同页面的内容放一个数组里 
+        $left='';//连接左边公用地址 
+        $j=0; 
+        $page=array(); 
+        foreach ($tie[$i] as $key=&gt;$value) 
+        { 
+            $left=substr($value,0,52); 
+            $m=0; 
+            foreach ($tie[$i] as $pkey=&gt;$pvalue) 
+            { 
+                //重组数组 
+                if (substr($pvalue,0,52)==$left) 
+                { 
+                    $page[$j][$m]=$pvalue; 
+                    $m++; 
+                } 
+            } 
+            $j++; 
+        } 
+        //去除重复项开始 
+        //$page=array_unique($page);只能用于一维数组 
+        $paget[0]=$page[0]; 
+        $nums=count($page); 
+        for ($n=1;$n &lt;$nums;$n++) 
+        { 
+            $paget[$n]=array_diff($page[$n],$page[$n-1]); 
+        } 
+        //去除多维数组重复值结束 
+        //去除数组空值 
+        unset($page); 
+        $page=array();//重新定义page数组 
+        $page=array_filter($paget); 
+        //print_r($page); 
+        $u=0; 
+        $title=array(); 
+        $content=array(); 
+        $temp=''; 
+        $tt=array(); 
+        foreach ($page as $key=&gt;$value) 
+        { 
+            //外围循环，针对一个帖子 
+            if (is_array($value)) 
+            { 
+                foreach ($value as $k1=&gt;$v1) 
+                { 
+                    //页内循环，针对一个帖子的N页 
+                    $snoopy=new Snoopy(); 
+                    $snoopy-&gt;fetch($v1); 
+                    $temp=$snoopy-&gt;results; 
+                    //读取标题 
+                    if (!preg_match_all("/ &lt;h2&gt;(.*) &lt;\/h2&gt;/i",$temp,$tt)) 
+                    { 
+                        echo "no title"; 
+                        exit; 
+                    } 
+                    else 
+                    { 
+                        $title[$u]=$tt[1][1]; 
+                    } 
+                    unset($tt); 
+                    //读取内容 
+                    if (!preg_match_all("/ &lt;div id=\"postmessage_[0-9]{1,8}\" class=\"t_msgfont\"&gt;(.*) &lt;\/div&gt;/i",$temp,$tt)) 
+                    { 
+                        print_r($tt); 
+                        echo "no content1"; 
+                        exit; 
+                    } 
+                    else 
+                    { 
+                        foreach ($tt[1] as $c=&gt;$c2) 
+                        { 
+                            $content[$u].=$c2; 
+                        } 
+                    } 
+                } 
+            } 
+            else 
+            { 
+                //直接取页内容 
+                $snoopy=new Snoopy(); 
+                $snoopy-&gt;fetch($value); 
+                $temp=$snoopy-&gt;results; 
+                //读取标题 
+                if (!preg_match_all("/ &lt;h2&gt;(.*) &lt;\/h2&gt;/i",$temp,$tt)) 
+                { 
+                    echo "no title"; 
+                    exit; 
+                } 
+                else 
+                { 
+                    $title[$u]=$tt[1][1]; 
+                } 
+                unset($tt); 
+                //读取内容 
+                if (!preg_match_all("/ &lt;div id=\"postmessage_[0-9]*\" class=\"t_msgfont\"&gt;(.*) &lt;\/div&gt;/i",$temp,$tt)) 
+                { 
+                    echo "no content2"; 
+                    exit; 
+                } 
+                else 
+                { 
+                    foreach ($tt[1] as $c=&gt;$c2) 
+                    { 
+                        $content[$u].=$c2; 
+                    } 
+                } 
+            } 
+            $u++; 
+        } 
+        print_r($content); 
+    } 
+    $i++; 
+} 
+</code></pre>
+
+<p>}
+else
+{</p>
+
+<pre><code>echo "login failed"; 
+exit; 
+</code></pre>
+
+<p>}
+?>
+{% endcodeblock %}</p>
 ]]></content>
   </entry>
   

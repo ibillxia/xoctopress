@@ -31,13 +31,13 @@ permalink: /blog/:year/:month/:day/:title/
 source: source
 destination: public
 plugins: plugins
-code_dir: downloads/code
+code_dir: upload/code
 category_dir: blog/categories
 tag_dir: blog/tags
 markdown: rdiscount
 pygments: false # default python pygments have been replaced by pygments.rb
 
-paginate: 5          # Posts per page on the blog index
+paginate: 10          # Posts per page on the blog index
 pagination_dir: blog  # Directory base for pagination URLs eg. /blog/page/2/
 recent_posts: 10       # Posts in the sidebar Recent Posts section
 #excerpt: ture
@@ -52,8 +52,8 @@ titlecase: true       # Converts page and post titles to titlecase
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
-blog_index_asides: [asides/category_list.html, asides/tag_cloud.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
-post_asides: [asides/category_list.html, asides/tag_cloud.html, asides/recent_posts.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
+blog_index_asides: [asides/category_list.html, asides/tags.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
+post_asides: [asides/category_list.html, asides/tags.html, asides/recent_posts.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
 page_asides: [asides/category_list.html, asides/recent_posts.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
 
 # ----------------------- #

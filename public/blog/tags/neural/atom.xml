@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Neural | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/neural/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -24,7 +24,7 @@
 <p>大脑中与听觉相关的部分称为听觉中枢，它纵跨脑干、中脑、丘脑的大脑皮层，是感觉系统中最长的中枢通路之一。自下向上，
 主要环节包括：蜗神经核、上橄榄核、外侧丘系核、下丘核、丘脑的内侧膝状体、大脑皮层颞叶的听觉皮层等，图1所示为听觉中枢
 的传导通路。由中枢系统的多层传导过程，可以很自然的联想到近两年很热门的Deep Learning的机器学习方法。
-<center><img src="/images/2012/IMAG2012122106.jpg"></center>
+<center>{% img /images/2012/IMAG2012122106.jpg %}</center>
 <center>图 1 听觉中枢传导通路</center>
 </p>
 

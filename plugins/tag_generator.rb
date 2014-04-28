@@ -1,5 +1,22 @@
-#encode: utf-8
-#ref: http://agiledon.github.com/blog/2013/01/08/create-tag-for-octopress/
+# encoding: utf-8
+#
+# Octopress tag page generator
+#
+# Version: 0.3
+#
+# Copyright (c) 2012 Robby Edwards, http://robbyedwards.com/
+# Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
+#
+# Octopress plugin to generate tag pages.
+# Based upon the jekyll category page generator plugin by Dave Perrett.
+#
+#
+# A generator that creates tag pages for jekyll sites.
+#
+# See README for installation and usage instructions.
+
+require 'stringex'
+
 module Jekyll
 
   # The TagIndex class creates a single tag page for the specified tag.
@@ -29,10 +46,10 @@ module Jekyll
 
   end
 
-  # The tagFeed class creates an Atom feed for the specified tag.
+  # The TagFeed class creates an Atom feed for the specified tag.
   class TagFeed < Page
 
-    # Initializes a new tagFeed.
+    # Initializes a new TagFeed.
     #
     #  +base+         is the String path to the <source>.
     #  +tag_dir+ is the String path between <source> and the tag folder.
@@ -62,7 +79,7 @@ module Jekyll
   # The Site class is a built-in Jekyll class with access to global site config information.
   class Site
 
-    # Creates an instance of tagIndex for each tag page, renders it, and
+    # Creates an instance of TagIndex for each tag page, renders it, and
     # writes the output to a file.
     #
     #  +tag_dir+ is the String path to the tag folder.
@@ -87,7 +104,7 @@ module Jekyll
       if self.layouts.key? 'tag_index'
         dir = self.config['tag_dir'] || 'tags'
         self.tags.keys.each do |tag|
-          self.write_tag_index(File.join(dir, tag.gsub(/_|\P{Word}/, '-').gsub(/-{2,}/, '-').downcase), tag)
+          self.write_tag_index(File.join(dir, tag.to_url), tag)
         end
 
       # Throw an exception if the layout couldn't be found.
@@ -122,9 +139,9 @@ module Jekyll
     # Returns string
     #
     def tag_links(tags)
-      dir = @context.registers[:site].config['tag_dir']
+      dir = @context.registers[:site].config['tag_dir'] || 'tags'
       tags = tags.sort!.map do |item|
-        "<a class='category' href='/#{dir}/#{item.gsub(/_|\P{Word}/, '-').gsub(/-{2,}/, '-').downcase}/'>#{item}</a>"
+        "<a class='tag' href='/#{dir}/#{item.to_url}/'>#{item}</a>"
       end
 
       case tags.length
@@ -148,5 +165,7 @@ module Jekyll
       result += date.strftime('<span class="year">%Y</span> ')
       result
     end
+
   end
+
 end

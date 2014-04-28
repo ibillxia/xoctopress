@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: ANN | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/ann/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -78,7 +78,7 @@
 <p>生物神经元是大脑处理信息的基本单元，人脑大约由1011个神经元组成，神经元互相连接成神经网络。神经元以细胞体为主体，
 由许多向周围延伸的不规则树枝状纤维构成的神经细胞，其形状很像一棵枯树的枝干。主要由细胞体、树突、轴突和突触(Synapse，
 又称神经键)组成，如图1所示。</br>
-<center><img src="/images/2013/IMAG2013032001.png"></center>
+<center>{% img /images/2013/IMAG2013032001.png %}</center>
 <center>图1. 生物神经元结构图</center></br>
 更多关于神经元的生物学解剖，信息的处理与传递方式以及工作特点等内容请参见[4]。</p>
 
@@ -89,7 +89,7 @@
 
 
 <p>神经元是神经网络中最基本的信息处理单元，其形式化表示如图2所示。</br>
-<center><img src="/images/2013/IMAG2013032002.png"></center>
+<center>{% img /images/2013/IMAG2013032002.png %}</center>
 <center>图2 神经元模型的形式化表示</center></p>
 
 
@@ -124,7 +124,7 @@
 <p>神经网络（Neural Networks，NN）是由大量的、简单的处理单元（称为神经元）广泛地互相连接而形成的复杂网络系统，它反映了人脑功能的
 许多基本特征，是一个高度复杂的非线性动力学习系统。一个典型的神经网络结构如图3所示。这是一个多层的（包含两个隐层L2、L3）、包含两个
 输出单元的神经网络拓扑结构。</br>
-<center><img src="/images/2013/IMAG2013032003.png"></center>
+<center>{% img /images/2013/IMAG2013032003.png %}</center>
 <center>图3 一个典型的神经网络结构</center></p>
 
 

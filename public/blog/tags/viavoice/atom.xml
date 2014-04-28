@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: viaVoice | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/viavoice/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -303,7 +303,7 @@ Zanzibar OpenIVR 等。</p>
 
 <p>本文介绍了几种常见的语音交互平台，主要是语音识别、语音合成的软件或工具包，还顺便提到了声纹识别的内容，
 下面做一个简单的总结：</br>
-<center><img src="/images/2012/IMAG2012112401.jpg"></center>
+<center>{% img /images/2012/IMAG2012112401.jpg %}</center>
 以上总结的表格希望对读者有用！</p>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: idle | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/idle/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -47,25 +47,27 @@
 初始化页表，初始化中断向量表，初始化系统时间等。继而调用 fork(),创建第一个用户进程:</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>　　kernel_thread(kernel_init, NULL, CLONE_FS | CLONE_SIGHAND);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+　　kernel_thread(kernel_init, NULL, CLONE_FS | CLONE_SIGHAND);
+{% endcodeblock %}</p>
 
 <p>这个进程就是着名的pid为1的init进程，它会继续完成剩下的初始化工作，然后execve(/sbin/init), 成为系统中的其他所有进程的祖先。关于init我们这次先不研究，
 回过头来看pid=0的进程，在创建了init进程后，pid=0的进程调用 cpu_idle()演变成了idle进程。</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>　　current_thread_info()->status |= TS_POLLING;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+　　current_thread_info()->status |= TS_POLLING;
+{% endcodeblock %}</p>
 
 <p>在 smp系统中，除了上面刚才我们讲的主处理器(执行初始化工作的处理器)上idle进程的创建，还有从处理器(被主处理器activate的处理器)上的idle进程，他们又是
 怎么创建的呢?接着看init进程，init在演变成/sbin/init之前，会执行一部分初始化工作，其中一个就是 smp_prepare_cpus()，初始化SMP处理器，在这过程中会在处理
 每个从处理器时调用</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>　　task = copy_process(CLONE_VM, 0, idle_regs(?s), 0, NULL, NULL, 0);
-</span><span class='line'>　　init_idle(task, cpu);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+　　task = copy_process(CLONE_VM, 0, idle_regs(?s), 0, NULL, NULL, 0);
+　　init_idle(task, cpu);
+{% endcodeblock %}</p>
 
 <p>即从init中复制出一个进程，并把它初始化为idle进程(pid仍然为0)。从处理器上的idle进程会进行一些Activate工作，然后执行cpu_idle()。</p>
 
@@ -104,56 +106,33 @@
 <p>其核心代码如下：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>void cpu_idle(void) {&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>int cpu = smp_processor_id();
-</span><span class='line'>current_thread_info()-&gt;status |= TS_POLLING;   /* endless idle loop with no priority at all */
-</span><span class='line'>while (1) {
-</span><span class='line'>    tick_nohz_stop_sched_tick(1);
-</span><span class='line'>    while (!need_resched()) {
-</span><span class='line'>        check_pgt_cache();
-</span><span class='line'>        rmb();
-</span><span class='line'>        if (rcu_pending(cpu))  rcu_check_callbacks(cpu, 0);
-</span><span class='line'>        if (cpu_is_offline(cpu))  play_dead();
-</span><span class='line'>        local_irq_disable();
-</span><span class='line'>        __get_cpu_var(irq_stat).idle_timestamp = jiffies; /* Don't trace irqs off for idle */
-</span><span class='line'>        stop_critical_timings();
-</span><span class='line'>        pm_idle();
-</span><span class='line'>        start_critical_timings();
-</span><span class='line'>    }
-</span><span class='line'>    tick_nohz_restart_sched_tick();
-</span><span class='line'>    preempt_enable_no_resched();
-</span><span class='line'>    schedule();
-</span><span class='line'>    preempt_disable();
-</span><span class='line'>}
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+void cpu_idle(void) {</p>
+
+<pre><code>int cpu = smp_processor_id();
+current_thread_info()-&gt;status |= TS_POLLING;   /* endless idle loop with no priority at all */
+while (1) {
+    tick_nohz_stop_sched_tick(1);
+    while (!need_resched()) {
+        check_pgt_cache();
+        rmb();
+        if (rcu_pending(cpu))  rcu_check_callbacks(cpu, 0);
+        if (cpu_is_offline(cpu))  play_dead();
+        local_irq_disable();
+        __get_cpu_var(irq_stat).idle_timestamp = jiffies; /* Don't trace irqs off for idle */
+        stop_critical_timings();
+        pm_idle();
+        start_critical_timings();
+    }
+    tick_nohz_restart_sched_tick();
+    preempt_enable_no_resched();
+    schedule();
+    preempt_disable();
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>循环判断need_resched以降低退出延迟，用idle()来节能。</p>
 

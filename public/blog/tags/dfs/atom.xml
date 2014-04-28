@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: DFS | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/dfs/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -31,51 +31,29 @@
 <p>水题，直接上代码：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem A </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>int main()
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>int n,cnt;
-</span><span class='line'>while(scanf("%d",&amp;n)&amp;&amp;n!=0){
-</span><span class='line'>    if(n==1){printf("0\n");continue;}
-</span><span class='line'>    cnt=0;
-</span><span class='line'>    while(n!=1){
-</span><span class='line'>        if(n%2)n=(3*n+1)&gt;&gt;1;
-</span><span class='line'>        else n=n&gt;&gt;1;
-</span><span class='line'>        cnt++;
-</span><span class='line'>    }
-</span><span class='line'>    printf("%d\n",cnt);
-</span><span class='line'>}
-</span><span class='line'>return 0;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Problem A %}</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<p>int main()
+{</p>
+
+<pre><code>int n,cnt;
+while(scanf("%d",&amp;n)&amp;&amp;n!=0){
+    if(n==1){printf("0\n");continue;}
+    cnt=0;
+    while(n!=1){
+        if(n%2)n=(3*n+1)&gt;&gt;1;
+        else n=n&gt;&gt;1;
+        cnt++;
+    }
+    printf("%d\n",cnt);
+}
+return 0;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <!-- more -->
 
@@ -86,69 +64,38 @@
 <p>继续水题</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem B </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>char s[102];
-</span><span class='line'>int main()
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>int i,z,o,j;
-</span><span class='line'>while(scanf("%s",s)){
-</span><span class='line'>    if(s[0]=='E')break;
-</span><span class='line'>    z=o=j=0;
-</span><span class='line'>    for(i=0;s[i]!=0;i++){
-</span><span class='line'>        switch(s[i]){
-</span><span class='line'>            case 'Z':z++;break;
-</span><span class='line'>            case 'O':o++;break;
-</span><span class='line'>            case 'J':j++;break;
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>    while(i){
-</span><span class='line'>        if(z){printf("Z");z--;}
-</span><span class='line'>        if(o){printf("O");o--;}
-</span><span class='line'>        if(j){printf("J");j--;}
-</span><span class='line'>        i--;
-</span><span class='line'>    }
-</span><span class='line'>    printf("\n");
-</span><span class='line'>}
-</span><span class='line'>return 0;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Problem B %}</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<p>char s[102];
+int main()
+{</p>
+
+<pre><code>int i,z,o,j;
+while(scanf("%s",s)){
+    if(s[0]=='E')break;
+    z=o=j=0;
+    for(i=0;s[i]!=0;i++){
+        switch(s[i]){
+            case 'Z':z++;break;
+            case 'O':o++;break;
+            case 'J':j++;break;
+        }
+    }
+    while(i){
+        if(z){printf("Z");z--;}
+        if(o){printf("O");o--;}
+        if(j){printf("J");j--;}
+        i--;
+    }
+    printf("\n");
+}
+return 0;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <h3>C题：继续xxx定律（hdoj3784）（九度1033）</h3>
 
@@ -158,83 +105,45 @@
 代码如下：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem C </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;memory.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>int n,a[510];
-</span><span class='line'>char b[1002];
-</span><span class='line'>int main()
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>int i,t;
-</span><span class='line'>while(scanf("%d",&amp;n)!=EOF){
-</span><span class='line'>    if(n==0)continue;
-</span><span class='line'>    memset(a,0,sizeof(a));
-</span><span class='line'>    memset(b,0,sizeof(b));
-</span><span class='line'>    for(i=0;i&lt;n;i++)scanf("%d",a+i);
-</span><span class='line'>    for(i=0;i&lt;n;i++){
-</span><span class='line'>        t=a[i];
-</span><span class='line'>        if(t==1||b[t])continue;
-</span><span class='line'>        while(t!=1){
-</span><span class='line'>            if(t%2)t=(3*t+1)&gt;&gt;1;
-</span><span class='line'>            else t=t&gt;&gt;1;
-</span><span class='line'>            if(t&lt;1002)b[t]=1;
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>    i--;t=0;
-</span><span class='line'>    while(i&gt;=0){
-</span><span class='line'>        if(t &amp;&amp; !b[a[i]])printf(" ");
-</span><span class='line'>        if(!b[a[i]]){printf("%d",a[i]);t=1;}
-</span><span class='line'>        i--;
-</span><span class='line'>    }
-</span><span class='line'>    if(t)printf("\n");
-</span><span class='line'>}
-</span><span class='line'>return 0;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Problem C %}</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<h1>include &lt;memory.h></h1>
+
+<p>int n,a[510];
+char b[1002];
+int main()
+{</p>
+
+<pre><code>int i,t;
+while(scanf("%d",&amp;n)!=EOF){
+    if(n==0)continue;
+    memset(a,0,sizeof(a));
+    memset(b,0,sizeof(b));
+    for(i=0;i&lt;n;i++)scanf("%d",a+i);
+    for(i=0;i&lt;n;i++){
+        t=a[i];
+        if(t==1||b[t])continue;
+        while(t!=1){
+            if(t%2)t=(3*t+1)&gt;&gt;1;
+            else t=t&gt;&gt;1;
+            if(t&lt;1002)b[t]=1;
+        }
+    }
+    i--;t=0;
+    while(i&gt;=0){
+        if(t &amp;&amp; !b[a[i]])printf(" ");
+        if(!b[a[i]]){printf("%d",a[i]);t=1;}
+        i--;
+    }
+    if(t)printf("\n");
+}
+return 0;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <h3>D题：寻找大富翁（hdoj3785）（九度1034）</h3>
 
@@ -242,69 +151,38 @@
 <p>水题，注意不要进行排序，不然就可能会超时。</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem D </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;memory.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>int m,n,a[100002],b[10];
-</span><span class='line'>int main()
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>int i,j,k;
-</span><span class='line'>while(scanf("%d %d",&amp;n,&amp;m)){
-</span><span class='line'>    if(m==0&amp;&amp;n==0)break;
-</span><span class='line'>    for(i=0;i&lt;n;i++)scanf("%d",a+i);
-</span><span class='line'>    memset(b,0,sizeof(b));
-</span><span class='line'>    for(i=0;i&lt;n;i++){
-</span><span class='line'>        for(j=0;j&lt;m;j++)
-</span><span class='line'>            if(a[i]&gt;=b[j]){
-</span><span class='line'>                for(k=m-1;k&gt;j;k--)b[k]=b[k-1];
-</span><span class='line'>                b[j]=a[i];
-</span><span class='line'>                break;
-</span><span class='line'>            }
-</span><span class='line'>    }
-</span><span class='line'>    for(i=0;i&lt;m-1;i++)
-</span><span class='line'>        printf("%d ",b[i]);
-</span><span class='line'>    printf("%d\n",b[i]);
-</span><span class='line'>}
-</span><span class='line'>return 0;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Problem D %}</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<h1>include &lt;memory.h></h1>
+
+<p>int m,n,a[100002],b[10];
+int main()
+{</p>
+
+<pre><code>int i,j,k;
+while(scanf("%d %d",&amp;n,&amp;m)){
+    if(m==0&amp;&amp;n==0)break;
+    for(i=0;i&lt;n;i++)scanf("%d",a+i);
+    memset(b,0,sizeof(b));
+    for(i=0;i&lt;n;i++){
+        for(j=0;j&lt;m;j++)
+            if(a[i]&gt;=b[j]){
+                for(k=m-1;k&gt;j;k--)b[k]=b[k-1];
+                b[j]=a[i];
+                break;
+            }
+    }
+    for(i=0;i&lt;m-1;i++)
+        printf("%d ",b[i]);
+    printf("%d\n",b[i]);
+}
+return 0;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <h3>E题：找出直系血亲（hdoj3786）（九度1035）</h3>
 
@@ -312,123 +190,65 @@
 <p>水题，直接用DFS即可</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem E </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;memory.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>int m,n;
-</span><span class='line'>char tree[27];
-</span><span class='line'>int dfs(char a,char b){&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>int dp;
-</span><span class='line'>char t;
-</span><span class='line'>dp=0;
-</span><span class='line'>t=a;
-</span><span class='line'>while(t){
-</span><span class='line'>    dp++;
-</span><span class='line'>    t=tree[t];
-</span><span class='line'>    if(t==b)return dp;
-</span><span class='line'>}
-</span><span class='line'>return 0;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}
-</span><span class='line'>int main()
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>int i,d;
-</span><span class='line'>char s[4];
-</span><span class='line'>while(scanf("%d %d",&amp;n,&amp;m)){
-</span><span class='line'>    if(m==0&amp;&amp;n==0)break;
-</span><span class='line'>    memset(tree,0,sizeof(tree));
-</span><span class='line'>    for(i=0;i&lt;n;i++){
-</span><span class='line'>        scanf("%s",s);
-</span><span class='line'>        if(s[1]!='-')tree[s[1]-64]=s[0]-64;
-</span><span class='line'>        if(s[2]!='-')tree[s[2]-64]=s[0]-64;
-</span><span class='line'>    }
-</span><span class='line'>    for(i=0;i&lt;m;i++){
-</span><span class='line'>        scanf("%s",s);
-</span><span class='line'>        d=dfs(s[0]-64,s[1]-64);
-</span><span class='line'>        if(!d)d=-dfs(s[1]-64,s[0]-64);
-</span><span class='line'>        if(!d){printf("-\n");continue;}
-</span><span class='line'>        while(d&gt;2||d&lt;-2){
-</span><span class='line'>            printf("great-");
-</span><span class='line'>            if(d&gt;0)d--;
-</span><span class='line'>            else d++;
-</span><span class='line'>        }
-</span><span class='line'>        switch(d){
-</span><span class='line'>            case 2:printf("grandparent\n");break;
-</span><span class='line'>            case 1:printf("parent\n");break;
-</span><span class='line'>            case -1:printf("child\n");break;
-</span><span class='line'>            case -2:printf("grandchild\n");break;
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>}
-</span><span class='line'>return 0;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Problem E %}</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<h1>include &lt;memory.h></h1>
+
+<p>int m,n;
+char tree[27];
+int dfs(char a,char b){</p>
+
+<pre><code>int dp;
+char t;
+dp=0;
+t=a;
+while(t){
+    dp++;
+    t=tree[t];
+    if(t==b)return dp;
+}
+return 0;
+</code></pre>
+
+<p>}
+int main()
+{</p>
+
+<pre><code>int i,d;
+char s[4];
+while(scanf("%d %d",&amp;n,&amp;m)){
+    if(m==0&amp;&amp;n==0)break;
+    memset(tree,0,sizeof(tree));
+    for(i=0;i&lt;n;i++){
+        scanf("%s",s);
+        if(s[1]!='-')tree[s[1]-64]=s[0]-64;
+        if(s[2]!='-')tree[s[2]-64]=s[0]-64;
+    }
+    for(i=0;i&lt;m;i++){
+        scanf("%s",s);
+        d=dfs(s[0]-64,s[1]-64);
+        if(!d)d=-dfs(s[1]-64,s[0]-64);
+        if(!d){printf("-\n");continue;}
+        while(d&gt;2||d&lt;-2){
+            printf("great-");
+            if(d&gt;0)d--;
+            else d++;
+        }
+        switch(d){
+            case 2:printf("grandparent\n");break;
+            case 1:printf("parent\n");break;
+            case -1:printf("child\n");break;
+            case -2:printf("grandchild\n");break;
+        }
+    }
+}
+return 0;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>小结：除了C题题目有点费解外，其他题都不难，可以说是既没考图论，又没有考DP。</p>
 

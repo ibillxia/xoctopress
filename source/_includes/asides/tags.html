@@ -1,10 +1,6 @@
 <section>
-  <h1>Tags</h1>
-  <ul id="recent_posts">
-    {% for post in site.tags limit: site.tags %}
-      <li class="post">
-        <a href="{{ root_url }}{{ post.url }}">{{ post.title }}</a>
-      </li>
-    {% endfor %}
+  <h2>Tags</h2>
+  <ul class="tag-cloud">
+	{% tag_cloud font-size: 60-165%, limit: 25, style: para %}
   </ul>
 </section>

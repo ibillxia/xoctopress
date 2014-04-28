@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: OS | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/os/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -33,7 +33,7 @@
 <p>EFI是一种个人电脑系统规格，用来定义操作系统与系统固件之间的软件界面，为替代BIOS的升级方案。可扩展固件接口（EFI）负责
 加电自检（POST）、连系操作系统以及提供连接操作系统与硬件的接口。UEFI在EFI基础上增加与改进了加密编码（cryptography）、
 网络认证（network authentication）与用户界面架构（User Interface Architecture）等方面的内容。EFI在软件层次中的位置如下图</br>
-<img src="/images/2012/IMAG2012092301.png">
+{% img /images/2012/IMAG2012092301.png %}
 </p>
 
 

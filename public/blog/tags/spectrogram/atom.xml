@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Spectrogram | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/spectrogram/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -61,53 +61,35 @@ import进来，因为ms与numpy的版本有冲突，出现了什么“numpy.dtyp
 
 <p>
 闲话少说了，上代码吧，其实看看这代码也挺简单的，就调一个matplotlib.pyplot.specgram()就可以了。
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import wave
-</span><span class='line'>import numpy as np
-</span><span class='line'>import matplotlib.pyplot as plt
-</span><span class='line'>
-</span><span class='line'>fw = wave.open('aeiou.wav','r')
-</span><span class='line'>soundInfo = fw.readframes(-1)
-</span><span class='line'>soundInfo = np.fromstring(soundInfo,np.int16)
-</span><span class='line'>f = fw.getframerate()
-</span><span class='line'>fw.close()
-</span><span class='line'>
-</span><span class='line'>plt.subplot(211)
-</span><span class='line'>plt.plot(soundInfo)
-</span><span class='line'>plt.ylabel('Amplitude')
-</span><span class='line'>plt.title('Wave from and spectrogram of aeiou.wav')
-</span><span class='line'>
-</span><span class='line'>plt.subplot(212)
-</span><span class='line'>plt.specgram(soundInfo,Fs = f, scale_by_freq = True, sides = 'default')
-</span><span class='line'>plt.ylabel('Frequency')
-</span><span class='line'>plt.xlabel('time(seconds)')
-</span><span class='line'>plt.show()</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+import wave
+import numpy as np
+import matplotlib.pyplot as plt
+
+fw = wave.open('aeiou.wav','r')
+soundInfo = fw.readframes(-1)
+soundInfo = np.fromstring(soundInfo,np.int16)
+f = fw.getframerate()
+fw.close()
+
+plt.subplot(211)
+plt.plot(soundInfo)
+plt.ylabel('Amplitude')
+plt.title('Wave from and spectrogram of aeiou.wav')
+
+plt.subplot(212)
+plt.specgram(soundInfo,Fs = f, scale_by_freq = True, sides = 'default')
+plt.ylabel('Frequency')
+plt.xlabel('time(seconds)')
+plt.show()
+{% endcodeblock %}
 </p>
 
 
 
 
 <p>程序运行的效果如下图：
-<center><img src="/images/2013/IMAG2013051801.png"></center>
+<center>{% img /images/2013/IMAG2013051801.png %}</center>
 虽然程序简单，但还有一些小bug，比如subplot(212)的xlabel和ylabel无法显示，这个问题暂时还没有解决。（更新：这个问题已解决，把mpp.show()放到
 最后一行就可以了，顺便图也更新了）</p>
 

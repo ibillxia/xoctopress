@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Success | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/success/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[<h2>马云经典语录</h2>
 
 
-<p><center><img src="/images/2009/IMAG2009090301.jpg"></center></p>
+<p><center>{% img /images/2009/IMAG2009090301.jpg %}</center></p>
 
 
 <p>1.当你成功的时候，你说的所有话都是真理。 </br>
@@ -70,7 +70,7 @@
 <h2>牛根生经典语录</h2>
 
 
-<p><center><img src="/images/2009/IMAG2009090302.jpg"></center></p>
+<p><center>{% img /images/2009/IMAG2009090302.jpg %}</center></p>
 
 
 
@@ -113,7 +113,7 @@
 <h2>史玉柱经典语录</h2>
 
 
-<p><center><img src="/images/2009/IMAG2009090303.jpg"></center></p>
+<p><center>{% img /images/2009/IMAG2009090303.jpg %}</center></p>
 
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Audio | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/audio/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Linux的OSS和ALSA声音系统简介及其比较]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it%27s-comparision/"/>
+    <link href="http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-its-comparision/"/>
     <updated>2013-09-08T19:46:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-it's-comparision</id>
+    <id>http://ibillxia.github.io/blog/2013/09/08/brief-introduction-of-alsa-and-oss-and-its-comparision</id>
     <content type="html"><![CDATA[<h2>概述</h2>
 
 
@@ -215,7 +215,7 @@ OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也�
 <p>大脑中与听觉相关的部分称为听觉中枢，它纵跨脑干、中脑、丘脑的大脑皮层，是感觉系统中最长的中枢通路之一。自下向上，
 主要环节包括：蜗神经核、上橄榄核、外侧丘系核、下丘核、丘脑的内侧膝状体、大脑皮层颞叶的听觉皮层等，图1所示为听觉中枢
 的传导通路。由中枢系统的多层传导过程，可以很自然的联想到近两年很热门的Deep Learning的机器学习方法。
-<center><img src="/images/2012/IMAG2012122106.jpg"></center>
+<center>{% img /images/2012/IMAG2012122106.jpg %}</center>
 <center>图 1 听觉中枢传导通路</center>
 </p>
 
@@ -332,7 +332,7 @@ OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也�
 
 <p>听觉系统可分为两大部分，即耳朵和听觉中枢。其中耳朵又分为外耳、中耳、内耳、听神经，听觉中枢则纵跨脑干、中脑、丘脑的大脑皮层，
 是感觉系统中最长的中枢通路之一。</br>
-<center><img src="/images/2012/IMAG2012122101.jpg"></center>
+<center>{% img /images/2012/IMAG2012122101.jpg %}</center>
 <center>图 1 双耳听觉系统</center>
 </p>
 
@@ -344,7 +344,7 @@ OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也�
 
 <p><strong>耳朵(外围部分)</strong>
 耳朵包括整个的听觉周围系统，即外耳、中耳、内耳以及与脑部相连的听神经，如图2所示。
-<center><img src="/images/2012/IMAG2012122102.jpg"></center>
+<center>{% img /images/2012/IMAG2012122102.jpg %}</center>
 <center>图2 人耳结构图</center>
 </p>
 
@@ -378,7 +378,7 @@ OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也�
 槌骨有一个长柄，连接到可以移动的鼓膜；砧骨是锤骨和镫骨之间的桥梁；镫骨是人体最小的命名骨。三块骨头的排列，使鼓膜的震动引起的
 锤骨震动，再导致砧骨的震动，从而导致镫骨的震动，这个传递过程称为听骨链。推动卵圆窗的镫骨足板，它会导致耳蜗（内耳的一部份）
 内的流体运动。</br>
-<center><img src="/images/2012/IMAG2012122103.jpg"></center>
+<center>{% img /images/2012/IMAG2012122103.jpg %}</center>
 <center>图3 中耳结构</center>
 </p>
 
@@ -452,7 +452,7 @@ OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也�
 
 
 <p>耳蜗位于骨前庭的前内侧，是一个外形呈蜗牛状卷曲的神经体，长约3.5cm，最宽处约0.32cm，呈螺旋状盘旋2.5～2.75圈，如图4所示。</br>
-<center><img src="/images/2012/IMAG2012122104.jpg"></center>
+<center>{% img /images/2012/IMAG2012122104.jpg %}</center>
 <center>图4 耳蜗的结构</center>
 </p>
 
@@ -463,7 +463,7 @@ OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也�
 鼓阶，内含外淋巴液体，鼓阶中的外淋巴在耳蜗顶部通过蜗孔与前庭阶中的外淋巴交通。赖斯纳氏膜（前庭膜）分隔前庭阶和蜗管，基底膜
 分隔蜗管和鼓阶。听觉转导器官柯蒂氏器坐落于基底膜之上、蜗管内部。听神经的纤维通过基底膜与内毛细胞和外毛细胞形成突触连接，其
 细胞体位于在耳蜗中心部的螺旋神经节。</br>
-<center><img src="/images/2012/IMAG2012122105.jpg"></center>
+<center>{% img /images/2012/IMAG2012122105.jpg %}</center>
 <center>图5 耳蜗横截面</center>
 </p>
 
@@ -628,144 +628,77 @@ OSS的jack检测目前在某些HDAudio-powered主板上不能正常工作。也�
 输出的对数能量(log energy)，k = 1,2,… N。 再将此N个参数进行余弦变换(cosine transform)求出L阶的Mel-scale cepstrum参数。</p>
 
 <h2>4.Matlab程序实现</h2>
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function r = mfcc(s, fs)
-</span><span class='line'>% MFCC参数提取
-</span><span class='line'>% Reference: 论文《MFCC和LPCC特征参数在说话人识别中的研究》
-</span><span class='line'>%
-</span><span class='line'>% Inputs: s  contains the signal to analize
-</span><span class='line'>%         fs is the sampling rate of the signal
-</span><span class='line'>%
-</span><span class='line'>% Output: r contains the transformed signal
-</span><span class='line'>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-</span><span class='line'>m = 256;  % 帧长
-</span><span class='line'>n = 100;  % 帧移
-</span><span class='line'>l = length(s);  % 信号总长度
-</span><span class='line'>nbFrame = floor((l - n) / m) + 1;  % 信号总帧数
-</span><span class='line'>for i = 1:n
-</span><span class='line'>for j = 1:nbFrame
-</span><span class='line'>M(i, j) = s(((j - 1) * m) + i);  % 分帧
-</span><span class='line'>end
-</span><span class='line'>end
-</span><span class='line'>h = hamming(n);  % Hamming窗w = 0.54 - 0.46*cos(2*pi*x);
-</span><span class='line'>M2 = diag(h) * M;  % 对M加窗，形成对角矩阵M2
-</span><span class='line'>for i = 1:nbFrame
-</span><span class='line'>frame(:,i) = fft(M2(:, i));   % 进行快速傅里叶变换，将其转换到频域上
-</span><span class='line'>end
-</span><span class='line'>t = n / 2;
-</span><span class='line'>% tmax = l / fs;
-</span><span class='line'>m = melfb(20, n, fs);  % 调用20阶MEL滤波器组进行滤波
-</span><span class='line'>n2 = 1 + floor(t);
-</span><span class='line'>z = m * abs(frame(1:n2, :  )).^2;  % 取前n2行帧列向量的平方
-</span><span class='line'>r = dct(log(z));  % 取对数后进行反余弦变换
-</span><span class='line'>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-</span><span class='line'>function m = melfb(p, n, fs)
-</span><span class='line'>% MELFB  Determine matrix for a mel-spaced filterbank
-</span><span class='line'>%
-</span><span class='line'>% Inputs:       p   number of filters in filterbank
-</span><span class='line'>%               n   length of fft
-</span><span class='line'>%               fs  sample rate in Hz
-</span><span class='line'>%
-</span><span class='line'>% Outputs:      x   a (sparse) matrix containing the filterbank amplitudes
-</span><span class='line'>%                   size(x) = [p, 1+floor(n/2)]
-</span><span class='line'>%
-</span><span class='line'>% Usage:        For example, to compute the mel-scale spectrum of a
-</span><span class='line'>%               colum-vector signal s, with length n and sample rate fs:
-</span><span class='line'>%               f = fft(s);
-</span><span class='line'>%               m = melfb(p, n, fs);
-</span><span class='line'>%               n2 = 1 + floor(n/2);
-</span><span class='line'>%               z = m * abs(f(1:n2)).^2;
-</span><span class='line'>%
-</span><span class='line'>%               z would contain p samples of the desired mel-scale spectrum
-</span><span class='line'>%
-</span><span class='line'>%               To plot filterbanks e.g.:
-</span><span class='line'>%               plot(linspace(0, (12500/2), 129), melfb(20, 256, 12500)'),
-</span><span class='line'>%               title('Mel-spaced filterbank'), xlabel('Frequency (Hz)');
-</span><span class='line'>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-</span><span class='line'>f0 = 700 / fs;
-</span><span class='line'>fn2 = floor(n/2);
-</span><span class='line'>lr = log(1 + 0.5/f0) / (p+1);
-</span><span class='line'>% convert to fft bin numbers with 0 for DC term
-</span><span class='line'>bl = n * (f0 * (exp([0 1 p p+1] * lr) - 1));
-</span><span class='line'>b1 = floor(bl(1)) + 1;
-</span><span class='line'>b2 = ceil(bl(2));
-</span><span class='line'>b3 = floor(bl(3));
-</span><span class='line'>b4 = min(fn2, ceil(bl(4))) - 1;
-</span><span class='line'>pf = log(1 + (b1:b4)/n/f0) / lr;
-</span><span class='line'>fp = floor(pf);
-</span><span class='line'>pm = pf - fp;
-</span><span class='line'>r = [fp(b2:b4) 1+fp(1:b3)];
-</span><span class='line'>c = [b2:b4 1:b3] + 1;
-</span><span class='line'>v = 2 * [1-pm(b2:b4) pm(1:b3)];
-</span><span class='line'>m = sparse(r, c, v, p, 1+fn2);</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+function r = mfcc(s, fs)
+% MFCC参数提取
+% Reference: 论文《MFCC和LPCC特征参数在说话人识别中的研究》
+%
+% Inputs: s  contains the signal to analize
+%         fs is the sampling rate of the signal
+%
+% Output: r contains the transformed signal
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+m = 256;  % 帧长
+n = 100;  % 帧移
+l = length(s);  % 信号总长度
+nbFrame = floor((l - n) / m) + 1;  % 信号总帧数
+for i = 1:n
+for j = 1:nbFrame
+M(i, j) = s(((j - 1) * m) + i);  % 分帧
+end
+end
+h = hamming(n);  % Hamming窗w = 0.54 - 0.46*cos(2*pi*x);
+M2 = diag(h) * M;  % 对M加窗，形成对角矩阵M2
+for i = 1:nbFrame
+frame(:,i) = fft(M2(:, i));   % 进行快速傅里叶变换，将其转换到频域上
+end
+t = n / 2;
+% tmax = l / fs;
+m = melfb(20, n, fs);  % 调用20阶MEL滤波器组进行滤波
+n2 = 1 + floor(t);
+z = m * abs(frame(1:n2, :  )).^2;  % 取前n2行帧列向量的平方
+r = dct(log(z));  % 取对数后进行反余弦变换
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function m = melfb(p, n, fs)
+% MELFB  Determine matrix for a mel-spaced filterbank
+%
+% Inputs:       p   number of filters in filterbank
+%               n   length of fft
+%               fs  sample rate in Hz
+%
+% Outputs:      x   a (sparse) matrix containing the filterbank amplitudes
+%                   size(x) = [p, 1+floor(n/2)]
+%
+% Usage:        For example, to compute the mel-scale spectrum of a
+%               colum-vector signal s, with length n and sample rate fs:
+%               f = fft(s);
+%               m = melfb(p, n, fs);
+%               n2 = 1 + floor(n/2);
+%               z = m * abs(f(1:n2)).^2;
+%
+%               z would contain p samples of the desired mel-scale spectrum
+%
+%               To plot filterbanks e.g.:
+%               plot(linspace(0, (12500/2), 129), melfb(20, 256, 12500)'),
+%               title('Mel-spaced filterbank'), xlabel('Frequency (Hz)');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+f0 = 700 / fs;
+fn2 = floor(n/2);
+lr = log(1 + 0.5/f0) / (p+1);
+% convert to fft bin numbers with 0 for DC term
+bl = n * (f0 * (exp([0 1 p p+1] * lr) - 1));
+b1 = floor(bl(1)) + 1;
+b2 = ceil(bl(2));
+b3 = floor(bl(3));
+b4 = min(fn2, ceil(bl(4))) - 1;
+pf = log(1 + (b1:b4)/n/f0) / lr;
+fp = floor(pf);
+pm = pf - fp;
+r = [fp(b2:b4) 1+fp(1:b3)];
+c = [b2:b4 1:b3] + 1;
+v = 2 * [1-pm(b2:b4) pm(1:b3)];
+m = sparse(r, c, v, p, 1+fn2);
+{% endcodeblock %}
 
 <h2>参考文献</h2>
 <p>[1] <a href="http://www.semxi.com/TechnologyDetail.aspx?nID=27">http://www.semxi.com/TechnologyDetail.aspx?nID=27</a> </br>

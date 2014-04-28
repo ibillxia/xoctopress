@@ -1,0 +1,11 @@
+---
+layout: default
+title: "404 Error"
+comments: false
+sharing: false
+footer: false
+---
+
+<center>
+<iframe scrolling='no' frameborder='0' src='http://yibo.iyiyun.com/js/yibo404/key/2415' width='640' height='464' style='display:block;'></iframe>
+</center>

@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: CNN | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/cnn/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -67,7 +67,7 @@
 <p>卷积网络通过在相邻两层之间强制使用局部连接模式来利用图像的空间局部特性，在第m层的隐层单元只与第m-1层的输入单元的局部区域有连接，第m-1层的这些局部
 区域被称为空间连续的接受域。我们可以将这种结构描述如下：</br>
 设第m-1层为视网膜输入层，第m层的接受域的宽度为3，也就是说该层的每个单元与且仅与输入层的3个相邻的神经元相连，第m层与第m+1层具有类似的链接规则，如下图所示。
-<center><img src="/images/2013/IMAG2013040201.jpg"></center>
+<center>{% img /images/2013/IMAG2013040201.jpg %}</center>
 可以看到m+1层的神经元相对于第m层的接受域的宽度也为3，但相对于输入层的接受域为5，这种结构将学习到的过滤器（对应于输入信号中被最大激活的单元）限制在局部空间
 模式（因为每个单元对它接受域外的variation不做反应）。从上图也可以看出，多个这样的层堆叠起来后，会使得过滤器（不再是线性的）逐渐成为全局的（也就是覆盖到了更
 大的视觉区域）。例如上图中第m+1层的神经元可以对宽度为5的输入进行一个非线性的特征编码。
@@ -80,7 +80,7 @@
 
 
 <p>在卷积网络中，每个稀疏过滤器<em>$h_{i}$</em>通过共享权值都会覆盖整个可视域，这些共享权值的单元构成一个特征映射，如下图所示。
-<center><img src="/images/2013/IMAG2013040202.jpg"></center>
+<center>{% img /images/2013/IMAG2013040202.jpg %}</center>
 在图中，有3个隐层单元，他们属于同一个特征映射。同种颜色的链接的权值是相同的，我们仍然可以使用梯度下降的方法来学习这些权值，只需要对原始算法做一些小的改动，
 这里共享权值的梯度是所有共享参数的梯度的总和。我们不禁会问为什么要权重共享呢？一方面，重复单元能够对特征进行识别，而不考虑它在可视域中的位置。另一方面，权值
 共享使得我们能更有效的进行特征抽取，因为它极大的减少了需要学习的自由变量的个数。通过控制模型的规模，卷积网络对视觉问题可以具有很好的泛化能力。
@@ -109,7 +109,7 @@
 
 
 <p>下图是一个卷积网络的实例
-<center><img src="/images/2013/IMAG2013040203.jpg"></center>
+<center>{% img /images/2013/IMAG2013040203.jpg %}</center>
 图中的卷积网络工作流程如下，输入层由32×32个感知节点组成，接收原始图像。然后，计算流程在卷积和子抽样之间交替进行，如下所
 述：第一隐藏层进行卷积，它由8个特征映射组成，每个特征映射由28×28个神经元组成，每个神经元指定一个 5×5 的接受域；第二隐藏层实现子
 抽样和局部平均，它同样由 8 个特征映射组成，但其每个特征映射由14×14 个神经元组成。每个神经元具有一个 2×2 的接受域，一个可训练
@@ -135,7 +135,7 @@
 
 
 <p>总体而言，前面提到的卷积网络可以简化为下图所示模型：
-<center><img src="/images/2013/IMAG2013040204.jpg"></center>
+<center>{% img /images/2013/IMAG2013040204.jpg %}</center>
 其中，input 到C1、S4到C5、C5到output是全连接，C1到S2、C3到S4是一一对应的连接，S2到C3为了消除网络对称性，去掉了一部分连接，
 可以让特征映射更具多样性。需要注意的是 C5 卷积核的尺寸要和 S4 的输出相同，只有这样才能保证输出是一维向量。</p>
 
@@ -146,7 +146,7 @@
 
 
 <p>卷积层的典型结构如下图所示。
-<center><img src="/images/2013/IMAG2013040205.jpg"></center>
+<center>{% img /images/2013/IMAG2013040205.jpg %}</center>
 </p>
 
 
@@ -155,175 +155,108 @@
 <p>卷积层的前馈运算是通过如下算法实现的：</br>
 <center>卷积层的输出= Sigmoid( Sum(卷积) +偏移量) </center>
 其中卷积核和偏移量都是可训练的。下面是其核心代码：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ConvolutionLayer::fprop(input,output) {
-</span><span class='line'>    //取得卷积核的个数
-</span><span class='line'>    int n=kernel.GetDim(0);
-</span><span class='line'>    for (int i=0;i&lt;n;i++) {
-</span><span class='line'>        //第i个卷积核对应输入层第a个特征映射，输出层的第b个特征映射
-</span><span class='line'>        //这个卷积核可以形象的看作是从输入层第a个特征映射到输出层的第b个特征映射的一个链接
-</span><span class='line'>        int a=table[i][0], b=table[i][1];
-</span><span class='line'>        //用第i个卷积核和输入层第a个特征映射做卷积
-</span><span class='line'>        convolution = Conv(input[a],kernel[i]);
-</span><span class='line'>        //把卷积结果求和
-</span><span class='line'>        sum[b] +=convolution;
-</span><span class='line'>    }
-</span><span class='line'>    for (i=0;i&lt;(int)bias.size();i++) {
-</span><span class='line'>        //加上偏移量
-</span><span class='line'>        sum[i] += bias[i];
-</span><span class='line'>    }
-</span><span class='line'>    //调用Sigmoid函数
-</span><span class='line'>    output = Sigmoid(sum);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+ConvolutionLayer::fprop(input,output) {
+    //取得卷积核的个数
+    int n=kernel.GetDim(0);
+    for (int i=0;i<n;i++) {
+        //第i个卷积核对应输入层第a个特征映射，输出层的第b个特征映射
+        //这个卷积核可以形象的看作是从输入层第a个特征映射到输出层的第b个特征映射的一个链接
+        int a=table[i][0], b=table[i][1];
+        //用第i个卷积核和输入层第a个特征映射做卷积
+        convolution = Conv(input[a],kernel[i]);
+        //把卷积结果求和
+        sum[b] +=convolution;
+    }
+    for (i=0;i<(int)bias.size();i++) {
+        //加上偏移量
+        sum[i] += bias[i];
+    }
+    //调用Sigmoid函数
+    output = Sigmoid(sum);
+}
+{% endcodeblock %}
 其中，input是 n1×n2×n3 的矩阵，n1是输入层特征映射的个数，n2是输入层特征映射的宽度，n3是输入层特征映射的高度。output, sum, convolution,
 bias是n1×(n2-kw+1)×(n3-kh+1)的矩阵，kw,kh是卷积核的宽度高度(图中是5×5)。kernel是卷积核矩阵。table是连接表，即如果第a输入和第b个输出之间
 有连接，table里就会有[a,b]这一项，而且每个连接都对应一个卷积核。</p>
 
 <p>卷积层的反馈运算的核心代码如下：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ConvolutionLayer::bprop(input,output,in_dx,out_dx) {
-</span><span class='line'>    //梯度通过DSigmoid反传
-</span><span class='line'>    sum_dx = DSigmoid(out_dx);
-</span><span class='line'>    //计算bias的梯度
-</span><span class='line'>    for (i=0;i&lt;bias.size();i++) {
-</span><span class='line'>        bias_dx[i] = sum_dx[i];
-</span><span class='line'>    }
-</span><span class='line'>    //取得卷积核的个数
-</span><span class='line'>    int n=kernel.GetDim(0);
-</span><span class='line'>    for (int i=0;i&lt;n;i++)
-</span><span class='line'>    {
-</span><span class='line'>        int a=table[i][0],b=table[i][1];
-</span><span class='line'>        //用第i个卷积核和第b个输出层反向卷积（即输出层的一点乘卷积模板返回给输入层），并把结果累加到第a个输入层
-</span><span class='line'>        input_dx[a] += DConv(sum_dx[b],kernel[i]);
-</span><span class='line'>        //用同样的方法计算卷积模板的梯度
-</span><span class='line'>        kernel_dx[i] += DConv(sum_dx[b],input[a]);
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+ConvolutionLayer::bprop(input,output,in_dx,out_dx) {
+    //梯度通过DSigmoid反传
+    sum_dx = DSigmoid(out_dx);
+    //计算bias的梯度
+    for (i=0;i<bias.size();i++) {
+        bias_dx[i] = sum_dx[i];
+    }
+    //取得卷积核的个数
+    int n=kernel.GetDim(0);
+    for (int i=0;i<n;i++)
+    {
+        int a=table[i][0],b=table[i][1];
+        //用第i个卷积核和第b个输出层反向卷积（即输出层的一点乘卷积模板返回给输入层），并把结果累加到第a个输入层
+        input_dx[a] += DConv(sum_dx[b],kernel[i]);
+        //用同样的方法计算卷积模板的梯度
+        kernel_dx[i] += DConv(sum_dx[b],input[a]);
+    }
+}
+{% endcodeblock %}
 其中in_dx,out_dx 的结构和 input,output 相同，代表的是相应点的梯度。
 </p>
 <p></p>
 
 <h3>3.2 子采样层的学习</h3>
 <p>子采样层的典型结构如下图所示。
-<center><img src="/images/2013/IMAG2013040206.jpg"></center></p>
+<center>{% img /images/2013/IMAG2013040206.jpg %}</center></p>
 
 <p>类似的字采样层的输出的计算式为：</br>
 <center>输出= Sigmoid( 采样*权重 +偏移量)</center>
 其核心代码如下：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SubSamplingLayer::fprop(input,output) {
-</span><span class='line'>    int n1= input.GetDim(0);
-</span><span class='line'>    int n2= input.GetDim(1);
-</span><span class='line'>    int n3= input.GetDim(2);
-</span><span class='line'>    for (int i=0;i&lt;n1;i++) {
-</span><span class='line'>        for (int j=0;j&lt;n2;j++) {
-</span><span class='line'>            for (int k=0;k&lt;n3;k++) {
-</span><span class='line'>                //coeff 是可训练的权重，sw 、sh 是采样窗口的尺寸。
-</span><span class='line'>                sub[i][j/sw][k/sh] += input[i][j][k]*coeff[i];
-</span><span class='line'>            }
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>    for (i=0;i&lt;n1;i++) {
-</span><span class='line'>        //加上偏移量
-</span><span class='line'>        sum[i] = sub[i] + bias[i];
-</span><span class='line'>    }
-</span><span class='line'>    output = Sigmoid(sum);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+SubSamplingLayer::fprop(input,output) {
+    int n1= input.GetDim(0);
+    int n2= input.GetDim(1);
+    int n3= input.GetDim(2);
+    for (int i=0;i<n1;i++) {
+        for (int j=0;j<n2;j++) {
+            for (int k=0;k<n3;k++) {
+                //coeff 是可训练的权重，sw 、sh 是采样窗口的尺寸。
+                sub[i][j/sw][k/sh] += input[i][j][k]*coeff[i];
+            }
+        }
+    }
+    for (i=0;i<n1;i++) {
+        //加上偏移量
+        sum[i] = sub[i] + bias[i];
+    }
+    output = Sigmoid(sum);
+}
+{% endcodeblock %}
 </p>
 
 <p>子采样层的反馈运算的核心代码如下：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SubSamplingLayer::bprop(input,output,in_dx,out_dx) {
-</span><span class='line'>    //梯度通过DSigmoid反传
-</span><span class='line'>    sum_dx = DSigmoid(out_dx);
-</span><span class='line'>    //计算bias和coeff的梯度
-</span><span class='line'>    for (i=0;i&lt;n1;i++) {
-</span><span class='line'>        coeff_dx[i] = 0;
-</span><span class='line'>        bias_dx[i] = 0;
-</span><span class='line'>        for (j=0;j&lt;n2/sw;j++)
-</span><span class='line'>            for (k=0;k&lt;n3/sh;k++) {
-</span><span class='line'>                coeff_dx[i] += sub[j][k]*sum_dx[i][j][k];
-</span><span class='line'>                bias_dx[i] += sum_dx[i][j][k]);
-</span><span class='line'>            }
-</span><span class='line'>    }
-</span><span class='line'>    for (i=0;i&lt;n1;i++) {
-</span><span class='line'>        for (j=0;j&lt;n2;j++)
-</span><span class='line'>            for (k=0;k&lt;n3;k++) {
-</span><span class='line'>                in_dx[i][j][k] = coeff[i]*sum_dx[i][j/sw][k/sh];
-</span><span class='line'>            }
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+SubSamplingLayer::bprop(input,output,in_dx,out_dx) {
+    //梯度通过DSigmoid反传
+    sum_dx = DSigmoid(out_dx);
+    //计算bias和coeff的梯度
+    for (i=0;i<n1;i++) {
+        coeff_dx[i] = 0;
+        bias_dx[i] = 0;
+        for (j=0;j<n2/sw;j++)
+            for (k=0;k<n3/sh;k++) {
+                coeff_dx[i] += sub[j][k]*sum_dx[i][j][k];
+                bias_dx[i] += sum_dx[i][j][k]);
+            }
+    }
+    for (i=0;i<n1;i++) {
+        for (j=0;j<n2;j++)
+            for (k=0;k<n3;k++) {
+                in_dx[i][j][k] = coeff[i]*sum_dx[i][j/sw][k/sh];
+            }
+    }
+}
+{% endcodeblock %}
 </p>
 
 <h3>3.3 全连接层的学习</h3>

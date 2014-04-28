@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Company | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/company/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-03-02T15:06:41+08:00</updated>
+  <updated>2014-04-28T23:13:20+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -23,7 +23,7 @@
 好准备，所以最终失败。</p>
 
 
-<center><img src="/images/2011/IMAG2011050701.jpg"></center>
+<center>{% img /images/2011/IMAG2011050701.jpg %}</center>
 
 
 <p>同类型的公司在数年后取得辉煌成绩，产生数亿美元价值，曾经创立这10大创业公司的企业家难免懊恼不已，因为这些创意和产品都是他们曾
