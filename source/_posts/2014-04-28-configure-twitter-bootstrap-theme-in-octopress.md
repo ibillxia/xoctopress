@@ -85,4 +85,4 @@ tag_dir: blog/tags
 
 至此，已经配置完成了 ^_^ 可以运行 rake generate 和 rake preview 来看看最终效果了。
 
-PS：本博客的主题及插件相关文件和代码可以看我的 GitHub Repo：[xoctopress](https://github.com/ibillxia/xoctopress). 如有问题，可以参考这些代码。
+PS：本博客的主题及插件相关文件和代码可以看我的 GitHub Repo：[xoctopress](https://github.com/ibillxia/xoctopress/tree/master). 如有问题，可以参考这些代码。
