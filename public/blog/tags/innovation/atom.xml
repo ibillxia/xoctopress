@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Innovation | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/innovation/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:13:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -33,7 +33,7 @@
 也是『纽约时报』畅销书『长尾理论』及『免费：商业的未来』的作者。</p>
 
 
-<center>{% img /images/2014/IMAG2014022301.jpg %}</center>
+<center><img src="/images/2014/IMAG2014022301.jpg"></center>
 
 
 <p>『创客：新工业革命』一书以独特的视角分析了传统的制造业在汹涌澎湃的互联网浪潮中发生的翻天覆地的变化。在互联网这个广阔媒介的
@@ -55,7 +55,7 @@
 <p>长尾（The Long Tail），或译长尾效应，最初由克里斯·安德森（Chris Anderson）于2004年发表于自家的<a href="http://www.wired.com/wired/archive/12.10/tail.html">杂志</a>，
 用来描述诸如亚马逊公司、Netflix和Real.com/Rhapsody之类的网站之商业和经济模式。是指那些不受到重视的、销量小但种类多的产品或服务
 由于总量巨大，累积起来的总收益超过主流产品的现象。下图中纵轴为“人气”，横轴为“产品”，黄色部分即为长尾。
-<center>{% img /images/2014/IMAG2014022302.png %}</center>
+<center><img src="/images/2014/IMAG2014022302.png"></center>
 在互联网领域，长尾效应尤为显著。比如亚马逊上的书籍的销售情况，<a href="http://papers.ssrn.com/sol3/papers.cfm?abstract_id=400940">Erik</a>等
 用指数曲线研究了亚马逊网站的书本销售量和销售排名的关系，并发现亚马逊40%的书本销售来自于**本地书店里不卖**的书本。在亚马逊这个案例上，
 可应用“长尾”概念解释：它一半左右的销售来自于比较热门的商品，而另一半却来自相对不那么热门的商品。这跟传统
@@ -136,7 +136,7 @@ DIY首饰、工艺品，DIY家具、房屋，DIY台历、杯子、布偶、玩�
 好准备，所以最终失败。</p>
 
 
-<center>{% img /images/2011/IMAG2011050701.jpg %}</center>
+<center><img src="/images/2011/IMAG2011050701.jpg"></center>
 
 
 <p>同类型的公司在数年后取得辉煌成绩，产生数亿美元价值，曾经创立这10大创业公司的企业家难免懊恼不已，因为这些创意和产品都是他们曾

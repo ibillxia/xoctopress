@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: MachineLearning | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/machinelearning/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:13:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -72,7 +72,7 @@ and the same lower-level concepts can help to define many higher-level concepts.
 信号流从一个区域到下一个区域（也有跳过连接或在某种程度上的并行路径，所以情况更复杂）。
 在这种功能层次结构中，每个层次上的输入代表了不同层次的抽象特征，越上层的特征，
 又越底层的信息表征，抽象性越高，如下图（c）所示。</br>
-<center>{% img /images/2013/IMAG2013031601.png %}</center>
+<center><img src="/images/2013/IMAG2013031601.png"></center>
 </p>
 
 
@@ -183,7 +183,7 @@ Karol Gregor, Micha&euml;l Mathieu and Yann LeCun, Advances in Neural Informatio
 自然地，我们就得到了输入I的几种不同表示（每一层代表一种表示），这些表示就是特征，在研究中可以发现，
 如果在原有的特征中加入这些自动学习得到的特征可以大大提高精确度，
 甚至在分类问题中比目前最好的分类算法效果还要好！这种方法称为AutoEncoder，如下图所示。</br>
-<center>{% img /images/2013/IMAG2013031602.png %}</center>
+<center><img src="/images/2013/IMAG2013031602.png"></center>
 </p>
 
 
@@ -312,7 +312,7 @@ logistic regression, linear regression, svm, etc. 这类问题统称为优化问
 <p><strong>凸集的定义</strong>：一个集合$C$是凸集，当且仅当对任意$x,y\in C$和$\theta \in R$且$0\leq \theta \leq 1$，都有</br>
 <center>$\theta x + (1-\theta)y \in C$.</center>
 其几何意义在于，在集合C中任取两个点，连接两点的直线段上的任一点也在集合C中。下图是凸集和非凸集的例子：</br>
-{% img /images/201209026/IMAG20120902601.jpg %}
+<img src="/images/201209026/IMAG20120902601.jpg">
 </p>
 
 
@@ -340,7 +340,7 @@ logistic regression, linear regression, svm, etc. 这类问题统称为优化问
 且对任意的$x,y\in D(f)$和$\theta \in R$且$0\leq \theta \leq 1$，都有</br>
 <center>$f(\theta x + (1-\theta)y \leq \theta f(x) + (1-\theta) f(y))$.</center>
 设$f(x)$为一元函数，那么上式的几何意义在于，曲线上任意两点处的割线在函数曲线的上方，如下图所示：</br>
-{% img /images/2012/IMAG20120902602.jpg %}
+<img src="/images/2012/IMAG20120902602.jpg">
 </p>
 
 

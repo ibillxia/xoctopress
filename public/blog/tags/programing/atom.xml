@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Programing | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/programing/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:13:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -30,7 +30,7 @@
 可以和团队成员在线协作。</p>
 
 
-<center>{% img /images/2014/IMAG2014030101.png %}</center>
+<center><img src="/images/2014/IMAG2014030101.png"></center>
 
 
 <!--more-->
@@ -56,217 +56,390 @@
 
 
 <p>硬件信息概要，要加sudo使用根权限并输入密码，不加short参数可以查看详细信息
-{% codeblock %}
-ibillxia@vm-0:~$ sudo lshw -short
-[sudo] password for ibillxia:</p>
-
-<h1>H/W path    Device   Class      Description</h1>
-
-<pre><code>                 system     Computer
-</code></pre>
-
-<p>/0                   bus        Motherboard
-/0/0                 memory     15GiB System memory
-/0/1                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
-/0/2                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
-/0/3                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
-/0/4                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
-/0/5                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
-/0/6                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
-/0/7                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
-/0/8                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
-/0/100               bridge     440FX - 82441FX PMC [Natoma]
-/0/100/1             bridge     82371SB PIIX3 ISA [Natoma/Triton II]
-/0/100/1.1           storage    82371SB PIIX3 IDE [Natoma/Triton II]
-/0/100/1.2           bus        82371SB PIIX3 USB [Natoma/Triton II]
-/0/100/1.3           bridge     82371AB/EB/MB PIIX4 ACPI
-/0/100/2             display    GD 5446
-/0/100/3             network    Virtio network device
-/0/100/4             storage    Virtio block device
-/0/100/5             memory     RAM memory
-/1          eth0     network    Ethernet interface
-/2          gretap0  network    Ethernet interface
-{% endcodeblock %}
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ sudo lshw -short
+</span><span class='line'>[sudo] password for ibillxia:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>H/W path    Device   Class      Description&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>                 system     Computer
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>/0                   bus        Motherboard
+</span><span class='line'>/0/0                 memory     15GiB System memory
+</span><span class='line'>/0/1                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/2                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/3                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/4                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/5                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/6                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/7                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/8                 processor  Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>/0/100               bridge     440FX - 82441FX PMC [Natoma]
+</span><span class='line'>/0/100/1             bridge     82371SB PIIX3 ISA [Natoma/Triton II]
+</span><span class='line'>/0/100/1.1           storage    82371SB PIIX3 IDE [Natoma/Triton II]
+</span><span class='line'>/0/100/1.2           bus        82371SB PIIX3 USB [Natoma/Triton II]
+</span><span class='line'>/0/100/1.3           bridge     82371AB/EB/MB PIIX4 ACPI
+</span><span class='line'>/0/100/2             display    GD 5446
+</span><span class='line'>/0/100/3             network    Virtio network device
+</span><span class='line'>/0/100/4             storage    Virtio block device
+</span><span class='line'>/0/100/5             memory     RAM memory
+</span><span class='line'>/1          eth0     network    Ethernet interface
+</span><span class='line'>/2          gretap0  network    Ethernet interface</span></code></pre></td></tr></table></div></figure></notextile></div>
 查看cpu信息，E5-2630 8核2.30GHz，本文只摘取第1个核的信息
-{% codeblock %}
-ibillxia@vm-0:~$ cat /proc/cpuinfo
-processor       : 0
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 45
-model name      : Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
-stepping        : 7
-microcode       : 0x1
-cpu MHz         : 2299.998
-cache size      : 4096 KB
-physical id     : 0
-siblings        : 1
-core id         : 0
-cpu cores       : 1
-apicid          : 0
-initial apicid  : 0
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 13
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt aes xsave avx hyperv
-isor lahf_lm xsaveopt
-bogomips        : 4599.99
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-{% endcodeblock %}
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ cat /proc/cpuinfo
+</span><span class='line'>processor       : 0
+</span><span class='line'>vendor_id       : GenuineIntel
+</span><span class='line'>cpu family      : 6
+</span><span class='line'>model           : 45
+</span><span class='line'>model name      : Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+</span><span class='line'>stepping        : 7
+</span><span class='line'>microcode       : 0x1
+</span><span class='line'>cpu MHz         : 2299.998
+</span><span class='line'>cache size      : 4096 KB
+</span><span class='line'>physical id     : 0
+</span><span class='line'>siblings        : 1
+</span><span class='line'>core id         : 0
+</span><span class='line'>cpu cores       : 1
+</span><span class='line'>apicid          : 0
+</span><span class='line'>initial apicid  : 0
+</span><span class='line'>fpu             : yes
+</span><span class='line'>fpu_exception   : yes
+</span><span class='line'>cpuid level     : 13
+</span><span class='line'>wp              : yes
+</span><span class='line'>flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl eagerfpu pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt aes xsave avx hyperv
+</span><span class='line'>isor lahf_lm xsaveopt
+</span><span class='line'>bogomips        : 4599.99
+</span><span class='line'>clflush size    : 64
+</span><span class='line'>cache_alignment : 64
+</span><span class='line'>address sizes   : 40 bits physical, 48 bits virtual
+</span><span class='line'>power management:</span></code></pre></td></tr></table></div></figure></notextile></div>
 查看内存信息，共16GB内存
-{% codeblock %}
-ibillxia@vm-0:~$ cat /proc/meminfo                                                                                                                                                                                                                           <br/>
-MemTotal:       16433708 kB
-MemFree:         8506472 kB
-Buffers:          332884 kB
-Cached:          5334908 kB
-SwapCached:            0 kB
-Active:          3936496 kB
-Inactive:        2222980 kB
-Active(anon):    2093920 kB
-Inactive(anon):    10856 kB
-Active(file):    1842576 kB
-Inactive(file):  2212124 kB
-Unevictable:        5552 kB
-Mlocked:            5552 kB
-SwapTotal:             0 kB
-SwapFree:              0 kB
-Dirty:                 0 kB
-Writeback:             8 kB
-AnonPages:        482832 kB
-Mapped:            41668 kB
-Shmem:           1623556 kB
-Slab:            1522048 kB
-SReclaimable:    1225180 kB
-SUnreclaim:       296868 kB
-KernelStack:        6312 kB
-PageTables:        84660 kB
-NFS_Unstable:          0 kB
-Bounce:                0 kB
-WritebackTmp:          0 kB
-CommitLimit:     8216852 kB
-Committed_AS:    5225664 kB
-VmallocTotal:   34359738367 kB
-VmallocUsed:       45688 kB
-VmallocChunk:   34359561000 kB
-HardwareCorrupted:     0 kB
-AnonHugePages:     18432 kB
-HugePages_Total:       0
-HugePages_Free:        0
-HugePages_Rsvd:        0
-HugePages_Surp:        0
-Hugepagesize:       2048 kB
-DirectMap4k:      245748 kB
-DirectMap2M:     7094272 kB
-DirectMap1G:     9437184 kB
-{% endcodeblock %}
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ cat /proc/meminfo                                                                                                                                                                                                                           &lt;br/>
+</span><span class='line'>MemTotal:       16433708 kB
+</span><span class='line'>MemFree:         8506472 kB
+</span><span class='line'>Buffers:          332884 kB
+</span><span class='line'>Cached:          5334908 kB
+</span><span class='line'>SwapCached:            0 kB
+</span><span class='line'>Active:          3936496 kB
+</span><span class='line'>Inactive:        2222980 kB
+</span><span class='line'>Active(anon):    2093920 kB
+</span><span class='line'>Inactive(anon):    10856 kB
+</span><span class='line'>Active(file):    1842576 kB
+</span><span class='line'>Inactive(file):  2212124 kB
+</span><span class='line'>Unevictable:        5552 kB
+</span><span class='line'>Mlocked:            5552 kB
+</span><span class='line'>SwapTotal:             0 kB
+</span><span class='line'>SwapFree:              0 kB
+</span><span class='line'>Dirty:                 0 kB
+</span><span class='line'>Writeback:             8 kB
+</span><span class='line'>AnonPages:        482832 kB
+</span><span class='line'>Mapped:            41668 kB
+</span><span class='line'>Shmem:           1623556 kB
+</span><span class='line'>Slab:            1522048 kB
+</span><span class='line'>SReclaimable:    1225180 kB
+</span><span class='line'>SUnreclaim:       296868 kB
+</span><span class='line'>KernelStack:        6312 kB
+</span><span class='line'>PageTables:        84660 kB
+</span><span class='line'>NFS_Unstable:          0 kB
+</span><span class='line'>Bounce:                0 kB
+</span><span class='line'>WritebackTmp:          0 kB
+</span><span class='line'>CommitLimit:     8216852 kB
+</span><span class='line'>Committed_AS:    5225664 kB
+</span><span class='line'>VmallocTotal:   34359738367 kB
+</span><span class='line'>VmallocUsed:       45688 kB
+</span><span class='line'>VmallocChunk:   34359561000 kB
+</span><span class='line'>HardwareCorrupted:     0 kB
+</span><span class='line'>AnonHugePages:     18432 kB
+</span><span class='line'>HugePages_Total:       0
+</span><span class='line'>HugePages_Free:        0
+</span><span class='line'>HugePages_Rsvd:        0
+</span><span class='line'>HugePages_Surp:        0
+</span><span class='line'>Hugepagesize:       2048 kB
+</span><span class='line'>DirectMap4k:      245748 kB
+</span><span class='line'>DirectMap2M:     7094272 kB
+</span><span class='line'>DirectMap1G:     9437184 kB</span></code></pre></td></tr></table></div></figure></notextile></div>
 硬盘测速，才219kB/s，不是一般的慢啊
-{% codeblock %}
-ibillxia@vm-0:~$ dd if=/dev/zero of=test bs=64k count=2k oflag=dsync
-2048+0 records in
-2048+0 records out
-134217728 bytes (134 MB) copied, 612.942 s, 219 kB/s
-{% endcodeblock %}
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ dd if=/dev/zero of=test bs=64k count=2k oflag=dsync
+</span><span class='line'>2048+0 records in
+</span><span class='line'>2048+0 records out
+</span><span class='line'>134217728 bytes (134 MB) copied, 612.942 s, 219 kB/s</span></code></pre></td></tr></table></div></figure></notextile></div>
 网速测试，一般般
-{% codeblock %}
-ibillxia@vm-0:~$ ping www.github.com  # 测试1
-PING github.com (192.30.252.129) 56(84) bytes of data.
-64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=1 ttl=54 time=73.2 ms
-64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=2 ttl=54 time=75.9 ms
-64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=3 ttl=54 time=72.4 ms
-64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=4 ttl=54 time=72.3 ms
-64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=5 ttl=54 time=66.2 ms
-64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=6 ttl=54 time=66.1 ms
-^C
---- github.com ping statistics ---
-6 packets transmitted, 6 received, 0% packet loss, time 5001ms
-rtt min/avg/max/mdev = 66.117/71.077/75.947/3.656 ms
-ibillxia@vm-0:~$ ping www.stackoverflow.com    # 测试2
-PING stackoverflow.com (198.252.206.140) 56(84) bytes of data.
-64 bytes from stackoverflow.com (198.252.206.140): icmp_req=1 ttl=49 time=76.1 ms
-64 bytes from stackoverflow.com (198.252.206.140): icmp_req=2 ttl=49 time=88.4 ms
-64 bytes from stackoverflow.com (198.252.206.140): icmp_req=3 ttl=49 time=75.1 ms
-64 bytes from stackoverflow.com (198.252.206.140): icmp_req=4 ttl=49 time=75.1 ms
-64 bytes from stackoverflow.com (198.252.206.140): icmp_req=5 ttl=49 time=75.3 ms
-64 bytes from stackoverflow.com (198.252.206.140): icmp_req=6 ttl=49 time=82.6 ms
-^C
---- stackoverflow.com ping statistics ---
-6 packets transmitted, 6 received, 0% packet loss, time 5005ms
-rtt min/avg/max/mdev = 75.130/78.813/88.437/5.061 ms
-ibillxia@vm-0:~$ ping www.facebook.com     # 测试3
-PING star.c10r.facebook.com (31.13.77.81) 56(84) bytes of data.
-64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=1 ttl=81 time=153 ms
-64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=2 ttl=81 time=153 ms
-64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=3 ttl=81 time=153 ms
-64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=4 ttl=81 time=153 ms
-64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=5 ttl=81 time=153 ms
-^C
---- star.c10r.facebook.com ping statistics ---
-6 packets transmitted, 5 received, 16% packet loss, time 5006ms
-rtt min/avg/max/mdev = 153.577/153.740/153.951/0.449 ms
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ ping www.github.com  # 测试1
+</span><span class='line'>PING github.com (192.30.252.129) 56(84) bytes of data.
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=1 ttl=54 time=73.2 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=2 ttl=54 time=75.9 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=3 ttl=54 time=72.4 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=4 ttl=54 time=72.3 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=5 ttl=54 time=66.2 ms
+</span><span class='line'>64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=6 ttl=54 time=66.1 ms
+</span><span class='line'>^C
+</span><span class='line'>--- github.com ping statistics ---
+</span><span class='line'>6 packets transmitted, 6 received, 0% packet loss, time 5001ms
+</span><span class='line'>rtt min/avg/max/mdev = 66.117/71.077/75.947/3.656 ms
+</span><span class='line'>ibillxia@vm-0:~$ ping www.stackoverflow.com    # 测试2
+</span><span class='line'>PING stackoverflow.com (198.252.206.140) 56(84) bytes of data.
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=1 ttl=49 time=76.1 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=2 ttl=49 time=88.4 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=3 ttl=49 time=75.1 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=4 ttl=49 time=75.1 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=5 ttl=49 time=75.3 ms
+</span><span class='line'>64 bytes from stackoverflow.com (198.252.206.140): icmp_req=6 ttl=49 time=82.6 ms
+</span><span class='line'>^C
+</span><span class='line'>--- stackoverflow.com ping statistics ---
+</span><span class='line'>6 packets transmitted, 6 received, 0% packet loss, time 5005ms
+</span><span class='line'>rtt min/avg/max/mdev = 75.130/78.813/88.437/5.061 ms
+</span><span class='line'>ibillxia@vm-0:~$ ping www.facebook.com     # 测试3
+</span><span class='line'>PING star.c10r.facebook.com (31.13.77.81) 56(84) bytes of data.
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=1 ttl=81 time=153 ms
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=2 ttl=81 time=153 ms
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=3 ttl=81 time=153 ms
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=4 ttl=81 time=153 ms
+</span><span class='line'>64 bytes from edge-star-shv-06-sjc1.facebook.com (31.13.77.81): icmp_req=5 ttl=81 time=153 ms
+</span><span class='line'>^C
+</span><span class='line'>--- star.c10r.facebook.com ping statistics ---
+</span><span class='line'>6 packets transmitted, 5 received, 16% packet loss, time 5006ms
+</span><span class='line'>rtt min/avg/max/mdev = 153.577/153.740/153.951/0.449 ms</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>再来看看一些系统和软件信息。</p>
 
 
 <p>查看linux内核版本、系统体系结构及预安装软件版本
-{% codeblock %}
-ibillxia@vm-0:~$ uname -a
-Linux vm-0.ibillxia.koding.kd.io 3.13.0-5-generic #20 SMP Mon Jan 20 19:56:12 PST 2014 x86_64 x86_64 x86_64 GNU/Linux
-ibillxia@vm-0:~$ git --version
-git version 1.8.1.2
-ibillxia@vm-0:~$ mysql --version
-mysql  Ver 14.14 Distrib 5.5.32, for debian-linux-gnu (x86_64) using readline 6.2
-ibillxia@vm-0:~$ apache2 -v
-Server version: Apache/2.2.22 (Ubuntu)
-Server built:   Jul 12 2013 13:18:14
-{% endcodeblock %}
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ uname -a
+</span><span class='line'>Linux vm-0.ibillxia.koding.kd.io 3.13.0-5-generic #20 SMP Mon Jan 20 19:56:12 PST 2014 x86_64 x86_64 x86_64 GNU/Linux
+</span><span class='line'>ibillxia@vm-0:~$ git --version
+</span><span class='line'>git version 1.8.1.2
+</span><span class='line'>ibillxia@vm-0:~$ mysql --version
+</span><span class='line'>mysql  Ver 14.14 Distrib 5.5.32, for debian-linux-gnu (x86_64) using readline 6.2
+</span><span class='line'>ibillxia@vm-0:~$ apache2 -v
+</span><span class='line'>Server version: Apache/2.2.22 (Ubuntu)
+</span><span class='line'>Server built:   Jul 12 2013 13:18:14</span></code></pre></td></tr></table></div></figure></notextile></div>
 常用编程语言版本
-{% codeblock %}
-ibillxia@vm-0:~$ gcc --version
-gcc (Ubuntu/Linaro 4.7.3-1ubuntu1) 4.7.3
-Copyright (C) 2012 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
-
-<p>ibillxia@vm-0:~$ g++ --version
-g++ (Ubuntu/Linaro 4.7.3-1ubuntu1) 4.7.3
-Copyright (C) 2012 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
-
-<p>ibillxia@vm-0:~$ java -version
-java version "1.7.0_25"
-OpenJDK Runtime Environment (IcedTea 2.3.10) (7u25-2.3.10-1ubuntu0.13.04.2)
-OpenJDK 64-Bit Server VM (build 23.7-b01, mixed mode)
-ibillxia@vm-0:~$ go version<br/>
-go version go1.1.1 linux/amd64
-ibillxia@vm-0:~$ ruby --version
-ruby 1.9.3p194 (2012-04-20 revision 35410) [x86_64-linux]
-ibillxia@vm-0:~$ php --version
-PHP 5.4.9-4ubuntu2.3 (cli) (built: Sep  4 2013 19:32:25)
-Copyright (c) 1997-2012 The PHP Group
-Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies
-ibillxia@vm-0:~$ python --version                                                                                                                                                                                                                                   <br/>
-Python 2.7.4
-ibillxia@vm-0:~$ perl --version</p>
-
-<p>This is perl 5, version 14, subversion 2 (v5.14.2) built for x86_64-linux-gnu-thread-multi
-(with 80 registered patches, see perl -V for more detail)</p>
-
-<p>Copyright 1987-2011, Larry Wall</p>
-
-<p>Perl may be copied only under the terms of either the Artistic License or the
-GNU General Public License, which may be found in the Perl 5 source kit.</p>
-
-<p>Complete documentation for Perl, including FAQ lists, should be found on
-this system using "man perl" or "perldoc perl".  If you have access to the
-Internet, point your browser at http://www.perl.org/, the Perl Home Page.
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ibillxia@vm-0:~$ gcc --version
+</span><span class='line'>gcc (Ubuntu/Linaro 4.7.3-1ubuntu1) 4.7.3
+</span><span class='line'>Copyright (C) 2012 Free Software Foundation, Inc.
+</span><span class='line'>This is free software; see the source for copying conditions.  There is NO
+</span><span class='line'>warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>ibillxia@vm-0:~$ g++ --version
+</span><span class='line'>g++ (Ubuntu/Linaro 4.7.3-1ubuntu1) 4.7.3
+</span><span class='line'>Copyright (C) 2012 Free Software Foundation, Inc.
+</span><span class='line'>This is free software; see the source for copying conditions.  There is NO
+</span><span class='line'>warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>ibillxia@vm-0:~$ java -version
+</span><span class='line'>java version "1.7.0_25"
+</span><span class='line'>OpenJDK Runtime Environment (IcedTea 2.3.10) (7u25-2.3.10-1ubuntu0.13.04.2)
+</span><span class='line'>OpenJDK 64-Bit Server VM (build 23.7-b01, mixed mode)
+</span><span class='line'>ibillxia@vm-0:~$ go version&lt;br/>
+</span><span class='line'>go version go1.1.1 linux/amd64
+</span><span class='line'>ibillxia@vm-0:~$ ruby --version
+</span><span class='line'>ruby 1.9.3p194 (2012-04-20 revision 35410) [x86_64-linux]
+</span><span class='line'>ibillxia@vm-0:~$ php --version
+</span><span class='line'>PHP 5.4.9-4ubuntu2.3 (cli) (built: Sep  4 2013 19:32:25)
+</span><span class='line'>Copyright (c) 1997-2012 The PHP Group
+</span><span class='line'>Zend Engine v2.4.0, Copyright (c) 1998-2012 Zend Technologies
+</span><span class='line'>ibillxia@vm-0:~$ python --version                                                                                                                                                                                                                                   &lt;br/>
+</span><span class='line'>Python 2.7.4
+</span><span class='line'>ibillxia@vm-0:~$ perl --version&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>This is perl 5, version 14, subversion 2 (v5.14.2) built for x86_64-linux-gnu-thread-multi
+</span><span class='line'>(with 80 registered patches, see perl -V for more detail)&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Copyright 1987-2011, Larry Wall&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Perl may be copied only under the terms of either the Artistic License or the
+</span><span class='line'>GNU General Public License, which may be found in the Perl 5 source kit.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Complete documentation for Perl, including FAQ lists, should be found on
+</span><span class='line'>this system using "man perl" or "perldoc perl".  If you have access to the
+</span><span class='line'>Internet, point your browser at http://www.perl.org/, the Perl Home Page.</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Installing and Using KDApps</h2>
 
@@ -317,7 +490,7 @@ logistic regression, linear regression, svm, etc. 这类问题统称为优化问
 <p><strong>凸集的定义</strong>：一个集合$C$是凸集，当且仅当对任意$x,y\in C$和$\theta \in R$且$0\leq \theta \leq 1$，都有</br>
 <center>$\theta x + (1-\theta)y \in C$.</center>
 其几何意义在于，在集合C中任取两个点，连接两点的直线段上的任一点也在集合C中。下图是凸集和非凸集的例子：</br>
-{% img /images/201209026/IMAG20120902601.jpg %}
+<img src="/images/201209026/IMAG20120902601.jpg">
 </p>
 
 
@@ -345,7 +518,7 @@ logistic regression, linear regression, svm, etc. 这类问题统称为优化问
 且对任意的$x,y\in D(f)$和$\theta \in R$且$0\leq \theta \leq 1$，都有</br>
 <center>$f(\theta x + (1-\theta)y \leq \theta f(x) + (1-\theta) f(y))$.</center>
 设$f(x)$为一元函数，那么上式的几何意义在于，曲线上任意两点处的割线在函数曲线的上方，如下图所示：</br>
-{% img /images/2012/IMAG20120902602.jpg %}
+<img src="/images/2012/IMAG20120902602.jpg">
 </p>
 
 

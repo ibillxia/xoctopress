@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: BM | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/bm/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:13:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -89,7 +89,7 @@ Networks)，条件随机场，最大化边界马尔科夫网络以及一些流�
 
 
 <p>限制性玻尔兹曼机（RBM）进一步加一些约束，在RBM中不存在可见单元与可见单元的链接，也不存在隐含单元与隐含单元的链接，如下图所示
-<center>{% img /images/2013/IMAG2013041201.png %}</center>
+<center><img src="/images/2013/IMAG2013041201.png"></center>
 RBM的能量函数$E(v,h)$定义为，
 <center>$E(v,h) = -b'v - c'h - h'Wv$.</center>
 其中'表示转置，$b,c,W$为模型的参数，$b,c$分别为可见层和隐含层的偏置，$W$为可见层与隐含层的链接权重。此时，对应的自由能量为，
@@ -164,32 +164,54 @@ $\theta = \{c, b, W\}$的值。</p>
 
 <p>在RBM中，可见单元一般等于训练数据的特征维数，而隐层单元数需要事先给定，这里设可见单元数和隐单元数分别为$n$和$m$，令$W$表示可见层与隐层间的链接权重
 矩阵(m×n阶)，$a$(n维列向量)和$b$(m维列向量)分别表示可见层与隐层的偏置向量。RBM的基于CD的快速学习算法主要步骤如下：
-{% codeblock %}
-//输入：一个训练样本x0; 隐层单元个数m; 学习率alpha; 最大训练周期T
-//输出：链接权重矩阵W, 可见层的偏置向量a, 隐层的偏置向量b
-//训练阶段
-初始化：令可见层单元的初始状态v1 = x0; W, a, b为随机的较小数值
-For t=1,2,...,T
-    For j=1,2,...,m //对所有隐单元
-        计算P(h1j=1|v1), 即P(h1j=1|v1) = sigmoid(bj+sum_i(v1i*Wij));
-        从条件分布P(h1j|v1)中抽取h1j ∈ {0,1}
-    EndFor
-    
-    For i=1,2,...,n //对所有可见单元
-        计算P(v2i=1|h1), 即P(v2i=1|h1) = sigmoid(ai+sum_j(Wij*h1j));
-        从条件分布P(v2i|h1)中抽取v2i ∈ {0,1}
-    EndFor
-    
-    For j=1,2,...,m //对所有隐单元
-        计算P(h2j=1|v2), 即P(h2j=1|v2) = sigmoid(bj+sum_i(v2i*Wij));
-    EndFor
-    
-    //更新RBM的参数
-    W = W + alpha *(P(h1=1|v1)v1' - P(h2=1|v2)v2');
-    a = a + alpha *(v1-v2);
-    b = b + alpha *(P(h1=1|v1) - P(h2=1|v2));
-EndFor
-{% endcodeblock %}
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//输入：一个训练样本x0; 隐层单元个数m; 学习率alpha; 最大训练周期T
+</span><span class='line'>//输出：链接权重矩阵W, 可见层的偏置向量a, 隐层的偏置向量b
+</span><span class='line'>//训练阶段
+</span><span class='line'>初始化：令可见层单元的初始状态v1 = x0; W, a, b为随机的较小数值
+</span><span class='line'>For t=1,2,...,T
+</span><span class='line'>    For j=1,2,...,m //对所有隐单元
+</span><span class='line'>        计算P(h1j=1|v1), 即P(h1j=1|v1) = sigmoid(bj+sum_i(v1i*Wij));
+</span><span class='line'>        从条件分布P(h1j|v1)中抽取h1j ∈ {0,1}
+</span><span class='line'>    EndFor
+</span><span class='line'>    
+</span><span class='line'>    For i=1,2,...,n //对所有可见单元
+</span><span class='line'>        计算P(v2i=1|h1), 即P(v2i=1|h1) = sigmoid(ai+sum_j(Wij*h1j));
+</span><span class='line'>        从条件分布P(v2i|h1)中抽取v2i ∈ {0,1}
+</span><span class='line'>    EndFor
+</span><span class='line'>    
+</span><span class='line'>    For j=1,2,...,m //对所有隐单元
+</span><span class='line'>        计算P(h2j=1|v2), 即P(h2j=1|v2) = sigmoid(bj+sum_i(v2i*Wij));
+</span><span class='line'>    EndFor
+</span><span class='line'>    
+</span><span class='line'>    //更新RBM的参数
+</span><span class='line'>    W = W + alpha *(P(h1=1|v1)v1' - P(h2=1|v2)v2');
+</span><span class='line'>    a = a + alpha *(v1-v2);
+</span><span class='line'>    b = b + alpha *(P(h1=1|v1) - P(h2=1|v2));
+</span><span class='line'>EndFor</span></code></pre></td></tr></table></div></figure></notextile></div>
 上述基于CD的学习算法是针对RBM的可见单元和隐层单元均为二值变量的情形，我们可以很容易的推广到这些单元为高斯变量的情形。
 </p>
 

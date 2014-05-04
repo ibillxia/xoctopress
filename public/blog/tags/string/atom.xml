@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: String | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/string/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:13:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -40,105 +40,192 @@ magic_quotes_runtime 。</p>
 <!--more-->
 
 
-<p>{% codeblock %}
-if (!get_magic_quotes_gpc()) {</p>
-
-<pre><code> add_slashes($_GET);
- add_slashes($_POST);
- add_slashes($_COOKIE);
-</code></pre>
-
-<p>}</p>
-
-<p>function add_slashes($string) {</p>
-
-<pre><code> if (is_array($string)) {    
-     foreach ($string as $key =&gt; $value) {    
-         $string[$key] = add_slashes($value);    
-     }    
- } else {    
-     $string = addslashes($string);    
- }    
- return $string;    
-</code></pre>
-
-<p>}<br/>
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (!get_magic_quotes_gpc()) {&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code> add_slashes($_GET);
+</span><span class='line'> add_slashes($_POST);
+</span><span class='line'> add_slashes($_COOKIE);
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>function add_slashes($string) {&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code> if (is_array($string)) {    
+</span><span class='line'>     foreach ($string as $key =&gt; $value) {    
+</span><span class='line'>         $string[$key] = add_slashes($value);    
+</span><span class='line'>     }    
+</span><span class='line'> } else {    
+</span><span class='line'>     $string = addslashes($string);    
+</span><span class='line'> }    
+</span><span class='line'> return $string;    
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}&lt;br/></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>php防注入函数,字符过滤函数</p>
 
 
-<p>{% codeblock %}
-//解码
-function htmldecode($str)
-{</p>
-
-<pre><code>if(empty($str)) return;
-if($str=="") return $str;
-$str=str_replace("sel&amp;#101;ct","select",$str);
-$str=str_replace("jo&amp;#105;n","join",$str);
-$str=str_replace("un&amp;#105;on","union",$str);
-$str=str_replace("wh&amp;#101;re","where",$str);
-$str=str_replace("ins&amp;#101;rt","insert",$str);
-$str=str_replace("del&amp;#101;te","delete",$str);
-$str=str_replace("up&amp;#100;ate","update",$str);
-$str=str_replace("lik&amp;#101;","like",$str);
-$str=str_replace("dro&amp;#112;","drop",$str);
-$str=str_replace("cr&amp;#101;ate","create",$str);
-$str=str_replace("mod&amp;#105;fy","modify",$str);
-$str=str_replace("ren&amp;#097;me","rename",$str);
-$str=str_replace("alt&amp;#101;r","alter",$str);
-$str=str_replace("ca&amp;#115;","cast",$str);
-$str=str_replace("&amp;amp;","&amp;",$str);
-$str=str_replace("&amp;gt;","&gt;",$str);
-$str=str_replace("&amp;lt;","&lt;",$str);
-$str=str_replace("&amp;nbsp;",chr(32),$str);
-$str=str_replace("&amp;nbsp;",chr(9),$str);
-//$str=str_replace("&amp;#160;&amp;#160;&amp;#160;&amp;#160;",chr(9),$str);
-$str=str_replace("&amp;",chr(34),$str);
-$str=str_replace("&amp;#39;",chr(39),$str);
-$str=str_replace("&lt;br /&gt;",chr(13),$str);
-$str=str_replace("''","'",$str);
-return $str;
-</code></pre>
-
-<p>}
-//编码
-function htmlencode($str)
-{</p>
-
-<pre><code>if(empty($str)) return;
-if($str=="") return $str;
-$str=trim($str);
-$str=str_replace("&amp;","&amp;amp;",$str);
-$str=str_replace("&gt;","&amp;gt;",$str);
-$str=str_replace("&lt;","&amp;lt;",$str);
-$str=str_replace(chr(32),"&amp;nbsp;",$str);
-$str=str_replace(chr(9),"&amp;nbsp;",$str);
-//$str=str_replace(chr(9),"&amp;#160;&amp;#160;&amp;#160;&amp;#160;",$str);
-$str=str_replace(chr(34),"&amp;",$str);
-$str=str_replace(chr(39),"&amp;#39;",$str);
-$str=str_replace(chr(13),"&lt;br /&gt;",$str);
-$str=str_replace("'","''",$str);
-$str=str_replace("select","sel&amp;#101;ct",$str);
-$str=str_replace("join","jo&amp;#105;n",$str);
-$str=str_replace("union","un&amp;#105;on",$str);
-$str=str_replace("where","wh&amp;#101;re",$str);
-$str=str_replace("insert","ins&amp;#101;rt",$str);
-$str=str_replace("delete","del&amp;#101;te",$str);
-$str=str_replace("update","up&amp;#100;ate",$str);
-$str=str_replace("like","lik&amp;#101;",$str);
-$str=str_replace("drop","dro&amp;#112;",$str);
-$str=str_replace("create","cr&amp;#101;ate",$str);
-$str=str_replace("modify","mod&amp;#105;fy",$str);
-$str=str_replace("rename","ren&amp;#097;me",$str);
-$str=str_replace("alter","alt&amp;#101;r",$str);
-$str=str_replace("cast","ca&amp;#115;",$str);
-return $str;
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//解码
+</span><span class='line'>function htmldecode($str)
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>if(empty($str)) return;
+</span><span class='line'>if($str=="") return $str;
+</span><span class='line'>$str=str_replace("sel&amp;#101;ct","select",$str);
+</span><span class='line'>$str=str_replace("jo&amp;#105;n","join",$str);
+</span><span class='line'>$str=str_replace("un&amp;#105;on","union",$str);
+</span><span class='line'>$str=str_replace("wh&amp;#101;re","where",$str);
+</span><span class='line'>$str=str_replace("ins&amp;#101;rt","insert",$str);
+</span><span class='line'>$str=str_replace("del&amp;#101;te","delete",$str);
+</span><span class='line'>$str=str_replace("up&amp;#100;ate","update",$str);
+</span><span class='line'>$str=str_replace("lik&amp;#101;","like",$str);
+</span><span class='line'>$str=str_replace("dro&amp;#112;","drop",$str);
+</span><span class='line'>$str=str_replace("cr&amp;#101;ate","create",$str);
+</span><span class='line'>$str=str_replace("mod&amp;#105;fy","modify",$str);
+</span><span class='line'>$str=str_replace("ren&amp;#097;me","rename",$str);
+</span><span class='line'>$str=str_replace("alt&amp;#101;r","alter",$str);
+</span><span class='line'>$str=str_replace("ca&amp;#115;","cast",$str);
+</span><span class='line'>$str=str_replace("&amp;amp;","&amp;",$str);
+</span><span class='line'>$str=str_replace("&amp;gt;","&gt;",$str);
+</span><span class='line'>$str=str_replace("&amp;lt;","&lt;",$str);
+</span><span class='line'>$str=str_replace("&amp;nbsp;",chr(32),$str);
+</span><span class='line'>$str=str_replace("&amp;nbsp;",chr(9),$str);
+</span><span class='line'>//$str=str_replace("&amp;#160;&amp;#160;&amp;#160;&amp;#160;",chr(9),$str);
+</span><span class='line'>$str=str_replace("&amp;",chr(34),$str);
+</span><span class='line'>$str=str_replace("&amp;#39;",chr(39),$str);
+</span><span class='line'>$str=str_replace("&lt;br /&gt;",chr(13),$str);
+</span><span class='line'>$str=str_replace("''","'",$str);
+</span><span class='line'>return $str;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}
+</span><span class='line'>//编码
+</span><span class='line'>function htmlencode($str)
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>if(empty($str)) return;
+</span><span class='line'>if($str=="") return $str;
+</span><span class='line'>$str=trim($str);
+</span><span class='line'>$str=str_replace("&amp;","&amp;amp;",$str);
+</span><span class='line'>$str=str_replace("&gt;","&amp;gt;",$str);
+</span><span class='line'>$str=str_replace("&lt;","&amp;lt;",$str);
+</span><span class='line'>$str=str_replace(chr(32),"&amp;nbsp;",$str);
+</span><span class='line'>$str=str_replace(chr(9),"&amp;nbsp;",$str);
+</span><span class='line'>//$str=str_replace(chr(9),"&amp;#160;&amp;#160;&amp;#160;&amp;#160;",$str);
+</span><span class='line'>$str=str_replace(chr(34),"&amp;",$str);
+</span><span class='line'>$str=str_replace(chr(39),"&amp;#39;",$str);
+</span><span class='line'>$str=str_replace(chr(13),"&lt;br /&gt;",$str);
+</span><span class='line'>$str=str_replace("'","''",$str);
+</span><span class='line'>$str=str_replace("select","sel&amp;#101;ct",$str);
+</span><span class='line'>$str=str_replace("join","jo&amp;#105;n",$str);
+</span><span class='line'>$str=str_replace("union","un&amp;#105;on",$str);
+</span><span class='line'>$str=str_replace("where","wh&amp;#101;re",$str);
+</span><span class='line'>$str=str_replace("insert","ins&amp;#101;rt",$str);
+</span><span class='line'>$str=str_replace("delete","del&amp;#101;te",$str);
+</span><span class='line'>$str=str_replace("update","up&amp;#100;ate",$str);
+</span><span class='line'>$str=str_replace("like","lik&amp;#101;",$str);
+</span><span class='line'>$str=str_replace("drop","dro&amp;#112;",$str);
+</span><span class='line'>$str=str_replace("create","cr&amp;#101;ate",$str);
+</span><span class='line'>$str=str_replace("modify","mod&amp;#105;fy",$str);
+</span><span class='line'>$str=str_replace("rename","ren&amp;#097;me",$str);
+</span><span class='line'>$str=str_replace("alter","alt&amp;#101;r",$str);
+</span><span class='line'>$str=str_replace("cast","ca&amp;#115;",$str);
+</span><span class='line'>return $str;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   

@@ -206,31 +206,20 @@ $(document).ready(function(){
   </header>
 
 
-<div class="entry-content"><p>有时候，博客文章太长，需要返回顶部时，需要用鼠标拖着滚动条向上好半天，这里提供一个用jQuery来实现的动态上滚的示例。
-这个示例完全参考和翻译自webdesignerwall的blog：<a href="http://webdesignerwall.com/tutorials/animated-scroll-to-top">http://webdesignerwall.com/tutorials/animated-scroll-to-top</a>，
-其中有部分删改，并在本人的blog上实现。</p>
-
-
-
+<div class="entry-content"><p>有时候，博客文章太长，需要返回顶部时，需要用鼠标拖着滚动条向上好半天，这里提供一个用 jQuery 来实现的动态上滚的示例。这个示例完全参考和翻译自 webdesignerwall 的 blog：<a href="http://webdesignerwall.com/tutorials/animated-scroll-to-top">http://webdesignerwall.com/tutorials/animated-scroll-to-top</a>，其中有部分删改，并在本人的 blog 上实现。</p>
 
 <p>主要包含HTML和CSS的设计，基于jQuery的JS的设计。另外还有一点小trick</p>
 
+<h2>Design &amp; CSS</h2>
 
-
-
-<h2>Design & CSS</h2>
-
-
-<p>相关的HTML代码很简单，在source/_include/custom/footer.html中添加如下代码：
+<p>相关的 HTML 代码很简单，在source/_include/custom/footer.html中添加如下代码：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;p id = "back-top">
-</span><span class='line'>      &lt;a href="#top">&lt;span>&lt;/span>Back to Top&lt;/a>
-</span><span class='line'>  &lt;/p></span></code></pre></td></tr></table></div></figure>
-
-</p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;p id = "back-top"&gt;
+</span><span class='line'>  &lt;a href="#top"&gt;&lt;span&gt;&lt;/span&gt;Back to Top&lt;/a&gt;
+</span><span class='line'>&lt;/p&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 
@@ -238,9 +227,7 @@ $(document).ready(function(){
 <!--more-->
 
 
-
-
-<p>对应的CSS样式的设置如下：（这段代码同样的放在source/_include/custom/footer.html文件中）
+<p>对应的 CSS 样式的设置如下：（这段代码同样的放在source/_include/custom/footer.html文件中）</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -291,7 +278,7 @@ $(document).ready(function(){
 <span class='line-number'>47</span>
 <span class='line-number'>48</span>
 <span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;style type="text/css">
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;style type="text/css"&gt;
 </span><span class='line'>#back-top {
 </span><span class='line'>  position: fixed;
 </span><span class='line'>  bottom: 50px;
@@ -339,25 +326,19 @@ $(document).ready(function(){
 </span><span class='line'>  background-color: #888;
 </span><span class='line'>}
 </span><span class='line'>*/
-</span><span class='line'>&lt;/style></span></code></pre></td></tr></table></div></figure>
-
-</p>
+</span><span class='line'>&lt;/style&gt;</span></code></pre></td></tr></table></div></figure>
 
 
+<p>上面的 css 中用到了一张图片up-arrow.png，放在source/images/目录下，图片如下：</p>
 
-
-<p>上面的css中用到了一张图片up-arrow.png，放在source/images/目录下，图片如下：
 <center><img src="/images/up-arrow.png"></center>
-这是从google image里面随便找的一个，你也可以找一个自己喜欢的图片。
-</p>
 
 
-
+<p>这是从google image里面随便找的一个，你也可以找一个自己喜欢的图片。</p>
 
 <h2>jQuery部分</h2>
 
-
-<p>HTML和CSS样式设置好了之后，最后就是添加JavaScript事件响应代码了，这里是基于jQuery实现的。代码如下：（这段代码还是放在source/_include/custom/footer.html文件中）
+<p>HTML 和 CSS 样式设置好了之后，最后就是添加 JavaScript 事件响应代码了，这里是基于 jQuery 实现的。代码如下：（这段代码还是放在source/_include/custom/footer.html文件中）</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -386,18 +367,16 @@ $(document).ready(function(){
 <span class='line-number'>25</span>
 <span class='line-number'>26</span>
 <span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js">&lt;/script>
-</span><span class='line'>&lt;script type="text/javascript">
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"&gt;&lt;/script&gt;
+</span><span class='line'>&lt;script type="text/javascript"&gt;
 </span><span class='line'>$(document).ready(function(){
-</span><span class='line'>
 </span><span class='line'>  // hide #back-top first
 </span><span class='line'>  $("#back-top").hide();
 </span><span class='line'>  
 </span><span class='line'>  // fade in #back-top
 </span><span class='line'>  $(function () {
 </span><span class='line'>      $(window).scroll(function () {
-</span><span class='line'>          if ($(this).scrollTop() > 100) {
+</span><span class='line'>          if ($(this).scrollTop() &gt; 100) {
 </span><span class='line'>              $('#back-top').fadeIn();
 </span><span class='line'>          } else {
 </span><span class='line'>              $('#back-top').fadeOut();
@@ -414,21 +393,12 @@ $(document).ready(function(){
 </span><span class='line'>  });
 </span><span class='line'>
 </span><span class='line'>});
-</span><span class='line'>&lt;/script></span></code></pre></td></tr></table></div></figure>
-
-</p>
-
-
+</span><span class='line'>&lt;/script&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>一个Trick</h2>
 
-
-<p>
-在上面的HTML代码中，我们将一个链接添加到了ID为#top的里面，这个#top标签是<body>标签的ID，这样即使浏览器不支持相关的JS，
-通过这个link也实现了返回顶部的功能。
-</p>
-
+<p>在上面的HTML代码中，我们将一个链接添加到了ID为 #top 的里面，这个 #top 标签是 &lt;body&gt; 标签的ID，这样即使浏览器不支持相关的JS，通过这个link也实现了返回顶部的功能。</p>
 </div>
 <div id="copyleft" class="well" >
 	<span>Original Link: <a rel="full-article" href="">http://ibillxia.github.io/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog/</a></br>
@@ -462,7 +432,7 @@ $(document).ready(function(){
 		  <span class="categories">Posted in <a class='category' href='/blog/categories/program/'>Program</a></span>
 		
 		
-		  <span class="tags">Tagged with <a class='tag' href='/blog/tags/octpress/'>Octpress</a>, <a class='tag' href='/blog/tags/ui/'>UI</a></span>
+		  <span class="tags">Tagged with <a class='tag' href='/blog/tags/css/'>CSS</a>, <a class='tag' href='/blog/tags/octopress/'>Octopress</a>, <a class='tag' href='/blog/tags/jquery/'>jQuery</a></span>
 		
     </p>
     
@@ -517,10 +487,10 @@ $(document).ready(function(){
 <a style="font-size: 146%" href="/blog/tags/life/">Life</a>
 <a style="font-size: 93%" href="/blog/tags/love/">Love</a>
 <a style="font-size: 93%" href="/blog/tags/machinelearning/">MachineLearning</a>
-<a style="font-size: 93%" href="/blog/tags/matlab/">Matlab</a>
 <a style="font-size: 159%" href="/blog/tags/neuralnetworks/">NeuralNetworks</a>
 <a style="font-size: 93%" href="/blog/tags/nuance/">Nuance</a>
 <a style="font-size: 153%" href="/blog/tags/php/">PHP</a>
+<a style="font-size: 93%" href="/blog/tags/perceptron/">Perceptron</a>
 <a style="font-size: 112%" href="/blog/tags/prim/">Prim</a>
 <a style="font-size: 153%" href="/blog/tags/programtest/">ProgramTest</a>
 <a style="font-size: 93%" href="/blog/tags/programing/">Programing</a>

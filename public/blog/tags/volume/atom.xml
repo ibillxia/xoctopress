@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Volume | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/volume/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:13:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -50,90 +50,161 @@
 <p>音量计算的Python实现如下：</p>
 
 
-<p>{% codeblock %}
-import math
-import numpy as np</p>
-
-<h1>method 1: absSum</h1>
-
-<p>def calVolume(waveData, frameSize, overLap):</p>
-
-<pre><code>wlen = len(waveData)
-step = frameSize - overLap
-frameNum = int(math.ceil(wlen*1.0/step))
-volume = np.zeros((frameNum,1))
-for i in range(frameNum):
-    curFrame = waveData[np.arange(i*step,min(i*step+frameSize,wlen))]
-    curFrame = curFrame - np.median(curFrame) # zero-justified
-    volume[i] = np.sum(np.abs(curFrame))
-return volume
-</code></pre>
-
-<h1>method 2: 10 times log10 of square sum</h1>
-
-<p>def calVolumeDB(waveData, frameSize, overLap):</p>
-
-<pre><code>wlen = len(waveData)
-step = frameSize - overLap
-frameNum = int(math.ceil(wlen*1.0/step))
-volume = np.zeros((frameNum,1))
-for i in range(frameNum):
-    curFrame = waveData[np.arange(i*step,min(i*step+frameSize,wlen))]
-    curFrame = curFrame - np.mean(curFrame) # zero-justified
-    volume[i] = 10*np.log10(np.sum(curFrame*curFrame))
-return volume
-</code></pre>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import math
+</span><span class='line'>import numpy as np&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>method 1: absSum&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>def calVolume(waveData, frameSize, overLap):&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>wlen = len(waveData)
+</span><span class='line'>step = frameSize - overLap
+</span><span class='line'>frameNum = int(math.ceil(wlen*1.0/step))
+</span><span class='line'>volume = np.zeros((frameNum,1))
+</span><span class='line'>for i in range(frameNum):
+</span><span class='line'>    curFrame = waveData[np.arange(i*step,min(i*step+frameSize,wlen))]
+</span><span class='line'>    curFrame = curFrame - np.median(curFrame) # zero-justified
+</span><span class='line'>    volume[i] = np.sum(np.abs(curFrame))
+</span><span class='line'>return volume
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>method 2: 10 times log10 of square sum&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>def calVolumeDB(waveData, frameSize, overLap):&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>wlen = len(waveData)
+</span><span class='line'>step = frameSize - overLap
+</span><span class='line'>frameNum = int(math.ceil(wlen*1.0/step))
+</span><span class='line'>volume = np.zeros((frameNum,1))
+</span><span class='line'>for i in range(frameNum):
+</span><span class='line'>    curFrame = waveData[np.arange(i*step,min(i*step+frameSize,wlen))]
+</span><span class='line'>    curFrame = curFrame - np.mean(curFrame) # zero-justified
+</span><span class='line'>    volume[i] = 10*np.log10(np.sum(curFrame*curFrame))
+</span><span class='line'>return volume
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>对于给定语音文件aeiou.wav，利用上面的函数计算音量曲线的代码如下：</p>
 
 
-<p>{% codeblock %}
-import wave
-import pylab as pl
-import numpy as np
-import Volume as vp</p>
-
-<h1>============ test the algorithm =============</h1>
-
-<h1>read wave file and get parameters.</h1>
-
-<p>fw = wave.open('aeiou.wav','r')
-params = fw.getparams()
-print(params)
-nchannels, sampwidth, framerate, nframes = params[:4]
-strData = fw.readframes(nframes)
-waveData = np.fromstring(strData, dtype=np.int16)
-waveData = waveData*1.0/max(abs(waveData))  # normalization
-fw.close()</p>
-
-<h1>calculate volume</h1>
-
-<p>frameSize = 256
-overLap = 128
-volume11 = vp.calVolume(waveData,frameSize,overLap)
-volume12 = vp.calVolumeDB(waveData,frameSize,overLap)</p>
-
-<h1>plot the wave</h1>
-
-<p>time = np.arange(0, nframes)<em>(1.0/framerate)
-time2 = np.arange(0, len(volume11))</em>(frameSize-overLap)*1.0/framerate
-pl.subplot(311)
-pl.plot(time, waveData)
-pl.ylabel("Amplitude")
-pl.subplot(312)
-pl.plot(time2, volume11)
-pl.ylabel("absSum")
-pl.subplot(313)
-pl.plot(time2, volume12, c="g")
-pl.ylabel("Decibel(dB)")
-pl.xlabel("time (seconds)")
-pl.show()
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import wave
+</span><span class='line'>import pylab as pl
+</span><span class='line'>import numpy as np
+</span><span class='line'>import Volume as vp&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>============ test the algorithm =============&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>read wave file and get parameters.&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>fw = wave.open('aeiou.wav','r')
+</span><span class='line'>params = fw.getparams()
+</span><span class='line'>print(params)
+</span><span class='line'>nchannels, sampwidth, framerate, nframes = params[:4]
+</span><span class='line'>strData = fw.readframes(nframes)
+</span><span class='line'>waveData = np.fromstring(strData, dtype=np.int16)
+</span><span class='line'>waveData = waveData*1.0/max(abs(waveData))  # normalization
+</span><span class='line'>fw.close()&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>calculate volume&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>frameSize = 256
+</span><span class='line'>overLap = 128
+</span><span class='line'>volume11 = vp.calVolume(waveData,frameSize,overLap)
+</span><span class='line'>volume12 = vp.calVolumeDB(waveData,frameSize,overLap)&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>plot the wave&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>time = np.arange(0, nframes)&lt;em>(1.0/framerate)
+</span><span class='line'>time2 = np.arange(0, len(volume11))&lt;/em>(frameSize-overLap)*1.0/framerate
+</span><span class='line'>pl.subplot(311)
+</span><span class='line'>pl.plot(time, waveData)
+</span><span class='line'>pl.ylabel("Amplitude")
+</span><span class='line'>pl.subplot(312)
+</span><span class='line'>pl.plot(time2, volume11)
+</span><span class='line'>pl.ylabel("absSum")
+</span><span class='line'>pl.subplot(313)
+</span><span class='line'>pl.plot(time2, volume12, c="g")
+</span><span class='line'>pl.ylabel("Decibel(dB)")
+</span><span class='line'>pl.xlabel("time (seconds)")
+</span><span class='line'>pl.show()</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>运行以上程序得到下图：
-<center>{% img /images/2013/IMAG2013051501.png %}</center>
+<center><img src="/images/2013/IMAG2013051501.png"></center>
 </p>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: rat | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/rat/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:13:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -100,7 +100,7 @@
 刺激感觉皮层和边缘系统的一个“奖赏中枢”制导老鼠运动，他们在大白鼠脑内植入了三对刺激微电极，其中两对电极植入接受左右胡须
 输入的体感运动皮层区(somatosensory cortex, SI)，对其刺激用作左右胡须的虚拟的触觉信号，另一对电极植入内侧前脑束(medial 
 for brain bundle, MFB)，用作老鼠服从命令的奖赏强化。三对电极连同大鼠背负的多通道遥控导航系统相连，如图1所示。</br>
-<center>{% img /images/2012/IMAG2012102201.jpg %}</center></br>
+<center><img src="/images/2012/IMAG2012102201.jpg"></center></br>
 <center>图1 大鼠遥控导航系统</center>
 </p>
 
@@ -114,7 +114,7 @@ for brain bundle, MFB)，用作老鼠服从命令的奖赏强化。三对电极�
 第三阶段，在实验室内将训练任务由平面线路过渡到三维复杂路线，如图2所示；</br>
 第四阶段，经过训练的大鼠可以在实验室外执行具体任务：实验人员通过遥控导航系统的遥控500m外可遥控大鼠完成转弯、前行、爬树
 以及跳跃等动作，甚至可以控制老鼠执行违背其自然习性的运动，比如在光线充足的广阔的室外场地执行任务。</br>
-<center>{% img /images/2012/IMAG2012102202.jpg %}</center></br>
+<center><img src="/images/2012/IMAG2012102202.jpg"></center></br>
 <center>图2 大鼠遥控导航路线</center>
 </p>
 
@@ -142,7 +142,7 @@ for brain bundle, MFB)，用作老鼠服从命令的奖赏强化。三对电极�
 BCI技术包括微电极系统、神经信号的记录分析及特征识别系统、神经信号的模拟重构系统、外部设备以及反馈系统等等。其中神经信号
 的记录分析及特征识别系统是BCI技术最主要的研究内容，主要包括：源信号的检测、信号的预处理(除噪滤波)、特征提取，以及正向BCI的
 特征分类识别和反向BCI的神经电信号的模拟重构。</br>
-<center>{% img /images/2012/IMAG2012102203.jpg %}</center></br>
+<center><img src="/images/2012/IMAG2012102203.jpg"></center></br>
 <center>图3  BCI系统框架</center>
 </p>
 
@@ -162,7 +162,7 @@ BCI技术包括微电极系统、神经信号的记录分析及特征识别系�
 <p>基于BCI的生物机器人是基于反向的BCI系统的基本原理，它由信息终端、无线通讯模块、信号刺激器和信号采集器等组成，如图4所示。
 刺激/采集器主要负责解码控制命令，产生刺激脉冲，后续采集大鼠神经电信号。无线通讯设备负责传输远程控制台和刺激采集器的通讯传输。
 基于PC实现的信息终端主要负责控制命令的输入和采集大鼠神经电信号的存储和处理。</br>
-<center>{% img /images/2012/IMAG2012102204.jpg %}</center></br>
+<center><img src="/images/2012/IMAG2012102204.jpg"></center></br>
 <center>图4 基于BCI的动物机器人系统结构图</center>
 </p>
 

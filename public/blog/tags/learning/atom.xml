@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Learning | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/learning/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:13:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -129,21 +129,21 @@ Learning的过程，如果相对于没加该层得到的Test Error更小，并�
 
 
 <p>我们周五下午6点多到，下雨了。坐地铁然后走到旅馆，吃晚饭就8点了，但还好雨也听了，我们就去附近的夫子庙、秦淮河逛了逛。
-<center>{% img /images/2013/IMAG2013042201.jpg %}</center>
+<center><img src="/images/2013/IMAG2013042201.jpg"></center>
 第二天晚上去阅江楼逛了逛，到哪儿才发现晚上关门，坑爹啊！不过在外面远眺夜晚的阅江楼也不错，然后走了一个把小时到南京长江大桥。
-<center>{% img /images/2013/IMAG2013042202.jpg %}</center>
+<center><img src="/images/2013/IMAG2013042202.jpg"></center>
 第三天晚上就待在住处。因为订的第四天下午6点多的票，所以白天就可以尽情的去玩玩了。第一站来到了中山园陵
-<center>{% img /images/2013/IMAG2013042203.jpg %}</center>
+<center><img src="/images/2013/IMAG2013042203.jpg"></center>
 只可惜周一不开放，被挡在“天下为公”的门外。原打算接下来要去的雨花台、大屠杀纪念馆也不开放，坑爹啊！
-<center>{% img /images/2013/IMAG2013042204.jpg %}</center>
+<center><img src="/images/2013/IMAG2013042204.jpg"></center>
 木办法，就在里面找了一个开放的十朝历史博物馆去了
-<center>{% img /images/2013/IMAG2013042205.jpg %}</center>
+<center><img src="/images/2013/IMAG2013042205.jpg"></center>
 然后去总统府了，就在外面看了看
-<center>{% img /images/2013/IMAG2013042206.jpg %}</center>
+<center><img src="/images/2013/IMAG2013042206.jpg"></center>
 再然后去玄武门，一到哪儿就又下雨了
-<center>{% img /images/2013/IMAG2013042207.jpg %}</center>
+<center><img src="/images/2013/IMAG2013042207.jpg"></center>
 进里面看了看玄武湖，然后就直接回旅馆了
-<center>{% img /images/2013/IMAG2013042208.jpg %}</center>
+<center><img src="/images/2013/IMAG2013042208.jpg"></center>
 </p>
 
 
@@ -167,9 +167,7 @@ Boltzmann learning等。然后介绍一些学习的方式，如监督学习、�
 
 <p>好的学习方法固然重要，但知识的表示，直接影响到feature的表示，也是非常重要的，因此在正式讨论学习方法之前，我们首先谈谈知识的表示。
 首先一个问题是，什么是知识？在PRML中我们有如下定义：</br>
-{% blockquote Fischler and Firschein, Intelligence: the eye，the brain and the computer %}
-Knowledge refers to stored information or models used by a person or machine to interpret, predict, and appropriately respond to the outside world.
-{% endblockquote %}
+<blockquote><p>Knowledge refers to stored information or models used by a person or machine to interpret, predict, and appropriately respond to the outside world.</p><footer><strong>Fischler and Firschein</strong> <cite>Intelligence: The Eye，the Brain and the Computer</cite></footer></blockquote>
 </p>
 
 
@@ -230,9 +228,7 @@ original input data. Probably the most suitable technique to be used for neural 
 
 
 <p>首先我们对NN的学习做如下的定义：</br>
-{% blockquote Simon Haykin, Neural Networks: A Comprehensive Foundation %}
-Learning is a process by which the free parameters of a neural network are adapted through a process of stimulation by the environment in which the network is embedded. The type of learning is determined by the manner in which the parameters changes take place.
-{% endblockquote %}
+<blockquote><p>Learning is a process by which the free parameters of a neural network are adapted through a process of stimulation by the environment in which the network is embedded. The type of learning is determined by the manner in which the parameters changes take place.</p><footer><strong>Simon Haykin</strong> <cite>Neural Networks: A Comprehensive Foundation</cite></footer></blockquote>
 这个定义蕴含以下几个意思：</br>
 1). The neural network is <em>stimulated</em> by an envirnment.</br>
 2). The neural network <em>undergoes changes</em> in its free parameters as a result of this stimulation.</br>

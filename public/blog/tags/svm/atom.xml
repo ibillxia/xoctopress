@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: SVM | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/svm/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:13:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -53,7 +53,7 @@ Kernel function examples: <a href="http://www.shamoxia.com/html/y2010/2292.html"
 
 <p>GMM Supervectors：given a speaker utterance, GMM-UBM training is performed by MAP adaptation of the means $m_{i}$, 
 and we form a GMM supervector $m = [m_{i}]$</br>
-{% img /images/2012/IMAG2012081301.jpg %}</br>
+<img src="/images/2012/IMAG2012081301.jpg"></br>
 GMM Supervectors Linear Kernel: a natural distance between the two utterances is the KL divergence, while it does n't satisfy 
 the Mercer condition, we consider the following approximation</br>
 <center>$\begin{align}

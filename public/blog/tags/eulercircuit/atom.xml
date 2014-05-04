@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: EulerCircuit | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/eulercircuit/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:13:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -31,34 +31,61 @@
 <p>水题，直接上代码：</p>
 
 
-<p>{% codeblock Problem A %}</p>
-
-<h1>include &lt;stdio.h></h1>
-
-<p>char out[34];
-unsigned int m,a,b,c;
-int main()
-{</p>
-
-<pre><code>int i;
-while(scanf("%d",&amp;m)&amp;&amp;m!=0){
-    scanf("%d %d",&amp;a,&amp;b);
-    c=a+b;
-    if(c==0){printf("0\n");continue;}
-    i=0;
-    while(c){
-        out[i++]=c%m;
-        c/=m;
-    }
-    while(i)
-        printf("%d",out[--i]);
-    printf("\n");
-}
-return 0;
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem A </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>char out[34];
+</span><span class='line'>unsigned int m,a,b,c;
+</span><span class='line'>int main()
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>int i;
+</span><span class='line'>while(scanf("%d",&amp;m)&amp;&amp;m!=0){
+</span><span class='line'>    scanf("%d %d",&amp;a,&amp;b);
+</span><span class='line'>    c=a+b;
+</span><span class='line'>    if(c==0){printf("0\n");continue;}
+</span><span class='line'>    i=0;
+</span><span class='line'>    while(c){
+</span><span class='line'>        out[i++]=c%m;
+</span><span class='line'>        c/=m;
+</span><span class='line'>    }
+</span><span class='line'>    while(i)
+</span><span class='line'>        printf("%d",out[--i]);
+</span><span class='line'>    printf("\n");
+</span><span class='line'>}
+</span><span class='line'>return 0;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <!-- more -->
 
@@ -70,47 +97,87 @@ return 0;
 对于有向图，存在欧拉回路的条件是：图强连通，顶点的入度等于出度。代码如下：</p>
 
 
-<p>{% codeblock Problem B %}</p>
-
-<h1>include &lt;stdio.h></h1>
-
-<h1>include &lt;memory.h></h1>
-
-<p>int m,n,v[1000],g[1000][1000];
-int main()
-{</p>
-
-<pre><code>int i,j,a,b;
-while(scanf("%d",&amp;n)&amp;&amp;n!=0){
-    scanf("%d",&amp;m);
-    memset(v,0,sizeof(v));
-    memset(g,0,sizeof(g));
-    for(i=0;i&lt;m;i++){
-        scanf("%d %d",&amp;a,&amp;b);
-        g[a-1][b-1]=g[b-1][a-1]=1;
-        v[a-1]++;v[b-1]++;
-    }
-    if(m&lt;n){printf("0\n");continue;}
-    for(i=0;i&lt;n;i++)if(v[i]%2)break;  //判断度是否为偶数
-    if(i&lt;n)printf("0\n");
-    else{  //DFS判断图是否连通
-        memset(v,0,sizeof(v));
-        v[0]=1;j=0;
-        for(i=0;i&lt;n;i++){
-            if(!v[i] &amp;&amp; g[j][i]){
-                v[i]=1;j=i;i=0;
-            }
-        }
-        for(i=0;i&lt;n;i++)
-            if(!v[i]){printf("0\n");break;}
-        if(i==n)printf("1\n");
-    }
-}
-return 0;
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem B </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;memory.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>int m,n,v[1000],g[1000][1000];
+</span><span class='line'>int main()
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>int i,j,a,b;
+</span><span class='line'>while(scanf("%d",&amp;n)&amp;&amp;n!=0){
+</span><span class='line'>    scanf("%d",&amp;m);
+</span><span class='line'>    memset(v,0,sizeof(v));
+</span><span class='line'>    memset(g,0,sizeof(g));
+</span><span class='line'>    for(i=0;i&lt;m;i++){
+</span><span class='line'>        scanf("%d %d",&amp;a,&amp;b);
+</span><span class='line'>        g[a-1][b-1]=g[b-1][a-1]=1;
+</span><span class='line'>        v[a-1]++;v[b-1]++;
+</span><span class='line'>    }
+</span><span class='line'>    if(m&lt;n){printf("0\n");continue;}
+</span><span class='line'>    for(i=0;i&lt;n;i++)if(v[i]%2)break;  //判断度是否为偶数
+</span><span class='line'>    if(i&lt;n)printf("0\n");
+</span><span class='line'>    else{  //DFS判断图是否连通
+</span><span class='line'>        memset(v,0,sizeof(v));
+</span><span class='line'>        v[0]=1;j=0;
+</span><span class='line'>        for(i=0;i&lt;n;i++){
+</span><span class='line'>            if(!v[i] &amp;&amp; g[j][i]){
+</span><span class='line'>                v[i]=1;j=i;i=0;
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>        for(i=0;i&lt;n;i++)
+</span><span class='line'>            if(!v[i]){printf("0\n");break;}
+</span><span class='line'>        if(i==n)printf("1\n");
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>return 0;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>C题：继续畅通工程（hdoj1879）（九度1028）</h3>
 
@@ -118,51 +185,95 @@ return 0;
 <p>模板题，prim算法</p>
 
 
-<p>{% codeblock Problem C %}</p>
-
-<h1>include &lt;stdio.h></h1>
-
-<h1>include &lt;memory.h></h1>
-
-<h1>define INF 0x1fffffff</h1>
-
-<p>int n,g[100][100];
-int main()
-{</p>
-
-<pre><code>int i,j,a,b,c,d;
-int low[100],v[100],t,min,sum;
-while(scanf("%d",&amp;n)&amp;&amp;n!=0){
-    for(i=0;i&lt;n;i++)
-        for(j=0;j&lt;n;j++)g[i][j]=g[j][i]=INF;
-    for(i=0;i&lt;n;i++)g[i][i]=0;
-    for(i=0;i&lt;n;i++)
-        for(j=i+1;j&lt;n;j++){
-            scanf("%d %d %d %d",&amp;a,&amp;b,&amp;c,&amp;d);
-            a--;b--;
-            if(d==1)g[a][b]=g[b][a]=0;
-            else if(g[a][b]&gt;c)g[a][b]=g[b][a]=c;
-        }
-    memset(v,0,sizeof(v));
-    for(i=1;i&lt;n;i++)low[i]=g[0][i];
-    v[0]=1;
-    sum=0;
-    for(i=1;i&lt;n;i++){
-        t=-1;min=INF;
-        for(j=0;j&lt;n;j++)
-            if(!v[j]&amp;&amp;min&gt;low[j]){min=low[j];t=j;}
-        sum+=min;
-        v[t]=1;
-        for(j=0;j&lt;n;j++)
-            if(!v[j]&amp;&amp;low[j]&gt;g[t][j])low[j]=g[t][j];
-    }
-    printf("%d\n",sum);
-}
-return 0;
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem C </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;memory.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define INF 0x1fffffff&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>int n,g[100][100];
+</span><span class='line'>int main()
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>int i,j,a,b,c,d;
+</span><span class='line'>int low[100],v[100],t,min,sum;
+</span><span class='line'>while(scanf("%d",&amp;n)&amp;&amp;n!=0){
+</span><span class='line'>    for(i=0;i&lt;n;i++)
+</span><span class='line'>        for(j=0;j&lt;n;j++)g[i][j]=g[j][i]=INF;
+</span><span class='line'>    for(i=0;i&lt;n;i++)g[i][i]=0;
+</span><span class='line'>    for(i=0;i&lt;n;i++)
+</span><span class='line'>        for(j=i+1;j&lt;n;j++){
+</span><span class='line'>            scanf("%d %d %d %d",&amp;a,&amp;b,&amp;c,&amp;d);
+</span><span class='line'>            a--;b--;
+</span><span class='line'>            if(d==1)g[a][b]=g[b][a]=0;
+</span><span class='line'>            else if(g[a][b]&gt;c)g[a][b]=g[b][a]=c;
+</span><span class='line'>        }
+</span><span class='line'>    memset(v,0,sizeof(v));
+</span><span class='line'>    for(i=1;i&lt;n;i++)low[i]=g[0][i];
+</span><span class='line'>    v[0]=1;
+</span><span class='line'>    sum=0;
+</span><span class='line'>    for(i=1;i&lt;n;i++){
+</span><span class='line'>        t=-1;min=INF;
+</span><span class='line'>        for(j=0;j&lt;n;j++)
+</span><span class='line'>            if(!v[j]&amp;&amp;min&gt;low[j]){min=low[j];t=j;}
+</span><span class='line'>        sum+=min;
+</span><span class='line'>        v[t]=1;
+</span><span class='line'>        for(j=0;j&lt;n;j++)
+</span><span class='line'>            if(!v[j]&amp;&amp;low[j]&gt;g[t][j])low[j]=g[t][j];
+</span><span class='line'>    }
+</span><span class='line'>    printf("%d\n",sum);
+</span><span class='line'>}
+</span><span class='line'>return 0;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>D题：魔咒词典（hdoj1880）（九度1029）</h3>
 
@@ -170,57 +281,107 @@ return 0;
 <p>水题，字符串处理，注意不需要排序，不然会超时。</p>
 
 
-<p>{% codeblock Problem D %}</p>
-
-<h1>include &lt;stdio.h></h1>
-
-<h1>include &lt;string.h></h1>
-
-<p>typedef struct node{</p>
-
-<pre><code>char name[24];
-char func[82];
-</code></pre>
-
-<p>}record;
-char s[108];
-record dict[100000];
-int main()
-{</p>
-
-<pre><code>int i,j,m,n,t;
-char *p;
-i=0;
-while(gets(s) &amp;&amp; strcmp(s,"@END@")){
-    p=strchr(s,']');
-    strncpy(dict[i].name,s,p-s+1);
-    strcpy(dict[i].func,p+2);
-    i++;
-}
-m=i;
-scanf("%d",&amp;n);
-getchar();
-for(i=0;i&lt;n;i++){
-    gets(s);
-    if(s[0]=='['){
-        for(j=0;j&lt;m;j++)
-            if(!strcmp(s,dict[j].name)){printf("%s\n",dict[j].func);break;}
-    }else{
-        for(j=0;j&lt;m;j++)
-            if(!strcmp(s,dict[j].func)){
-                t=strlen(dict[j].name);
-                strcpy(s,dict[j].name+1);
-                s[t-2]=0;
-                printf("%s\n",s);break;
-            }
-    }
-    if(j==m)printf("what?\n");
-}
-return 0;
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem D </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;string.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>typedef struct node{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>char name[24];
+</span><span class='line'>char func[82];
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}record;
+</span><span class='line'>char s[108];
+</span><span class='line'>record dict[100000];
+</span><span class='line'>int main()
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>int i,j,m,n,t;
+</span><span class='line'>char *p;
+</span><span class='line'>i=0;
+</span><span class='line'>while(gets(s) &amp;&amp; strcmp(s,"@END@")){
+</span><span class='line'>    p=strchr(s,']');
+</span><span class='line'>    strncpy(dict[i].name,s,p-s+1);
+</span><span class='line'>    strcpy(dict[i].func,p+2);
+</span><span class='line'>    i++;
+</span><span class='line'>}
+</span><span class='line'>m=i;
+</span><span class='line'>scanf("%d",&amp;n);
+</span><span class='line'>getchar();
+</span><span class='line'>for(i=0;i&lt;n;i++){
+</span><span class='line'>    gets(s);
+</span><span class='line'>    if(s[0]=='['){
+</span><span class='line'>        for(j=0;j&lt;m;j++)
+</span><span class='line'>            if(!strcmp(s,dict[j].name)){printf("%s\n",dict[j].func);break;}
+</span><span class='line'>    }else{
+</span><span class='line'>        for(j=0;j&lt;m;j++)
+</span><span class='line'>            if(!strcmp(s,dict[j].func)){
+</span><span class='line'>                t=strlen(dict[j].name);
+</span><span class='line'>                strcpy(s,dict[j].name+1);
+</span><span class='line'>                s[t-2]=0;
+</span><span class='line'>                printf("%s\n",s);break;
+</span><span class='line'>            }
+</span><span class='line'>    }
+</span><span class='line'>    if(j==m)printf("what?\n");
+</span><span class='line'>}
+</span><span class='line'>return 0;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>E题：毕业bg（hdoj1881）（九度1030）</h3>
 
@@ -228,52 +389,97 @@ return 0;
 <p>可看做背包问题，将截止时间看做背包的容量，将bg看做重物，构建DP状态方程。代码如下：</p>
 
 
-<p>{% codeblock Problem E %}</p>
-
-<h1>include &lt;stdio.h></h1>
-
-<h1>include &lt;stdlib.h></h1>
-
-<h1>include &lt;memory.h></h1>
-
-<h1>define MAX(a,b) (a)>(b) ? (a) : (b)</h1>
-
-<p>int n,d[32][3],m[32][2000];
-int cmp(const void <em>a,const void </em>b){</p>
-
-<pre><code>return ((int*)a)[2]-((int*)b)[2];
-</code></pre>
-
-<p>}
-int main()
-{</p>
-
-<pre><code>int i,j,tm,mh;
-while(scanf("%d",&amp;n) &amp;&amp; n&gt;=0){
-    if(n==0)continue;
-    tm=0;
-    for(i=0;i&lt;n;i++){
-        scanf("%d %d %d",d[i],d[i]+1,d[i]+2);
-        if(tm&lt;d[i][2])tm=d[i][2];
-    }
-    qsort(d,n,sizeof(d[0]),cmp);
-    memset(m,0,sizeof(m));
-    mh=-1;
-    for(i=1;i&lt;=n;i++)
-        for(j=0;j&lt;=tm;j++){
-            if(j&lt;=d[i-1][2]&amp;&amp;j&gt;=d[i-1][1])
-                m[i][j]=MAX(m[i-1][j],m[i-1][j-d[i-1][1]]+d[i-1][0]);
-            else
-                m[i][j]=m[i-1][j];
-            if(m[i][j]&gt;mh)mh=m[i][j];
-        }
-    printf("%d\n",mh);
-}
-return 0;
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Problem E </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;stdlib.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include &lt;memory.h>&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define MAX(a,b) (a)>(b) ? (a) : (b)&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>int n,d[32][3],m[32][2000];
+</span><span class='line'>int cmp(const void &lt;em>a,const void &lt;/em>b){&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>return ((int*)a)[2]-((int*)b)[2];
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}
+</span><span class='line'>int main()
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>int i,j,tm,mh;
+</span><span class='line'>while(scanf("%d",&amp;n) &amp;&amp; n&gt;=0){
+</span><span class='line'>    if(n==0)continue;
+</span><span class='line'>    tm=0;
+</span><span class='line'>    for(i=0;i&lt;n;i++){
+</span><span class='line'>        scanf("%d %d %d",d[i],d[i]+1,d[i]+2);
+</span><span class='line'>        if(tm&lt;d[i][2])tm=d[i][2];
+</span><span class='line'>    }
+</span><span class='line'>    qsort(d,n,sizeof(d[0]),cmp);
+</span><span class='line'>    memset(m,0,sizeof(m));
+</span><span class='line'>    mh=-1;
+</span><span class='line'>    for(i=1;i&lt;=n;i++)
+</span><span class='line'>        for(j=0;j&lt;=tm;j++){
+</span><span class='line'>            if(j&lt;=d[i-1][2]&amp;&amp;j&gt;=d[i-1][1])
+</span><span class='line'>                m[i][j]=MAX(m[i-1][j],m[i-1][j-d[i-1][1]]+d[i-1][0]);
+</span><span class='line'>            else
+</span><span class='line'>                m[i][j]=m[i-1][j];
+</span><span class='line'>            if(m[i][j]&gt;mh)mh=m[i][j];
+</span><span class='line'>        }
+</span><span class='line'>    printf("%d\n",mh);
+</span><span class='line'>}
+</span><span class='line'>return 0;
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>小结：个人感觉毕业bg有点小难，主要是以前做过的背包问题太少，思维没有转换过来。
 其余的题基本都很水。</p>

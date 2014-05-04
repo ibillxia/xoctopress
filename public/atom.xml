@@ -4,7 +4,7 @@
   <title><![CDATA[Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:12:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -145,6 +145,8 @@
     <content type="html"><![CDATA[<p>在Leetcode上有好几道全排列相关的题，一直以来只是会写基于递归的全排列生成算法，遇到这几道题后，搜了下一些非递归的实现方法，发现其实全排列的生成还是很有规律的有木有！这里就总结一下递归和非递归的全排列生成方法，并分析一下 STL 的实现。</p>
 
 <p>递归和非递归实现全排列生成的方法也分别有多种，递归法有基于交换的，有基于链接的，还有回溯，非递归法有排序、回溯、求模等，关于所有这些方法的具体实现参见 <a href="http://mengliao.blog.51cto.com/876134/824079">全排列的六种算法</a>. 本文只实现一种递归和一种非递归算法，并在最后对 STL 的非递归算法进行分析。</p>
+
+<p>本文的全部代码下载：<a href="http://ibillxia.github.io/upload/code/20140424.cpp">code</a>.</p>
 
 <h2>递归法求全排列</h2>
 
@@ -3086,31 +3088,20 @@ Data: 真正的语音数据部分。</br>
     <link href="http://ibillxia.github.io/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog/"/>
     <updated>2013-06-30T10:47:00+08:00</updated>
     <id>http://ibillxia.github.io/blog/2013/06/30/add-a-back-to-top-button-on-ur-octpress-blog</id>
-    <content type="html"><![CDATA[<p>有时候，博客文章太长，需要返回顶部时，需要用鼠标拖着滚动条向上好半天，这里提供一个用jQuery来实现的动态上滚的示例。
-这个示例完全参考和翻译自webdesignerwall的blog：<a href="http://webdesignerwall.com/tutorials/animated-scroll-to-top">http://webdesignerwall.com/tutorials/animated-scroll-to-top</a>，
-其中有部分删改，并在本人的blog上实现。</p>
-
-
-
+    <content type="html"><![CDATA[<p>有时候，博客文章太长，需要返回顶部时，需要用鼠标拖着滚动条向上好半天，这里提供一个用 jQuery 来实现的动态上滚的示例。这个示例完全参考和翻译自 webdesignerwall 的 blog：<a href="http://webdesignerwall.com/tutorials/animated-scroll-to-top">http://webdesignerwall.com/tutorials/animated-scroll-to-top</a>，其中有部分删改，并在本人的 blog 上实现。</p>
 
 <p>主要包含HTML和CSS的设计，基于jQuery的JS的设计。另外还有一点小trick</p>
 
+<h2>Design &amp; CSS</h2>
 
-
-
-<h2>Design & CSS</h2>
-
-
-<p>相关的HTML代码很简单，在source/_include/custom/footer.html中添加如下代码：
+<p>相关的 HTML 代码很简单，在source/_include/custom/footer.html中添加如下代码：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;p id = "back-top">
-</span><span class='line'>      &lt;a href="#top">&lt;span>&lt;/span>Back to Top&lt;/a>
-</span><span class='line'>  &lt;/p></span></code></pre></td></tr></table></div></figure>
-
-</p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;p id = "back-top"&gt;
+</span><span class='line'>  &lt;a href="#top"&gt;&lt;span&gt;&lt;/span&gt;Back to Top&lt;/a&gt;
+</span><span class='line'>&lt;/p&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 
@@ -3118,9 +3109,7 @@ Data: 真正的语音数据部分。</br>
 <!--more-->
 
 
-
-
-<p>对应的CSS样式的设置如下：（这段代码同样的放在source/_include/custom/footer.html文件中）
+<p>对应的 CSS 样式的设置如下：（这段代码同样的放在source/_include/custom/footer.html文件中）</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -3171,7 +3160,7 @@ Data: 真正的语音数据部分。</br>
 <span class='line-number'>47</span>
 <span class='line-number'>48</span>
 <span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;style type="text/css">
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;style type="text/css"&gt;
 </span><span class='line'>#back-top {
 </span><span class='line'>  position: fixed;
 </span><span class='line'>  bottom: 50px;
@@ -3219,25 +3208,19 @@ Data: 真正的语音数据部分。</br>
 </span><span class='line'>  background-color: #888;
 </span><span class='line'>}
 </span><span class='line'>*/
-</span><span class='line'>&lt;/style></span></code></pre></td></tr></table></div></figure>
-
-</p>
+</span><span class='line'>&lt;/style&gt;</span></code></pre></td></tr></table></div></figure>
 
 
+<p>上面的 css 中用到了一张图片up-arrow.png，放在source/images/目录下，图片如下：</p>
 
-
-<p>上面的css中用到了一张图片up-arrow.png，放在source/images/目录下，图片如下：
 <center><img src="http://ibillxia.github.io/images/up-arrow.png"></center>
-这是从google image里面随便找的一个，你也可以找一个自己喜欢的图片。
-</p>
 
 
-
+<p>这是从google image里面随便找的一个，你也可以找一个自己喜欢的图片。</p>
 
 <h2>jQuery部分</h2>
 
-
-<p>HTML和CSS样式设置好了之后，最后就是添加JavaScript事件响应代码了，这里是基于jQuery实现的。代码如下：（这段代码还是放在source/_include/custom/footer.html文件中）
+<p>HTML 和 CSS 样式设置好了之后，最后就是添加 JavaScript 事件响应代码了，这里是基于 jQuery 实现的。代码如下：（这段代码还是放在source/_include/custom/footer.html文件中）</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -3266,18 +3249,16 @@ Data: 真正的语音数据部分。</br>
 <span class='line-number'>25</span>
 <span class='line-number'>26</span>
 <span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js">&lt;/script>
-</span><span class='line'>&lt;script type="text/javascript">
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"&gt;&lt;/script&gt;
+</span><span class='line'>&lt;script type="text/javascript"&gt;
 </span><span class='line'>$(document).ready(function(){
-</span><span class='line'>
 </span><span class='line'>  // hide #back-top first
 </span><span class='line'>  $("#back-top").hide();
 </span><span class='line'>  
 </span><span class='line'>  // fade in #back-top
 </span><span class='line'>  $(function () {
 </span><span class='line'>      $(window).scroll(function () {
-</span><span class='line'>          if ($(this).scrollTop() > 100) {
+</span><span class='line'>          if ($(this).scrollTop() &gt; 100) {
 </span><span class='line'>              $('#back-top').fadeIn();
 </span><span class='line'>          } else {
 </span><span class='line'>              $('#back-top').fadeOut();
@@ -3294,21 +3275,12 @@ Data: 真正的语音数据部分。</br>
 </span><span class='line'>  });
 </span><span class='line'>
 </span><span class='line'>});
-</span><span class='line'>&lt;/script></span></code></pre></td></tr></table></div></figure>
-
-</p>
-
-
+</span><span class='line'>&lt;/script&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>一个Trick</h2>
 
-
-<p>
-在上面的HTML代码中，我们将一个链接添加到了ID为#top的里面，这个#top标签是<body>标签的ID，这样即使浏览器不支持相关的JS，
-通过这个link也实现了返回顶部的功能。
-</p>
-
+<p>在上面的HTML代码中，我们将一个链接添加到了ID为 #top 的里面，这个 #top 标签是 &lt;body&gt; 标签的ID，这样即使浏览器不支持相关的JS，通过这个link也实现了返回顶部的功能。</p>
 ]]></content>
   </entry>
   

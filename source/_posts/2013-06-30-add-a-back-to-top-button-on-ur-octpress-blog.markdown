@@ -4,27 +4,26 @@ title: "给Octpress博客添加返回顶部按钮"
 date: 2013-06-30 10:47
 comments: true
 categories: Program
-tags: Octpress UI
+tags: Octopress CSS jQuery
 ---
-<p>有时候，博客文章太长，需要返回顶部时，需要用鼠标拖着滚动条向上好半天，这里提供一个用jQuery来实现的动态上滚的示例。
-这个示例完全参考和翻译自webdesignerwall的blog：<a href="http://webdesignerwall.com/tutorials/animated-scroll-to-top">http://webdesignerwall.com/tutorials/animated-scroll-to-top</a>，
-其中有部分删改，并在本人的blog上实现。</p>
+有时候，博客文章太长，需要返回顶部时，需要用鼠标拖着滚动条向上好半天，这里提供一个用 jQuery 来实现的动态上滚的示例。这个示例完全参考和翻译自 webdesignerwall 的 blog：[http://webdesignerwall.com/tutorials/animated-scroll-to-top](http://webdesignerwall.com/tutorials/animated-scroll-to-top)，其中有部分删改，并在本人的 blog 上实现。
 
-<p>主要包含HTML和CSS的设计，基于jQuery的JS的设计。另外还有一点小trick</p>
+主要包含HTML和CSS的设计，基于jQuery的JS的设计。另外还有一点小trick
 
-<h2>Design & CSS</h2>
-<p>相关的HTML代码很简单，在source/_include/custom/footer.html中添加如下代码：
-{% codeblock %}
-	<p id = "back-top">
-		<a href="#top"><span></span>Back to Top</a>
-	</p>
-{% endcodeblock %}
+## Design & CSS
+相关的 HTML 代码很简单，在source/_include/custom/footer.html中添加如下代码：
+
+```
+<p id = "back-top">
+	<a href="#top"><span></span>Back to Top</a>
 </p>
+```
 
 <!--more-->
 
-<p>对应的CSS样式的设置如下：（这段代码同样的放在source/_include/custom/footer.html文件中）
-{% codeblock %}
+对应的 CSS 样式的设置如下：（这段代码同样的放在source/_include/custom/footer.html文件中）
+
+```
 <style type="text/css">
 #back-top {
 	position: fixed;
@@ -74,21 +73,19 @@ tags: Octpress UI
 }
 */
 </style>
-{% endcodeblock %}
-</p>
+```
 
-<p>上面的css中用到了一张图片up-arrow.png，放在source/images/目录下，图片如下：
+上面的 css 中用到了一张图片up-arrow.png，放在source/images/目录下，图片如下：
 <center>{% img /images/up-arrow.png %}</center>
 这是从google image里面随便找的一个，你也可以找一个自己喜欢的图片。
-</p>
 
-<h2>jQuery部分</h2>
-<p>HTML和CSS样式设置好了之后，最后就是添加JavaScript事件响应代码了，这里是基于jQuery实现的。代码如下：（这段代码还是放在source/_include/custom/footer.html文件中）
-{% codeblock %}
+## jQuery部分
+HTML 和 CSS 样式设置好了之后，最后就是添加 JavaScript 事件响应代码了，这里是基于 jQuery 实现的。代码如下：（这段代码还是放在source/_include/custom/footer.html文件中）
+
+```
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-
 	// hide #back-top first
 	$("#back-top").hide();
 	
@@ -113,11 +110,7 @@ $(document).ready(function(){
 
 });
 </script>
-{% endcodeblock %}
-</p>
+```
 
-<h2>一个Trick</h2>
-<p>
-在上面的HTML代码中，我们将一个链接添加到了ID为#top的里面，这个#top标签是<body>标签的ID，这样即使浏览器不支持相关的JS，
-通过这个link也实现了返回顶部的功能。
-</p>
+## 一个Trick
+在上面的HTML代码中，我们将一个链接添加到了ID为 \#top 的里面，这个 \#top 标签是 &lt;body&gt; 标签的ID，这样即使浏览器不支持相关的JS，通过这个link也实现了返回顶部的功能。

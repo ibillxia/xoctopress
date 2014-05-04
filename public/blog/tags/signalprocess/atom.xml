@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: SignalProcess | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/signalprocess/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:13:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -41,7 +41,7 @@
 以便于进行频谱分析或声道参数分析。预加重可以用具有6dB/倍频程的提升高频特性的预加重数字滤波器实现。预处理的另一
 方面工作是分帧和加窗：分帧的帧长一般在10ms~30ms，分帧既可以是连续的，也可以是有部分over-lap；短时分析的实质是
 对信号加窗，一般采用Hamming窗，其他的还有矩形窗、汉宁窗等，如下图所示。
-<center>{% img /images/2013/IMAG2013050801.png %}</center>
+<center><img src="/images/2013/IMAG2013050801.png"></center>
 </p>
 
 

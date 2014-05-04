@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Exception | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/exception/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:13:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -58,31 +58,52 @@
 它代码分离开来。例程如下</p>
 
 
-<p>{% codeblock %}
-void main(int argc, char* argv[])<br/>
-{<br/>
-　　if (Call_Func1(in, param out) {<br/>
-　　　　// 函数调用成功，我们正常的处理<br/>
-　　　　if (Call_Func2(in, param out) {<br/>
-　　　　// 函数调用成功，我们正常的处理<br/>
-　　　　　　while(condition) {<br/>
-　　　　　　　　//do other job<br/>
-　　　　　　　　// 如果错误直接跳转<br/>
-　　　　　　　　if (has error) goto Error;<br/>
-　　　　　　//do other job<br/>
-　　　　　　}<br/>
-　　　　}<br/>
-　　　　// 如果错误直接跳转<br/>
-　　　　else goto Error;<br/>
-　　}<br/>
-　　// 如果错误直接跳转<br/>
-　　else goto Error;<br/>
-　　// 错误处理模块<br/>
-Error:<br/>
-　　process_error();<br/>
-　　exit();<br/>
-}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void main(int argc, char* argv[])&lt;br/>
+</span><span class='line'>{&lt;br/>
+</span><span class='line'>　　if (Call_Func1(in, param out) {&lt;br/>
+</span><span class='line'>　　　　// 函数调用成功，我们正常的处理&lt;br/>
+</span><span class='line'>　　　　if (Call_Func2(in, param out) {&lt;br/>
+</span><span class='line'>　　　　// 函数调用成功，我们正常的处理&lt;br/>
+</span><span class='line'>　　　　　　while(condition) {&lt;br/>
+</span><span class='line'>　　　　　　　　//do other job&lt;br/>
+</span><span class='line'>　　　　　　　　// 如果错误直接跳转&lt;br/>
+</span><span class='line'>　　　　　　　　if (has error) goto Error;&lt;br/>
+</span><span class='line'>　　　　　　//do other job&lt;br/>
+</span><span class='line'>　　　　　　}&lt;br/>
+</span><span class='line'>　　　　}&lt;br/>
+</span><span class='line'>　　　　// 如果错误直接跳转&lt;br/>
+</span><span class='line'>　　　　else goto Error;&lt;br/>
+</span><span class='line'>　　}&lt;br/>
+</span><span class='line'>　　// 如果错误直接跳转&lt;br/>
+</span><span class='line'>　　else goto Error;&lt;br/>
+</span><span class='line'>　　// 错误处理模块&lt;br/>
+</span><span class='line'>Error:&lt;br/>
+</span><span class='line'>　　process_error();&lt;br/>
+</span><span class='line'>　　exit();&lt;br/>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>虽然goto 语句能有效地支持异常处理编程的实现。但是没有人却建议使用它，即便是在C语言中。因为：</br>
 (1) goto语句能破坏程序的结构化设计，使代码难于测试，且包含大量goto的代码模块不易理解和阅读。它一直遭结构化程序设计思想所抛弃，强烈建议程序员不易使用它;</br>
@@ -126,24 +147,38 @@ Error:<br/>
 当前需要用到的寄存器的值），jmp_buf 结构在 setjmp.h 文件内声明：</p>
 
 
-<p>{% codeblock %}
-typedef struct
-{</p>
-
-<pre><code>unsigned j_sp;  // 堆栈指针寄存器
-unsigned j_ss;  // 堆栈段
-unsigned j_flag;  // 标志寄存器
-unsigned j_cs;  // 代码段
-unsigned j_ip;  // 指令指针寄存器
-unsigned j_bp; // 基址指针
-unsigned j_di;  // 目的指针
-unsigned j_es; // 附加段
-unsigned j_si;  // 源变址
-unsigned j_ds; // 数据段
-</code></pre>
-
-<p>} jmp_buf;
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef struct
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>unsigned j_sp;  // 堆栈指针寄存器
+</span><span class='line'>unsigned j_ss;  // 堆栈段
+</span><span class='line'>unsigned j_flag;  // 标志寄存器
+</span><span class='line'>unsigned j_cs;  // 代码段
+</span><span class='line'>unsigned j_ip;  // 指令指针寄存器
+</span><span class='line'>unsigned j_bp; // 基址指针
+</span><span class='line'>unsigned j_di;  // 目的指针
+</span><span class='line'>unsigned j_es; // 附加段
+</span><span class='line'>unsigned j_si;  // 源变址
+</span><span class='line'>unsigned j_ds; // 数据段
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>} jmp_buf;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>jmp_buf 结构存放了程序当前寄存器的值，以确保使用 longjmp() 后可以跳回到该执行点上继续执行。</p>
 
@@ -156,19 +191,18 @@ unsigned j_ds; // 数据段
 <p>setjmp() 与 longjmp() 函数原型如下：</p>
 
 
-<p>{% codeblock %}
-void <em>Cdecl longjmp(jmp_buf jmpb, int retval);
-int </em>Cdecl setjmp(jmp_buf jmpb);
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void &lt;em>Cdecl longjmp(jmp_buf jmpb, int retval);
+</span><span class='line'>int &lt;/em>Cdecl setjmp(jmp_buf jmpb);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>_Cdecl 声明函数的参数使用标准C的进栈方式（由右向左）压栈，_Cdecl 是C语言的一种调用约定，除此以外，PASCAL 也是
 调用约定之一。C标准调用约定（_Cdecl）所声明的函数不自动清除堆栈，这一事务由调用者自行负责——这也是C可以支持不固定
 个数的参数的原因。此外，这一调用约定将在函数名前添加一个下划线字符，如某一函数声明为：</p>
 
 
-<p>{% codeblock %}
-int cdecl DoSomething(void);
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int cdecl DoSomething(void);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>编译时将自动为 DoSomething 加上下划线前缀，即函数名变为：_DoSomething。</p>
 
@@ -210,124 +244,202 @@ int cdecl DoSomething(void);
 首先定义一个全局的异常：</p>
 
 
-<p>{% codeblock %}
-jmp_buf Jump_Buffer;
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>jmp_buf Jump_Buffer;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>因为 setjmp() 第一次调用初始化后返回0，第二次返回非0，可以这样定义一个宏使得它功能接近于 C++ 的 try。</p>
 
 
-<p>{% codeblock %}</p>
-
-<h1>define try if(!setjmp(Jump_Buffer))</h1>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define try if(!setjmp(Jump_Buffer))&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p> 当 setjmp() 函数第一次0 时，取非为真，则执行 try 块内的代码，如：</p>
 
 
-<p>{% codeblock %}
-try {</p>
-
-<pre><code>Test();
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>try {&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>Test();
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>当因为调用 longjmp() 抛出异常而导致 setjmp() 第二次返回时（程序将会转到 setjmp() 函数处返回，这时，这时应该执行
 的是异常处理代码。longjmp() 使 setjmp() 函数返回非0，if(!setjmp(JumpBuffer)) 中将值取非则为假，是以，异常处理放在
 其后应该使用一个 else：</p>
 
 
-<p>{% codeblock %}</p>
-
-<h1>define catch else</h1>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define catch else&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>如此看起来便跟 C++ 相似了，setjmp() 函数的第二次返回导致 if() 中表达式值为假，刚好使 catch 块得以执行，如：</p>
 
 
-<p>{% codeblock %}
-try  {</p>
-
-<pre><code>Test();
-</code></pre>
-
-<p>} catch {</p>
-
-<pre><code>puts("Error");
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>try  {&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>Test();
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>} catch {&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>puts("Error");
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>实现如 C++ 的 throw 语句，事实上以宏替换 longjmp(jmp_buf, int) 的调用：</p>
 
 
-<p>{% codeblock %}</p>
-
-<h1>define throw longjmp(Jump_Buffer, 1)</h1>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define throw longjmp(Jump_Buffer, 1)&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>下面的例程解释如何使用这些宏：</p>
 
 
-<p>{% codeblock %}</p>
-
-<h1>include"stdio.h"</h1>
-
-<h1>include"conio.h"</h1>
-
-<h1>include"setjmp.h"</h1>
-
-<p>jmp_buf Jump_Buffer;</p>
-
-<h1>define try if(!setjmp(Jump_Buffer))</h1>
-
-<h1>define catch else</h1>
-
-<h1>define throw longjmp(Jump_Buffer,1)</h1>
-
-<p>int Test(int T)<br/>
-{</p>
-
-<pre><code>if(T&gt;100)  
-    throw;  
-else  
-      puts("OK.");  
-return 0;  
-</code></pre>
-
-<p>}<br/>
-int Test_T(int T)<br/>
-{</p>
-
-<pre><code>Test(T);  
-return 0;  
-</code></pre>
-
-<p>}<br/>
-int main()<br/>
-{</p>
-
-<pre><code>int T;  
-try{  
-      puts("Input a value:");  
-      scanf("%d",&amp;T);  
-      T++;  
-      Test_T(T);  
-  } catch{  
-      puts("Input Error!");  
-  }  
-getch();  
-return 0;  
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include"stdio.h"&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include"conio.h"&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>include"setjmp.h"&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>jmp_buf Jump_Buffer;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define try if(!setjmp(Jump_Buffer))&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define catch else&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>define throw longjmp(Jump_Buffer,1)&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>int Test(int T)&lt;br/>
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>if(T&gt;100)  
+</span><span class='line'>    throw;  
+</span><span class='line'>else  
+</span><span class='line'>      puts("OK.");  
+</span><span class='line'>return 0;  
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}&lt;br/>
+</span><span class='line'>int Test_T(int T)&lt;br/>
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>Test(T);  
+</span><span class='line'>return 0;  
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}&lt;br/>
+</span><span class='line'>int main()&lt;br/>
+</span><span class='line'>{&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>int T;  
+</span><span class='line'>try{  
+</span><span class='line'>      puts("Input a value:");  
+</span><span class='line'>      scanf("%d",&amp;T);  
+</span><span class='line'>      T++;  
+</span><span class='line'>      Test_T(T);  
+</span><span class='line'>  } catch{  
+</span><span class='line'>      puts("Input Error!");  
+</span><span class='line'>  }  
+</span><span class='line'>getch();  
+</span><span class='line'>return 0;  
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   

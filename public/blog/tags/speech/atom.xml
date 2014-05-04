@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Speech | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/speech/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-04-28T23:13:20+08:00</updated>
+  <updated>2014-05-04T18:33:44+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -41,7 +41,7 @@
 以便于进行频谱分析或声道参数分析。预加重可以用具有6dB/倍频程的提升高频特性的预加重数字滤波器实现。预处理的另一
 方面工作是分帧和加窗：分帧的帧长一般在10ms~30ms，分帧既可以是连续的，也可以是有部分over-lap；短时分析的实质是
 对信号加窗，一般采用Hamming窗，其他的还有矩形窗、汉宁窗等，如下图所示。
-<center>{% img /images/2013/IMAG2013050801.png %}</center>
+<center><img src="/images/2013/IMAG2013050801.png"></center>
 </p>
 
 
@@ -190,77 +190,144 @@ Zero Ratio）。短时平均过零率（Zn）可以作为“频率”来理解�
 输出的对数能量(log energy)，k = 1,2,… N。 再将此N个参数进行余弦变换(cosine transform)求出L阶的Mel-scale cepstrum参数。</p>
 
 <h2>4.Matlab程序实现</h2>
-{% codeblock %}
-function r = mfcc(s, fs)
-% MFCC参数提取
-% Reference: 论文《MFCC和LPCC特征参数在说话人识别中的研究》
-%
-% Inputs: s  contains the signal to analize
-%         fs is the sampling rate of the signal
-%
-% Output: r contains the transformed signal
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-m = 256;  % 帧长
-n = 100;  % 帧移
-l = length(s);  % 信号总长度
-nbFrame = floor((l - n) / m) + 1;  % 信号总帧数
-for i = 1:n
-for j = 1:nbFrame
-M(i, j) = s(((j - 1) * m) + i);  % 分帧
-end
-end
-h = hamming(n);  % Hamming窗w = 0.54 - 0.46*cos(2*pi*x);
-M2 = diag(h) * M;  % 对M加窗，形成对角矩阵M2
-for i = 1:nbFrame
-frame(:,i) = fft(M2(:, i));   % 进行快速傅里叶变换，将其转换到频域上
-end
-t = n / 2;
-% tmax = l / fs;
-m = melfb(20, n, fs);  % 调用20阶MEL滤波器组进行滤波
-n2 = 1 + floor(t);
-z = m * abs(frame(1:n2, :  )).^2;  % 取前n2行帧列向量的平方
-r = dct(log(z));  % 取对数后进行反余弦变换
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function m = melfb(p, n, fs)
-% MELFB  Determine matrix for a mel-spaced filterbank
-%
-% Inputs:       p   number of filters in filterbank
-%               n   length of fft
-%               fs  sample rate in Hz
-%
-% Outputs:      x   a (sparse) matrix containing the filterbank amplitudes
-%                   size(x) = [p, 1+floor(n/2)]
-%
-% Usage:        For example, to compute the mel-scale spectrum of a
-%               colum-vector signal s, with length n and sample rate fs:
-%               f = fft(s);
-%               m = melfb(p, n, fs);
-%               n2 = 1 + floor(n/2);
-%               z = m * abs(f(1:n2)).^2;
-%
-%               z would contain p samples of the desired mel-scale spectrum
-%
-%               To plot filterbanks e.g.:
-%               plot(linspace(0, (12500/2), 129), melfb(20, 256, 12500)'),
-%               title('Mel-spaced filterbank'), xlabel('Frequency (Hz)');
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-f0 = 700 / fs;
-fn2 = floor(n/2);
-lr = log(1 + 0.5/f0) / (p+1);
-% convert to fft bin numbers with 0 for DC term
-bl = n * (f0 * (exp([0 1 p p+1] * lr) - 1));
-b1 = floor(bl(1)) + 1;
-b2 = ceil(bl(2));
-b3 = floor(bl(3));
-b4 = min(fn2, ceil(bl(4))) - 1;
-pf = log(1 + (b1:b4)/n/f0) / lr;
-fp = floor(pf);
-pm = pf - fp;
-r = [fp(b2:b4) 1+fp(1:b3)];
-c = [b2:b4 1:b3] + 1;
-v = 2 * [1-pm(b2:b4) pm(1:b3)];
-m = sparse(r, c, v, p, 1+fn2);
-{% endcodeblock %}
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function r = mfcc(s, fs)
+</span><span class='line'>% MFCC参数提取
+</span><span class='line'>% Reference: 论文《MFCC和LPCC特征参数在说话人识别中的研究》
+</span><span class='line'>%
+</span><span class='line'>% Inputs: s  contains the signal to analize
+</span><span class='line'>%         fs is the sampling rate of the signal
+</span><span class='line'>%
+</span><span class='line'>% Output: r contains the transformed signal
+</span><span class='line'>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span><span class='line'>m = 256;  % 帧长
+</span><span class='line'>n = 100;  % 帧移
+</span><span class='line'>l = length(s);  % 信号总长度
+</span><span class='line'>nbFrame = floor((l - n) / m) + 1;  % 信号总帧数
+</span><span class='line'>for i = 1:n
+</span><span class='line'>for j = 1:nbFrame
+</span><span class='line'>M(i, j) = s(((j - 1) * m) + i);  % 分帧
+</span><span class='line'>end
+</span><span class='line'>end
+</span><span class='line'>h = hamming(n);  % Hamming窗w = 0.54 - 0.46*cos(2*pi*x);
+</span><span class='line'>M2 = diag(h) * M;  % 对M加窗，形成对角矩阵M2
+</span><span class='line'>for i = 1:nbFrame
+</span><span class='line'>frame(:,i) = fft(M2(:, i));   % 进行快速傅里叶变换，将其转换到频域上
+</span><span class='line'>end
+</span><span class='line'>t = n / 2;
+</span><span class='line'>% tmax = l / fs;
+</span><span class='line'>m = melfb(20, n, fs);  % 调用20阶MEL滤波器组进行滤波
+</span><span class='line'>n2 = 1 + floor(t);
+</span><span class='line'>z = m * abs(frame(1:n2, :  )).^2;  % 取前n2行帧列向量的平方
+</span><span class='line'>r = dct(log(z));  % 取对数后进行反余弦变换
+</span><span class='line'>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span><span class='line'>function m = melfb(p, n, fs)
+</span><span class='line'>% MELFB  Determine matrix for a mel-spaced filterbank
+</span><span class='line'>%
+</span><span class='line'>% Inputs:       p   number of filters in filterbank
+</span><span class='line'>%               n   length of fft
+</span><span class='line'>%               fs  sample rate in Hz
+</span><span class='line'>%
+</span><span class='line'>% Outputs:      x   a (sparse) matrix containing the filterbank amplitudes
+</span><span class='line'>%                   size(x) = [p, 1+floor(n/2)]
+</span><span class='line'>%
+</span><span class='line'>% Usage:        For example, to compute the mel-scale spectrum of a
+</span><span class='line'>%               colum-vector signal s, with length n and sample rate fs:
+</span><span class='line'>%               f = fft(s);
+</span><span class='line'>%               m = melfb(p, n, fs);
+</span><span class='line'>%               n2 = 1 + floor(n/2);
+</span><span class='line'>%               z = m * abs(f(1:n2)).^2;
+</span><span class='line'>%
+</span><span class='line'>%               z would contain p samples of the desired mel-scale spectrum
+</span><span class='line'>%
+</span><span class='line'>%               To plot filterbanks e.g.:
+</span><span class='line'>%               plot(linspace(0, (12500/2), 129), melfb(20, 256, 12500)'),
+</span><span class='line'>%               title('Mel-spaced filterbank'), xlabel('Frequency (Hz)');
+</span><span class='line'>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span><span class='line'>f0 = 700 / fs;
+</span><span class='line'>fn2 = floor(n/2);
+</span><span class='line'>lr = log(1 + 0.5/f0) / (p+1);
+</span><span class='line'>% convert to fft bin numbers with 0 for DC term
+</span><span class='line'>bl = n * (f0 * (exp([0 1 p p+1] * lr) - 1));
+</span><span class='line'>b1 = floor(bl(1)) + 1;
+</span><span class='line'>b2 = ceil(bl(2));
+</span><span class='line'>b3 = floor(bl(3));
+</span><span class='line'>b4 = min(fn2, ceil(bl(4))) - 1;
+</span><span class='line'>pf = log(1 + (b1:b4)/n/f0) / lr;
+</span><span class='line'>fp = floor(pf);
+</span><span class='line'>pm = pf - fp;
+</span><span class='line'>r = [fp(b2:b4) 1+fp(1:b3)];
+</span><span class='line'>c = [b2:b4 1:b3] + 1;
+</span><span class='line'>v = 2 * [1-pm(b2:b4) pm(1:b3)];
+</span><span class='line'>m = sparse(r, c, v, p, 1+fn2);</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 <h2>参考文献</h2>
 <p>[1] <a href="http://www.semxi.com/TechnologyDetail.aspx?nID=27">http://www.semxi.com/TechnologyDetail.aspx?nID=27</a> </br>
