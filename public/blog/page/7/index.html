@@ -183,6 +183,121 @@ $(document).ready(function(){
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2012/03/01/05-zju-program-test-solution/">05年浙大复试机试题解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-01T11:41:00+08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/01/05-zju-program-test-solution/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>
+以下是05年浙大研究生复试机试题解，感觉题目与ACM题相比，难度还相差很远，
+基本上直接贴上代码了（后续年度的题解同上），
+而且将整年的5道题的代码在一篇文章中贴出来。
+</p>
+
+
+
+
+<h3>A题：A+B （hdoj1228）（ 九度1010）</h3>
+
+
+<p>水题，不解释，直接上代码：</p>
+
+
+
+
+<figure class='code'><figcaption><span>Problem A </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include &lt;stdio.h> 
+</span><span class='line'>#include &lt;string.h> 
+</span><span class='line'>char map[][8] = {"zero","one","two","three","four","five","six","seven","eight","nine"};
+</span><span class='line'>int cmp( char s[] ) 
+</span><span class='line'>{
+</span><span class='line'>  for( int i = 0 ; i &lt;= 9 ; i++ )
+</span><span class='line'>      if( strcmp( s , map[i] ) == 0 )
+</span><span class='line'>          return i;
+</span><span class='line'>}
+</span><span class='line'>int main() 
+</span><span class='line'>{
+</span><span class='line'>  char s[8];
+</span><span class='line'>  int a,b;
+</span><span class='line'>  while(1) 
+</span><span class='line'>  {
+</span><span class='line'>      a = 0;
+</span><span class='line'>      while(scanf("%s",s)&&strcmp(s,"+")!=0)
+</span><span class='line'>          a = 10*a + cmp(s);
+</span><span class='line'>      b = 0;
+</span><span class='line'>      while(scanf("%s",s)&&strcmp(s,"=")!=0)
+</span><span class='line'>          b = 10*b + cmp(s);
+</span><span class='line'>      if( a == 0 && b == 0 ) break;
+</span><span class='line'>      printf( "%d\n" , a+b );
+</span><span class='line'>  }
+</span><span class='line'>  return 1;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/03/01/05-zju-program-test-solution/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2012/02/19/beatiful-sentences-in-bi-ye-shi-ke/">“毕业时刻”中的经典台词</a></h1>
     
     
@@ -801,68 +916,6 @@ LinkedIn有着商业范儿的严肃简洁，只有一些基本的联络和互动
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2010/10/26/UML-model-building-example-for-requirement-analysis/">UML需求分析步骤实例解析</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-10-26T13:08:00+08:00" pubdate data-updated="true">Oct 26<span>th</span>, 2010</time>
-        
-         | <a href="/blog/2010/10/26/UML-model-building-example-for-requirement-analysis/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本节向大家介绍一下UML需求分析的一般步骤，本节用实例向大家介绍，相信通过本节的介绍你对UML需求分析有一定的认识。下面让我们一起来学习具体介绍吧。</p>
-
-
-<h2>基于UML需求分析</h2>
-
-
-<p>在初步的业务需求描述已经形成的前提下，基于UML需求分析大致可分为以下步骤：</br>
-（1）利用用例及用例图表示需求。从业务需求描述出发获取执行者和场景；对场景进行汇总、分类、抽象；形成用例；确定执行者与用例、用例与用例图
-之间的关系，生成用例图。</br>
-（2）利用包图及类图表示目标软件系统的总体框架结构。根据领域知识、业务需求描述和既往经验设计目标软件系统的顶层架构；从业务需求描述中
-提取“关键概念”，形成领域概念模型；从概念模型和用例出发，研究系统中主要的类之间的关系，生成类图。</br>
-上述两个步骤并没有时序关系，它们可以并行展开，如图1所示。</br>
-<center><img src="/images/2010/IMAG2010102601.jpg"></center>
-</p>
-
-
-
-
-<p>本节将依次介绍上述步骤中涉及的UML语言机制，并结合“家庭保安系统”实例说明每步骤中基于UML需求分析方法。</p>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2010/10/26/UML-model-building-example-for-requirement-analysis/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/8/">&larr; Older</a></li>
@@ -878,7 +931,7 @@ LinkedIn有着商业范儿的严肃简洁，只有一些基本的联络和互动
     <section>
   <h2>Categories</h2>
     <ul id="category-list">
-		<li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (12)</a></li><li><a href='/blog/categories/program'>Program (30)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li>
+		<li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (12)</a></li><li><a href='/blog/categories/program'>Program (31)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li>
 	</ul>
 </section>
 <section>
@@ -895,8 +948,8 @@ LinkedIn有着商业范儿的严肃简洁，只有一些基本的联络和互动
 <a style="font-size: 93%" href="/blog/tags/machinelearning/">MachineLearning</a>
 <a style="font-size: 159%" href="/blog/tags/neuralnetworks/">NeuralNetworks</a>
 <a style="font-size: 93%" href="/blog/tags/nuance/">Nuance</a>
+<a style="font-size: 93%" href="/blog/tags/optimization/">Optimization</a>
 <a style="font-size: 153%" href="/blog/tags/php/">PHP</a>
-<a style="font-size: 93%" href="/blog/tags/perceptron/">Perceptron</a>
 <a style="font-size: 112%" href="/blog/tags/prim/">Prim</a>
 <a style="font-size: 153%" href="/blog/tags/programtest/">ProgramTest</a>
 <a style="font-size: 93%" href="/blog/tags/programing/">Programing</a>

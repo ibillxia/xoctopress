@@ -183,6 +183,72 @@ $(document).ready(function(){
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2010/08/04/explain-php-function-call_user_func-and-call_user_func_array-in-detail/">PHP函数call_user_func和call_user_func_array详解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-04T21:38:00+08:00" pubdate data-updated="true">Aug 4<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/08/04/explain-php-function-call_user_func-and-call_user_func_array-in-detail/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>call_user_func函数类似于一种特别的调用函数的方法，使用方法如下：</p>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function a($b,$c) 
+</span><span class='line'>{
+</span><span class='line'>  echo $b;
+</span><span class='line'>  echo $c;
+</span><span class='line'>}
+</span><span class='line'>call_user_func('a', "111","222");
+</span><span class='line'>call_user_func('a', "333","444");
+</span><span class='line'>//显示 111 222 333 444</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/08/04/explain-php-function-call_user_func-and-call_user_func_array-in-detail/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2010/07/21/php-send-email/">PHP发送邮件</a></h1>
     
     
@@ -852,66 +918,6 @@ C++ 1.0是真正意义上的Windows IDE，这也是Visual Studio的最初原型�
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2009/07/26/four-interesting-problem-in-math/">数学趣题四则</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-07-26T10:07:00+08:00" pubdate data-updated="true">Jul 26<span>th</span>, 2009</time>
-        
-         | <a href="/blog/2009/07/26/four-interesting-problem-in-math/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>一、N阶幻方问题</h2>
-
-
-<p>
-1）N为奇数时：</br>
-2）N为偶数时：</br>
-   ①把1~n2按顺序排列成n×n方阵；</br>
-   ②把方阵分成四象限，和正交坐标似的，圆心在方阵正中
-然后假象建立一个正交的坐标，那么就有个X、Y轴</br>
-   ③把数（1，1）和（-1，1）对调把数（2，2）和（-2，2）对调调（1.1）（2.2）一直到（n.n）</br>
-这只调了四分之一，其它方向也要对调，调的时候要注意先X全调了，再调Y轴</br>
-如果是8阶的，要调2次，6阶的调1.5次 </br>
-就是说6阶的，你全部调完一次，再调上刚才说的四个方向里的两个就可以了，当然这两个方向要一个X轴的，一个Y轴的 </br>
-其实是任意一点，选个数字，让他从（X.Y）到（X+n.Y+n）对调就可以，（X+n.Y+n）注意取余，编的时候，要用到“余”就好解多了，
-其实老师教的奇数阶的解法用的也是“余”</br>
-要细细体会的话，其实偶数阶的解法和奇数阶的解法有很多相似的地方
-</p>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2009/07/26/four-interesting-problem-in-math/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/10/">&larr; Older</a></li>
@@ -927,7 +933,7 @@ C++ 1.0是真正意义上的Windows IDE，这也是Visual Studio的最初原型�
     <section>
   <h2>Categories</h2>
     <ul id="category-list">
-		<li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (12)</a></li><li><a href='/blog/categories/program'>Program (30)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li>
+		<li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (12)</a></li><li><a href='/blog/categories/program'>Program (31)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li>
 	</ul>
 </section>
 <section>
@@ -944,8 +950,8 @@ C++ 1.0是真正意义上的Windows IDE，这也是Visual Studio的最初原型�
 <a style="font-size: 93%" href="/blog/tags/machinelearning/">MachineLearning</a>
 <a style="font-size: 159%" href="/blog/tags/neuralnetworks/">NeuralNetworks</a>
 <a style="font-size: 93%" href="/blog/tags/nuance/">Nuance</a>
+<a style="font-size: 93%" href="/blog/tags/optimization/">Optimization</a>
 <a style="font-size: 153%" href="/blog/tags/php/">PHP</a>
-<a style="font-size: 93%" href="/blog/tags/perceptron/">Perceptron</a>
 <a style="font-size: 112%" href="/blog/tags/prim/">Prim</a>
 <a style="font-size: 153%" href="/blog/tags/programtest/">ProgramTest</a>
 <a style="font-size: 93%" href="/blog/tags/programing/">Programing</a>
