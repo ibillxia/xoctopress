@@ -183,6 +183,92 @@ $(document).ready(function(){
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2009/07/23/useful-queries-methods-in-MS-SQL-Server/">Sql Server数据库常用的查询语句</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-07-23T22:31:00+08:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2009</time>
+        
+         | <a href="/blog/2009/07/23/useful-queries-methods-in-MS-SQL-Server/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>一、表操作 </h2>
+
+
+<p>例 1 对于表的教学管理数据库中的表 STUDENTS ，可以定义如下： 
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Create TABLE STUDENTS (SNO NUMERIC (6, 0) NOT NULL 
+</span><span class='line'>SNAME CHAR (8) NOT NULL 
+</span><span class='line'>AGE NUMERIC(3,0) 
+</span><span class='line'>SEX CHAR(2) 
+</span><span class='line'>BPLACE CHAR(20) 
+</span><span class='line'>PRIMARY KEY(SNO))</span></code></pre></td></tr></table></div></figure>
+</p>
+
+
+
+
+<p>例 2 对于表的教学管理数据库中的表 ENROLLS ，可以定义如下： </p>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Create TABLE ENROLLS(SNO NUMERIC(6,0) NOT NULL 
+</span><span class='line'>CNO CHAR(4) NOT NULL 
+</span><span class='line'>GRADE INT 
+</span><span class='line'>PRIMARY KEY(SNO,CNO) 
+</span><span class='line'>FOREIGN KEY(SNO) REFERENCES STUDENTS(SNO) 
+</span><span class='line'>FOREIGN KEY(CNO) REFERENCES COURSES(CNO) 
+</span><span class='line'>CHECK ((GRADE IS NULL) or (GRADE BETWEEN 0 AND 100)))</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2009/07/23/useful-queries-methods-in-MS-SQL-Server/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2009/07/20/useful-commands-in-MS-SQL-Server/">Sql Server数据库常用的命令语句</a></h1>
     
     
@@ -395,7 +481,7 @@ print &#8216;Instance&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;: &#8217; + conve
     <section>
   <h2>Categories</h2>
     <ul id="category-list">
-		<li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (12)</a></li><li><a href='/blog/categories/program'>Program (29)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li>
+		<li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (12)</a></li><li><a href='/blog/categories/program'>Program (30)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li>
 	</ul>
 </section>
 <section>

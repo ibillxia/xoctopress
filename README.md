@@ -1,8 +1,6 @@
 ## XOctopress
 XOctopress is my(Bill Xia) blog source forked from Octopress, which is a static blogging system.
 
-
-
 ## What is Octopress?
 
 Octopress is [Jekyll](https://github.com/mojombo/jekyll) blogging at its finest.

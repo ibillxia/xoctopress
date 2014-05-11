@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Program | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/categories/program/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-05-04T18:33:44+08:00</updated>
+  <updated>2014-05-11T23:47:42+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -12,6 +12,173 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu 下 Android NDK 开发入门]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/05/04/android-ndk-development/"/>
+    <updated>2014-05-04T23:53:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/05/04/android-ndk-development</id>
+    <content type="html"><![CDATA[<p>本文首先介绍一下在 Ubuntu 下如何配置 Android NDK 开发环境，然后用一个简单的 hello-jni 项目来介绍 NDK 开发流程，本文的全部代码下载链接：<a href="http://ibillxia.github.io/upload/code/20140504-HelloJni.tar.gz">HelloJni.tar.gz</a>，也可以在我的 <a href="https://github.com/ibillxia/Demo/tree/master/HelloJni">GitHub</a> 上下载。</p>
+
+<h2>1. 简介</h2>
+
+<p>什么是 Android NDK 呢？ NDK(Native Development Kit) 是一个允许开发者用一些本地语言(C/C++)编写 Android App 的部分功能的工具集。对于一些特定的 App，NDK 非常有利于我们直接使用现成的用 C/C++ 编写的代码库（但对于大多数 App 来说，NDK 是没有必要的）。使用 NDK 进行 C/C++ Android 开发的基本结构和流程如下图（来自<a href="http://shihongzhi.com/ndk/">shihongzhi博客</a> ）：</p>
+
+<center> <img src="/images/2014/IMAG2014050401.jpg"> </center>
+
+
+<p>在开始之前，这里要提醒大家：NDK 对大多数 App 而言是不会有太多的好处的，在 Android 上使用原生 C/C++ 代码并不会很明显的提升应用的性能，但却增加了你开发应用的复杂度。所以，仅仅在需要使用 NDK 时才使用它 —— 不要因为你更喜欢用 C/C++。典型的 NDK 应用场景是一些 CPU 操作密集而不需要太多内存的场合，如信号处理、物理模拟等等，很多这些处理过程都已经封装到了 Android 系统内部，所以当你不确定是否要使用本地 C/C++ 代码时，先看看你的需求，以及 Android 框架中的 API 是否已经提供你需要的功能。</p>
+
+<!-- more -->
+
+
+<h2>2.开发环境配置</h2>
+
+<p>由于 NDK 开发过程中涉及到将 C/C++ 程序编译为动态库(.so文件)，所以首先系统中需要安装 C/C++ 的编译工具 gcc/g++，还要有 make 工具，一般情况下 Linux 系统会默认安装，如果没有安装请先安装这几个工具。然后是 Java 和 Android 开发相关环境的配置。首先需要安装 JDK，并配置 Java 的环境变量，然后是集成开发环境如 Eclipse 的安装和配置，这些也不是本文的重点，如果你没有安装，请自行 google 并安装配置好。</p>
+
+<p>下面重点讲讲 Android 相关 SDK 的安装和配置，主要涉及到 Android SDK，ADT，NDK等。要进行 Android 开发，首先需要安装 Android SDK，要在 Eclipse 中进行开发的话，还需在 Eclipse 中安装 ADT(Android Develop Tools)，在 Android 官网上提供了 SDK 和 包含 ADT 的 Eclipse 的集成开发包，可以一起下载：<a href="http://dl.google.com/android/adt/22.6.2/adt-bundle-linux-x86-20140321.zip">adt-bundle-linux-x86-20140321.zip</a>。另外，还需要安装 NDK，下载地址：<a href="http://dl.google.com/android/ndk/android-ndk-r9d-linux-x86.tar.bz2">android-ndk-r9d-linux-x86.tar.bz2</a>。下载完这两个压缩包后解压并移动到 /usr/local 目录下：</p>
+
+<p><code>
+sudo mv Downloads/adt-bundle-x86-20140321/ /usr/local/adt-x86-20140321
+mv Downloads/android-ndk-r9d/ /usr/local/adt-x86-20140321/ndk-r9d
+</code></p>
+
+<p>然后配置环境变量：</p>
+
+<p><code>
+sudo vim /etc/profile
+</code></p>
+
+<p>在 /etc/profile 最后添加如下两行：</p>
+
+<p><code>
+export PATH=/usr/local/adt-x86-20140321/sdk/tools:/usr/local/adt-x86-20140321/sdk/platform-tools:$PATH
+export PATH=/usr/local/adt-x86-20140321/ndk-r9d:$PATH
+</code></p>
+
+<p>保存并退出，并用如下命令使设置生效：</p>
+
+<p><code>
+source /etc/profile
+</code></p>
+
+<p>完了可以执行如下命令看看设置是否生效：</p>
+
+<p><code>
+echo $PATH
+adb --version
+emulator -version
+ndk-build --version
+</code></p>
+
+<p>至此，开发环境已经配置完成了，接下来我们看一个 hello-jni 的例子。</p>
+
+<h2>3.NDK 开发实例 hello-jni</h2>
+
+<h4>3.1 JNI 简介</h4>
+
+<p>首先我们了解一下什么是JNI。JNI(Java Native Interface)是一种在Java虚拟机控制下执行代码的标准机制。 代码被编写成汇编程序或者C/C++程序，并组装为动态库，从而提供了一个在Java平台上调用C/C++的一种途径。 JNI主要的竞争优势在于：它在设计之初就确保了二进制的兼容性，JNI编写的应用程序兼容性以及在某些具体平台上的Java虚拟机兼容性（当谈及JNI，这里并不特别针对Dalvik；JNI由Oracle开发，适用于所有Java虚拟机）。 关于JNI的更多内容可以参见该文：<a href="http://www.importnew.com/8038.html">Android NDK介绍</a>。</p>
+
+<h4>3.2 Eclipse 配置</h4>
+
+<p>下面以参考 Android NDK 自带的 hello-jni 示例程序改写的我自己的 hello-jni 来介绍开发流程。首先打开 Eclipse 并配置 Android SDK 和 NDK 的路径。 选择 Eclipse 的如下菜单：Window =&gt; Preferences =&gt; Android，点击浏览按钮设置 SDK 路径；Window =&gt; Preferences =&gt; Android =&gt; NDK，点击浏览按钮设置 NDK 路径。接下来按照简介中的开发流程图来一步一步介绍 NDK 开发步骤。</p>
+
+<h4>3.3 创建 Android App 并添加 Native Support</h4>
+
+<p>首先用Eclipse 创建一个空的 Android App，命名为 HelloJni。在项目上点击右键，选择 Android Tools =&gt; Add Native Support... ，在弹出的对话框中填入 HelloJni 并确定，会发现项目中多了一个 jni 目录，并自动生成了 HelloJni.cpp 和 Android.mk 文件，分别是我们需要封装的native C++ 代码和编译它的 Makefile 文件。</p>
+
+<h4>3.4 编写 java API</h4>
+
+<p>原本按照图一中的流程我们需要先编写一些 C/C++ 原生的代码，但实际中，为了简便起见，我们可以使用 jdk 的 javah 工具（如果没有， <code>sudo apt-get update</code> 一下）来根据 java 调用 C/C++ API 的接口类来自动生成 jni 的头文件。因此，我们需要先做第3步的内容，这里编写的 Java API 接口 HelloCal 类（在 <code>src/io.ibillxia.hellojni</code> 路径下）如下：</p>
+
+<p>```
+//HelloCal.java
+package io.ibillxia.hellojni;</p>
+
+<p>public class HelloCal {</p>
+
+<pre><code>static { 
+    System.loadLibrary("HelloJni"); // 加载 jni 动态库 
+} 
+
+public native String helloSay(); // 返回字符串 
+public native int helloAdd(int a,int b); // 两个整数相加 
+public native int helloSub(int a,int b); // 两个整数相减 
+public native int helloMul(int a,int b); // 两个整数相乘 
+public native int helloDiv(int a,int b); // 两个整数相除 
+</code></pre>
+
+<p>}
+```</p>
+
+<h4>3.5 使用 javah 生成 jni 格式的 C/C++ API</h4>
+
+<p>编写完 java API 后在 Eclipse 中 build 一下生成对应 .class 文件，然后使用 javah 工具根据该 class 文件自动生成 jni API 的头文件。在 HelloJni App 根目录下执行如下命令：</p>
+
+<p><code>
+javah -classpath ./bin/classes -d jni io.ibillxia.hellojni.HelloCal
+</code></p>
+
+<p>其中 <code>-classpath ./bin/classes</code> 表示类的路径，<code>-d jni</code> 表示生成的头文件存放的目录， <code>io.ibillxia.hellojni.HelloCal</code> 则是完整类名，如果不出意外，在 <code>~/workspace/HelloJni/jni</code> 目录下生成了 <code>io_ibillxia_hellojni_HelloCal.h</code> 。然后根据这个头文件的内容，编写 <code>HelloCal.cpp</code> 文件实现头文件中声明的接口，具体的头文件和 cpp 源文件内容见源码压缩包。值得一提的是，在 cpp 源文件中，对数据运算后可能产生溢出进行了判断，对于溢出异常这里处理的办法是，如果上溢则返回最大值，下溢则返回最小值。实际中，这样做可能还不是很合理，比较好的做法是，在 cpp 中处理并返回异常值，并在相应的 Java API 中针对返回的异常值进行不同的处理，即在 cpp 中只检查异常，而真正处理异常则由 Java API 来处理。</p>
+
+<p>注意，这里需要添加一下 C/C++ 的包含目录，否则会报错。选中 jni文件夹，右键选择 Properties =&gt; C/C++ General =&gt; Paths and Symbols =&gt; Includes，点击 Add 一个一个添加如下依赖库：</p>
+
+<blockquote><p>/usr/include<br/>
+/usr/include/c++/4.8<br/>
+/usr/include/c++/4.8/backward<br/>
+/usr/include/i386-linux-gnu<br/>
+/usr/include/i386-linux-gnu/c++/4.8<br/>
+/usr/lib/gcc/i686-linux-gnu/4.8/include<br/>
+/usr/lib/gcc/i686-linux-gnu/4.8/include-fixed<br/>
+/usr/local/include<br/>
+/usr/local/adt-x86-20140321/ndk-r9d/platforms/android-19/arch-arm/usr/include</p></blockquote>
+
+<p>添加完后 build 一下，看看是否有错误，如果不出意外，应该在 <code>HelloJni/libs/armeabi/</code> 目录下生成了 <code>libHelloJni.so</code> 文件。</p>
+
+<h4>3.6 编写 Android App</h4>
+
+<p>最后是编写 Android App，并在 App 中调用 Jni 接口函数。在 <code>io.ibillxia.hellojni</code> 包中新建一个 Java 类 HelloJni ，编写如下代码（import 内容省略，具体见源码压缩包）：</p>
+
+<p>```
+//HelloJni.java
+public class HelloJni extends Activity {</p>
+
+<pre><code>/** Called when the activity is first created. */
+@Override
+public void onCreate(Bundle savedInstanceState)
+{
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.hello_jni);
+
+    Button btn = (Button)findViewById(R.id.btn_cal);
+    btn.setOnClickListener(new Button.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // TODO Auto-generated method stub
+            TextView tv1 = (TextView) findViewById(R.id.textView1);
+            TextView tv2 = (TextView) findViewById(R.id.textView2);
+            TextView tv3 = (TextView) findViewById(R.id.textView3);
+
+            int a = Integer.parseInt(tv1.getText().toString());
+            int b = Integer.parseInt(tv2.getText().toString());
+            HelloCal cal = new HelloCal();
+            int c = cal.helloAdd(a,b);
+            String str = cal.helloSay();  
+            tv3.setText(str + Integer.toString(c));
+        }
+    });
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>另外，还需要设计对应的 layout xml 文件，具体见源码压缩包。 最后上一张运行效果截图：
+<img src="/images/2014/IMAG2014050402.png">
+图中输入的两个数的和超过了 int 能表示的最大值，出现上溢，但返回的是最大值。如果输入的两个数本身就超出范围将出现
+<code>Unfortunately, HelloJni has stopped.</code> 的异常的对话框。实际过程中，究竟在哪一步检测并处理异常，还是一个值得商讨的问题。如果是引用第三方的库，可能需要对相应的接口提供充分的测试，对于可以并且方便在 native code 层面解决的异常就在 native code 层面上处理掉，实在不行也要在 Java API 层面上解决掉，比如这里需要在 Java 中判断输入参数本身的合法性。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[给Octopress博客配置Twitter Bootstrap主题]]></title>
@@ -99,7 +266,7 @@ tag_dir: blog/tags
 
 <p>至此，已经配置完成了 ^_^ 可以运行 rake generate 和 rake preview 来看看最终效果了。</p>
 
-<p>PS：本博客的主题及插件相关文件和代码可以看我的 GitHub Repo：<a href="https://github.com/ibillxia/xoctopress">xoctopress</a>. 如有问题，可以参考这些代码。</p>
+<p>PS：本博客的主题及插件相关文件和代码可以看我的 GitHub Repo：<a href="https://github.com/ibillxia/xoctopress/tree/master">xoctopress</a>. 如有问题，可以参考这些代码。</p>
 ]]></content>
   </entry>
   
@@ -787,348 +954,6 @@ go func(i int) {
 <h2>参考资料</h2>
 <p>[1] golang 官方主页：<a href="http://golang.org/">http://golang.org/</a></br>
 [2] go语言编程，许世伟
-</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PCM WAVE格式详解及用C语言实现wave文件的读取]]></title>
-    <link href="http://ibillxia.github.io/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language/"/>
-    <updated>2013-07-20T20:07:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2013/07/20/details-of-wave-format-and-reading-wave-files-in-C-language</id>
-    <content type="html"><![CDATA[<h2>1.PCM Wave格式详解</h2>
-
-
-<p>WAVE文件格式是微软RIFF(Resource Interchange File Format,资源交换文件标准)的一种，是针对于多媒体文件存储的一种文件格式和标准。
-一般而言，RIFF文件由文件头和数据两部分组成，一个WAVE文件由一个“WAVE”数据块组成，这个“WAVE”块又由一个"fmt"子数据块和一个“data”子
-数据块组成，也称这种格式为“Canonical form”（权威/牧师格式），如下图所示：
-<center><img src="/images/2013/IMAG2013072001.gif"></center>
-</p>
-
-
-<!--more-->
-
-
-<p>每个字段的涵义如下：
-ChunkID: 占4个字节，内容为“RIFF”的ASCII码(0x52494646)，以大端（big endian）存储。</br>
-ChunkSize: 4字节，存储整个文件的字节数（不包含ChunkID和ChunkSize这8个字节），以小端（little endian）方式存储。</br>
-Format: 4字节，内容为“WAVE”的ASCII码(0x57415645)，以大端存储。</br>
-</p>
-
-
-
-
-<p>
-其中bigendian 主要有一个特征，在内存中对操作数的存储方式和从高字节到低字节。例如：0x1234，这样一个数，存储为:</br>
-0x4000:   0x12</br>
-0x4001:   0x34</br>
-而小尾端littleendian是：</br>
-0x4000:   0x34</br>
-0x4001:   0x12</br>
-用程序在区别的话，可以考虑：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#include &lt;stdio.h>
-</span><span class='line'>#include &lt;stdlib.h>
-</span><span class='line'>int main(int argc, char *argv[])
-</span><span class='line'>{
-</span><span class='line'>       union w
-</span><span class='line'>      {
-</span><span class='line'>       short int a;
-</span><span class='line'>       char b;
-</span><span class='line'>      }c;
-</span><span class='line'>      c.a=1;
-</span><span class='line'>      if( c.b==1 )  printf("little endian\n");
-</span><span class='line'>      else printf("big endian\n");
-</span><span class='line'>      system("PAUSE"); 
-</span><span class='line'>      return 0;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
-</p>
-
-
-
-
-<p>"WAVE"格式由两个子数据块构成：“fmt”块和“data”块，其中“fmt”块的详细解释如下：
-Subchunk1ID: 占4个字节，内容为“fmt ”的ASCII码(0x666d7420)，以大端存储。</br>
-Subchunk1Size: 占4个字节，存储该子块的字节数（不含前面的Subchunk1ID和Subchunk1Size这8个字节），以小端方式存储。</br>
-AudioFormat：占2个字节，以小端方式存储，存储音频文件的编码格式，例如若为PCM则其存储值为1，若为其他非PCM格式的则有一定的压缩。</br>
-NumChannels: 占2个字节，以小端方式存储，通道数，单通道(Mono)值为1，双通道(Stereo)值为2，等等。</br>
-SampleRate: 占4个字节，以小端方式存储，采样率，如8k，44.1k等。</br>
-ByteRate: 占4个字节，以小端方式存储，每秒存储的bit数，其值=SampleRate * NumChannels * BitsPerSample/8</br>
-BlockAlign: 占2个字节，以小端方式存储，块对齐大小，其值=NumChannels * BitsPerSample/8</br>
-BitsPerSample: 占2个字节，以小端方式存储，每个采样点的bit数，一般为8,16,32等。</br>
-接下来是两个可选的扩展参数：</br>
-ExtraParamSize: 占2个字节，表示扩展段的大小。</br>
-ExtraParams: 扩展段其他自定义的一些参数的具体内容，大小由前一个字段给定。
-</p>
-
-
-
-
-<p>其中，对于每个采样点的bit数，不同的bit数读取数据的方式不同：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// data 为读取到的采样点的值，speech为原始数据流，
-</span><span class='line'>//对应于下面的"WAVE"格式文件的第二个子数据块“data”块的“Data”部分。
-</span><span class='line'>for(i=0;i&lt;NumSample;i++){
-</span><span class='line'>    if(BitsPerSample==8)
-</span><span class='line'>        data[i] = (int)*((char*)speech+i);
-</span><span class='line'>    else if(BitsPerSample==16)
-</span><span class='line'>        data[i] = (int)*((short*)speech+i);
-</span><span class='line'>    else if(BitsPerSample==32)
-</span><span class='line'>        data[i] = (int)*((int*)speech+i);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
-</p>
-
-
-
-
-<p>"WAVE"格式文件的第二个子数据块是“data”，其个字段的详细解释如下：</br>
-Subchunk2ID: 占4个字节，内容为“data”的ASCII码(0x64617461)，以大端存储。</br>
-Subchunk2Size: 占4个字节，内容为接下来的正式的数据部分的字节数，其值=NumSamples * NumChannels * BitsPerSample/8</br>
-Data: 真正的语音数据部分。</br>
-</p>
-
-
-
-
-<h2>一个Wave文件头的实例</h2>
-
-
-<p>设一个wave文件的前72个字节的十六进制内容如下(可以使用Ultra Edit等工具查看wave文件头)：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>52 49 46 46 24 08 00 00 57 41 56 45 66 6d 74 20 10 00 00 00 01 00 02 00 
-</span><span class='line'>22 56 00 00 88 58 01 00 04 00 10 00 64 61 74 61 00 08 00 00 00 00 00 00 
-</span><span class='line'>24 17 1e f3 3c 13 3c 14 16 f9 18 f9 34 e7 23 a6 3c f2 24 f2 11 ce 1a 0d</span></code></pre></td></tr></table></div></figure></notextile></div>
-则其个字段的解析如下图：
-<center><img src="/images/2013/IMAG2013072002.gif"></center>
-</p>
-
-
-
-
-<h2>C语言实现wave文件的读取</h2>
-
-
-<p>这里给出一个用基本的C语言文件操作库函数实现的Wave文件读取的实例代码，可以跨Windows和Linux平台。</p>
-
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdlib.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;string.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>// define Wave format structure
-</span><span class='line'>typedef struct tWAVEFORMATEX
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>short wFormatTag;         /* format type */
-</span><span class='line'>short nChannels;          /* number of channels (i.e. mono, stereo...) */
-</span><span class='line'>unsigned int nSamplesPerSec;     /* sample rate */
-</span><span class='line'>unsigned int nAvgBytesPerSec;    /* for buffer estimation */
-</span><span class='line'>short nBlockAlign;        /* block size of data */
-</span><span class='line'>short wBitsPerSample;     /* number of bits per sample of mono data */
-</span><span class='line'>short cbSize;             /* the count in bytes of the size of */
-</span><span class='line'>                                /* extra information (after cbSize) */
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>} WAVEFORMATEX, *PWAVEFORMATEX;&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>char&lt;em> wavread(char &lt;/em>fname, WAVEFORMATEX *wf);&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>int main(){&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>char fname = "test.wav";
-</span><span class='line'>char *speech;
-</span><span class='line'>WAVEFORMATEX wf;
-</span><span class='line'>
-</span><span class='line'>speech = wavread(fname, &amp;wf);
-</span><span class='line'>// afterward processing...
-</span><span class='line'>
-</span><span class='line'>return 0;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>// read wave file
-</span><span class='line'>char&lt;em> wavread(char &lt;/em>fname, WAVEFORMATEX *wf){&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>FILE* fp;
-</span><span class='line'>char str[32];
-</span><span class='line'>char *speech;
-</span><span class='line'>unsigned int subchunk1size; // head size
-</span><span class='line'>unsigned int subchunk2size; // speech data size
-</span><span class='line'>
-</span><span class='line'>// check format type
-</span><span class='line'>fp = fopen(fname,"r");
-</span><span class='line'>if(!fp){
-</span><span class='line'>    fprintf(stderr,"Can not open the wave file: %s.\n",fname);
-</span><span class='line'>    return NULL;
-</span><span class='line'>}
-</span><span class='line'>fseek(fp, 8, SEEK_SET);
-</span><span class='line'>fread(str, sizeof(char), 7, fp);
-</span><span class='line'>str[7] = '\0';
-</span><span class='line'>if(strcmp(str,"WAVEfmt")){
-</span><span class='line'>    fprintf(stderr,"The file is not in WAVE format!\n");
-</span><span class='line'>    return NULL;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>// read format header
-</span><span class='line'>fseek(fp, 16, SEEK_SET);
-</span><span class='line'>fread((unsigned int*)(&amp;subchunk1size),4,1,fp);
-</span><span class='line'>fseek(fp, 20, SEEK_SET);
-</span><span class='line'>fread(wf, subchunk1size, 1, fp);
-</span><span class='line'>
-</span><span class='line'>// read wave data
-</span><span class='line'>fseek(fp, 20+subchunk1size, SEEK_SET);
-</span><span class='line'>fread(str, 1, 4, fp);
-</span><span class='line'>str[4] = '\0';
-</span><span class='line'>if(strcmp(str,"data")){
-</span><span class='line'>    fprintf(stderr,"Locating data start point failed!\n");
-</span><span class='line'>    return NULL;
-</span><span class='line'>}
-</span><span class='line'>fseek(fp, 20+subchunk1size+4, SEEK_SET);
-</span><span class='line'>fread((unsigned int*)(&amp;subchunk2size), 4, 1, fp);
-</span><span class='line'>speech = (char*)malloc(sizeof(char)*subchunk2size);
-</span><span class='line'>if(!speech){
-</span><span class='line'>    fprintf(stderr, "Memory alloc failed!\n");
-</span><span class='line'>    return NULL;
-</span><span class='line'>}
-</span><span class='line'>fseek(fp, 20+subchunk1size+8, SEEK_SET);
-</span><span class='line'>fread(speech, 1, subchunk2size, fp);
-</span><span class='line'>
-</span><span class='line'>fclose(fp);
-</span><span class='line'>return speech;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>参考</h2>
-
-
-<p>
-[1]WAVE PCM soundfile format: https://ccrma.stanford.edu/courses/422/projects/WaveFormat/ </br>
-[2]Resource Interchange File Format: http://en.wikipedia.org/wiki/Resource_Interchange_File_Format </br>
-[3]基于Visual C++6.0的声音文件操作: http://www.yesky.com/20030414/1663116_1.shtml
 </p>
 
 ]]></content>

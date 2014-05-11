@@ -183,6 +183,92 @@ $(document).ready(function(){
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2010/07/21/php-send-email/">PHP发送邮件</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-21T10:05:00+08:00" pubdate data-updated="true">Jul 21<span>st</span>, 2010</time>
+        
+         | <a href="/blog/2010/07/21/php-send-email/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>现在很多主机空间都是IIS上执行PHP程序，大多不能直接用mail()发送邮件，有了这个类只要你有注册过邮箱，
+就可以随意的发送邮件，速度也不慢哦。</p>
+
+
+
+
+<p>先给一个具体的使用示例：</p>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;? 
+</span><span class='line'>require (FILE_DIR."smtp.php"); 
+</span><span class='line'>$smtpserver = "smtp.xxx.com";//SMTP服务器 
+</span><span class='line'>$smtpserverport =25;//SMTP服务器端口 
+</span><span class='line'>$smtpusermail = "xxxxx@xxx.com";//SMTP服务器的用户邮箱 
+</span><span class='line'>$smtpemailto = "aaaaa@xxx.com";//发送给谁 
+</span><span class='line'>$smtpuser = "xxxxx";//SMTP服务器的用户帐号 
+</span><span class='line'>$smtppass = "xxxxx";//SMTP服务器的用户密码 
+</span><span class='line'>$mailsubject = "Test Subject";//邮件主题 
+</span><span class='line'>$mailbody = "&lt;h1>This is a test mail&lt;/h1>";//邮件内容 
+</span><span class='line'>$mailtype = "HTML";//邮件格式（HTML/TXT）,TXT为文本邮件 
+</span><span class='line'>$smtp = new smtp($smtpserver,$smtpserverport,true,$smtpuser,$smtppass);//这里面的一个true是表示使用身份验证,否则不使用身份验证. 
+</span><span class='line'>$smtp->debug = TRUE;//是否显示发送的调试信息 
+</span><span class='line'>$smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype); 
+</span><span class='line'>?></span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/07/21/php-send-email/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2010/07/19/ucenter-sync-login-mechanism/">UCenter同步登陆机制</a></h1>
     
     
@@ -826,92 +912,6 @@ C++ 1.0是真正意义上的Windows IDE，这也是Visual Studio的最初原型�
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2009/07/23/useful-queries-methods-in-MS-SQL-Server/">Sql Server数据库常用的查询语句</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-07-23T22:31:00+08:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2009</time>
-        
-         | <a href="/blog/2009/07/23/useful-queries-methods-in-MS-SQL-Server/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>一、表操作 </h2>
-
-
-<p>例 1 对于表的教学管理数据库中的表 STUDENTS ，可以定义如下： 
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Create TABLE STUDENTS (SNO NUMERIC (6, 0) NOT NULL 
-</span><span class='line'>SNAME CHAR (8) NOT NULL 
-</span><span class='line'>AGE NUMERIC(3,0) 
-</span><span class='line'>SEX CHAR(2) 
-</span><span class='line'>BPLACE CHAR(20) 
-</span><span class='line'>PRIMARY KEY(SNO))</span></code></pre></td></tr></table></div></figure>
-</p>
-
-
-
-
-<p>例 2 对于表的教学管理数据库中的表 ENROLLS ，可以定义如下： </p>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Create TABLE ENROLLS(SNO NUMERIC(6,0) NOT NULL 
-</span><span class='line'>CNO CHAR(4) NOT NULL 
-</span><span class='line'>GRADE INT 
-</span><span class='line'>PRIMARY KEY(SNO,CNO) 
-</span><span class='line'>FOREIGN KEY(SNO) REFERENCES STUDENTS(SNO) 
-</span><span class='line'>FOREIGN KEY(CNO) REFERENCES COURSES(CNO) 
-</span><span class='line'>CHECK ((GRADE IS NULL) or (GRADE BETWEEN 0 AND 100)))</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2009/07/23/useful-queries-methods-in-MS-SQL-Server/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/10/">&larr; Older</a></li>
@@ -927,7 +927,7 @@ C++ 1.0是真正意义上的Windows IDE，这也是Visual Studio的最初原型�
     <section>
   <h2>Categories</h2>
     <ul id="category-list">
-		<li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (12)</a></li><li><a href='/blog/categories/program'>Program (29)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li>
+		<li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (12)</a></li><li><a href='/blog/categories/program'>Program (30)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li>
 	</ul>
 </section>
 <section>
