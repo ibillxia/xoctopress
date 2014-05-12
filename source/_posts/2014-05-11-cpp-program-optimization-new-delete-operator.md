@@ -16,8 +16,11 @@ C++ 程序的存储空间可以分为静态/全局存储区、栈区和堆区。
 - **堆（Heap）**：这个段用于在程序中进行动态内存申请，例如经常用到的 malloc，new 系列函数就是从这个段中申请内存。  
 - **栈（Stack）**：函数中的局部变量以及在函数调用过程中产生的临时变量都保存在此段中。  
 静态/全局存储区和栈区一般在程序编译阶段决定；而堆区则随着程序的运行而动态变化，每一次程序运行都会有不同的行为，因此动态内存管理对于一个程序在运行过程中占用的内存大小及程序运行性能有非常重要的影响。 本文主要探讨在C++中如何管理动态内存，以及如何使用 C++ 的语言特性来提高动态内存的管理效率，减少错误的发生。
+
 <!-- more -->
+
 ## 2. new/delete 操作符
+#### 2.1 C++内置new/delete的原型
 一般来说 C++ 的运行库提供了默认的全局 `new/new[]` 和 `delete/delete[]` 的实现，程序也可以用自定义的实现来取代运行库的实现。 下面是 C++ 标准中定义的 `new/new[]` 和 `delete/delete[]` 的声明（位于 `include/c++/new` 文件中）：
 
 ```
@@ -56,25 +59,28 @@ inline void  operator delete[](void*, void*) throw() { }
 - 抛出一个 `bad_alloc` 或其派生类的异常  
 - 调用 `abort()` 或者 `exit()` 退出  
 
+#### 2.2 使用 `new_handler` 自定义异常处理
 下面看一个例子，看看如何使用 `new_handler` 处理内存分配失败的情况：
 
 ```
 #include<new>
 #include<cstdio>
+#include<Windows.h>
 using namespace std;
 char *gPool = NULL;
 void my_new_handler();
 
 int main(){
     set_new_handler(my_new_handler);
-    gPool = new char[100*1024*1024];
+    gPool = new char[512*1024*1024];
     if(gPool!=NULL){
-        printf("Preserve 100MB memory at %x.\n",gPool);
+        printf("Preserve 512MB memory at %x.\n",gPool);
     }
     char *p = NULL;
-    for(int i=0;i<20;i++){
-        p = new char[100*1024*1024];
-        printf("%d * 100M, p = %x\n",i+1,p);
+    for(int i=0;i<4;i++){
+        p = new char[512*1024*1024];
+        printf("%d * 512M, p = %x\n",i+1,p);
+        Sleep(5000); // 休眠5s
     }
     printf("Done.\n");
     return 0;
@@ -83,40 +89,25 @@ int main(){
 void my_new_handler(){
     if(gPool!=NULL){
         printf("try to get more memory...\n");
-        delete[] gPool;
+        delete[] gPool; // 释放512MB内存空间
         gPool = NULL;
         return;
     }else{
         printf("I can not help...\n");
-        throw bad_alloc();
+        throw bad_alloc();  // 分配失败，抛出异常
     }
     return;
 }
 ```
 
-在 Windows 上编译并运行，得到如下输出：
+在 Windows 上编译并运行（使用Code::Blocks 13.12 IDE），得到如下输出：
 
 ```
-Preserve 100MB memory at 980020.
-1 * 100M, p = 6d90020
-2 * 100M, p = d1a0020
-3 * 100M, p = 135b0020
-4 * 100M, p = 199c0020
-5 * 100M, p = 1fdd0020
-6 * 100M, p = 261e0020
-7 * 100M, p = 2c5f0020
-8 * 100M, p = 32a00020
-9 * 100M, p = 38e10020
-10 * 100M, p = 3f220020
-11 * 100M, p = 45630020
-12 * 100M, p = 4ba40020
-13 * 100M, p = 51e50020
-14 * 100M, p = 58260020
-15 * 100M, p = 5e670020
-16 * 100M, p = 64a80020
-17 * 100M, p = 776c0020
+Preserve 512MB memory at 7e0020.
+1 * 512M, p = 207f0020
+2 * 512M, p = 40800020
 try to get more memory...
-18 * 100M, p = 980020
+3 * 512M, p = 7e0020
 I can not help...
 terminate called after throwing an instance of 'std::bad_alloc'
   what():  std::bad_alloc
@@ -125,5 +116,58 @@ This application has requested the Runtime to terminate it in an unusual way.
 Please contact the application's support team for more information.
 ```
 
-在 Windows 的 win32 程序中，一个进程可以访问的内存空间是 4GB，但可以用来动态分配的最大内存是 2GB，因而上面的程序执行到第18次（为神马不是第19次？）动态内存分配时由于内存不够，调用了 `my_new_handler` 获得了内存，而当执行第19次内存分配时，`gPool` 已被分配，于是 `my_new_handler` 中抛出了 `bad_alloc` 异常，导致程序退出。
+在 Windows 的 win32 程序中，一个进程可以访问的内存空间是 4GB，但可以用来动态分配的最大内存是 2GB，因而上面的程序执行到第3次（为神马不是第4次？）动态内存分配时由于内存不够，调用了 `my_new_handler` 获得了内存（可以看到第3次分配的内存的地址和Preserve的内存地址是一样的），而当执行第4次内存分配时，`gPool` 已被分配，于是 `my_new_handler` 中抛出了 `bad_alloc` 异常，导致程序退出。 另外，在程序实际运行过程当中，会发现任务管理器中内存占用不会往上飙，这可能是因为操作系统的动态内存管理策略在作怪，不会说你一申请就立马全部给你，只是建立了一个映射表，只有当你真正用的时候才会给你。
 
+#### 2.3 使用 placement new
+在 C++ 内置 `new/delete` 中最后的一种是 placement 形式的 `new/delete` ，即分配的内存地址有用户给定。下面是一个最简单的实例：
+
+```
+#include <cstdio>
+#include <new>
+using namespace std;
+
+int main()
+{
+    char buffer[100];
+    char *p = new(buffer) char[20]; // call placement new
+    printf("Address of buffer: %x, and p: %x.\n",buffer,p);
+    return 0;
+}
+// output: Address of buffer: 28feb8, and p: 28feb8.
+```
+
+可以看到 `buffer` 和 `p` 的地址是一样的。在大型应用程序中，我们可以充分利用 `placement new` 的特性，实现自己管理（分配、释放等）本应用的内存空间，基本思路就是： 首先申请一大片内存，然后对每个小的动态内存分配都使用 `placement new` 的方式进行申请。
+
+#### 2.4 重载 placement new
+在 `new` 操作符中，除了可以使用自定义申请的内存的大小及位置，我们还可以通过重载系统的 `new/delete` 操作符来加入其它一些附加参数，但仍称之为 `placement new` 。例如：
+
+```
+#include<cstdio>
+#include<new>
+using namespace std;
+#define DEBUG
+#ifdef DEBUG
+// 自定义 new 操作符
+void *operator new[](unsigned int n, const char* file, int line){
+    printf("Alloc size: %d at file %s, in line %d\n",n,file,line);
+    return ::operator new(n);
+}
+// 自定义 delete 操作符
+void operator delete[](void *p,const char *file, int line){
+    printf("delete at file %s, in line %d\n",file,line);
+    ::operator delete(p);
+    return;
+}
+// 宏定义，必须放在重载函数之后
+#define new new(__FILE__, __LINE__)
+//#define delete delete(__FILE__, __LINE__)
+#endif
+int main(){
+    char *p = new char[10];
+    delete p;  // delete 的重载还有问题 "error: type 'int' argument given to 'delete', expected pointer"
+    return 0;
+}
+// output: Alloc size: 10 at file D:\Programs\test\main.cpp, in line 22
+```
+
+这在 `DEBUG` 模式下非常好使。

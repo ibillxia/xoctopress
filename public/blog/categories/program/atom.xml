@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Program | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/categories/program/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-05-11T23:58:41+08:00</updated>
+  <updated>2014-05-12T23:52:14+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -37,6 +37,8 @@
 
 
 <h2>2. new/delete 操作符</h2>
+
+<h4>2.1 C++内置new/delete的原型</h4>
 
 <p>一般来说 C++ 的运行库提供了默认的全局 <code>new/new[]</code> 和 <code>delete/delete[]</code> 的实现，程序也可以用自定义的实现来取代运行库的实现。 下面是 C++ 标准中定义的 <code>new/new[]</code> 和 <code>delete/delete[]</code> 的声明（位于 <code>include/c++/new</code> 文件中）：</p>
 
@@ -82,6 +84,8 @@ inline void  operator delete<a href="void*,%20void*"></a> throw() { }
 </ul>
 
 
+<h4>2.2 使用 <code>new_handler</code> 自定义异常处理</h4>
+
 <p>下面看一个例子，看看如何使用 <code>new_handler</code> 处理内存分配失败的情况：</p>
 
 <p>```</p>
@@ -90,6 +94,8 @@ inline void  operator delete<a href="void*,%20void*"></a> throw() { }
 
 <h1>include<cstdio></h1>
 
+<h1>include&lt;Windows.h></h1>
+
 <p>using namespace std;
 char *gPool = NULL;
 void my_new_handler();</p>
@@ -97,14 +103,15 @@ void my_new_handler();</p>
 <p>int main(){</p>
 
 <pre><code>set_new_handler(my_new_handler);
-gPool = new char[100*1024*1024];
+gPool = new char[512*1024*1024];
 if(gPool!=NULL){
-    printf("Preserve 100MB memory at %x.\n",gPool);
+    printf("Preserve 512MB memory at %x.\n",gPool);
 }
 char *p = NULL;
-for(int i=0;i&lt;20;i++){
-    p = new char[100*1024*1024];
-    printf("%d * 100M, p = %x\n",i+1,p);
+for(int i=0;i&lt;4;i++){
+    p = new char[512*1024*1024];
+    printf("%d * 512M, p = %x\n",i+1,p);
+    Sleep(5000); // 休眠5s
 }
 printf("Done.\n");
 return 0;
@@ -116,12 +123,12 @@ return 0;
 
 <pre><code>if(gPool!=NULL){
     printf("try to get more memory...\n");
-    delete[] gPool;
+    delete[] gPool; // 释放512MB内存空间
     gPool = NULL;
     return;
 }else{
     printf("I can not help...\n");
-    throw bad_alloc();
+    throw bad_alloc();  // 分配失败，抛出异常
 }
 return;
 </code></pre>
@@ -129,29 +136,14 @@ return;
 <p>}
 ```</p>
 
-<p>在 Windows 上编译并运行，得到如下输出：</p>
+<p>在 Windows 上编译并运行（使用Code::Blocks 13.12 IDE），得到如下输出：</p>
 
 <p>```
-Preserve 100MB memory at 980020.
-1 * 100M, p = 6d90020
-2 * 100M, p = d1a0020
-3 * 100M, p = 135b0020
-4 * 100M, p = 199c0020
-5 * 100M, p = 1fdd0020
-6 * 100M, p = 261e0020
-7 * 100M, p = 2c5f0020
-8 * 100M, p = 32a00020
-9 * 100M, p = 38e10020
-10 * 100M, p = 3f220020
-11 * 100M, p = 45630020
-12 * 100M, p = 4ba40020
-13 * 100M, p = 51e50020
-14 * 100M, p = 58260020
-15 * 100M, p = 5e670020
-16 * 100M, p = 64a80020
-17 * 100M, p = 776c0020
+Preserve 512MB memory at 7e0020.
+1 * 512M, p = 207f0020
+2 * 512M, p = 40800020
 try to get more memory...
-18 * 100M, p = 980020
+3 * 512M, p = 7e0020
 I can not help...
 terminate called after throwing an instance of 'std::bad_alloc'
   what():  std::bad_alloc</p>
@@ -160,7 +152,88 @@ terminate called after throwing an instance of 'std::bad_alloc'
 Please contact the application's support team for more information.
 ```</p>
 
-<p>在 Windows 的 win32 程序中，一个进程可以访问的内存空间是 4GB，但可以用来动态分配的最大内存是 2GB，因而上面的程序执行到第18次（为神马不是第19次？）动态内存分配时由于内存不够，调用了 <code>my_new_handler</code> 获得了内存，而当执行第19次内存分配时，<code>gPool</code> 已被分配，于是 <code>my_new_handler</code> 中抛出了 <code>bad_alloc</code> 异常，导致程序退出。</p>
+<p>在 Windows 的 win32 程序中，一个进程可以访问的内存空间是 4GB，但可以用来动态分配的最大内存是 2GB，因而上面的程序执行到第3次（为神马不是第4次？）动态内存分配时由于内存不够，调用了 <code>my_new_handler</code> 获得了内存（可以看到第3次分配的内存的地址和Preserve的内存地址是一样的），而当执行第4次内存分配时，<code>gPool</code> 已被分配，于是 <code>my_new_handler</code> 中抛出了 <code>bad_alloc</code> 异常，导致程序退出。 另外，在程序实际运行过程当中，会发现任务管理器中内存占用不会往上飙，这可能是因为操作系统的动态内存管理策略在作怪，不会说你一申请就立马全部给你，只是建立了一个映射表，只有当你真正用的时候才会给你。</p>
+
+<h4>2.3 使用 placement new</h4>
+
+<p>在 C++ 内置 <code>new/delete</code> 中最后的一种是 placement 形式的 <code>new/delete</code> ，即分配的内存地址有用户给定。下面是一个最简单的实例：</p>
+
+<p>```</p>
+
+<h1>include <cstdio></h1>
+
+<h1>include <new></h1>
+
+<p>using namespace std;</p>
+
+<p>int main()
+{</p>
+
+<pre><code>char buffer[100];
+char *p = new(buffer) char[20]; // call placement new
+printf("Address of buffer: %x, and p: %x.\n",buffer,p);
+return 0;
+</code></pre>
+
+<p>}
+// output: Address of buffer: 28feb8, and p: 28feb8.
+```</p>
+
+<p>可以看到 <code>buffer</code> 和 <code>p</code> 的地址是一样的。在大型应用程序中，我们可以充分利用 <code>placement new</code> 的特性，实现自己管理（分配、释放等）本应用的内存空间，基本思路就是： 首先申请一大片内存，然后对每个小的动态内存分配都使用 <code>placement new</code> 的方式进行申请。</p>
+
+<h4>2.4 重载 placement new</h4>
+
+<p>在 <code>new</code> 操作符中，除了可以使用自定义申请的内存的大小及位置，我们还可以通过重载系统的 <code>new/delete</code> 操作符来加入其它一些附加参数，但仍称之为 <code>placement new</code> 。例如：</p>
+
+<p>```</p>
+
+<h1>include<cstdio></h1>
+
+<h1>include<new></h1>
+
+<p>using namespace std;</p>
+
+<h1>define DEBUG</h1>
+
+<h1>ifdef DEBUG</h1>
+
+<p>// 自定义 new 操作符
+void *operator new<a href="unsigned%20int%20n,%20const%20char*%20file,%20int%20line"></a>{</p>
+
+<pre><code>printf("Alloc size: %d at file %s, in line %d\n",n,file,line);
+return ::operator new(n);
+</code></pre>
+
+<p>}
+// 自定义 delete 操作符
+void operator delete<a href="void%20*p,const%20char%20*file,%20int%20line"></a>{</p>
+
+<pre><code>printf("delete at file %s, in line %d\n",file,line);
+::operator delete(p);
+return;
+</code></pre>
+
+<p>}
+// 宏定义，必须放在重载函数之后</p>
+
+<h1>define new new(<strong>FILE</strong>, <strong>LINE</strong>)</h1>
+
+<p>//#define delete delete(<strong>FILE</strong>, <strong>LINE</strong>)</p>
+
+<h1>endif</h1>
+
+<p>int main(){</p>
+
+<pre><code>char *p = new char[10];
+delete p;  // delete 的重载还有问题 "error: type 'int' argument given to 'delete', expected pointer"
+return 0;
+</code></pre>
+
+<p>}
+// output: Alloc size: 10 at file D:\Programs\test\main.cpp, in line 22
+```</p>
+
+<p>这在 <code>DEBUG</code> 模式下非常好使。</p>
 ]]></content>
   </entry>
   
