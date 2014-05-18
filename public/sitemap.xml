@@ -462,7 +462,13 @@
         <loc>
             http://ibillxia.github.io/blog/2014/05/11/cpp-program-optimization-new-delete-operator/
         </loc>
-        <lastmod>2014-05-12T23:50:45+08:00</lastmod>
+        <lastmod>2014-05-13T00:38:01+08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://ibillxia.github.io/blog/2014/05/17/insight-into-define-and-inline-function-in-c/
+        </loc>
+        <lastmod>2014-05-18T08:41:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://ibillxia.github.io/404.html</loc>
@@ -474,15 +480,15 @@
     </url>
     <url>
         <loc>http://ibillxia.github.io/blog/archives/</loc>
-        <lastmod>2014-05-12T23:50:45+08:00</lastmod>
+        <lastmod>2014-05-18T08:41:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://ibillxia.github.io/blog/tags/</loc>
-        <lastmod>2014-05-12T23:50:45+08:00</lastmod>
+        <lastmod>2014-05-18T08:41:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://ibillxia.github.io/</loc>
-        <lastmod>2014-05-12T23:50:45+08:00</lastmod>
+        <lastmod>2014-05-18T08:41:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://ibillxia.github.io/robots.txt</loc>

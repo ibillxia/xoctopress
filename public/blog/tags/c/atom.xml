@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: C | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/c/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-05-12T23:52:14+08:00</updated>
+  <updated>2014-05-18T08:42:29+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -12,6 +12,155 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[深入理解C语言的define和内联函数]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/05/17/insight-into-define-and-inline-function-in-c/"/>
+    <updated>2014-05-17T22:43:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/05/17/insight-into-define-and-inline-function-in-c</id>
+    <content type="html"><![CDATA[<h2>概述</h2>
+
+<p>在 <code>Robert C.Searcord</code> 的 <em>The</em> <em>Cert</em> <em>C</em> <em>Secure</em> <em>Coding</em> <em>Standard</em> 一书中，关于宏定义的规范中第一条就是</p>
+
+<blockquote><p>用内联函数或静态函数替代与函数相似的宏</p></blockquote>
+
+<p>这个规范非常实用。内联函数是C99标准中新增的，当宏定义和内联函数可以互换时，应该优先考虑选择内联函数，这也是为什么在C++标准库函数中 <code>max</code>, <code>min</code>, <code>swap</code> 等都是通过内联函数来实现的原因。 宏定义是完全原封不动的很SB的替换，而内联函数则并非简单的文本替换，而是按函数调用的方式展开。关于内联函数相对于宏替换的优点，在wiki有如下几点的总结：</p>
+
+<ul>
+<li>宏调用并不执行类型检查，甚至连正常参数也不检查，但是函数调用却要检查。</li>
+<li>C语言的宏使用的是文本替换，可能导致无法预料的后果，因为需要重新计算参数和操作顺序。</li>
+<li>在宏中的编译错误很难发现，因为它们引用的是扩展的代码，而不是程序员键入的。</li>
+<li>许多结构体使用宏或者使用不同的语法来表达很难理解。内联函数使用与普通函数相同的语言，可以随意的内联和不内联。</li>
+<li>内联代码的调试信息通常比扩展的宏代码更有用。</li>
+</ul>
+
+
+<p>其中前面两条很好理解，相信大家应该不陌生，这里主要通过具体讨论一个该书中提到的一个程序实例来感受一下后面几点。</p>
+
+<!-- more -->
+
+
+<h2>宏定义引起的运行时错误</h2>
+
+<p>下面我们看一个稍微复杂的例子，这个例子是在运行时才出现另我们感到意外的错误（这里的运行时错误并不是指 <code>Runtime Error</code>，么么哒）。</p>
+
+<p>```</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<p>int count=0;</p>
+
+<p>void g(void){</p>
+
+<pre><code>printf("Called g, count=%d.\n",count);
+</code></pre>
+
+<p>}</p>
+
+<h1>define EXEC_BUMP(func) (func(),++count)</h1>
+
+<p>typedef void(*exec_func)(void);  // 定义函数指针类型
+inline void exec_bump(exec_func f){</p>
+
+<pre><code>f();
+++count;
+</code></pre>
+
+<p>}</p>
+
+<p>int main(void)
+{</p>
+
+<pre><code>int count=0;
+while(count++&lt;10){
+    //EXEC_BUMP(g);  // (1) 宏定义实现
+    exec_bump(g);    // (2) 内联实现
+}
+return 0;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>使用宏定义的实现得到输出如下：</p>
+
+<p><code>
+Called g, count=0.
+Called g, count=0.
+Called g, count=0.
+Called g, count=0.
+Called g, count=0.
+</code></p>
+
+<p>这并不是我们想要的结果。而使用内联函数实现得到的输出如下：</p>
+
+<p><code>
+Called g, count=0.
+Called g, count=1.
+Called g, count=2.
+Called g, count=3.
+Called g, count=4.
+Called g, count=5.
+Called g, count=6.
+Called g, count=7.
+Called g, count=8.
+Called g, count=9.
+</code></p>
+
+<p>这才是我们想要的结果。根据这两个输出结果，我们可以分析宏定义和内联的区别。通过宏定义时，直接使用 <code>(g(),++count);</code> 替换 <code>EXEC_BUMP(g);</code> 即可，这样每次调用 <code>g()</code> 函数时输出的 <code>count</code> 是全局的变量，所以都是0；而调用完 <code>g()</code> 函数之后，对局部变量 <code>count</code> 进行了自加操作，所以循环了5次。然而使用内联函数实现时，是按照函数调用的方式展开的，首先将全局变量和内联函数的传入参数压栈，然后是执行函数体，最后参数出栈；因此，内联函数中调用 <code>g()</code> 函数时输出的 <code>count</code> 也是全局变量，而且在内联函数中的 <code>++count</code> 也是对全局变量的操作，因此每次调用时输出的计数变量是递增的。  由此，我们可以更清楚的理解内联函数的替换原理了，它是由编译器显式地将函数调用中的压栈、函数体、出栈等步骤生成到可执行文件中，而不是像普通函数那样，函数体与调用该函数的代码部分是分离的，在调用内联函数时不需要跳转，因而执行效率会比普通的函数要高。（然而，如果函数本身代码较多，如果使用内联，就会在可执行文件中多个地方有该内联函数的函数体，这样可执行文件的大小就会比不使用内联的大。因此，一般不会将函数体复杂的函数定义为内联函数，除非特殊情况下，为了运行时间性能的考虑）</p>
+
+<h2>宏定义的典型应用场景</h2>
+
+<p>上面主要是对宏定义的贬低和歧视，其实宏定义也并非毫无用武之地，下面几种情况下宏定义还是不可替代的：</p>
+
+<p>（1）用于实现局部函数<br/>
+此时无法用内联函数替代宏定义。因为宏定义代码块中的自动变量可以和引用宏的前后代码块互为使用，即宏引用前的代码快中的自动变量可以在宏中直接使用，而宏中定义的自动变量可以在宏引用的代码块之后使用。例如，比较常见是：</p>
+
+<p>```</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<h1>define FOR(i,n) for(int i=0;i&lt;n;i++)  // 宏定义部分</h1>
+
+<p>int main(){</p>
+
+<pre><code>int a[]={1,2,3,4,5};
+FOR(j,5) // 宏引用，这里j是在宏中才定义的自动变量
+    printf("%d ",a[j]);  // 但是可以在宏引用之后的代码中使用
+return 0;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>其中对临时变量 <code>j</code> 的声明是在宏中定义的，可以在宏调用完后使用这个变量。同样的，也可以在宏定义前声明临时变量，而直接在宏中使用（不需要作为参数传递给宏）。</p>
+
+<p>（2）宏可以支持某种形式的惰式计算
+例如：</p>
+
+<p>```</p>
+
+<h1>define SELECT(s,v1,v2) ((s)?(v1):(v2))</h1>
+
+<p>```</p>
+
+<p>这个是无法用内联实现的。</p>
+
+<p>(3)宏定义可以产生编译时常量
+例如：</p>
+
+<p>```</p>
+
+<h1>define ADD(a,b) ((a)+(b))</h1>
+
+<p>```</p>
+
+<p>调用 <code>ADD(3,4)</code> 会产生一个常量表达式 <code>3+4</code> ，而内联无此效果。</p>
+
+<p>（4）实现类型通用的函数<br/>
+如果不借助C++模板这样的机制，C语言内联是无法实现这样的功能的，而只能针对不同的数据类型定义不同名的函数。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PCM WAVE格式详解及用C语言实现wave文件的读取]]></title>
@@ -1209,250 +1358,6 @@ va_end(arg_ptr)：清空参数列表，并置参数指针arg_ptr无效。说明�
 但必须在va_start() ... va_end()之内。</p>
 
 
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[C语言输入输出缓冲区]]></title>
-    <link href="http://ibillxia.github.io/blog/2009/06/05/io-buffer-in-c-language/"/>
-    <updated>2009-06-05T23:02:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2009/06/05/io-buffer-in-c-language</id>
-    <content type="html"><![CDATA[<p>原文链接：<a href="http://blog.csdn.net/cxyol/archive/2006/03/18/628324.aspx">http://blog.csdn.net/cxyol/archive/2006/03/18/628324.aspx</a></p>
-
-<h2>1.输入输出缓冲区的概念（C++用的多一些）</h2>
-
-
-<p>我想以一个例子说明，比如我想把一篇文章以字符序列的方式输出到计算机显示器屏幕上，
-那么我的程序内存作为数据源而显示器驱动程序作为数据目标，如果数据源直接对数据目标发送数据的话。
-数据目标获得第一个字符，便将它显示。然后从端口读取下一个字符，可是这时就不能保证数据源向端口
-发送的恰好是第二个字符（也许是第三个，而第二个已经在数据目标显示时发送过了）。
-这样的话就不能保证输出的数据能完整的被数据目标所接受并处理。</p>
-
-
-<p>为了解决这个问题，我们需要在数据源与数据目标中间放置一个保存完整数据内容的区域，
-那就是 “缓冲区”。这样的话， 数据源可以不考虑数据目标正在处理哪部分数据，只要把数据输出到缓冲区就可以了，
-数据目标也可以不考虑数据源的发送频率，只是从缓冲区中依次取出下一个数据。
-从而保证了数据发送的完整性，同时也提高了程序的效率。<p>
-<p>当然getch(),getche()没有用到缓冲区。</p>
-
-<!-- more -->
-<h2>2.几个函数的区别</h2>
-<p>首先不要忘了，<strong>要用getch()必须引入头文件conio.h，</strong>以前学C语言的时候，
-我们总喜欢用在程序的末尾加上它，利用它来实现程序运行完了暂停不退出的效果。如果不加这句话，
-在TC2.0的环境中我们用Ctrl+F9编译并运行后，程序一运行完了就退回到TC环境中，我们根本来不及看到结果，
-这时要看结果，我们就要按Alt+F5回到DOS环境中去看结果，这很麻烦。而如果在程序的结尾加上一行getch();语句，
-我们就可以省掉会DOS看结果这个步骤，因为程序运行完了并不退出，而是在程序最后把屏幕停住了，按任意键才退回到TC环境中去。</p>
-
-<p>那我们来看看getch()到底起的什么作用，getch()实际是一个输入命令，作用是从键盘接收一个字符，
-而且并不把这个字符显示出来，就是说，你按了一个键后它并不在屏幕上显示你按的什么，而继续运行后面的代码，
-所以我们在C++中可以用它来实现“按任意键继续”的效果，即程序中遇到getch();这行语句，它就会把程序暂停下来，
-等你按任意键，它接收了这个字符键后再继续执行后面的代码。</p>
-
-<p>你也许会问，为什么我们在C++中就没有在程序的末尾加上getch()，解释是，软件总是不断更新的，
-不好的地方当然要进行改正，getch()加在程序末尾，它又不赋值给任何变量，所以它在这个地方完全是垃圾代码，
-与程序无关。C++中考虑到这一点，于是在每次程序运行完了并不退出，而是自动把屏幕停下来，并显示“press any key...”
-叫你按任意键退出，这就好比C++在它的环境中运行程序，在程序的末尾自动加上了一行getch();语句，并且在这行语句前还
-添加了一行输出语句cout<<"press any key...";来提示你程序结束了，按任意键继续。</p>
-
-<p>实际上我们编译好的程序在程序结束了本身是不会停下来的，我们可以在编译产生的Debug目录
-中找到这个编译好的应用程序（扩展名exe），在文件夹中双击运行它，你会发现屏幕闪了一下MS-DOS窗口
-就关闭了，因为程序运行完就自动退出了，回到了windows环境，当然，如果我们在DOS环境中运行这个程序，
-我们就可以直接在看到DOS屏幕上看到程序运行结果，因为程序运行完后并不清屏。但是，visual stdio.net2003
-有返回到了tc那样的情况，你必需要有个getch()才行。</p>
-
-<p>getche()和getch()很相似，它也需要引入头文件conio.h，那它们之间的区别又在哪里呢？
-不同之处就在于getch()无返回显示，getche()有返回显示。就这么一点看看下面的例子：</p>
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#include&lt;stdio.h>
-</span><span class='line'>#include&lt;conio.h>
-</span><span class='line'>void main()
-</span><span class='line'>{
-</span><span class='line'>    char ch;
-</span><span class='line'>    for(int i=0;i&lt;5;i++)
-</span><span class='line'>    {
-</span><span class='line'>        ch=getch();
-</span><span class='line'>        printf("%c",ch);
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>首先这是个连续5次的循环来实现5次停顿，等待我们输入，我们编译并运行这个程序，
-假设我们分别输入abcde，屏幕上显示的结果是abcde，这个abcde并不是在ch=getch();中输出的，
-我们把printf("%c",ch);这行语句去掉，就会发现我们按5次任意键程序就结束了，但屏幕上什么都没有显示。</p>
-
-<p>然后我们在把代码中的getch()换成getche()看看有什么不同，我们还是分别输入abcde，
-这时屏幕上显示的结果是aabbccddee，我们把printf("%c",ch);这行语句再去掉看看，显示的结果就是abcde了，
-说明程序在执行ch=getche();这条语句的时候就把我们输入的键返回显示在屏幕上，有无回显就是它们的唯一区别。</p>
-
-<p>有人会说，既然是C的函数库中的，那么就应该淘汰了，我们还研究它，还用它干嘛？
-但是我发现还是有用着它的地方，否则我也不会在这里说这么多来耽误大家的时间。我就举个例子吧，程序如下：</p>
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#include&lt;stdio.h>
-</span><span class='line'>#include&lt;conio.h>
-</span><span class='line'>void main()
-</span><span class='line'>{
-</span><span class='line'>    char ch='*';
-</span><span class='line'>    while(ch=='*')
-</span><span class='line'>    {
-</span><span class='line'>        printf("/n按 * 继续循环，按其他键退出！");
-</span><span class='line'>        ch=getch();
-</span><span class='line'>    }
-</span><span class='line'>    printf("/n退出程序！");
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>我们可以在这个循环体中添加我们想要的功能，程序中按*继续循环，其他任意键退出，
-而且利用getch()无回显的特性，我们不管按什么，都不会在屏幕上留下痕迹，使我们的界面达到美观效果，
-如果还有更好的办法实现这个功能。例子：</p>
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#include&lt;stdio.h>
-</span><span class='line'>#include&lt;conio.h>
-</span><span class='line'>void main()
-</span><span class='line'>{ 
-</span><span class='line'>    char c, ch;
-</span><span class='line'>    c=getch();     /*从键盘上读入一个字符不回显送给字符变量c*/
-</span><span class='line'>    putchar(c);    /*输出该字符*/
-</span><span class='line'>    ch=getche();   /*从键盘上带回显的读入一个字符送给字符变量ch*/
-</span><span class='line'>    putchar(ch);
-</span><span class='line'>    printf("/n/n");
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p><strong>值得注意的是前面两个函数都是从键盘读入数据！</strong></br>
-还有getchar是很值得研究的：getchar()是stdio.h中的库函数，它的作用是从stdin流中读入一个字符，
-也就是说，如果stdin有数据的话不用输入它就可以直接读取了。而getch()和getche()是conio.h中的库函数，
-它的作用是从键盘接收字符。getchar带有显示。</p>
-
-<p>与前面两个函数的区别在于： getchar()函数等待输入直到按回车才结束（前提是缓冲区没有数据），
-回车前的所有输入字符都会逐个显示在屏幕上。但只有第一个字符作为函数的返回值。</p>
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#include&lt;stdio.h>
-</span><span class='line'>#include&lt;conio.h>
-</span><span class='line'>void main()
-</span><span class='line'>{
-</span><span class='line'>    char c;
-</span><span class='line'>    c=getchar();   /*从键盘读入字符直到回车结束*/
-</span><span class='line'>    //getchar()在这里它只返回你输入字符串的第一个字符，并把返回值赋值给c
-</span><span class='line'>    putchar(c);    /*显示输入的第一个字符*/
-</span><span class='line'>    printf("/n/n");
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>例四：呵呵，这个程序你运行一下，相信你又会有疑问了。这个就是从缓冲区中读取了例子。
-第一次getchar()时，确实需要人工的输入，但是如果你输了多个字符，以后的getchar()再执行时就会直接从缓冲区中读取了。</p>
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#include&lt;stdio.h>
-</span><span class='line'>#include&lt;conio.h>
-</span><span class='line'>void main()
-</span><span class='line'>{
-</span><span class='line'>    char c;
-</span><span class='line'>    while ((c=getchar())!='/n')    /*每个getchar()依次读入一个字符*/
-</span><span class='line'>        printf("%c",c);        /*按照原样输出*/
-</span><span class='line'>    printf("/n/n");
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>程序运行时，首先停下来，等你输入一串字符串，输入完毕后，
-它把你输入的整个字符串都输出来了，咦，你不是说getchar()只返回第一个字符么，这里怎么？</p>
-
-<p>因为我们输入的字符串并不是取了第一个字符就把剩下的字符串丢掉了，它还在我们的内存中，
-就好比，开闸放水，我们把水放到闸里去以后，开一次闸就放掉一点，开一次就放掉一点，直到放光了为止，
-这里开闸动作就相当于调用一次getchar()。我们输入的字符串也是这么一回事，首先我们输入的字符串是放在
-内存的缓冲区中的，我们调用一次getchar()就把缓冲区中里出口最近的一个字符输出，也就是最前面的一个字符输出，
-输出后，就把它释放掉了，但后面还有字符串，所以我们就用循环把最前面的一个字符一个个的在内存中释放掉，
-直到不满足循环条件退出为止。</p>
-
-<p>例子中循环条件里的'/n'实际上就是你输入字符串后的回车符，所以意思就是说，直到遇到回车符才结束循环，
-而getchar()函数就是等待输入（或缓冲区中的数据）直到按回车才结束，所以实现了整个字符串的输出。当然，
-我们也可以把循环条件改一下，比如while ((c=getchar())!='a')，什么意思呢，意思就是遇到字符'a'就停止循环，
-当然意思是如果你输入“12345a213123/n”那么只会输出到a，结果是12345a。</p>
-
-<p>再次注意：用getchar()它是从“流”中间去读取，所以第一个getchar()接受的是刚刚中断的流队列中即将出列
-的第一个字符（不限于回车符，上面举过例子了），如果流队列不为空，执行getchar()就继续放水，直到把回车符也放空为止，
-空了之后再在执行getchar()就停下等待你的输入了；我们用getch()为什么每次都是等待用户的输入呢？因为getch()是从键盘接收，
-即时的接收，并不是从stdin流中去读取数据。</p>
-
-<p>补充：按键盘上的回车产生了2个字符:回车符('/r')和换行符('/n')。回车符'/r'(CR:carriage return:倒车）
-使光标回到这行的首部，换行符('/n')(new line)然后再换行。</p>
-
-<p>所以当输入字符'w',并按下回车键以后。首先得到回车符。那个getchar函数结束了。 
-但是还存在一个换行符。所以如果用getchar()来做判断的时候。最好再写一次getchar()清除缓冲区的'/n'.</p>
-
-
-<h2>3.如何清空输入缓冲区的内容？</h2>
-<p>如果我想让getchar()每次都能够等待用户输入的话就要清空缓冲区，下面就介绍方法（不同平台）</p>
-
-<p>C标准规定 fflush()函数是用来刷新输出（stdout）缓存的。对于输入（stdin），它是没有定义的。
-但是有些编译器也定义了 fflush( stdin )的实现，比如微软的VC。其它编译器是否也定义了 fflush( stdin )
-的实现应当查找它的手册。GCC编译器没有定义它的实现，所以不能使用 fflush( stdin )来刷新输入缓存。</p>
-
-<p>对于没有定义 fflush( stdin )的编译器，可以使用 fgets()函数来代替它（比用 getchar()、scanf()等函数通用性好）。
-可以这样忽略输入流中留下的回车等其它输入，从而使下一次的输入总保持一个“干净”的状态。（这个是任何平台下都可以的）</p>
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// ...
-</span><span class='line'>char sbuf[1024];
-</span><span class='line'>// ...
-</span><span class='line'>fgets( sbuf, 1024, stdin );
-</span><span class='line'>// ...
-</span><span class='line'>在windows 的vc下面就可以这样了：
-</span><span class='line'>for(int i=0;i&lt;10;++i)
-</span><span class='line'>{
-</span><span class='line'>   char ch=getchar();
-</span><span class='line'>   fflush(stdin); //每次都会有等待状态了
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-
-<h2>4.总结</h2>
-<p>主要看getch(),getche()的是否显示，getchar()是读取流，而且和前面两个函数不是一个库。掌握清空缓冲区的方法。</p>
 
 ]]></content>
   </entry>

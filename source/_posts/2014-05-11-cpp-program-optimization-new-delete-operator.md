@@ -153,6 +153,7 @@ void *operator new[](unsigned int n, const char* file, int line){
     return ::operator new(n);
 }
 // 自定义 delete 操作符
+// void operator delete(void *p,const char *file, int line){
 void operator delete[](void *p,const char *file, int line){
     printf("delete at file %s, in line %d\n",file,line);
     ::operator delete(p);
@@ -160,14 +161,47 @@ void operator delete[](void *p,const char *file, int line){
 }
 // 宏定义，必须放在重载函数之后
 #define new new(__FILE__, __LINE__)
-//#define delete delete(__FILE__, __LINE__)
+#define delete delete(__FILE__, __LINE__)
 #endif
 int main(){
     char *p = new char[10];
-    delete p;  // delete 的重载还有问题 "error: type 'int' argument given to 'delete', expected pointer"
+    //delete p;  // delete 的重载还有问题 "error: type 'int' argument given to 'delete', expected pointer"
+    delete[] p;  // 直接报语法错误，"error: expected primary-expression before ']' token"
     return 0;
 }
 // output: Alloc size: 10 at file D:\Programs\test\main.cpp, in line 22
 ```
 
 这在 `DEBUG` 模式下非常好使。
+
+更新：关于 `placement new` 的 demo 改为如下代码后就没问题了：
+
+```
+#include<cstdio>
+#include<new>
+using namespace std;
+#define DEBUG
+#ifdef DEBUG
+// 自定义 new 操作符
+void *operator new[](unsigned int n, const char* file, int line){
+    printf("Alloc size: %d at file %s, in line %d\n",n,file,line);
+    return ::operator new(n);
+}
+// 自定义 delete 操作符
+void operator delete(void *p,char *file, int line){
+    printf("Delete at file %s, in line %d\n",file,line);
+    ::operator delete(p);
+    return;
+}
+// 宏定义，必须放在重载函数之后
+#define new new(__FILE__, __LINE__)
+#define delete(ptr) delete(ptr,__FILE__, __LINE__)
+#endif
+int main(){
+    char *p = new char[10];
+    operator delete(p);
+    return 0;
+}
+```
+
+但是还是不知道之前的代码为什么会出现这个错误，已在 [StackOverFlow上提问](http://stackoverflow.com/questions/23614215/destructor-error-in-c-type-int-argument-given-to-delete-expected-pointer)，希望能得到满意的答案。

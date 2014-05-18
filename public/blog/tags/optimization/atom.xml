@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Optimization | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/optimization/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-05-12T23:52:14+08:00</updated>
+  <updated>2014-05-18T08:42:29+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -206,6 +206,7 @@ return ::operator new(n);
 
 <p>}
 // 自定义 delete 操作符
+// void operator delete(void <em>p,const char </em>file, int line){
 void operator delete<a href="void%20*p,const%20char%20*file,%20int%20line"></a>{</p>
 
 <pre><code>printf("delete at file %s, in line %d\n",file,line);
@@ -218,14 +219,15 @@ return;
 
 <h1>define new new(<strong>FILE</strong>, <strong>LINE</strong>)</h1>
 
-<p>//#define delete delete(<strong>FILE</strong>, <strong>LINE</strong>)</p>
+<h1>define delete delete(<strong>FILE</strong>, <strong>LINE</strong>)</h1>
 
 <h1>endif</h1>
 
 <p>int main(){</p>
 
 <pre><code>char *p = new char[10];
-delete p;  // delete 的重载还有问题 "error: type 'int' argument given to 'delete', expected pointer"
+//delete p;  // delete 的重载还有问题 "error: type 'int' argument given to 'delete', expected pointer"
+delete[] p;  // 直接报语法错误，"error: expected primary-expression before ']' token"
 return 0;
 </code></pre>
 
@@ -234,6 +236,57 @@ return 0;
 ```</p>
 
 <p>这在 <code>DEBUG</code> 模式下非常好使。</p>
+
+<p>更新：关于 <code>placement new</code> 的 demo 改为如下代码后就没问题了：</p>
+
+<p>```</p>
+
+<h1>include<cstdio></h1>
+
+<h1>include<new></h1>
+
+<p>using namespace std;</p>
+
+<h1>define DEBUG</h1>
+
+<h1>ifdef DEBUG</h1>
+
+<p>// 自定义 new 操作符
+void *operator new<a href="unsigned%20int%20n,%20const%20char*%20file,%20int%20line"></a>{</p>
+
+<pre><code>printf("Alloc size: %d at file %s, in line %d\n",n,file,line);
+return ::operator new(n);
+</code></pre>
+
+<p>}
+// 自定义 delete 操作符
+void operator delete(void <em>p,char </em>file, int line){</p>
+
+<pre><code>printf("Delete at file %s, in line %d\n",file,line);
+::operator delete(p);
+return;
+</code></pre>
+
+<p>}
+// 宏定义，必须放在重载函数之后</p>
+
+<h1>define new new(<strong>FILE</strong>, <strong>LINE</strong>)</h1>
+
+<h1>define delete(ptr) delete(ptr,<strong>FILE</strong>, <strong>LINE</strong>)</h1>
+
+<h1>endif</h1>
+
+<p>int main(){</p>
+
+<pre><code>char *p = new char[10];
+operator delete(p);
+return 0;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>但是还是不知道之前的代码为什么会出现这个错误，已在 <a href="http://stackoverflow.com/questions/23614215/destructor-error-in-c-type-int-argument-given-to-delete-expected-pointer">StackOverFlow上提问</a>，希望能得到满意的答案。</p>
 ]]></content>
   </entry>
   
