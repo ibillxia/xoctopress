@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Program | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/categories/program/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-05-18T08:42:29+08:00</updated>
+  <updated>2014-05-24T23:52:01+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[C语言函数指针与C++函数调用操作符]]></title>
+    <link href="http://ibillxia.github.io/blog/2014/05/24/function-pointer-in-c-and-function-call-operator-in-cpp/"/>
+    <updated>2014-05-24T21:27:00+08:00</updated>
+    <id>http://ibillxia.github.io/blog/2014/05/24/function-pointer-in-c-and-function-call-operator-in-cpp</id>
+    <content type="html"><![CDATA[<h2>概述</h2>
+
+<p>在编程过程中，一些特殊的时候，我们需要向一个函数传递另一个函数的地址（比如在快速排序中，我们需要传入两个元素大小比较的函数的地址），此时在C语言中一般是通过传递一个函数指针来实现。最近在看《STL源码剖析》一书，上面提到，在C++中其实可以通过另一种方式实现，那就是函数调用操作符<code>()</code> 。本文首先介绍一下C语言中函数指针的用法，然后再介绍C++中函数调用操作符的用法。</p>
+
+<h2>C语言中的函数指针</h2>
+
+<p>我们先直接看一个例子吧。这个例子比较全面而且简单，其中的函数指针是带参数且有返回值的函数指针，而且还有把函数指针作为参数来传递的代码。这个例子来自 <a href="http://blog.jobbole.com/44639/">jobbole伯乐在线</a>，代码如下：</p>
+
+<!-- more -->
+
+
+<p>```</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<p>// 函数原型
+int add(int x, int y);
+int subtract(int x, int y);
+int domath(int (*mathop)(int, int), int x, int y);</p>
+
+<p>// 加法 x+ y
+int add(int x, init y) {</p>
+
+<pre><code>return x + y;
+</code></pre>
+
+<p>}</p>
+
+<p>// 减法 x - y
+int subtract(int x, int y) {</p>
+
+<pre><code>return x - y;
+</code></pre>
+
+<p>}</p>
+
+<p>// 根据输入执行函数指针
+int domath(int (*mathop)(int, int), int x, int y) {</p>
+
+<pre><code>return (*mathop)(x, y);
+</code></pre>
+
+<p>}</p>
+
+<p>int main() {</p>
+
+<pre><code>// 用加法调用domath
+int a = domath(add, 10, 2);
+printf("Add gives: %d\n", a);
+
+// 用减法调用domath
+int b = domath(subtract, 10, 2);
+printf("Subtract gives: %d\n", b);
+</code></pre>
+
+<p>}
+```</p>
+
+<p>在函数 <code>domath</code> 中，我们可以根据传入的 <code>mathop</code> 函数指针来做不同的计算操作。另外，在该文中，最后提到函数名会被隐式的转换为函数指针，就像作为参数传递的时候，数组名被隐式的转换为指针一样。在函数指针被要求当作输入的任何地方，都能够使用函数名，解引用符 <code>*</code> 和取地址符 <code>&amp;</code> 用在函数名之前基本上都是多余的。这个之前还真不知道，新技能get，哈哈</p>
+
+<h4>使用typedef</h4>
+
+<p>在C语言中，对于函数指针，我们可以使用 <code>typedef</code> 将其定义为一种数据类型，这样我们就可以定义这种类型的变量了，就像使用普通的变量类型一样。下面是一个具体的定义（来自<a href="http://stackoverflow.com/questions/4295432/typedef-function-pointer">stackoverflow</a>）：</p>
+
+<blockquote><p>typedef   void      (*FunctionFunc)  ( );
+//         ^                ^         ^
+//     return type      type name  arguments</p></blockquote>
+
+<p>这里 <code>typedef</code> 的使用方法与一般的 <code>typedef A B</code> 的使用方式不不大一样的，如果没有接触过这种用法，可能开起来很别扭（在很多开源库中可能经常会碰到）。下面是其具体使用的实例（不完整代码）：</p>
+
+<p><code>
+FunctionFunc x;
+void doSomething() { printf("Hello there\n"); }
+x = &amp;doSomething;
+x(); //prints "Hello there"
+</code></p>
+
+<p>根据上面提到的隐式转换，这里的取址符其实是没有必要的。关于C语言的函数指针就介绍到这儿了，接下来介绍一下C++的函数调用操作符。</p>
+
+<h2>C++中的函数调用操作符</h2>
+
+<p>在C++中，函数调用操作符是指左右小括弧 <code>()</code> ，该操作符是可以重载的。许多 STL 算法都提供了两个版本，一个用于一般情况（例如排序时以递增方式排列），一个用于特殊情况（例如排序时按照使用者自定义的大小关系进行排序）。 上面讲了，在C语言中使用者是通过传递函数指针的方式来实现的。然而，函数指针有一些缺点，最重要的是它无法持有自己的状态（这里指局部状态，local states，具体可以通过后面的例子来理解），也无法达到组件技术中的可适配性 —— 也就是无法再将某些修饰条件加诸于其上而改变其状态。</p>
+
+<p>在C++中，对应于C中函数指针的东西是仿函数（functor），使用起来就像函数一样。其实现方法是对某个 class 进行 <code>operator()</code> 重载，他就成为一个仿函数。而要成为一个可适配（adaptable）的仿函数，还需要其他的一些努力（在《STL源码剖析》一书的第8章，关于适配器（adaptor）的内容）。这里，我们只拿书中的那个例子来简单的看一下仿函数的定义和使用方法吧。代码如下：</p>
+
+<p>```</p>
+
+<h1>include <iostream></h1>
+
+<p>using namespace std;</p>
+
+<p>// 对plus进行operator() 重载，使得 plus 变成了一个仿函数
+template<class T>
+struct plus{</p>
+
+<pre><code>T operator() (const T &amp;x, const T &amp;y) const {return x+y;}
+</code></pre>
+
+<p>};</p>
+
+<p>// 对 minus 进行operator() 重载，使得 minus 变成了一个仿函数
+template<class T>
+struct minus{</p>
+
+<pre><code>T operator() (const T &amp;x, const T &amp;y) const {return x-y;}
+</code></pre>
+
+<p>};</p>
+
+<p>int main(){</p>
+
+<pre><code>// 以下产生仿函数对象
+plus&lt;int&gt; plusObj;
+minus&lt;int&gt; minusObj;
+// 以下使用仿函数，就像使用一般函数一样
+cout&lt;&lt;plusObj(3,5)&lt;&lt;endl;
+cout&lt;&lt;minusObj(3,5)&lt;&lt;endl;
+// 也可以这样使用，通过临时对象（匿名对象）
+cout&lt;&lt;plus&lt;int&gt;()(3,5)&lt;&lt;endl;
+cout&lt;&lt;minus&lt;int&gt;()(3,5)&lt;&lt;endl;
+return 0;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>这里的 <code>plus&lt;T&gt;</code> 和 <code>minus&lt;T&gt;</code> 已经非常接近 STL 的实现了，唯一的差别是它缺乏“可适配能力”，关于 STL 中的适配器（adaptor），我现在也还没看完该书，也还不太了解，在后续文章中应该会介绍到。读者可以自行google。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[深入理解C语言的define和内联函数]]></title>
@@ -113,7 +248,7 @@ Called g, count=9.
 
 <p>上面主要是对宏定义的贬低和歧视，其实宏定义也并非毫无用武之地，下面几种情况下宏定义还是不可替代的：</p>
 
-<p>（1）用于实现局部函数<br/>
+<p>（1）用于实现局部函数 <br/>
 此时无法用内联函数替代宏定义。因为宏定义代码块中的自动变量可以和引用宏的前后代码块互为使用，即宏引用前的代码快中的自动变量可以在宏中直接使用，而宏中定义的自动变量可以在宏引用的代码块之后使用。例如，比较常见是：</p>
 
 <p>```</p>
@@ -135,7 +270,7 @@ return 0;
 
 <p>其中对临时变量 <code>j</code> 的声明是在宏中定义的，可以在宏调用完后使用这个变量。同样的，也可以在宏定义前声明临时变量，而直接在宏中使用（不需要作为参数传递给宏）。</p>
 
-<p>（2）宏可以支持某种形式的惰式计算
+<p>（2）宏可以支持某种形式的惰式计算<br/>
 例如：</p>
 
 <p>```</p>
@@ -146,7 +281,7 @@ return 0;
 
 <p>这个是无法用内联实现的。</p>
 
-<p>(3)宏定义可以产生编译时常量
+<p>(3)宏定义可以产生编译时常量<br/>
 例如：</p>
 
 <p>```</p>
@@ -693,237 +828,6 @@ tag_dir: blog/tags
 <p>至此，已经配置完成了 ^_^ 可以运行 rake generate 和 rake preview 来看看最终效果了。</p>
 
 <p>PS：本博客的主题及插件相关文件和代码可以看我的 GitHub Repo：<a href="https://github.com/ibillxia/xoctopress/tree/master">xoctopress</a>. 如有问题，可以参考这些代码。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[全排列及某排列的后继的求解及其STL实现的分析]]></title>
-    <link href="http://ibillxia.github.io/blog/2014/04/24/next-permutation-and-analysis-of-its-stl-implementation/"/>
-    <updated>2014-04-24T23:24:00+08:00</updated>
-    <id>http://ibillxia.github.io/blog/2014/04/24/next-permutation-and-analysis-of-its-stl-implementation</id>
-    <content type="html"><![CDATA[<p>在Leetcode上有好几道全排列相关的题，一直以来只是会写基于递归的全排列生成算法，遇到这几道题后，搜了下一些非递归的实现方法，发现其实全排列的生成还是很有规律的有木有！这里就总结一下递归和非递归的全排列生成方法，并分析一下 STL 的实现。</p>
-
-<p>递归和非递归实现全排列生成的方法也分别有多种，递归法有基于交换的，有基于链接的，还有回溯，非递归法有排序、回溯、求模等，关于所有这些方法的具体实现参见 <a href="http://mengliao.blog.51cto.com/876134/824079">全排列的六种算法</a>. 本文只实现一种递归和一种非递归算法，并在最后对 STL 的非递归算法进行分析。</p>
-
-<p>本文的全部代码下载：<a href="http://ibillxia.github.io/upload/code/20140424.cpp">code</a>.</p>
-
-<h2>递归法求全排列</h2>
-
-<p>递归法的基本思路是这样的：</p>
-
-<blockquote><p>首先选一个元素排在第一个（有 n 中选法）；
-然后递归的对剩下的所有元素进行全排列；
-直到一个元素的全排列是其本身。</p></blockquote>
-
-<p>假设给定的元素序列为 &lt;e1, e2, ..., en>，其全排列表示为 P(e1, e2, ..., en)，则对递归的第一步展开有：</p>
-
-<blockquote><p>P(e1, e2, ..., en) = {
-&lt;e1, P(e2, e3, ..., en)>,
-&lt;e2, P(e1, e3, ..., en)>,
-... ...
-&lt;en, P(e1, e2, ..., e(n-1))> }</p></blockquote>
-
-<!-- more -->
-
-
-<p> 一个简单的实现如下：</p>
-
-<p>```
-void recursive_permute(int A[],int i,int n){</p>
-
-<pre><code>if(i==n-1){
-    for(int j=0;j&lt;n;j++)
-        cout&lt;&lt;A[j]&lt;&lt;" ";
-    cout&lt;&lt;endl;
-    return;
-}
-for(int j=i;j&lt;n;j++){
-    swap(A[i],A[j]);  // choose A[j] as the ith element
-    recursive_permute(A,i+1,n);
-    swap(A[i],A[j]);  // reset to enter next for
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>这个实现非常精简易懂，但却存在一个问题，那就是当数组 A 中存在重复元素时，得到的排列是有重复的，这是因为在第8行的循环中，可能会选取重复的 A[j] 值。 为了去掉重复排列，我们可以在选取第 i 个数 A[j] 之前（即交换 A[i] 和 A[j] 之前），判断值为 A[j] 的元素是否选取过，即要判断在 A[i] 到 A[j-1] 中是否存在与 A[j] 相等的元素，如果出现过，说明 A[i] 选 A[j] 这个排列已经生成过了，可以直接跳过当前的 A[j] 看看是否可以选取 A[j+1] 作为 A[i] 了。比如上面的 e1 = e2，那么无重复的全排列应该是：</p>
-
-<blockquote><p>P(e1, e2, ..., en) = {
-&lt;e1, P(e2, e3, ..., en)>,
-&lt;e3, P(e1, e2, e4, ..., en)>,
-... ...
-&lt;en, P(e1, e2, ..., e(n-1))> }</p></blockquote>
-
-<p>添加这个限制的递归实现代码如下：</p>
-
-<p>```
-void recursive_permute2(int A[],int i,int n){</p>
-
-<pre><code>if(i==n-1){
-    for(int j=0;j&lt;n;j++)
-        cout&lt;&lt;A[j]&lt;&lt;" ";
-    cout&lt;&lt;endl;
-    return;
-}
-for(int j=i;j&lt;n;j++){
-    int k;
-    for(k=i;k&lt;j;k++)if(A[k]==A[j])break; // A[j] already used
-    if(k&lt;j)continue;
-    swap(A[i],A[j]);  // choose A[j] as the ith element
-    recursive_permute2(A,i+1,n);
-    swap(A[i],A[j]);  // reset to enter next for
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>至此，递归法实现全排列的求解就总结到这儿了，下面来看看非递归怎么实现。</p>
-
-<h2>非递归法求全排列</h2>
-
-<p>非递归法求全排列的一种最常用算法是基于字典序的全排列生成算法，其基本思路为，先解决生成一个序列在字典序下的下一个排列这个问题，然后利用这个来一次求解每一个排列。其中求解给定序列在字典序下的下一个排列序列的基本思想如下：</p>
-
-<blockquote><ol>
-<li>对于给定序列 &lt;e1, e2, ..., en> 从右往左找到第一个非递增点，设下标为 i；</li>
-<li>从右往左查找第一个比 e[i] 大的数，设其下标为 j;</li>
-<li>交换 e[i] 和 e[j] 的值；</li>
-<li>将序列 e[i+1..n] 逆置。</li>
-</ol>
-</blockquote>
-
-<p>举个例子，如下图（修改自 <a href="http://fisherlei.blogspot.com/2012/12/leetcode-next-permutation.html">Next Permutation 解题报告</a> ）所示：</p>
-
-<center><img src="/images/2014/IMAG2014042401.png"></center>
-
-
-<p>上面的说明已经很接近伪代码了，具体实现如下：</p>
-
-<p>```
-bool next_permute(int A[],int n){</p>
-
-<pre><code>int i,j;
-// step .1
-if(n&lt;2)return false;
-for(i=n-2;i&gt;=0;i--){
-    if(A[i]&lt;A[i+1])break;
-}
-if(i&lt;0)return false; // A[0] is maximum, no next permute for it
-// step .2
-for(j=n-1;j&gt;i;j--){
-    if(A[j]&gt;A[i])break;
-}
-// step .3
-swap(A[i],A[j]);
-// step .4
-while(++i &lt; --n){
-    swap(A[i],A[n]);
-}
-return true;
-</code></pre>
-
-<p>}
-```</p>
-
-<p>这里将其返回值定义为 bool 类型，可以方便后面求解全排列时调用：</p>
-
-<p>```
-void non_recursive_permute(int A[],int n){</p>
-
-<pre><code>sort(A,A+n);
-int i;
-do{
-    for(i=0;i&lt;n;i++)cout&lt;&lt;A[i]&lt;&lt;" ";
-    cout&lt;&lt;endl;
-}while(next_permute(A,n));
-</code></pre>
-
-<p>}
-```</p>
-
-<p>上面这个函数即实现了按字典序生成全排列的功能，而且对于输入含有重复值的情况，不会生成重复的排列。对于非递归实现，很容易分析其时间复杂度，next_permute 的时间复杂度为 O(n)，而 non_recursive_permute 的时间复杂度为 O(n*n!)。</p>
-
-<h2>STL 中 next permute 的实现</h2>
-
-<p>下面来分析一下 STL 中是如何实现 next permute 的，在 stl_algo.h 中我们可以找到 next_permutation 的实现，基本思路也是按照上面的四步走来实现的，具体见如下代码及注释：</p>
-
-<p>```
-/<em>*
- *  @brief  Permute range into the next @a dictionary ordering.
- *  @ingroup sorting_algorithms
- *  @param  first  Start of range.
- *  @param  last   End of range.
- *  @return  False if wrapped to first permutation, true otherwise.
- *
- *  Treats all permutations of the range as a set of @a dictionary sorted
- *  sequences.  Permutes the current sequence into the next one of this set.
- *  Returns true if there are more sequences to generate.  If the sequence
- *  is the largest of the set, the smallest is generated and false returned.
-</em>/
-template<typename _BidirectionalIterator>
-bool
-next_permutation(_BidirectionalIterator __first,</p>
-
-<pre><code>             _BidirectionalIterator __last)
-</code></pre>
-
-<p>{</p>
-
-<pre><code>// concept requirements
-__glibcxx_function_requires(_BidirectionalIteratorConcept&lt;
-                            _BidirectionalIterator&gt;)
-__glibcxx_function_requires(_LessThanComparableConcept&lt;
-                            typename iterator_traits&lt;_BidirectionalIterator&gt;::value_type&gt;)
-__glibcxx_requires_valid_range(__first, __last);
-
-if (__first == __last)  // 容器中没有元素，没有 next permute
-    return false;
-_BidirectionalIterator __i = __first;
-++__i;
-if (__i == __last)  // 容器中只有一个元素，同没有
-    return false;
-__i = __last;
---__i;  // 将 __i 指向最后一个元素
-
-for(;;) {
-    _BidirectionalIterator __ii = __i;  
-    --__i;
-    if (*__i &lt; *__ii) {  // step .1, 这里的 __i 就相当于上面step 1中的i
-        _BidirectionalIterator __j = __last;
-        while (!(*__i &lt; *--__j)) {  // step .2, 这里的 __j 就相当上面 step 2中的j
-        }
-        std::iter_swap(__i, __j);  // step .3 交换
-        std::reverse(__ii, __last);  // step .4 逆置
-        return true;
-    }
-    if (__i == __first) {  // 直到 __i = __first 还是没有 *__i &lt; *__ii ，说明序列是递减排列的
-        std::reverse(__first, __last); // 本应该没有下一个排列，但这里将字典序中第一个排列作为最后一个排列的 next permute
-        return false; // 这里返回 false 而不是 true
-    }
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>这里是用双向迭代器对容器中的元素进行操作的，一个调用的实例如下：</p>
-
-<p>```
-vector&lt;vector<int> > permute(vector<int> &amp;num) {</p>
-
-<pre><code>vector&lt;vector&lt;int&gt; &gt; ans;
-sort(num.begin(),num.end());
-do{
-    ans.push_back(num);
-}while(next_permutation(num.begin(),num.end()));
-return ans;
-</code></pre>
-
-<p>}
-```</p>
-
-<p>可以看到，其实 STL 的 next permute 的实现跟我们的非递归算法是一致的。但这里有两个问题：一是，这里看似有二重循环（在 for 中套 while ），但实际上复杂度是 n+n =》 O(n) 的（可以为什么要写成这种二重循环的形式捏？不解）；二是，我们可以看到在 for 循环中，对 __ii 这个变量进行了多次声明，为什么不将其声明放在 for 外面捏？（虽然待排列的元素数 n 不会很大，但这样多次声明一个迭代器变量，虽不会占用过多内存，但在声明时调用构造函数和析构函数也是有一定的时间开销的吧，虽然相对于求全排列的复杂度 O(n*n!) 几乎可以忽略不计）</p>
 ]]></content>
   </entry>
   

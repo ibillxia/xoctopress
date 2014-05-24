@@ -183,6 +183,109 @@ $(document).ready(function(){
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2012/03/03/07-zju-program-test-solution/">07年浙大复试机试题解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-03T22:05:00+08:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2012</time>
+        
+         | <a href="/blog/2012/03/03/07-zju-program-test-solution/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>
+07年浙大研究生复试机试题解
+</p>
+
+
+
+
+<h3>A题：最小长方形（hdoj1859）（九度1020）</h3>
+
+
+<p>水题，不解释，代码如下：</p>
+
+
+
+
+<figure class='code'><figcaption><span>Problem A </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include &lt;stdio.h>
+</span><span class='line'>int main()
+</span><span class='line'>{
+</span><span class='line'>    int lx,ly,rx,ry,tx,ty;
+</span><span class='line'>    while(1){
+</span><span class='line'>        scanf("%d %d",&tx,&ty);
+</span><span class='line'>        if(tx==0&&ty==0)break;
+</span><span class='line'>        lx=rx=tx;
+</span><span class='line'>        ly=ry=ty;
+</span><span class='line'>        while(1){
+</span><span class='line'>            scanf("%d %d",&tx,&ty);
+</span><span class='line'>            if(tx==0&&ty==0)break;
+</span><span class='line'>            if(tx&lt;lx)lx=tx;
+</span><span class='line'>            if(ty&lt;ly)ly=ty;
+</span><span class='line'>            if(tx>rx)rx=tx;
+</span><span class='line'>            if(ty>ry)ry=ty;
+</span><span class='line'>        }
+</span><span class='line'>        printf("%d %d %d %d\n",lx,ly,rx,ry);
+</span><span class='line'>    }
+</span><span class='line'>    return 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/03/03/07-zju-program-test-solution/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2012/03/02/06-zju-program-test-solution/">06年浙大复试机试题解</a></h1>
     
     
@@ -852,87 +955,6 @@ C语言用va_start等宏来处理这些可变参数。这些宏看起来很复�
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2011/04/11/14-theories-of-gaining-profits-in-web-system/">14个网站盈利的理论</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-04-11T18:27:00+08:00" pubdate data-updated="true">Apr 11<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/04/11/14-theories-of-gaining-profits-in-web-system/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>1.250定律</h3>
-
-
-<p>拉德认为：每一位顾客身后，大体有250名亲朋好友。如果您赢得了一位顾客的好感，就意味着赢得了250个人的好感；反之，如果你得罪了一名顾客，
-也就意味着得罪了250 名顾客。在你的网站访客中，一个访客可能可以带来一群访客，任何网站都有起步和发展的过程，这 个过程中此定律尤其重要。</p>
-
-
-
-
-<h3>2.达维多定律</h3>
-
-
-<p>达维多认为，一个企业要想在市场上总是占据主导地位，那么就要做到第一个开发出新产品，又第一个淘汰自己的老产品。国内网站跟风太严重，比如
-前段时间的格子网，乞讨网，博客网，一个成功了，大家一拥而上。但实际效果是，第一个出名的往往最成功，所以在网站的定位上，要动自己的脑筋，
-不是去捡人家剩下的客户。同理，买人家出售的数据来建站效果是很糟糕的。</p>
-
-
-
-
-<h3>3.木桶定律</h3>
-
-
-<p>水桶定律是指，一只水桶能装多少水，完全取决于它最短的那块木板。这就是说任何一个组 织都可能面临的一个共同问题，即构成组织的各个部分往往
-决定了整个组织的水平。注意审视自己的网站，是速度最糟糕？美工最糟糕？宣传最糟糕？你首先要做的，不是改进你最强的，而应该是你最薄弱的。</p>
-
-
-
-
-<h3>4.马太效应</h3>
-
-
-<p>《新约》中有这样一个故事，一个国王远行前，交给三个仆人每人一锭银子，吩咐他们：“你们去做生意，等我回来时，再来见我。”国王回来时，第一个
-仆人说：“主人，你交给我们的一锭银子，我已赚了10锭。”于是国王奖励他10座城邑。第二个仆人报告说：“主人，你给我的一锭银子，我已赚了5锭。” 于是
-国王例奖励了他5座城邑。第三个仆人报告说：“主人，你给我的一锭银子，我一直包在手巾里存着，我怕丢失，一直没有拿出来。”于是国王命令将第三个仆人
-的一锭银子也赏给第一个仆人，并且说：“凡是少的，就连他所有的也要夺过来。凡是多的，还要给他，叫他多多益善。”这就是马太效应。在同类网站中，马太
-效应是很明显的。一个出名的社区，比一个新建的社区，更容易吸引到新客户。启示是，如果你无法把网站做大，那么你要做专。作专之后再做大就更容易。</p>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2011/04/11/14-theories-of-gaining-profits-in-web-system/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/8/">&larr; Older</a></li>
@@ -948,15 +970,15 @@ C语言用va_start等宏来处理这些可变参数。这些宏看起来很复�
     <section>
   <h2>Categories</h2>
     <ul id="category-list">
-		<li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (12)</a></li><li><a href='/blog/categories/program'>Program (32)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li>
+		<li><a href='/blog/categories/assp'>ASSP (15)</a></li><li><a href='/blog/categories/engineering'>Engineering (4)</a></li><li><a href='/blog/categories/intelligence'>Intelligence (4)</a></li><li><a href='/blog/categories/life'>Life (11)</a></li><li><a href='/blog/categories/linux'>Linux (3)</a></li><li><a href='/blog/categories/math'>Math (5)</a></li><li><a href='/blog/categories/prml'>PRML (12)</a></li><li><a href='/blog/categories/program'>Program (33)</a></li><li><a href='/blog/categories/technics'>Technics (7)</a></li><li><a href='/blog/categories/view'>View (7)</a></li>
 	</ul>
 </section>
 <section>
   <h2>Tags</h2>
   <ul class="tag-cloud">
-	<a style="font-size: 93%" href="/blog/tags/alize/">Alize</a>
-<a style="font-size: 137%" href="/blog/tags/audio/">Audio</a>
-<a style="font-size: 153%" href="/blog/tags/c/">C</a>
+	<a style="font-size: 137%" href="/blog/tags/audio/">Audio</a>
+<a style="font-size: 93%" href="/blog/tags/bpnn/">BPNN</a>
+<a style="font-size: 159%" href="/blog/tags/c/">C</a>
 <a style="font-size: 93%" href="/blog/tags/convex/">Convex</a>
 <a style="font-size: 112%" href="/blog/tags/deeplearning/">DeepLearning</a>
 <a style="font-size: 93%" href="/blog/tags/htk/">HTK</a>
@@ -967,13 +989,13 @@ C语言用va_start等宏来处理这些可变参数。这些宏看起来很复�
 <a style="font-size: 93%" href="/blog/tags/nuance/">Nuance</a>
 <a style="font-size: 93%" href="/blog/tags/optimization/">Optimization</a>
 <a style="font-size: 153%" href="/blog/tags/php/">PHP</a>
+<a style="font-size: 93%" href="/blog/tags/perceptron/">Perceptron</a>
 <a style="font-size: 112%" href="/blog/tags/prim/">Prim</a>
 <a style="font-size: 153%" href="/blog/tags/programtest/">ProgramTest</a>
 <a style="font-size: 93%" href="/blog/tags/programing/">Programing</a>
 <a style="font-size: 146%" href="/blog/tags/python/">Python</a>
 <a style="font-size: 126%" href="/blog/tags/quicksort/">QuickSort</a>
 <a style="font-size: 93%" href="/blog/tags/rbm/">RBM</a>
-<a style="font-size: 93%" href="/blog/tags/speakerrecognition/">SpeakerRecognition</a>
 <a style="font-size: 112%" href="/blog/tags/speech/">Speech</a>
 <a style="font-size: 93%" href="/blog/tags/uml/">UML</a>
 <a style="font-size: 93%" href="/blog/tags/vpr/">VPR</a>
