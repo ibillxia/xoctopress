@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Program | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/categories/program/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-05-24T23:52:01+08:00</updated>
+  <updated>2014-05-25T22:23:50+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -145,6 +145,88 @@ return 0;
 ```</p>
 
 <p>这里的 <code>plus&lt;T&gt;</code> 和 <code>minus&lt;T&gt;</code> 已经非常接近 STL 的实现了，唯一的差别是它缺乏“可适配能力”，关于 STL 中的适配器（adaptor），我现在也还没看完该书，也还不太了解，在后续文章中应该会介绍到。读者可以自行google。</p>
+
+<h2>在快排中使用函数调用操作符</h2>
+
+<p>为了加深对函数调用操作符的理解，并将其真正用到实际中，这里拿快排这个非常典型的例子，并充分利用C++及STL的特性。下面是核心代码：</p>
+
+<p>```
+template<typename InIt,typename FuncType>
+void myqsort(InIt begin, InIt end, FuncType cmp){</p>
+
+<pre><code>if(begin==end||begin==end-1)return;
+InIt it = mysplit(begin,end,cmp);
+if(it!=end){
+    myqsort(begin,it,cmp);
+    myqsort(it+1,end,cmp);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>template<typename InIt,typename FuncType>
+InIt mysplit(InIt begin, InIt end, FuncType cmp){</p>
+
+<pre><code>InIt itl,itr;
+itl=begin;
+itr=end-1;
+while(itl != itr){
+    while(itl != itr &amp;&amp; cmp(*itr,*begin)&gt;0)itr--;
+    if(itl==itr)break;
+    while(itl != itr &amp;&amp; cmp(*begin,*itl)&gt;0)itl++;
+    if(itl==itr)break;
+    swap(*itl,*itr);
+    itr--;
+}
+return itl;
+</code></pre>
+
+<p>}</p>
+
+<p>class Test{
+public:</p>
+
+<pre><code>double m_lf;
+string m_str;
+</code></pre>
+
+<p>public:</p>
+
+<pre><code>void set(){
+    cin&gt;&gt;m_lf;
+    cin&gt;&gt;m_str;
+}
+
+void print(){
+    cout&lt;&lt;m_lf&lt;&lt;" ";
+    cout&lt;&lt;m_str&lt;&lt;endl;
+}
+</code></pre>
+
+<p>};</p>
+
+<p>struct cmpd{</p>
+
+<pre><code>int operator()(Test a,Test b){
+    if(abs(a.m_lf - b.m_lf)&lt;INF)return 0;
+    if(a.m_lf &gt; b.m_lf)return 1;
+    return -1;
+}
+</code></pre>
+
+<p>};</p>
+
+<p>struct cmps{</p>
+
+<pre><code>int operator()(Test a,Test b){
+    return a.m_str.compare(b.m_str);
+}
+</code></pre>
+
+<p>};
+```</p>
+
+<p>完整的代码及测试输入可以通过以下链接打包下载：<a href="https://ibillxia.github.io/upload/code/20140525.tar.gz">code-2014-05-25</a>。</p>
 ]]></content>
   </entry>
   
@@ -579,7 +661,7 @@ return 0;
     <link href="http://ibillxia.github.io/blog/2014/05/04/android-ndk-development/"/>
     <updated>2014-05-04T23:53:00+08:00</updated>
     <id>http://ibillxia.github.io/blog/2014/05/04/android-ndk-development</id>
-    <content type="html"><![CDATA[<p>本文首先介绍一下在 Ubuntu 下如何配置 Android NDK 开发环境，然后用一个简单的 hello-jni 项目来介绍 NDK 开发流程，本文的全部代码下载链接：<a href="http://ibillxia.github.io/upload/code/20140504-HelloJni.tar.gz">HelloJni.tar.gz</a>，也可以在我的 <a href="https://github.com/ibillxia/Demo/tree/master/HelloJni">GitHub</a> 上下载。</p>
+    <content type="html"><![CDATA[<p>本文首先介绍一下在 Ubuntu 下如何配置 Android NDK 开发环境，然后用一个简单的 hello-jni 项目来介绍 NDK 开发流程，本文的全部代码下载链接：<a href="https://ibillxia.github.io/upload/code/20140504-HelloJni.tar.gz">HelloJni.tar.gz</a>，也可以在我的 <a href="https://github.com/ibillxia/Demo/tree/master/HelloJni">GitHub</a> 上下载。</p>
 
 <h2>1. 简介</h2>
 

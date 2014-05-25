@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Print | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/print/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-05-24T23:52:01+08:00</updated>
+  <updated>2014-05-25T22:25:05+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -21,62 +21,36 @@
     <content type="html"><![CDATA[<p>以下是从FleaPHP上挖来的，感谢FleaPHP的开发者们。</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/&lt;em>*
-</span><span class='line'>* 输出变量的内容，通常用于调试
-</span><span class='line'>*
-</span><span class='line'>* @package Core
-</span><span class='line'>*
-</span><span class='line'>* @param mixed $vars 要输出的变量
-</span><span class='line'>* @param string $label
-</span><span class='line'>* @param boolean $return
-</span><span class='line'>&lt;/em>/
-</span><span class='line'>function dump($vars, $label = '', $return = false)
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>if (ini_get('html_errors')) {
-</span><span class='line'>    $content = "&lt;pre&gt;\n";
-</span><span class='line'>    if ($label != '') {
-</span><span class='line'>        $content .= "&lt;strong&gt;{$label} :&lt;/strong&gt;\n";
-</span><span class='line'>    }
-</span><span class='line'>    $content .= htmlspecialchars(print_r($vars, true));
-</span><span class='line'>    $content .= "\n&lt;/pre&gt;\n";
-</span><span class='line'>} else {
-</span><span class='line'>    $content = $label . " :\n" . print_r($vars, true);
-</span><span class='line'>}
-</span><span class='line'>if ($return) { return $content; }
-</span><span class='line'>echo $content;
-</span><span class='line'>return null;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+/<em>*
+* 输出变量的内容，通常用于调试
+*
+* @package Core
+*
+* @param mixed $vars 要输出的变量
+* @param string $label
+* @param boolean $return
+</em>/
+function dump($vars, $label = '', $return = false)
+{</p>
+
+<pre><code>if (ini_get('html_errors')) {
+    $content = "&lt;pre&gt;\n";
+    if ($label != '') {
+        $content .= "&lt;strong&gt;{$label} :&lt;/strong&gt;\n";
+    }
+    $content .= htmlspecialchars(print_r($vars, true));
+    $content .= "\n&lt;/pre&gt;\n";
+} else {
+    $content = $label . " :\n" . print_r($vars, true);
+}
+if ($return) { return $content; }
+echo $content;
+return null;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <!--more-->
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: UML | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/uml/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-05-24T23:52:01+08:00</updated>
+  <updated>2014-05-25T22:25:05+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -30,7 +30,7 @@
 （2）利用包图及类图表示目标软件系统的总体框架结构。根据领域知识、业务需求描述和既往经验设计目标软件系统的顶层架构；从业务需求描述中
 提取“关键概念”，形成领域概念模型；从概念模型和用例出发，研究系统中主要的类之间的关系，生成类图。</br>
 上述两个步骤并没有时序关系，它们可以并行展开，如图1所示。</br>
-<center><img src="/images/2010/IMAG2010102601.jpg"></center>
+<center>{% img /images/2010/IMAG2010102601.jpg %}</center>
 </p>
 
 
@@ -181,7 +181,7 @@
 
 
 <p>综上我们画出系统的整体结构，如图一所示：</br>
-<center><img src="/images/2010/IMAG2010071801.jpg"></center>
+<center>{% img /images/2010/IMAG2010071801.jpg %}</center>
 <center>图一 图书管理系统的整体结构</center>
 </p>
 
@@ -192,7 +192,7 @@
 
 
 <p>从以上分析中我们不难得出系统的基本用例图，如图二所示：</br>
-<center><img src="/images/2010/IMAG2010071802.jpg"></center>
+<center>{% img /images/2010/IMAG2010071802.jpg %}</center>
 <center>图二 系统的基本用例图</center>
 </p>
 
@@ -201,11 +201,11 @@
 
 <p>图书管理和图书管理是图书管理系统的重要组成部分，为此我们按照前文所述将图书管理模块和读者模块以及系统管理模块详细
 精化得出如下的用例图，如图三、图四、图五所示：</br>
-<center><img src="/images/2010/IMAG2010071803.jpg"></center>
+<center>{% img /images/2010/IMAG2010071803.jpg %}</center>
 <center>图三 图书管理模块的用例图</center>
-<center><img src="/images/2010/IMAG2010071804.jpg"></center>
+<center>{% img /images/2010/IMAG2010071804.jpg %}</center>
 <center>图四 读者管理用例图</center>
-<center><img src="/images/2010/IMAG2010071805.jpg"></center>
+<center>{% img /images/2010/IMAG2010071805.jpg %}</center>
 <center>图五 系统管理模块的用例图</center>
 </p>
 
@@ -238,7 +238,7 @@
 
 
 <p>所以我们不难画出借书一般过程的顺序图，如图六所示：</br>
-<center><img src="/images/2010/IMAG2010071806.jpg"></center>
+<center>{% img /images/2010/IMAG2010071806.jpg %}</center>
 <center>图六 借书一般过程的顺序图</center>
 </p>
 
@@ -247,9 +247,9 @@
 
 <p>由顺序图可得到协作图，如图七所示。仔细分析借书过程的细节，可以画出如图八所示的活动图，它表示了复杂算法的过程，尤其是
 过程中的判断、并发和同步。</br>
-<center><img src="/images/2010/IMAG2010071807.jpg"></center>
+<center>{% img /images/2010/IMAG2010071807.jpg %}</center>
 <center>图七 借书一般过程的协作图</center>
-<center><img src="/images/2010/IMAG2010071808.jpg"></center>
+<center>{% img /images/2010/IMAG2010071808.jpg %}</center>
 <center>图七 借书一般过程的活动图</center>
 </p>
 
@@ -260,7 +260,7 @@
 从以上分析可知，图书管理员相关的过程包括：办理借书、办理还书、解除预定、图书订购、读者信息管理（增加/删除读者、修改
 读者权限及密码、借阅超期罚款）、图书信息管理（增加/删除数目、图书类别等相关信息的修改、流通情况）。由此我们可绘制如
 图九所示的图书管理员使用系统的状态图：</br>
-<center><img src="/images/2010/IMAG2010071809.jpg"></center>
+<center>{% img /images/2010/IMAG2010071809.jpg %}</center>
 <center>图九 图书管理员使用系统的状态图</center>
 </p>
 
@@ -274,7 +274,7 @@
 进行管理，为用户提供信息服务接口，便于对系统进行操作。借阅管理包括借书处理，还书处理和罚款处理等。读者管理包括对读者
 图书等信息进行维护，主要有读者信息的增删，对图书更新资料进行维护。系统服务：包括系统登录检查，安全维护等。系统的包图
 如图十所示：</br>
-<center><img src="/images/2010/IMAG2010071810.jpg"></center>
+<center>{% img /images/2010/IMAG2010071810.jpg %}</center>
 <center>图十 系统包图</center>
 </p>
 

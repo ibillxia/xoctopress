@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: C | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/c/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-05-24T23:52:01+08:00</updated>
+  <updated>2014-05-25T22:25:05+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -145,6 +145,88 @@ return 0;
 ```</p>
 
 <p>这里的 <code>plus&lt;T&gt;</code> 和 <code>minus&lt;T&gt;</code> 已经非常接近 STL 的实现了，唯一的差别是它缺乏“可适配能力”，关于 STL 中的适配器（adaptor），我现在也还没看完该书，也还不太了解，在后续文章中应该会介绍到。读者可以自行google。</p>
+
+<h2>在快排中使用函数调用操作符</h2>
+
+<p>为了加深对函数调用操作符的理解，并将其真正用到实际中，这里拿快排这个非常典型的例子，并充分利用C++及STL的特性。下面是核心代码：</p>
+
+<p>```
+template<typename InIt,typename FuncType>
+void myqsort(InIt begin, InIt end, FuncType cmp){</p>
+
+<pre><code>if(begin==end||begin==end-1)return;
+InIt it = mysplit(begin,end,cmp);
+if(it!=end){
+    myqsort(begin,it,cmp);
+    myqsort(it+1,end,cmp);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>template<typename InIt,typename FuncType>
+InIt mysplit(InIt begin, InIt end, FuncType cmp){</p>
+
+<pre><code>InIt itl,itr;
+itl=begin;
+itr=end-1;
+while(itl != itr){
+    while(itl != itr &amp;&amp; cmp(*itr,*begin)&gt;0)itr--;
+    if(itl==itr)break;
+    while(itl != itr &amp;&amp; cmp(*begin,*itl)&gt;0)itl++;
+    if(itl==itr)break;
+    swap(*itl,*itr);
+    itr--;
+}
+return itl;
+</code></pre>
+
+<p>}</p>
+
+<p>class Test{
+public:</p>
+
+<pre><code>double m_lf;
+string m_str;
+</code></pre>
+
+<p>public:</p>
+
+<pre><code>void set(){
+    cin&gt;&gt;m_lf;
+    cin&gt;&gt;m_str;
+}
+
+void print(){
+    cout&lt;&lt;m_lf&lt;&lt;" ";
+    cout&lt;&lt;m_str&lt;&lt;endl;
+}
+</code></pre>
+
+<p>};</p>
+
+<p>struct cmpd{</p>
+
+<pre><code>int operator()(Test a,Test b){
+    if(abs(a.m_lf - b.m_lf)&lt;INF)return 0;
+    if(a.m_lf &gt; b.m_lf)return 1;
+    return -1;
+}
+</code></pre>
+
+<p>};</p>
+
+<p>struct cmps{</p>
+
+<pre><code>int operator()(Test a,Test b){
+    return a.m_str.compare(b.m_str);
+}
+</code></pre>
+
+<p>};
+```</p>
+
+<p>完整的代码及测试输入可以通过以下链接打包下载：<a href="https://ibillxia.github.io/upload/code/20140525.tar.gz">code-2014-05-25</a>。</p>
 ]]></content>
   </entry>
   
@@ -308,7 +390,7 @@ return 0;
 <p>WAVE文件格式是微软RIFF(Resource Interchange File Format,资源交换文件标准)的一种，是针对于多媒体文件存储的一种文件格式和标准。
 一般而言，RIFF文件由文件头和数据两部分组成，一个WAVE文件由一个“WAVE”数据块组成，这个“WAVE”块又由一个"fmt"子数据块和一个“data”子
 数据块组成，也称这种格式为“Canonical form”（权威/牧师格式），如下图所示：
-<center><img src="/images/2013/IMAG2013072001.gif"></center>
+<center>{% img /images/2013/IMAG2013072001.gif %}</center>
 </p>
 
 
@@ -332,36 +414,23 @@ Format: 4字节，内容为“WAVE”的ASCII码(0x57415645)，以大端存储�
 0x4000:   0x34</br>
 0x4001:   0x12</br>
 用程序在区别的话，可以考虑：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#include &lt;stdio.h>
-</span><span class='line'>#include &lt;stdlib.h>
-</span><span class='line'>int main(int argc, char *argv[])
-</span><span class='line'>{
-</span><span class='line'>       union w
-</span><span class='line'>      {
-</span><span class='line'>       short int a;
-</span><span class='line'>       char b;
-</span><span class='line'>      }c;
-</span><span class='line'>      c.a=1;
-</span><span class='line'>      if( c.b==1 )  printf("little endian\n");
-</span><span class='line'>      else printf("big endian\n");
-</span><span class='line'>      system("PAUSE"); 
-</span><span class='line'>      return 0;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+#include <stdio.h>
+#include <stdlib.h>
+int main(int argc, char *argv[])
+{
+       union w
+      {
+       short int a;
+       char b;
+      }c;
+      c.a=1;
+      if( c.b==1 )  printf("little endian\n");
+      else printf("big endian\n");
+      system("PAUSE"); 
+      return 0;
+}
+{% endcodeblock %}
 </p>
 
 
@@ -385,26 +454,18 @@ ExtraParams: 扩展段其他自定义的一些参数的具体内容，大小由�
 
 
 <p>其中，对于每个采样点的bit数，不同的bit数读取数据的方式不同：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// data 为读取到的采样点的值，speech为原始数据流，
-</span><span class='line'>//对应于下面的"WAVE"格式文件的第二个子数据块“data”块的“Data”部分。
-</span><span class='line'>for(i=0;i&lt;NumSample;i++){
-</span><span class='line'>    if(BitsPerSample==8)
-</span><span class='line'>        data[i] = (int)*((char*)speech+i);
-</span><span class='line'>    else if(BitsPerSample==16)
-</span><span class='line'>        data[i] = (int)*((short*)speech+i);
-</span><span class='line'>    else if(BitsPerSample==32)
-</span><span class='line'>        data[i] = (int)*((int*)speech+i);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+// data 为读取到的采样点的值，speech为原始数据流，
+//对应于下面的"WAVE"格式文件的第二个子数据块“data”块的“Data”部分。
+for(i=0;i<NumSample;i++){
+    if(BitsPerSample==8)
+        data[i] = (int)*((char*)speech+i);
+    else if(BitsPerSample==16)
+        data[i] = (int)*((short*)speech+i);
+    else if(BitsPerSample==32)
+        data[i] = (int)*((int*)speech+i);
+}
+{% endcodeblock %}
 </p>
 
 
@@ -423,14 +484,13 @@ Data: 真正的语音数据部分。</br>
 
 
 <p>设一个wave文件的前72个字节的十六进制内容如下(可以使用Ultra Edit等工具查看wave文件头)：
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>52 49 46 46 24 08 00 00 57 41 56 45 66 6d 74 20 10 00 00 00 01 00 02 00 
-</span><span class='line'>22 56 00 00 88 58 01 00 04 00 10 00 64 61 74 61 00 08 00 00 00 00 00 00 
-</span><span class='line'>24 17 1e f3 3c 13 3c 14 16 f9 18 f9 34 e7 23 a6 3c f2 24 f2 11 ce 1a 0d</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% codeblock %}
+52 49 46 46 24 08 00 00 57 41 56 45 66 6d 74 20 10 00 00 00 01 00 02 00 
+22 56 00 00 88 58 01 00 04 00 10 00 64 61 74 61 00 08 00 00 00 00 00 00 
+24 17 1e f3 3c 13 3c 14 16 f9 18 f9 34 e7 23 a6 3c f2 24 f2 11 ce 1a 0d 
+{% endcodeblock %}
 则其个字段的解析如下图：
-<center><img src="/images/2013/IMAG2013072002.gif"></center>
+<center>{% img /images/2013/IMAG2013072002.gif %}</center>
 </p>
 
 
@@ -442,190 +502,99 @@ Data: 真正的语音数据部分。</br>
 <p>这里给出一个用基本的C语言文件操作库函数实现的Wave文件读取的实例代码，可以跨Windows和Linux平台。</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdlib.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;string.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>// define Wave format structure
-</span><span class='line'>typedef struct tWAVEFORMATEX
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>short wFormatTag;         /* format type */
-</span><span class='line'>short nChannels;          /* number of channels (i.e. mono, stereo...) */
-</span><span class='line'>unsigned int nSamplesPerSec;     /* sample rate */
-</span><span class='line'>unsigned int nAvgBytesPerSec;    /* for buffer estimation */
-</span><span class='line'>short nBlockAlign;        /* block size of data */
-</span><span class='line'>short wBitsPerSample;     /* number of bits per sample of mono data */
-</span><span class='line'>short cbSize;             /* the count in bytes of the size of */
-</span><span class='line'>                                /* extra information (after cbSize) */
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>} WAVEFORMATEX, *PWAVEFORMATEX;&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>char&lt;em> wavread(char &lt;/em>fname, WAVEFORMATEX *wf);&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>int main(){&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>char fname = "test.wav";
-</span><span class='line'>char *speech;
-</span><span class='line'>WAVEFORMATEX wf;
-</span><span class='line'>
-</span><span class='line'>speech = wavread(fname, &amp;wf);
-</span><span class='line'>// afterward processing...
-</span><span class='line'>
-</span><span class='line'>return 0;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>// read wave file
-</span><span class='line'>char&lt;em> wavread(char &lt;/em>fname, WAVEFORMATEX *wf){&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>FILE* fp;
-</span><span class='line'>char str[32];
-</span><span class='line'>char *speech;
-</span><span class='line'>unsigned int subchunk1size; // head size
-</span><span class='line'>unsigned int subchunk2size; // speech data size
-</span><span class='line'>
-</span><span class='line'>// check format type
-</span><span class='line'>fp = fopen(fname,"r");
-</span><span class='line'>if(!fp){
-</span><span class='line'>    fprintf(stderr,"Can not open the wave file: %s.\n",fname);
-</span><span class='line'>    return NULL;
-</span><span class='line'>}
-</span><span class='line'>fseek(fp, 8, SEEK_SET);
-</span><span class='line'>fread(str, sizeof(char), 7, fp);
-</span><span class='line'>str[7] = '\0';
-</span><span class='line'>if(strcmp(str,"WAVEfmt")){
-</span><span class='line'>    fprintf(stderr,"The file is not in WAVE format!\n");
-</span><span class='line'>    return NULL;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>// read format header
-</span><span class='line'>fseek(fp, 16, SEEK_SET);
-</span><span class='line'>fread((unsigned int*)(&amp;subchunk1size),4,1,fp);
-</span><span class='line'>fseek(fp, 20, SEEK_SET);
-</span><span class='line'>fread(wf, subchunk1size, 1, fp);
-</span><span class='line'>
-</span><span class='line'>// read wave data
-</span><span class='line'>fseek(fp, 20+subchunk1size, SEEK_SET);
-</span><span class='line'>fread(str, 1, 4, fp);
-</span><span class='line'>str[4] = '\0';
-</span><span class='line'>if(strcmp(str,"data")){
-</span><span class='line'>    fprintf(stderr,"Locating data start point failed!\n");
-</span><span class='line'>    return NULL;
-</span><span class='line'>}
-</span><span class='line'>fseek(fp, 20+subchunk1size+4, SEEK_SET);
-</span><span class='line'>fread((unsigned int*)(&amp;subchunk2size), 4, 1, fp);
-</span><span class='line'>speech = (char*)malloc(sizeof(char)*subchunk2size);
-</span><span class='line'>if(!speech){
-</span><span class='line'>    fprintf(stderr, "Memory alloc failed!\n");
-</span><span class='line'>    return NULL;
-</span><span class='line'>}
-</span><span class='line'>fseek(fp, 20+subchunk1size+8, SEEK_SET);
-</span><span class='line'>fread(speech, 1, subchunk2size, fp);
-</span><span class='line'>
-</span><span class='line'>fclose(fp);
-</span><span class='line'>return speech;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<h1>include &lt;stdlib.h></h1>
+
+<h1>include &lt;string.h></h1>
+
+<p>// define Wave format structure
+typedef struct tWAVEFORMATEX
+{</p>
+
+<pre><code>short wFormatTag;         /* format type */
+short nChannels;          /* number of channels (i.e. mono, stereo...) */
+unsigned int nSamplesPerSec;     /* sample rate */
+unsigned int nAvgBytesPerSec;    /* for buffer estimation */
+short nBlockAlign;        /* block size of data */
+short wBitsPerSample;     /* number of bits per sample of mono data */
+short cbSize;             /* the count in bytes of the size of */
+                                /* extra information (after cbSize) */
+</code></pre>
+
+<p>} WAVEFORMATEX, *PWAVEFORMATEX;</p>
+
+<p>char<em> wavread(char </em>fname, WAVEFORMATEX *wf);</p>
+
+<p>int main(){</p>
+
+<pre><code>char fname = "test.wav";
+char *speech;
+WAVEFORMATEX wf;
+
+speech = wavread(fname, &amp;wf);
+// afterward processing...
+
+return 0;
+</code></pre>
+
+<p>}</p>
+
+<p>// read wave file
+char<em> wavread(char </em>fname, WAVEFORMATEX *wf){</p>
+
+<pre><code>FILE* fp;
+char str[32];
+char *speech;
+unsigned int subchunk1size; // head size
+unsigned int subchunk2size; // speech data size
+
+// check format type
+fp = fopen(fname,"r");
+if(!fp){
+    fprintf(stderr,"Can not open the wave file: %s.\n",fname);
+    return NULL;
+}
+fseek(fp, 8, SEEK_SET);
+fread(str, sizeof(char), 7, fp);
+str[7] = '\0';
+if(strcmp(str,"WAVEfmt")){
+    fprintf(stderr,"The file is not in WAVE format!\n");
+    return NULL;
+}
+
+// read format header
+fseek(fp, 16, SEEK_SET);
+fread((unsigned int*)(&amp;subchunk1size),4,1,fp);
+fseek(fp, 20, SEEK_SET);
+fread(wf, subchunk1size, 1, fp);
+
+// read wave data
+fseek(fp, 20+subchunk1size, SEEK_SET);
+fread(str, 1, 4, fp);
+str[4] = '\0';
+if(strcmp(str,"data")){
+    fprintf(stderr,"Locating data start point failed!\n");
+    return NULL;
+}
+fseek(fp, 20+subchunk1size+4, SEEK_SET);
+fread((unsigned int*)(&amp;subchunk2size), 4, 1, fp);
+speech = (char*)malloc(sizeof(char)*subchunk2size);
+if(!speech){
+    fprintf(stderr, "Memory alloc failed!\n");
+    return NULL;
+}
+fseek(fp, 20+subchunk1size+8, SEEK_SET);
+fread(speech, 1, subchunk2size, fp);
+
+fclose(fp);
+return speech;
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <h2>参考</h2>
 
@@ -684,52 +653,31 @@ Data: 真正的语音数据部分。</br>
 它代码分离开来。例程如下</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>void main(int argc, char* argv[])&lt;br/>
-</span><span class='line'>{&lt;br/>
-</span><span class='line'>　　if (Call_Func1(in, param out) {&lt;br/>
-</span><span class='line'>　　　　// 函数调用成功，我们正常的处理&lt;br/>
-</span><span class='line'>　　　　if (Call_Func2(in, param out) {&lt;br/>
-</span><span class='line'>　　　　// 函数调用成功，我们正常的处理&lt;br/>
-</span><span class='line'>　　　　　　while(condition) {&lt;br/>
-</span><span class='line'>　　　　　　　　//do other job&lt;br/>
-</span><span class='line'>　　　　　　　　// 如果错误直接跳转&lt;br/>
-</span><span class='line'>　　　　　　　　if (has error) goto Error;&lt;br/>
-</span><span class='line'>　　　　　　//do other job&lt;br/>
-</span><span class='line'>　　　　　　}&lt;br/>
-</span><span class='line'>　　　　}&lt;br/>
-</span><span class='line'>　　　　// 如果错误直接跳转&lt;br/>
-</span><span class='line'>　　　　else goto Error;&lt;br/>
-</span><span class='line'>　　}&lt;br/>
-</span><span class='line'>　　// 如果错误直接跳转&lt;br/>
-</span><span class='line'>　　else goto Error;&lt;br/>
-</span><span class='line'>　　// 错误处理模块&lt;br/>
-</span><span class='line'>Error:&lt;br/>
-</span><span class='line'>　　process_error();&lt;br/>
-</span><span class='line'>　　exit();&lt;br/>
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+void main(int argc, char* argv[])<br/>
+{<br/>
+　　if (Call_Func1(in, param out) {<br/>
+　　　　// 函数调用成功，我们正常的处理<br/>
+　　　　if (Call_Func2(in, param out) {<br/>
+　　　　// 函数调用成功，我们正常的处理<br/>
+　　　　　　while(condition) {<br/>
+　　　　　　　　//do other job<br/>
+　　　　　　　　// 如果错误直接跳转<br/>
+　　　　　　　　if (has error) goto Error;<br/>
+　　　　　　//do other job<br/>
+　　　　　　}<br/>
+　　　　}<br/>
+　　　　// 如果错误直接跳转<br/>
+　　　　else goto Error;<br/>
+　　}<br/>
+　　// 如果错误直接跳转<br/>
+　　else goto Error;<br/>
+　　// 错误处理模块<br/>
+Error:<br/>
+　　process_error();<br/>
+　　exit();<br/>
+}
+{% endcodeblock %}</p>
 
 <p>虽然goto 语句能有效地支持异常处理编程的实现。但是没有人却建议使用它，即便是在C语言中。因为：</br>
 (1) goto语句能破坏程序的结构化设计，使代码难于测试，且包含大量goto的代码模块不易理解和阅读。它一直遭结构化程序设计思想所抛弃，强烈建议程序员不易使用它;</br>
@@ -773,38 +721,24 @@ Data: 真正的语音数据部分。</br>
 当前需要用到的寄存器的值），jmp_buf 结构在 setjmp.h 文件内声明：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>typedef struct
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>unsigned j_sp;  // 堆栈指针寄存器
-</span><span class='line'>unsigned j_ss;  // 堆栈段
-</span><span class='line'>unsigned j_flag;  // 标志寄存器
-</span><span class='line'>unsigned j_cs;  // 代码段
-</span><span class='line'>unsigned j_ip;  // 指令指针寄存器
-</span><span class='line'>unsigned j_bp; // 基址指针
-</span><span class='line'>unsigned j_di;  // 目的指针
-</span><span class='line'>unsigned j_es; // 附加段
-</span><span class='line'>unsigned j_si;  // 源变址
-</span><span class='line'>unsigned j_ds; // 数据段
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>} jmp_buf;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+typedef struct
+{</p>
+
+<pre><code>unsigned j_sp;  // 堆栈指针寄存器
+unsigned j_ss;  // 堆栈段
+unsigned j_flag;  // 标志寄存器
+unsigned j_cs;  // 代码段
+unsigned j_ip;  // 指令指针寄存器
+unsigned j_bp; // 基址指针
+unsigned j_di;  // 目的指针
+unsigned j_es; // 附加段
+unsigned j_si;  // 源变址
+unsigned j_ds; // 数据段
+</code></pre>
+
+<p>} jmp_buf;
+{% endcodeblock %}</p>
 
 <p>jmp_buf 结构存放了程序当前寄存器的值，以确保使用 longjmp() 后可以跳回到该执行点上继续执行。</p>
 
@@ -817,18 +751,19 @@ Data: 真正的语音数据部分。</br>
 <p>setjmp() 与 longjmp() 函数原型如下：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>void &lt;em>Cdecl longjmp(jmp_buf jmpb, int retval);
-</span><span class='line'>int &lt;/em>Cdecl setjmp(jmp_buf jmpb);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+void <em>Cdecl longjmp(jmp_buf jmpb, int retval);
+int </em>Cdecl setjmp(jmp_buf jmpb);
+{% endcodeblock %}</p>
 
 <p>_Cdecl 声明函数的参数使用标准C的进栈方式（由右向左）压栈，_Cdecl 是C语言的一种调用约定，除此以外，PASCAL 也是
 调用约定之一。C标准调用约定（_Cdecl）所声明的函数不自动清除堆栈，这一事务由调用者自行负责——这也是C可以支持不固定
 个数的参数的原因。此外，这一调用约定将在函数名前添加一个下划线字符，如某一函数声明为：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>int cdecl DoSomething(void);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+int cdecl DoSomething(void);
+{% endcodeblock %}</p>
 
 <p>编译时将自动为 DoSomething 加上下划线前缀，即函数名变为：_DoSomething。</p>
 
@@ -870,202 +805,124 @@ Data: 真正的语音数据部分。</br>
 首先定义一个全局的异常：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>jmp_buf Jump_Buffer;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+jmp_buf Jump_Buffer;
+{% endcodeblock %}</p>
 
 <p>因为 setjmp() 第一次调用初始化后返回0，第二次返回非0，可以这样定义一个宏使得它功能接近于 C++ 的 try。</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>define try if(!setjmp(Jump_Buffer))&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}</p>
+
+<h1>define try if(!setjmp(Jump_Buffer))</h1>
+
+<p>{% endcodeblock %}</p>
 
 <p> 当 setjmp() 函数第一次0 时，取非为真，则执行 try 块内的代码，如：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>try {&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>Test();
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+try {</p>
+
+<pre><code>Test();
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>当因为调用 longjmp() 抛出异常而导致 setjmp() 第二次返回时（程序将会转到 setjmp() 函数处返回，这时，这时应该执行
 的是异常处理代码。longjmp() 使 setjmp() 函数返回非0，if(!setjmp(JumpBuffer)) 中将值取非则为假，是以，异常处理放在
 其后应该使用一个 else：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>define catch else&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}</p>
+
+<h1>define catch else</h1>
+
+<p>{% endcodeblock %}</p>
 
 <p>如此看起来便跟 C++ 相似了，setjmp() 函数的第二次返回导致 if() 中表达式值为假，刚好使 catch 块得以执行，如：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>try  {&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>Test();
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>} catch {&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>puts("Error");
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+try  {</p>
+
+<pre><code>Test();
+</code></pre>
+
+<p>} catch {</p>
+
+<pre><code>puts("Error");
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 
 <p>实现如 C++ 的 throw 语句，事实上以宏替换 longjmp(jmp_buf, int) 的调用：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>define throw longjmp(Jump_Buffer, 1)&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}</p>
+
+<h1>define throw longjmp(Jump_Buffer, 1)</h1>
+
+<p>{% endcodeblock %}</p>
 
 <p>下面的例程解释如何使用这些宏：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include"stdio.h"&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include"conio.h"&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include"setjmp.h"&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>jmp_buf Jump_Buffer;&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>define try if(!setjmp(Jump_Buffer))&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>define catch else&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>define throw longjmp(Jump_Buffer,1)&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>int Test(int T)&lt;br/>
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>if(T&gt;100)  
-</span><span class='line'>    throw;  
-</span><span class='line'>else  
-</span><span class='line'>      puts("OK.");  
-</span><span class='line'>return 0;  
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}&lt;br/>
-</span><span class='line'>int Test_T(int T)&lt;br/>
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>Test(T);  
-</span><span class='line'>return 0;  
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}&lt;br/>
-</span><span class='line'>int main()&lt;br/>
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>int T;  
-</span><span class='line'>try{  
-</span><span class='line'>      puts("Input a value:");  
-</span><span class='line'>      scanf("%d",&amp;T);  
-</span><span class='line'>      T++;  
-</span><span class='line'>      Test_T(T);  
-</span><span class='line'>  } catch{  
-</span><span class='line'>      puts("Input Error!");  
-</span><span class='line'>  }  
-</span><span class='line'>getch();  
-</span><span class='line'>return 0;  
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}</p>
+
+<h1>include"stdio.h"</h1>
+
+<h1>include"conio.h"</h1>
+
+<h1>include"setjmp.h"</h1>
+
+<p>jmp_buf Jump_Buffer;</p>
+
+<h1>define try if(!setjmp(Jump_Buffer))</h1>
+
+<h1>define catch else</h1>
+
+<h1>define throw longjmp(Jump_Buffer,1)</h1>
+
+<p>int Test(int T)<br/>
+{</p>
+
+<pre><code>if(T&gt;100)  
+    throw;  
+else  
+      puts("OK.");  
+return 0;  
+</code></pre>
+
+<p>}<br/>
+int Test_T(int T)<br/>
+{</p>
+
+<pre><code>Test(T);  
+return 0;  
+</code></pre>
+
+<p>}<br/>
+int main()<br/>
+{</p>
+
+<pre><code>int T;  
+try{  
+      puts("Input a value:");  
+      scanf("%d",&amp;T);  
+      T++;  
+      Test_T(T);  
+  } catch{  
+      puts("Input Error!");  
+  }  
+getch();  
+return 0;  
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
 ]]></content>
   </entry>
   
@@ -1090,16 +947,12 @@ Data: 真正的语音数据部分。</br>
 <p>原型定义：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;assert.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>void assert( int expression_r_r_r );</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}</p>
+
+<h1>include &lt;assert.h></h1>
+
+<p>void assert( int expression_r_r_r );
+{% endcodeblock %}</p>
 
 <p>assert的作用是现计算表达式 expression_r_r_r ，如果其值为假（即为0），
 那么它先向stderr打印一条出错信息，然后通过调用 abort来终止程序运行。</p>
@@ -1116,48 +969,28 @@ Data: 真正的语音数据部分。</br>
 <p>下面给一个断言的简单实例：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;assert.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdlib.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>int main( void )&lt;br/>
-</span><span class='line'>{&lt;br/>
-</span><span class='line'>   FILE *fp;&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>   fp = fopen( "test.txt", "w" );//以可写的方式打开一个文件，如果不存在就创建一个同名文件&lt;br/>
-</span><span class='line'>   assert( fp );         //所以这里不会出错&lt;br/>
-</span><span class='line'>   fclose( fp );&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>   fp = fopen( "noexitfile.txt", "r" );//以只读的方式打开一个文件，如果不存在就打开失败&lt;br/>
-</span><span class='line'>   assert( fp );         //所以这里出错&lt;br/>
-</span><span class='line'>   fclose( fp );         //程序永远都执行不到这里来&lt;br/>
-</span><span class='line'>   return 0;&lt;br/>
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<h1>include &lt;assert.h></h1>
+
+<h1>include &lt;stdlib.h></h1>
+
+<p>int main( void )<br/>
+{<br/>
+   FILE *fp;</p>
+
+<p>   fp = fopen( "test.txt", "w" );//以可写的方式打开一个文件，如果不存在就创建一个同名文件<br/>
+   assert( fp );         //所以这里不会出错<br/>
+   fclose( fp );</p>
+
+<p>   fp = fopen( "noexitfile.txt", "r" );//以只读的方式打开一个文件，如果不存在就打开失败<br/>
+   assert( fp );         //所以这里出错<br/>
+   fclose( fp );         //程序永远都执行不到这里来<br/>
+   return 0;<br/>
+}
+{% endcodeblock %}</p>
 
 <h2>4.断言用法详解</h2>
 
@@ -1165,50 +998,42 @@ Data: 真正的语音数据部分。</br>
 <p>1)在函数开始处检验传入参数的合法性，如:</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>int resetBufferSize(int nNewSize)
-</span><span class='line'>{
-</span><span class='line'>  //功能:改变缓冲区大小,
-</span><span class='line'>  //参数:nNewSize 缓冲区新长度
-</span><span class='line'>  //返回值:缓冲区当前长度
-</span><span class='line'>  //说明:保持原信息内容不变，nNewSize&lt;=0表示清除缓冲区
-</span><span class='line'>  assert(nNewSize >= 0);
-</span><span class='line'>  assert(nNewSize &lt;= MAX_BUFFER_SIZE);
-</span><span class='line'>  //...
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+int resetBufferSize(int nNewSize)
+{
+  //功能:改变缓冲区大小,
+  //参数:nNewSize 缓冲区新长度
+  //返回值:缓冲区当前长度
+  //说明:保持原信息内容不变，nNewSize&lt;=0表示清除缓冲区
+  assert(nNewSize >= 0);
+  assert(nNewSize &lt;= MAX_BUFFER_SIZE);
+  //...
+}
+{% endcodeblock %}</p>
 
 <p>2)每个assert只检验一个条件,因为同时检验多个条件时,如果断言失败,无法直观的判断是哪个条件失败</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>assert(nOffset>=0 &amp;&amp; nOffset+nSize&lt;=m_nInfomationSize);  //不好
-</span><span class='line'>assert(nOffset >= 0);   //好
-</span><span class='line'>assert(nOffset+nSize &lt;= m_nInfomationSize);</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+assert(nOffset>=0 &amp;&amp; nOffset+nSize&lt;=m_nInfomationSize);  //不好
+assert(nOffset >= 0);   //好
+assert(nOffset+nSize &lt;= m_nInfomationSize);
+{% endcodeblock %}</p>
 
 <p>3)不能使用改变环境的语句,因为assert只在DEBUG个生效,如果这么做,会使用程序在真正运行时遇到问题</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>assert(i++ &lt; 100);  //错误</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+assert(i++ &lt; 100);  //错误
+{% endcodeblock %}</p>
 
 <p>这是因为如果出错，比如在执行之前i=100,那么这条语句就不会执行，那么i++这条命令就没有执行。</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>assert(i &lt; 100);    //正确
-</span><span class='line'>i++;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+assert(i &lt; 100);    //正确
+i++;
+{% endcodeblock %}</p>
 
 <p>4)assert和后面的语句应空一行,以形成逻辑和视觉上的一致感</p>
 
@@ -1228,24 +1053,15 @@ Data: 真正的语音数据部分。</br>
 示例代码如下：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;stdio.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>define NDEBUG&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>include &lt;assert.h>&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}</p>
+
+<h1>include &lt;stdio.h></h1>
+
+<h1>define NDEBUG</h1>
+
+<h1>include &lt;assert.h></h1>
+
+<p>{% endcodeblock %}</p>
 
 <p>2).ASSERT只有在Debug版本中才有效，如果编译为Release版本则被忽略掉。（在C中，ASSERT是宏而不是函数），
 使用ASSERT“断言”容易在debug时输出程序错误所在。而assert()的功能类似，它是ANSI C标准中规定的函数，

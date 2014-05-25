@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Function | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/function/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-05-24T23:52:01+08:00</updated>
+  <updated>2014-05-25T22:25:05+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -21,28 +21,19 @@
     <content type="html"><![CDATA[<p>call_user_func函数类似于一种特别的调用函数的方法，使用方法如下：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function a($b,$c)
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>echo $b;
-</span><span class='line'>echo $c;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}
-</span><span class='line'>call_user_func('a', "111","222");
-</span><span class='line'>call_user_func('a', "333","444");
-</span><span class='line'>//显示 111 222 333 444</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+function a($b,$c)
+{</p>
+
+<pre><code>echo $b;
+echo $c;
+</code></pre>
+
+<p>}
+call_user_func('a', "111","222");
+call_user_func('a', "333","444");
+//显示 111 222 333 444
+{% endcodeblock %}</p>
 
 <!--more-->
 
@@ -50,224 +41,137 @@
 <p>调用类内部的方法比较奇怪，居然用的是array，不知道开发者是如何考虑的，当然省去了new，也是满有新意的:</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class a {&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>function b($c) 
-</span><span class='line'>{
-</span><span class='line'>    echo $c;
-</span><span class='line'>}
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}
-</span><span class='line'>call_user_func(array("a", "b"),"111");
-</span><span class='line'>//显示 111</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+class a {</p>
+
+<pre><code>function b($c) 
+{
+    echo $c;
+}
+</code></pre>
+
+<p>}
+call_user_func(array("a", "b"),"111");
+//显示 111
+{% endcodeblock %}</p>
 
 <p>call_user_func_array函数和call_user_func很相似，只不过是换了一种方式传递了参数，让参数的结构更清晰:</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>unction a($b, $c)
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>echo $b;
-</span><span class='line'>echo $c;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}
-</span><span class='line'>call_user_func_array('a', array("111", "222"));
-</span><span class='line'>//显示 111 222</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+unction a($b, $c)
+{</p>
+
+<pre><code>echo $b;
+echo $c;
+</code></pre>
+
+<p>}
+call_user_func_array('a', array("111", "222"));
+//显示 111 222
+{% endcodeblock %}</p>
 
 <p>call_user_func_array函数也可以调用类内部的方法的</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Class ClassA {&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>function bc($b, $c) {
-</span><span class='line'>    $bc = $b + $c;
-</span><span class='line'>    echo $bc;
-</span><span class='line'>}
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}
-</span><span class='line'>call_user_func_array(array('ClassA','bc'), array("111", "222"));
-</span><span class='line'>//显示 333</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+Class ClassA {</p>
+
+<pre><code>function bc($b, $c) {
+    $bc = $b + $c;
+    echo $bc;
+}
+</code></pre>
+
+<p>}
+call_user_func_array(array('ClassA','bc'), array("111", "222"));
+//显示 333
+{% endcodeblock %}</p>
 
 <p>call_user_func函数和call_user_func_array函数都支持引用，这让他们和普通的函数调用更趋于功能一致:</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function a(&amp;$b)
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>$b++;
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}
-</span><span class='line'>$c = 0;
-</span><span class='line'>call_user_func('a', &amp;$c);
-</span><span class='line'>echo $c;//显示 1
-</span><span class='line'>call_user_func_array('a', array(&amp;$c));
-</span><span class='line'>echo $c;//显示 2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+function a(&amp;$b)
+{</p>
+
+<pre><code>$b++;
+</code></pre>
+
+<p>}
+$c = 0;
+call_user_func('a', &amp;$c);
+echo $c;//显示 1
+call_user_func_array('a', array(&amp;$c));
+echo $c;//显示 2
+{% endcodeblock %}</p>
 
 <p>一个可以用于调试输出的例子：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function debug($var, $val)
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>echo "***DEBUGGING\nVARIABLE: $var\nVALUE:";
-</span><span class='line'>if (is_array($val) || is_object($val) || is_resource($val)) {
-</span><span class='line'>    print_r($val);
-</span><span class='line'>} else {
-</span><span class='line'>    echo "\n$val\n";
-</span><span class='line'>}
-</span><span class='line'>echo "***\n";
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>$c = mysql_connect();
-</span><span class='line'>$host = $_SERVER["SERVER_NAME"];&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>call_user_func_array('debug', array("host", $host));
-</span><span class='line'>call_user_func_array('debug', array("c", $c));
-</span><span class='line'>call_user_func_array('debug', array("&lt;em>POST", $&lt;/em>POST));</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+function debug($var, $val)
+{</p>
+
+<pre><code>echo "***DEBUGGING\nVARIABLE: $var\nVALUE:";
+if (is_array($val) || is_object($val) || is_resource($val)) {
+    print_r($val);
+} else {
+    echo "\n$val\n";
+}
+echo "***\n";
+</code></pre>
+
+<p>}</p>
+
+<p>$c = mysql_connect();
+$host = $_SERVER["SERVER_NAME"];</p>
+
+<p>call_user_func_array('debug', array("host", $host));
+call_user_func_array('debug', array("c", $c));
+call_user_func_array('debug', array("<em>POST", $</em>POST));
+{% endcodeblock %}</p>
 
 <p>另外，如果和伪重载结合，还可以这样用：</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function otest1 ($a)
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>echo( '一个参数' );
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>function otest2 ( $a, $b)
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>echo( '二个参数' );
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>function otest3 ( $a ,$b,$c)
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>echo( '三个啦' );
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>function otest ()
-</span><span class='line'>{&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>$args = func_get_args();
-</span><span class='line'>$num = func_num_args();
-</span><span class='line'>call_user_func_array( 'otest'.$num, $args );
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>}&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>otest(1,2);  //调用第一个函数，输出：一个参数</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+function otest1 ($a)
+{</p>
+
+<pre><code>echo( '一个参数' );
+</code></pre>
+
+<p>}</p>
+
+<p>function otest2 ( $a, $b)
+{</p>
+
+<pre><code>echo( '二个参数' );
+</code></pre>
+
+<p>}</p>
+
+<p>function otest3 ( $a ,$b,$c)
+{</p>
+
+<pre><code>echo( '三个啦' );
+</code></pre>
+
+<p>}</p>
+
+<p>function otest ()
+{</p>
+
+<pre><code>$args = func_get_args();
+$num = func_num_args();
+call_user_func_array( 'otest'.$num, $args );
+</code></pre>
+
+<p>}</p>
+
+<p>otest(1,2);  //调用第一个函数，输出：一个参数
+{% endcodeblock %}</p>
 ]]></content>
   </entry>
   

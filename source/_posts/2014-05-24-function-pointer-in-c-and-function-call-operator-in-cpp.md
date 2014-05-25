@@ -103,3 +103,67 @@ int main(){
 ```
 
 这里的 `plus<T>` 和 `minus<T>` 已经非常接近 STL 的实现了，唯一的差别是它缺乏“可适配能力”，关于 STL 中的适配器（adaptor），我现在也还没看完该书，也还不太了解，在后续文章中应该会介绍到。读者可以自行google。
+
+## 在快排中使用函数调用操作符
+为了加深对函数调用操作符的理解，并将其真正用到实际中，这里拿快排这个非常典型的例子，并充分利用C++及STL的特性。下面是核心代码：
+
+```
+template<typename InIt,typename FuncType>
+void myqsort(InIt begin, InIt end, FuncType cmp){
+	if(begin==end||begin==end-1)return;
+	InIt it = mysplit(begin,end,cmp);
+	if(it!=end){
+		myqsort(begin,it,cmp);
+		myqsort(it+1,end,cmp);
+	}
+}
+
+template<typename InIt,typename FuncType>
+InIt mysplit(InIt begin, InIt end, FuncType cmp){
+	InIt itl,itr;
+	itl=begin;
+	itr=end-1;
+	while(itl != itr){
+		while(itl != itr && cmp(*itr,*begin)>0)itr--;
+		if(itl==itr)break;
+		while(itl != itr && cmp(*begin,*itl)>0)itl++;
+		if(itl==itr)break;
+		swap(*itl,*itr);
+		itr--;
+	}
+	return itl;
+}
+
+class Test{
+public:
+	double m_lf;
+	string m_str;
+
+public:
+	void set(){
+		cin>>m_lf;
+		cin>>m_str;
+	}
+
+	void print(){
+		cout<<m_lf<<" ";
+		cout<<m_str<<endl;
+	}
+};
+
+struct cmpd{
+	int operator()(Test a,Test b){
+		if(abs(a.m_lf - b.m_lf)<INF)return 0;
+		if(a.m_lf > b.m_lf)return 1;
+		return -1;
+	}
+};
+
+struct cmps{
+	int operator()(Test a,Test b){
+		return a.m_str.compare(b.m_str);
+	}
+};
+```
+
+完整的代码及测试输入可以通过以下链接打包下载：[code-2014-05-25](https://ibillxia.github.io/upload/code/20140525.tar.gz)。

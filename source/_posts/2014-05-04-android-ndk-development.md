@@ -7,7 +7,7 @@ categories: Program
 tags: Android NDK JNI
 ---
 
-本文首先介绍一下在 Ubuntu 下如何配置 Android NDK 开发环境，然后用一个简单的 hello-jni 项目来介绍 NDK 开发流程，本文的全部代码下载链接：[HelloJni.tar.gz](http://ibillxia.github.io/upload/code/20140504-HelloJni.tar.gz)，也可以在我的 [GitHub](https://github.com/ibillxia/Demo/tree/master/HelloJni) 上下载。
+本文首先介绍一下在 Ubuntu 下如何配置 Android NDK 开发环境，然后用一个简单的 hello-jni 项目来介绍 NDK 开发流程，本文的全部代码下载链接：[HelloJni.tar.gz](https://ibillxia.github.io/upload/code/20140504-HelloJni.tar.gz)，也可以在我的 [GitHub](https://github.com/ibillxia/Demo/tree/master/HelloJni) 上下载。
 
 ## 1. 简介
 什么是 Android NDK 呢？ NDK(Native Development Kit) 是一个允许开发者用一些本地语言(C/C++)编写 Android App 的部分功能的工具集。对于一些特定的 App，NDK 非常有利于我们直接使用现成的用 C/C++ 编写的代码库（但对于大多数 App 来说，NDK 是没有必要的）。使用 NDK 进行 C/C++ Android 开发的基本结构和流程如下图（来自[shihongzhi博客](http://shihongzhi.com/ndk/) ）：

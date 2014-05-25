@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: Love | Bill's Blog]]></title>
   <link href="http://ibillxia.github.io/blog/tags/love/atom.xml" rel="self"/>
   <link href="http://ibillxia.github.io/"/>
-  <updated>2014-05-24T23:52:01+08:00</updated>
+  <updated>2014-05-25T22:25:05+08:00</updated>
   <id>http://ibillxia.github.io/</id>
   <author>
     <name><![CDATA[Bill Xia]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[<p>一篇很唯美的文章，来自豆瓣相册：<a href="http://www.douban.com/photos/album/63673280/?start=0">如果长颈鹿哭了，它会不会要哽咽好久</a>，有微小删改。<br/>
 在酷我调频的莫萱日记“<a href="http://www.kuwo.cn/yinyue/3619660/">关于我爱你这件小事</a>”这一期中听到的，分享给大家，顺祝大家圣诞快乐！</p>
 
-<center><img src="/images/2013/IMAG2013122401.jpg"></center>
+<center>{% img /images/2013/IMAG2013122401.jpg %}</center>
 
 
 <p>长颈鹿的脖子那么长 哽咽的时候是不是很难受<br/>
@@ -46,7 +46,7 @@
 
 
 
-<center><img src="/images/2013/IMAG2013122402.jpg"></center>
+<center>{% img /images/2013/IMAG2013122402.jpg %}</center>
 
 
 <p>夏天过去　你没有消息<br/>
@@ -58,7 +58,7 @@
 把握太轻，却让人沉重地无法逃离<br/>
 我只是觉得 这种牵挂放着无趣丢了可惜</p>
 
-<center><img src="/images/2013/IMAG2013122403.jpg"></center>
+<center>{% img /images/2013/IMAG2013122403.jpg %}</center>
 
 
 <p>两个人一起是为了快乐，分手是为了减轻痛苦<br/>
@@ -75,7 +75,7 @@
 恨，也是一种爱<br/>
 岁月漫长，装着装着也许真的就能够原谅与遗忘。</p>
 
-<center><img src="/images/2013/IMAG2013122404.jpg"></center>
+<center>{% img /images/2013/IMAG2013122404.jpg %}</center>
 
 
 <p>所有单向的爱情，是不是终归也会有悄然落幕的一天？<br/>
@@ -91,7 +91,7 @@
 那不是懦弱，那只是不被允许的爱情<br/>
 于是，我只能选择沉默。</p>
 
-<center><img src="/images/2013/IMAG2013122405.jpg"></center>
+<center>{% img /images/2013/IMAG2013122405.jpg %}</center>
 
 
 <p>一段爱情，两个人成长<br/>
@@ -115,7 +115,7 @@
 阴晴圆缺，在一段爱情里不断重演<br/>
 换一个人，也不会天色常蓝。</p>
 
-<center><img src="/images/2013/IMAG2013122406.jpg"></center>
+<center>{% img /images/2013/IMAG2013122406.jpg %}</center>
 
 
 <p>既然未曾拥有，又怎知道它有多好？<br/>
@@ -137,7 +137,7 @@
 一个不爱你的人，决不会比你的生命重要<br/>
 一个爱你的人，会告诉你，你的生命比你对他的爱情重要。</p>
 
-<center><img src="/images/2013/IMAG2013122407.jpg"></center>
+<center>{% img /images/2013/IMAG2013122407.jpg %}</center>
 
 
 <p>"你问我喜欢那声音不───若是现在，我一定说喜欢了。"<br/>
@@ -159,7 +159,7 @@
 后来的后来，想念的对象又变成了亲人<br/>
 人生最初和最后的想念几乎是一样的</p>
 
-<center><img src="/images/2013/IMAG2013122408.jpg"></center>
+<center>{% img /images/2013/IMAG2013122408.jpg %}</center>
 
 
 <p>对男人来说<br/>
@@ -180,7 +180,7 @@
 他完整了我<br/>
 也是他让我看到我所有的缺失。</p>
 
-<center><img src="/images/2013/IMAG2013122409.jpg"></center>
+<center>{% img /images/2013/IMAG2013122409.jpg %}</center>
 
 
 <p>两个人最初走在一起的时候<br/>
@@ -201,7 +201,7 @@
 终于，我不得不苦涩地承认<br/>
 你已经不爱我了。</p>
 
-<center><img src="/images/2013/IMAG2013122410.jpg"></center>
+<center>{% img /images/2013/IMAG2013122410.jpg %}</center>
 
 
 <p>他不是不爱你，也不是对你不好<br/>
@@ -225,7 +225,7 @@
 偏偏挨过来摸摸我的头，对我说：" 别哭，别哭，" <br/>
 结果害我把脸埋在他身上稀哩哗啦哭得更惨，却也不会生他的气。</p>
 
-<center><img src="/images/2013/IMAG2013122411.jpg"></center>
+<center>{% img /images/2013/IMAG2013122411.jpg %}</center>
 
 
 <p>爱情是什么？不就是有个人<br/>
@@ -244,7 +244,7 @@
 惟有我们自己与所爱的人，终会成为过去<br/>
 所有的相依与相聚、所有的阴晴圆缺，也如飞似逝，永不复还。</p>
 
-<center><img src="/images/2013/IMAG2013122412.jpg"></center>
+<center>{% img /images/2013/IMAG2013122412.jpg %}</center>
 
 
 <p>爱情总是想象比现实美丽<br/>
@@ -275,7 +275,7 @@
 生于斯世，我们不都是旅人吗？<br/>
 他不会回来了；但是，你终归会回去。</p>
 
-<center><img src="/images/2013/IMAG2013122413.jpg"></center>
+<center>{% img /images/2013/IMAG2013122413.jpg %}</center>
 
 
 <p>樱花如风转眼去，惟有拜拜是人生<br/>
@@ -292,7 +292,7 @@
 也和我一样，一点点老去<br/>
 活着就是要经历这些。</p>
 
-<center><img src="/images/2013/IMAG2013122414.jpg"></center>
+<center>{% img /images/2013/IMAG2013122414.jpg %}</center>
 
 
 <p>童话故事不一定都美好，安徒生有些童话就很悲伤。<br/>
@@ -308,7 +308,7 @@
 一瞬间，说到唇边的话消逝了。 <br/>
 以后的以后，或许再也不会说了</p>
 
-<center><img src="/images/2013/IMAG2013122415.jpg"></center>
+<center>{% img /images/2013/IMAG2013122415.jpg %}</center>
 
 
 <p>千回百转，幸福原来一直在自己手里。<br/>
@@ -329,7 +329,7 @@
 所有枯涩的孤独，<br/>
 都有了归途</p>
 
-<center><img src="/images/2013/IMAG2013122416.jpg"></center>
+<center>{% img /images/2013/IMAG2013122416.jpg %}</center>
 
 
 <p>你问：“没有爱情我们到底能不能活得很潇洒？”<br/>
@@ -343,7 +343,7 @@
 那是我的劫难。<br/>
 我也无愧了</p>
 
-<center><img src="/images/2013/IMAG2013122417.jpg"></center>
+<center>{% img /images/2013/IMAG2013122417.jpg %}</center>
 
 
 <p>年轻就是会高估了爱情的寿命<br/>
@@ -355,7 +355,7 @@
 江湖老了每一个曾经青涩的少年，<br/>
 江湖也老了每一个爱做梦的少女。</p>
 
-<center><img src="/images/2013/IMAG2013122418.jpg"></center>
+<center>{% img /images/2013/IMAG2013122418.jpg %}</center>
 
 
 <p>爱情终究是两厢情愿的事，你留不住一个不爱你的人；<br/>
@@ -367,7 +367,7 @@
 今天到底下哪一种雨,飘哪一朵云。<br/>
 这只是我每天要经历的,我一个人的小天气。</p>
 
-<center><img src="/images/2013/IMAG2013122419.jpg"></center>
+<center>{% img /images/2013/IMAG2013122419.jpg %}</center>
 
 ]]></content>
   </entry>
@@ -380,84 +380,47 @@
     <content type="html"><![CDATA[<p>一个很有趣的爱情程序</p>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>RESULT   love(boy,   girl)   &lt;br/>
-</span><span class='line'>  {   &lt;br/>
-</span><span class='line'>  　　if(   boy.有房()   AND   boy.有车()   )   &lt;br/>
-</span><span class='line'>  　　{   &lt;br/>
-</span><span class='line'>  　　　boy.Set(Nothing);   &lt;br/>
-</span><span class='line'>  　　　return   girl.嫁给(boy);   &lt;br/>
-</span><span class='line'>  　　}   &lt;br/>
-</span><span class='line'>  　　else   if(   girl.愿意等()   )   &lt;br/>
-</span><span class='line'>  　　{   &lt;br/>
-</span><span class='line'>  　　　next_year:   &lt;br/>
-</span><span class='line'>  　　　for(   day=1;   day&lt;=365;   day++)   &lt;br/>
-</span><span class='line'>  　　　{   &lt;br/>
-</span><span class='line'>  　　　　if(   day   ==   情人节   )   &lt;br/>
-</span><span class='line'>  　　　　　if(   boy.GiveGirl(玫瑰)   )   &lt;br/>
-</span><span class='line'>  　　　　　　girl.感情++;   &lt;br/>
-</span><span class='line'>  　　　　　else   &lt;br/>
-</span><span class='line'>  　　　　　　girl.感情--;   &lt;br/>
-</span><span class='line'>  　　　　if(   day   ==   girl.生日)   &lt;br/>
-</span><span class='line'>  　　　　　if(   boy.GiveGirl(玫瑰)   )   &lt;br/>
-</span><span class='line'>  　　　　　　girl.感情++;   &lt;br/>
-</span><span class='line'>  　　　　　else   &lt;br/>
-</span><span class='line'>  　　　　　　girl.感情--;   &lt;br/>
-</span><span class='line'>  　　　　boy.拼命赚钱();   &lt;br/>
-</span><span class='line'>  　　　}   &lt;br/>
-</span><span class='line'>  　　　年龄++;   &lt;br/>
-</span><span class='line'>  　　　girl.感情--;   &lt;br/>
-</span><span class='line'>  　　　if(   boy.有房()   AND   boy.有车()   )   &lt;br/>
-</span><span class='line'>  　　　{   &lt;br/>
-</span><span class='line'>  　　　　boy.Set(Nothing);   &lt;br/>
-</span><span class='line'>  　　　　return   girl.嫁给(boy);   &lt;br/>
-</span><span class='line'>  　　　}   &lt;br/>
-</span><span class='line'>  　　　else   if(   boy.赚钱   >   100,000   AND   girl.感情   >   8   )   &lt;br/>
-</span><span class='line'>  　　　　goto   next_year;   &lt;br/>
-</span><span class='line'>  　　　else   &lt;br/>
-</span><span class='line'>  　　　　return   girl.goto(   another_boy);   &lt;br/>
-</span><span class='line'>  　　}   &lt;br/>
-</span><span class='line'>  　　return   girl.goto(   another_boy);
-</span><span class='line'>  }
-</span><span class='line'>//有看懂吗，看懂了就很有意思。看不懂就加油！！</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+RESULT   love(boy,   girl)   <br/>
+  {   <br/>
+  　　if(   boy.有房()   AND   boy.有车()   )   <br/>
+  　　{   <br/>
+  　　　boy.Set(Nothing);   <br/>
+  　　　return   girl.嫁给(boy);   <br/>
+  　　}   <br/>
+  　　else   if(   girl.愿意等()   )   <br/>
+  　　{   <br/>
+  　　　next_year:   <br/>
+  　　　for(   day=1;   day&lt;=365;   day++)   <br/>
+  　　　{   <br/>
+  　　　　if(   day   ==   情人节   )   <br/>
+  　　　　　if(   boy.GiveGirl(玫瑰)   )   <br/>
+  　　　　　　girl.感情++;   <br/>
+  　　　　　else   <br/>
+  　　　　　　girl.感情--;   <br/>
+  　　　　if(   day   ==   girl.生日)   <br/>
+  　　　　　if(   boy.GiveGirl(玫瑰)   )   <br/>
+  　　　　　　girl.感情++;   <br/>
+  　　　　　else   <br/>
+  　　　　　　girl.感情--;   <br/>
+  　　　　boy.拼命赚钱();   <br/>
+  　　　}   <br/>
+  　　　年龄++;   <br/>
+  　　　girl.感情--;   <br/>
+  　　　if(   boy.有房()   AND   boy.有车()   )   <br/>
+  　　　{   <br/>
+  　　　　boy.Set(Nothing);   <br/>
+  　　　　return   girl.嫁给(boy);   <br/>
+  　　　}   <br/>
+  　　　else   if(   boy.赚钱   >   100,000   AND   girl.感情   >   8   )   <br/>
+  　　　　goto   next_year;   <br/>
+  　　　else   <br/>
+  　　　　return   girl.goto(   another_boy);   <br/>
+  　　}   <br/>
+  　　return   girl.goto(   another_boy);
+  }
+//有看懂吗，看懂了就很有意思。看不懂就加油！！
+{% endcodeblock %}</p>
 ]]></content>
   </entry>
   
