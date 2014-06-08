@@ -116,7 +116,7 @@ typedef struct tWAVEFORMATEX
 char* wavread(char *fname, WAVEFORMATEX *wf);
 
 int main(){
-	char fname = "test.wav";
+	char fname[] = "test.wav";
 	char *speech;
 	WAVEFORMATEX wf;
 	

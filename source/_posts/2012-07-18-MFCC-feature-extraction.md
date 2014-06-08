@@ -62,14 +62,14 @@ function r = mfcc(s, fs)
 %
 % Output: r contains the transformed signal
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-m = 256;  % 帧长
-n = 100;  % 帧移
+n = 256;  % 帧长
+m = 100;  % 帧移
 l = length(s);  % 信号总长度
 nbFrame = floor((l - n) / m) + 1;  % 信号总帧数
 for i = 1:n
-for j = 1:nbFrame
-M(i, j) = s(((j - 1) * m) + i);  % 分帧
-end
+	for j = 1:nbFrame
+		M(i, j) = s(((j - 1) * m) + i);  % 分帧
+	end
 end
 h = hamming(n);  % Hamming窗w = 0.54 - 0.46*cos(2*pi*x);
 M2 = diag(h) * M;  % 对M加窗，形成对角矩阵M2

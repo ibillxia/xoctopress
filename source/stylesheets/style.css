@@ -76,6 +76,9 @@
 	transition: 1s;
 }
 /*
+code ::selection {
+  background-color: #f5f5f5; 
+}
 #back-top a:hover span {
 	background-color: #888;
 }
