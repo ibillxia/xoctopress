@@ -34,11 +34,11 @@ tags: C++ STL Framework
 <!-- more -->
 
 ## 1. STL 简史
-声明：这里的内容主要来自[Wiki中文网](http://zh.wikipedia.org/)，这里尽量简化其描述，虽然是尽量剪裁，但可能还是有些罗嗦，而且大段copy，掩面 ~(@^_^@)~  
+声明：这里的内容主要来自[Wiki中文网](http://zh.wikipedia.org/)，这里尽量简化其描述，虽然是尽量剪裁，但可能还是有些罗嗦，而且大段copy，掩面 ~(@&and;-&and;@)~  
 
 STL 是 Standard Template Library（标准模板库）的缩写。Standard 是指STL是C++标准程序库的一部分，Template是指STL是一套模板，这也是STL最本质的特征。标准模板库使得C++编程语言在有了同Java一样强大的类库的同时，保有了更大的可扩展性。  
 
-标准模板库系由[Alexander Stepanov](http://en.wikipedia.org/wiki/Alexander_Stepanov)创造于1979年前后，这也正是[Bjarne Stroustrup](http://en.wikipedia.org/wiki/Bjarne_Stroustrup)创造C++的年代（非常巧的是，这两为大师都出生于1950年）。  
+标准模板库系由 [Alexander Stepanov](http://en.wikipedia.org/wiki/Alexander_Stepanov) 创造于1979年前后，这也正是 [Bjarne Stroustrup](http://en.wikipedia.org/wiki/Bjarne_Stroustrup) 创造C++的年代（非常巧的是，这两为大师都出生于1950年）。  
 
 Stepanov早期从事教育工作，在20世纪70年代就开始研究泛型程序设计了。1983年，Stepanov先生转至Polytechnic大学教书，继续研究泛型程序设计，同时写了许多Scheme的程序，应用在graph与network的算法上。1985年又转至GE公司专门教授高级程序设计，并将graph与network的Scheme程序，改用Ada写，用了Ada以后，他发现到一个动态（dynamically）类型的程序（如Scheme）与强制（strongly）类型的程序（如Ada）有多么的不同。在动态类型的程序中，所有类型都可以自由的转换成别的类型，而强制类型的程序却不能。但是，强制类型在出错时较容易发现程序错误。  
 
@@ -70,10 +70,10 @@ STL的官方文档将STL划分成了五个主要部分，分别是Containers（�
 迭代器扮演容器与算法之间的胶合剂，可以形象的理解为“泛型指针”。从实现的角度看，迭代器是一种将operator*、operator->、operator++、operator--等指针相关操作进行重载的class template。所有的STL容器都有自己专属的迭代器——是的，只有容器设计者才知道如何遍历自己的元素，原生指针（Native pointer）也是一迭代器。  
 
 #### 2.3 Containers  
-容器可以理解为各种数据结构，如vector、list、deque、set、map等用来存放特定结构的数据的容器，也是一系列的class template。  
+容器可以理解为各种数据结构，如vector、list、deque、set、map等用来存放特定结构的数据的容器，也是一系列的class template。对于普通用户而言，容器是最熟悉不过了，我们最经常使用的容器主要有 vector, queue, stack, deque, map。相信很多人对 STL 的接触是从使用容器开始的，也有很多人对 STL 印象最深刻的就是容器了。   
 
 #### 2.4 Algorithm  
-主要是各种常用的算法，如sort、search、copy、erase、unique等。从实现的角度看，STL算法是一种function template。  
+主要是各种常用的算法，如sort、search、copy、erase、unique等。从实现的角度看，STL算法是一种function template。其中 sort 相信很多人并不陌生，在很多算法中我们都需要对数据进行排序。  
 
 #### 2.5 Function Objects  
 函数对象的行为类似函数，但可作为算法的某种策略（policy）。从实现的角度看，函数对象是一种重载了operator()（函数调用操作符）的class或class template。  
@@ -84,18 +84,21 @@ STL的官方文档将STL划分成了五个主要部分，分别是Containers（�
 ## 3. STL 各组件间的关系  
 STL 六大组件间的关系如下图（来自侯姐《STL源码剖析》一书 p6）：  
 {% img /images/2014/IMAG2014060801.jpg %}
-其中Container通过Allocator取得数据存储空间，Alogrithm通过Iterator存取Container内容，Functor可以协助Algorithm完成不同的策略变化，Adapter可以修饰或套接Functor。  
+其中 Container 通过 Allocator 取得数据存储空间，Alogrithm 通过 Iterator 存取 Container 内容，Functor 可以协助 Algorithm 完成不同的策略变化，Adapter 可以修饰或套接 Functor。这里的描述有些抽象，等详细了解了每个组件的功能职责后，就比较好懂了。  
 
 ## 4. SGI STL源码结构  
-最后，这里简单介绍一下SGI STL 源码的结构。我下载的是[SGI-STL-v3.3](https://www.sgi.com/tech/stl/download.html)，它是基于1994年HP版STL改造而成的，最新版本v3.3的更新时间是2000年6月8日，共91个文件（SGI-STL官网文档中只列出了90个文件，少列了`vector.h`这个文件），1.1M大小（其实总代码量并不是很大，非常轻量级 (*^__^*) ）。  
+最后，这里简单介绍一下SGI STL 源码的结构。我下载的是[SGI-STL-v3.3](https://www.sgi.com/tech/stl/download.html)， 它是基于1994年HP版STL改造而成的，最新版本v3.3的更新时间是2000年6月8日，共91个文件（SGI-STL官网文档中只列出了90个文件，少列了`vector.h`这个文件），1.1M大小（其实总代码量并不是很大，非常轻量级 (\*&and;-&and;\*) ，比较适合拿来彻底分析一遍 ）。  
 
-在这91个文件中，有**37个**以 `stl_` 开头的文件，这些都是STL内部实现文件。有**23个**无扩展名的文件，这些都是STL对外提供的标准接口。有**11个**与无扩展名文件同名的.h文件，这是对应的old-style形式的头文件（至于为什么不是每个无扩展名（new-style）头文件都有对应的 `.h` 文件，我也不太清楚）。还有**20个**文件，主要是为 `stl_` 开头的文件提供比较common的功能，如 `algobase.h`、`hashtable.h` 等，或者是对 `stl_` 开头的文件进行一次内部封装，还有其他一些杂项功能等。  
+在这91个文件中，有**37个**以 `stl_` 开头的文件，这些都是STL内部实现文件。有**23个**无扩展名的文件，这些都是STL对外提供的标准接口。 有**11个**与无扩展名文件同名的.h文件，这是对应的old-style形式的头文件（至于为什么不是每个无扩展名（new-style）头文件都有对应的 `.h` 文件，我也不太清楚）。 还有**20个**文件，主要是为 `stl_` 开头的文件提供比较 common 的功能，如 `algobase.h`、`hashtable.h` 等，或者是对 `stl_` 开头的文件进行一次内部封装，还有其他一些杂项功能等。  
 
 ## 5. 参考及推荐  
 ### 推荐阅读  
 介绍STL模板的书，有两本比较经典：  
 一本是《Generic Programming and the STL》，中文翻译为《泛型编程与STL模板》，这本书由STL开发者 Matthew H.Austern编著，由STL之父Alexander Stepanov等大师审核的，介绍STL思想及其使用技巧，适合初学者使用。  
 另一本书是《STL源码剖析》，是《深入浅出MFC》的作者侯捷编写的，介绍STL源代码的实现，适合深入学习STL，不适合初学者。  
+### 源码阅读与分析工具  
+能在Linux下用熟练使用vim最好了，实在不行用 Code::Blocks 也挺不错的，可以查找函数原型、定义、调用等。在Windows下用Source Insight最好了，可惜不是免费的，但同样也可以用Code::Blocks 或 Visual C++ Express 等 IDE。  
+原本想用一个UML建模工具来分析一下STL中的类之间的关系的，但是看了看源代码，基本没有太多的继承之类的关系，而且很多UML工具对C++源码自动生成类图的功能支持得并不好，就放弃了。  
 ### 参考  
 \[1] [Wiki: Standard Template Library](http://en.wikipedia.org/wiki/Standard_Template_Library)   
 \[2] [Wiki: 标准模板库](http://zh.wikipedia.org/wiki/%E6%A0%87%E5%87%86%E6%A8%A1%E6%9D%BF%E5%BA%93)   

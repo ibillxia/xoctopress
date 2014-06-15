@@ -52,9 +52,15 @@ titlecase: true       # Converts page and post titles to titlecase
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
-blog_index_asides: [asides/category_list.html, asides/tags.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
-post_asides: [asides/category_list.html, asides/tags.html, asides/recent_posts.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
-page_asides: [asides/category_list.html, asides/recent_posts.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
+# blog_index_asides: [asides/category_list.html, asides/tags.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
+# post_asides: [asides/category_list.html, asides/tags.html, asides/recent_posts.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
+# page_asides: [asides/category_list.html, asides/recent_posts.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
+# blog_index_asides: [asides/recent_comments.html, asides/copyleft.html]
+# post_asides: [asides/recent_posts.html, asides/recent_comments.html, asides/copyleft.html]
+# page_asides: [asides/recent_comments.html, asides/copyleft.html]
+blog_index_asides: false
+post_asides: false
+page_asides: false
 
 # ----------------------- #
 #   3rd Party Settings    #
@@ -103,15 +109,15 @@ google_analytics_tracking_id: UA-39460228-1
 
 # Weibo
 # Please refer to http://weibo.com/tool/weiboshow to get your uid and verifier. 
-weibo_uid: 2704795533
-weibo_verifier: 9551ab13
-weibo_fansline: 1   # 粉丝显示多少行
-weibo_show: true    # 是否显示最近微博内容
-weibo_pic: true     # 是否显示微博中的图片
-weibo_skin: 1      # 使用哪种配色风格，数字为从1开始的微博秀风格序号
+#weibo_uid: 2704795533
+#weibo_verifier: 9551ab13
+#weibo_fansline: 1   # 粉丝显示多少行
+#weibo_show: true    # 是否显示最近微博内容
+#weibo_pic: true     # 是否显示微博中的图片
+#weibo_skin: 1      # 使用哪种配色风格，数字为从1开始的微博秀风格序号
 
 # DouBan
-douban_user: ibillxia
+#douban_user: ibillxia
 
 # JiaThis
 jiathis: true
