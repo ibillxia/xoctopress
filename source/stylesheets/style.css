@@ -86,4 +86,5 @@ code ::selection {
 
 .navbar .navbar-inner .container a:hover {
 	color: black;
+	background: #eee;
 }

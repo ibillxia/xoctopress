@@ -13,9 +13,16 @@ group: navigation
 
 
 {% for tag in site.tags %} 
-  <h2 id="{{ tag[0] }}-ref">{{ tag[0] }}</h2>
+  <h2 class="my-tags-ref" id="{{ tag[0] }}-ref"><a href="/blog/tags/{{tag[0]}}">{{ tag[0] }}</a></h2>
   <ul>
     {% assign pages_list = tag[1] %}  
     {% include JB/pages_list %}
   </ul>
 {% endfor %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".my-tags-ref a").attr("href",function(i,origValue){
+		return origValue.toLowerCase();
+	});
+});
+</script>

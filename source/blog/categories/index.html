@@ -1,0 +1,27 @@
+---
+layout: page
+title: Categories
+header: Posts By Category
+group: navigation
+---
+{% include JB/setup %}
+
+<ul class="tag_box inline">
+  {% assign categories_list = site.categories %}  
+  {% include JB/categories_list %}
+</ul>
+
+{% for cate in site.categories %} 
+  <h2 class="my-cate-ref" id="{{ cate[0] }}-ref"><a href="/blog/categories/{{ cate[0] }}">{{ cate[0] }}</a></h2>
+  <ul>
+    {% assign pages_list = cate[1] %}  
+    {% include JB/pages_list %}
+  </ul>
+{% endfor %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".my-cate-ref a").attr("href",function(i,origValue){
+		return origValue.toLowerCase();
+	});
+});
+</script>
