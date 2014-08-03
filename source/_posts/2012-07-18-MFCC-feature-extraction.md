@@ -24,7 +24,7 @@ tags: Audio Speech MFCC Matlab
 <h2>3.Mel频率倒谱系数(MFCC)参数的提取步骤</h2>
 <h4>(1) 预加重(pre-emphasis)</h4>
 <p>将经采样后的数字语音信号s(n)通过一个高通滤波器(high pass filter)：</br>
-<center>$H(z)= 1 – a*z -1 , 0.9 < a < 1.0$. </center></br>
+<center>$H(z)= 1 – a*z^{-1} , 0.9 < a < 1.0$. </center></br>
 其中a一般取0.95左右。经过预加重后的信号为：</br>
 <center>$s (n)= s(n)– a×s(n-1)$.</center></br>
 因为发声过程中声带和嘴唇的效应，使得高频共振峰的振幅低于低频共振峰的振幅，进行预加重的目的就是为了消除声带和
