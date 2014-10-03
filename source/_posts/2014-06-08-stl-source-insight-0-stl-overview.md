@@ -83,7 +83,7 @@ STL的官方文档将STL划分成了五个主要部分，分别是Containers（�
 
 ## 3. STL 各组件间的关系  
 STL 六大组件间的关系如下图（来自侯姐《STL源码剖析》一书 p6）：  
-{% img /images/2014/IMAG2014060801.jpg %}
+{% img /images/2014/IMAG2014060801.jpg %}  
 其中 Container 通过 Allocator 取得数据存储空间，Alogrithm 通过 Iterator 存取 Container 内容，Functor 可以协助 Algorithm 完成不同的策略变化，Adapter 可以修饰或套接 Functor。这里的描述有些抽象，等详细了解了每个组件的功能职责后，就比较好懂了。  
 
 ## 4. SGI STL源码结构  

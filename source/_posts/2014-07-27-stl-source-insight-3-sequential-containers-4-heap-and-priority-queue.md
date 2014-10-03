@@ -12,13 +12,14 @@ tags: C++ STL container heap
 ## 2. priority queue 的数据结构   
 要实现priority queue的功能，binary search tree（BST）也可以作为其底层机制，但这样的话元素的插入就需要O(logN)的平均复杂度，而且要求元素的大小比较随机，才能使树比较平衡。而binary heap是一种完全二叉树的结构，而且可以使用vector来存储：  
 ```
-template <class _Tp, class _Sequence __STL_DEPENDENT_DEFAULT_TMPL(vector<_Tp>), class _Compare __STL_DEPENDENT_DEFAULT_TMPL(less<typename _Sequence::value_type>) >
+template <class _Tp, class _Sequence __STL_DEPENDENT_DEFAULT_TMPL(vector<_Tp>), 
+			class _Compare __STL_DEPENDENT_DEFAULT_TMPL(less<typename _Sequence::value_type>) >
 class priority_queue { // in stl_queue.h 文件中
 protected:
   _Sequence c; // 使用vector作为数据存储的容器
   _Compare comp;
 };
-```
+```  
 另外只需要提供一组heap算法，即元素插入和删除、获取堆顶元素等操作即可。  
 <!-- more -->
 ## 3. push heap 算法  

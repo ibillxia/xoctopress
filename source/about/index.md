@@ -17,7 +17,7 @@ I am a postgraduate student in Computer Science Department, Zhejiang University 
 
 
 ## 实习/工作经历
-Now： 腾讯公司/社交网络事业群/QQ音乐算法组，基于内容的音乐场景与情感分类  
+2014.07 ~ 2014.09： 腾讯公司/社交网络事业群/QQ音乐音频基础开发组，基于内容的音乐情感分类  
 2012.07 ~ 2012.07： 北京京东商城，Web开发工程师（因考上研究生而为入职）  
 2011.07 ~ 2011.08： Linux 平台 C/C++ 开发专题的实习
 
