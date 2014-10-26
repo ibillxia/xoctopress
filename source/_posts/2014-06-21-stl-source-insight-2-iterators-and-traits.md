@@ -24,11 +24,12 @@ tags: C++ STL iterators traits
 ## 2. STL 迭代器的分类与标准接口
 ### 2.1 STL 迭代器的分类  
 在SGI STL中迭代器按照移动特性与读写方式分为 `input_iterator`, `output_iterator`, `forward_iterator`, `bidirectional_iterator`, `random_access_iterator` 这5种，他们的定义都在 `stl_iterators_base.h` 文件中。这5种迭代器的特性如下：
-> input_iterator:  这种迭代器所指对象只允许读取，而不允许改变，是只读的（read only）。
-> output_iterator:  与上面的相反，只能写（write only）。
-> forward_iterator: 同时允许读和写，适用于 `replace()` 等算法。
-> bidirectional_iterator: 可双向移动，即既可以按顺序访问，也可以按逆序访问。
-> random_access_iterator: 前4种只提供一部分指针运算功能，如前3种只支持 `operator++`, 而第4种还支持 `operator--`, 但这种随机访问迭代器还支持 `p+n`, `p-n`, `p[n]`, `p1-p2`, `p1+p2` 等。  
+
+- input_iterator:  这种迭代器所指对象只允许读取，而不允许改变，是只读的（read only）。  
+- output_iterator:  与上面的相反，只能写（write only）。  
+- forward_iterator: 同时允许读和写，适用于 `replace()` 等算法。  
+- bidirectional_iterator: 可双向移动，即既可以按顺序访问，也可以按逆序访问。  
+- random_access_iterator: 前4种只提供一部分指针运算功能，如前3种只支持 `operator++`, 而第4种还支持 `operator--`, 但这种随机访问迭代器还支持 `p+n`, `p-n`, `p[n]`, `p1-p2`, `p1+p2` 等。  
 
 从以上的特性可以看出，`input_iterator` 和 `output_iterator` 都是特殊的 `forward_iterator`, 而 `forward_iterator` 是特殊的 `bidirectional_iterator`, `bidirectional_iterator` 是特殊的 `random_access_iterator` 。在 `stl_iterator_base.h` 文件中，他们的定义中我们并不能看到这种特性的表达，而只是规定了这几种迭代器类型及应该包含的成员属性，真正表达这些迭代器不同特性的代码在 `stl_iterator.h` 文件中。在 `stl_iterator_base.h` 文件中，除了对这几种迭代器类型进行规定之外，还提供了获取迭代器类型的接口、获取迭代器中的 `value_type` 类型、获取迭代器中的 `distance_type` 、获取两个迭代器的距离（`distance` 函数）、将迭代器向前推进距离 n （`advance` 函数）等标准接口。  
 
@@ -72,11 +73,12 @@ void func_impl(I iter, T t){
 }
 ```
 这里不仅要传入类型 `class I`, 还要传入类型 `class T`。然而，迭代器的相应型别并不仅仅只有 “迭代器所指对象的类型” 这一种，例如在STL中就有如下5种：  
-> value_type: 迭代器所指对象的类型。  
-> difference_type: 表示两个迭代器之间的距离，因此也可以用来表示一个容器的最大容量。例如一个提供计数功能的泛型算法 `count()` ，其返回值的类型就是迭代器的 `difference_type` .  
-> reference_type: 从迭代器所指内容是否允许修改来看，迭代器分为 constant iterator 和 mutable iterator，如果传回一个可以修改的对象，一般是以 reference 的方式，因此需要传回引用时，使用此类型。  
-> pointer_type: 在需要传回迭代器所指对象的地址时，使用这种类型。
-> iterator_category: 即前面提到5种的迭代器的类型。  
+
+- value_type: 迭代器所指对象的类型。  
+- difference_type: 表示两个迭代器之间的距离，因此也可以用来表示一个容器的最大容量。例如一个提供计数功能的泛型算法 `count()` ，其返回值的类型就是迭代器的 `difference_type` .   
+- reference_type: 从迭代器所指内容是否允许修改来看，迭代器分为 constant iterator 和 mutable iterator，如果传回一个可以修改的对象，一般是以 reference 的方式，因此需要传回引用时，使用此类型。  
+- pointer_type: 在需要传回迭代器所指对象的地址时，使用这种类型。  
+- iterator_category: 即前面提到5种的迭代器的类型。  
 
 而且实际当中，并不是所有情况都可以通过以上的 template 的参数推导机制来实现（例如算法返回值的类型是迭代器所指对象的类型，template参数推导机制无法推导返回值类型），因此需要更一般化的解决方案，在STL中，这就是Traits编程技巧。  
 

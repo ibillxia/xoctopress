@@ -23,8 +23,13 @@ single: true
 		{% endif %}
     </p>
     {% unless page.sharing == false %}
-      {% include post/sharing.html %}
+      {% if site.jiathis == true %}
+         {% include post/jiathis.html %}
+      {% else %}
+         {% include post/sharing.html %}
+      {% endif %}
     {% endunless %}
+	</br>
 	 <ul class="pager">
       {% if page.previous.url %}
       <li class="previous"><a class="basic-alignment left"

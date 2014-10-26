@@ -7,7 +7,7 @@ categories: ASSP
 tags: Alize SPro VPR
 ---
 前段时间有好几位同学询问如何用Alize实现说话人识别的问题，由于寒假前赶Paper，来不及详细解答，更没时间写Demo。
-开学后不久抽时间写了一个Demo，并上传到了GitHub：[VoicePrintReco-branch-master](https://github.com/ibillxia/VoicePrintReco/tree/master/Demo).
+开学后不久抽时间写了一个Demo，并上传到了GitHub：[VoicePrintReco-branch-master](https://github.com/ibillxia/VoicePrintReco/tree/master/Demo). 现在新版的 Alize 3.0 已经提供了更多的官方 demo，我也将 GitHub 的源码升级了 [VPR2.0](https://github.com/ibillxia/VoicePrintReco)， 其中的Demos文件夹有Alize官方的4个demo和我自己写的这个demo。
 
 ### 基本流程
 下面将利用Alize+SPro进行简单的GMM-Based的说话人识别的基本流程总结如下：  
@@ -25,10 +25,10 @@ NormFeat.exe 再使用这个工具进行特征规整</br>
 TrainWorld.exe 训练UBM</br>
 
 #### 5.Target model training  
-TrainTarget.exe 在训练好UBM的基础上训练training set和testing set的GMM</br>
+TrainTarget.exe 在训练好UBM的基础上训练training set的GMM</br>
 
 #### 6.Testing  
-ComputeTest.exe 将testing set 的GMM在training set的GMM上进行测试和打分</br>
+ComputeTest.exe 将testing set在training set的GMM上进行测试和打分</br>
 
 #### 7.Score Normalization  
 ComputeNorm.exe 将得分进行规整</br>

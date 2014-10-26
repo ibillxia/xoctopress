@@ -1,3 +1,7 @@
+/**
+* custom style by myself
+* @copyright Bill Xia
+*/
 /* tag_box */
 .tag_box {
   list-style:none;
@@ -87,4 +91,19 @@ code ::selection {
 .navbar .navbar-inner .container a:hover {
 	color: black;
 	background: #eee;
+}
+
+body {
+	background: #333 url(../../images/octicons-bg1.png) repeat;
+}
+
+.container {
+	background: #ffffff;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+footer.page-footer {
+	background: #ffffff;
+	min-height: 60px;
 }
