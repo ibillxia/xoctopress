@@ -9,7 +9,7 @@ tags: C++ STL allocator
 在STL中，Memory Allocator 处于最底层的位置，为一切的 Container 提供存储服务，是一切其他组件的基石。对于一般使用 STL 的用户而言，Allocator 是不可见的，如果需要对 STL 进行扩展，如编写自定义的容器，就需要调用 Allocator 的内存分配函数进行空间配置。本文涉及到的 SGI STL 源代码文件有 `alloc.h`, `stl_config.h`, `stl_alloc.h`, `stl_threads.h` 这4个。  
 
 在C++中，一个对象的内存配置和释放一般都包含两个步骤，对于内存的配置，首先是调用operator new来配置内存，然后调用对象的类的构造函数进行初始化；而对于内存释放，首先是调用析构函数，然后调用 operator delete进行释放。 如以下代码：
-```
+``` cpp
 class Foo { ... };
 Foo* pf = new Foo;
 ...
@@ -21,7 +21,7 @@ Allocator 的作用相当于operator new 和operator delete的功能，只是它
 
 ## 1. Allocator 的标准接口
 在 SGI STL 中，Allocator的实现主要在文件`alloc.h` 和 `stl_alloc.h` 文件中。根据 STL 规范，Allocator 需提供如下的一些接口（见 `stl_alloc.h` 文件的第588行开始的class template allocator）：  
-```
+``` cpp
 // 标识数据类型的成员变量，关于中间的6个变量的涵义见后续文章（关于Traits编程技巧）
 typedef alloc _Alloc;
 typedef size_t     size_type;
@@ -52,7 +52,7 @@ void construct(pointer __p, const _Tp& __val) { new(__p) _Tp(__val); } // 调用
 void destroy(pointer __p) { __p->~_Tp(); } // 调用 _Tp 的析构函数来释放空间
 ```
 在SGI STL中设计了如下几个空间分配的 class template：  
-```
+``` cpp
 template <int __inst> class __malloc_alloc_template // Malloc-based allocator.  Typically slower than default alloc
 typedef __malloc_alloc_template<0> malloc_alloc
 template<class _Tp, class _Alloc> class simple_alloc
@@ -69,7 +69,7 @@ template <class _Alloc>class __allocator<void, _Alloc>
 
 ## 2. SGI STL 内存分配失败的异常处理
 内存分配失败一般是由于out-of-memory(oom)，SGI STL 本身并不会去处理oom问题，而只是提供一个 private 的函数指针成员和一个 public 的设置该函数指针的方法，让用户来自定义异常处理逻辑：
-```
+``` cpp
 private:
 #ifndef __STL_STATIC_TEMPLATE_MEMBER_BUG
   static void (* __malloc_alloc_oom_handler)();  // 函数指针
@@ -83,7 +83,7 @@ public:
   }
 ```
 如果用户没有调用该方法来设置异常处理函数，那么就不做任何异常处理，仅仅是想标准错误流输出一句out of memory并退出程序（对于使用new和C++特性的情况而言，则是抛出一个`std::bad_alloc()`异常）， 因为该函数指针的缺省值为0，此时对应的异常处理是 `__THROW_BAD_ALLOC`：
-```
+``` cpp
 // line 152 ~ 155
 #ifndef __STL_STATIC_TEMPLATE_MEMBER_BUG
 template <int __inst>
@@ -110,7 +110,7 @@ SGI STL 内存配置失败的异常处理机制就是这样子了，提供一个
 第一级配置器 `__malloc_alloc_template` 仅仅只是对 `malloc` 的一层封装，没有考虑可能出现的内存碎片化问题。内存碎片化问题在大量申请小块内存是可能非常严重，最终导致碎片化的空闲内存无法充分利用。SGI 于是在第二级配置器 `__default_alloc_template` 中 内置了一个轻量级的内存池。 对于小内存块的申请，从内置的内存池中分配。然后维护一些空闲内存块的链表（简记为空闲链表，free list），小块内存使用完后都回收到空闲链表中，这样如果新来一个小内存块申请，如果对应的空闲链表不为空，就可以从空闲链表中分配空间给用户。具体而言SGI默认最大的小块内存大小为128bytes，并设置了128/8=16 个free list，每个list 分别维护大小为 8, 16, 24, ..., 128bytes 的空间内存块（均为8的整数倍），如果用户申请的空间大小不足8的倍数，则向上取整。
 
 SGI STL内置内存池的实现请看 `__default_alloc_template` 中被定义为 private 的这些成员变量和方法（去掉了部分预处理代码和互斥处理的代码）：
-```
+``` cpp
 private:
 #if ! (defined(__SUNPRO_CC) || defined(__GNUC__))
     enum {_ALIGN = 8}; // 对齐大小
@@ -156,7 +156,7 @@ SGI STL的轻量级内存池的实现就是酱紫了，其实并不复杂。
 
 ## 4. SGI STL 内存池在多线程下的互斥访问
 最后，我们来看看SGI STL中如何处理多线程下对内存池互斥访问的（实际上是对相应的free list进行互斥访问，这里访问是只需要对free list进行修改的访问操作）。在SGI的第二级配置器中与内存池互斥访问相关的就是 `_Lock` 这个类了，它仅仅只包含一个构造函数和一个析构函数，但这两个函数足够了。在构造函数中对内存池加锁，在析构函数中对内存池解锁：
-```
+``` cpp
 //// in __default_alloc_template
 # ifdef __STL_THREADS
     static _STL_mutex_lock _S_node_allocator_lock; // 互斥锁变量

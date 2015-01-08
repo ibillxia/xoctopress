@@ -18,10 +18,10 @@ tags: C++ STL algorithm
 
 算法的核心是创建问题抽象的模型和明确求解目标，常见的算法有分治法、贪婪算法、动态规划、平摊分析等。再好的编程技巧，也无法让一个笨拙的算法起死回生，选择了错误的算法，便注定了失败的命运。
 
-算法的**时间复杂度**是指算法需要消耗的时间资源。一般来说，计算机算法是问题规模$n$的函数$f(n)$，算法的时间复杂度也因此记做：  
-$T(n) = O(f(n))$  
+算法的**时间复杂度**是指算法需要消耗的时间资源。一般来说，计算机算法是问题规模 $n$ 的函数 $f(n)$ ，算法的时间复杂度也因此记做：  
+<center> $T(n) = O(f(n))$ </center>  
 算法执行时间的增长率与$f(n)$的增长率正相关，称作渐近时间复杂度（Asymptotic Time Complexity），简称时间复杂度。
-常见的时间复杂度有：常数阶 $O(1)$ ,对数阶 $O(log_{2}n)$ ,线性阶 $O(n)$ , 线性对数阶 $O(nlog_{2}n)$ ,平方阶 $O(n^{2})$ ，立方阶 $O(n^{3})$ ，...， k次方阶 $O(n^{k})$ ,指数阶 $O(2^{n})$ 。随着问题规模 $n$ 的不断增大，上述时间复杂度不断增大，算法的执行效率越低。  
+常见的时间复杂度有：常数阶 $O(1)$ ,对数阶 $O({log}\_ {2}n)$ ,线性阶 $O(n)$ , 线性对数阶 $O(n{log}\_ {2} n)$ ,平方阶 $O(n^2 )$ ，立方阶 $O(n^3 )$ ，...， k次方阶 $O( n^k )$ ,指数阶 $O( 2^n )$ 。随着问题规模 $n$ 的不断增大，上述时间复杂度不断增大，算法的执行效率越低。  
 
 算法的**空间复杂度**是指算法需要消耗的空间资源。其计算和表示方法与时间复杂度类似，一般都用复杂度的渐近性来表示。同时间复杂度相比，空间复杂度的分析要简单得多。
 <!-- more -->
@@ -61,7 +61,7 @@ STL 算法的实现主要在 `stl_algobase.h`、`stl_algo.h`、`stl_numeric.h` �
 
 下面以查找算法的泛化过程为例详细介绍算法泛化的奇妙。对于查找算法，我们首先想到的是在一个整型数组中查找指定元素，一个基本的实现如下：  
 
-```
+``` cpp
 int* find(int* arrayHead, int arraySize, int value){
 	for(int i=0; i < arraySize; i++){
 		if(arrayHead[i] == value) break;
@@ -72,7 +72,7 @@ int* find(int* arrayHead, int arraySize, int value){
 
 该函数在数组中查找指定值的元素，返回找到的第一个符合条件的元素的地址，如果没有找到就返回最后一个元素的下一个位置（称为end）。当没有找到时，这里为什么要返回地址值（end）而不返回null呢？这是为了方便调用后续的泛型算法，但实际上该算法本身还是与容器相关的，而且暴露了很多容器的实现细节（如arraySize等）。为了让该算法适用于所有类型的容器，其操作应该更抽象化，可以让 find 接受两个指针作为参数，标识出一个操作区间，如下：  
 
-```
+``` cpp
 int* find(int* begin, int* end, int value){
 	while(begin != end && *begin != value) ++begin;
 	return begin;
@@ -81,7 +81,7 @@ int* find(int* begin, int* end, int value){
 
 该函数在区间 `[begin, end)` 内查找 value，并返回一个指针。这样做之后，已经隐藏了容器内部特性了，但不足的是，要求元素的数据类型为整型，我们可以通过模板参数来解决这个问题：
 
-```
+``` cpp
 template<typename T>
 T* find(T* begin, T* end, const T& value){
 	// 用到了operator !=,*,++
@@ -94,7 +94,7 @@ T* find(T* begin, T* end, const T& value){
 
 但这个版本还不够泛化，因为参数被限制为指针，而那些支持以上四种操作、行为很像指针的某些对象就无法使用 find 了。在STL中有迭代器，它是一种行为类似指针的对象，是一种smart pointers，使用迭代器实现 find 如下：
 
-```
+``` cpp
 template<class Iterator, class T>
 Iterator find(Iterator begin, Iterator end, const T& value){
 	while(begin != end && *begin != value) ++begin;

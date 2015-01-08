@@ -39,7 +39,7 @@ go version go1.2.1 windows/amd64
 并发编程范式。协程是比进程和线程更轻量级的线程，go语言标准库提供的所有系统调用操作都会出让CPU给其他goroutine，协程的切换管理不依赖于系统的线程和
 进程，也不依赖于CPU的核心数量。下面我们来看一个简单的goroutine的实例。
 
-```
+``` go
 package main
 
 import "fmt"
@@ -89,7 +89,7 @@ Result of 0:Result of 1:Result of 2:Result of 3:Result of 4:Result of 5:Result o
 <h4>#0x02.并发通讯</h4>
 <p>等一等，多个协程读写同一个变量，我们是不是需要对这个变量枷锁呀？答案是肯定的，我们可以采用类似与C/C++的线程通讯、数据共享的思路来实现，如下：
 
-```
+``` go
 package main
 
 import (
@@ -134,7 +134,7 @@ Result of 0:Result of 1:Result of 2:Result of 3:Result of 4:Result of 5:Result o
 
 出现了运行时错误，数组下表越界了？！第17行还是没有输出？！经过一番修改，得到如下代码：
 
-```
+``` go
 package main
 
 import (
@@ -193,7 +193,7 @@ Done
 然后判断i<10，成立就继续执行并创建协程，10个协程创建完了之后，才真正开始匿名函数的执行，而此时i已经是10了，对于每一个协程i都是10，因此最终只计算了一个arr[10]=110，
 这也是为什么申请10个单位的数组时会出现运行时错误。而这完全不是我们所要的结果，那么怎么办呢？我们不妨用带参数的匿名函数来试试？如下：
 
-```
+``` go
 package main
 
 import (
@@ -246,7 +246,7 @@ channel是Go语言在语言级别提供的goroutine间的通信方式，可以�
 对象的过程和调用函数时的参数传递行为比较一致，比如也可以传递指针等。如果需要跨进程通信，建议用分布式系统的方法来解决，比如使用Socket或者HTTP等通信协议。
 channel是类型相关的。也就是说，一个channel只能传递一种类型的值，这个类型需要在声明channel时指定。我们先看下用channel的方式重写上面的例子是什么样子的
 
-```
+``` go
 package main
 
 import "fmt"
@@ -275,7 +275,7 @@ func main() {
 只有完成了写操作之后，才可以进行读取，否则会处于阻塞状态。因此在10个goroutine没有执行完之前，main函数是不会退出的。这样是不是比共享内存的方式更简单
 而优雅呢？其实，我们还可以对代码继续进行简化，可以将匿名函数的传递的channel参数省去，而在匿名函数内部直接使用全局的chs[i]，匿名函数可以修改为如下：
 
-```
+``` go
 go func(i int) {
 	arr[i] = i + i*i
 	chs[i] <- 1  // 写channel

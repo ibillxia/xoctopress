@@ -17,7 +17,7 @@ tags: C++ STL container vector
 在STL中，vector的空间在物理上就是连续的，而且是可以动态扩展的，这里的动态扩展，不需要用户去处理溢出的问题，而只需要关心上层逻辑。vector连续物理空间的动态扩展技术是该容器的关键，它主要分为三个步骤：配置新空间，数据移动，释放旧空间。这三个步骤执行的次数以及每次执行时的效率是影响最终 vector 效率的关键因素。为了减少执行的次数，就需要未雨绸缪，每次扩充空间时，成倍增长。而每次执行的效率，就主要是数据移动的效率了。下面，我们依次介绍vector的数据结构，使用的空间配置器和迭代器，以及常用操作。  
 **vector 的数据结构**  
 vector的数据结构很简单，就是一段连续的物理空间，包含起止地址以及已用到的空间的末尾地址这三个成员：  
-```
+``` cpp
 template <class _Tp, class _Alloc>
 class _Vector_base {
 protected:
@@ -33,7 +33,7 @@ class vector : protected _Vector_base<_Tp, _Alloc>{
 
 ## 3. vector 的配置器  
 vector的空间配置器 STL 默认的 `alloc` 即 `__default_alloc_template` 配置器，即第二级配置器，它对于 POD(plain old data) 类型数据使用内建内存池来应对内存碎片问题，关于该默认配置器的更多介绍请参见本系列第2篇文章 [深入理解STL源码(1) 空间配置器](http://ibillxia.github.io/blog/2014/06/13/stl-source-insight-1-memory-allocator/) . 除此之外，SGI vector 还定义了一个 `data_allocator`，为的是更方便的以元素大小为配置单位：  
-```
+``` cpp
 template <class _Tp, class _Alloc> 
 class _Vector_base  // vector 继承了该基类
 protected:
@@ -44,7 +44,7 @@ protected:
 vector的内存是在vector的构造或析构、插入元素而容量不够等情况下，需要进行配置。vector 提供了很多的构造函数，具体可见源代码，而更详细的列表并涉及各个版本的说明的列表可以参见C++的文档：[cpp references](http://en.cppreference.com/w/cpp/container/vector/vector).  
 ## 4. vector 的迭代器  
 由于vector使用的物理连续的空间，需要支持随机访问，所以它使用的随机访问迭代器（Random Access Iterators）。也正由于vector使用连续物理空间，所以不论其元素类型为何，使用普通指针就可以作为它的迭代器：  
-```
+``` cpp
 public:
   typedef _Tp value_type;
   typedef value_type* iterator;
@@ -54,7 +54,7 @@ public:
 ## 5. vector 的常用操作  
 vector所提供的元素操作很多，这里选取几个常用操作介绍一下。  
 **（1）push_back**  
-```
+``` cpp
 public  void push_back(const _Tp& __x) {
 if (_M_finish != _M_end_of_storage) {
     construct(_M_finish, __x);
@@ -66,7 +66,7 @@ else
 ```
 其中辅助的insert函数的基本逻辑为：按原空间大小的两倍申请新空间，复制原数据到新空间，释放原空间，更新新vector的数据结构的成员变量。  
 **（2）insert**  
-```
+``` cpp
 public  iterator insert(iterator __position, const _Tp& __x) {
     size_type __n = __position - begin();
     if (_M_finish != _M_end_of_storage && __position == end()) {
@@ -80,7 +80,7 @@ public  iterator insert(iterator __position, const _Tp& __x) {
 ```
 与`push_back`类似，只是`push_back` 在最后插入，更为简单。insert 首先判断是否为在最后插入且容量足够，如果是最后插入且容量足够就就直接内部实现了。否则还是调用上面的辅助插入函数，该函数中首先判断容量是否足够，容量足的话，先构造一个新元素并以当前vector的最后一个元素的值作为其初始值，然后从倒数第二个元素开始从后往前拷贝，将前一元素的值赋给后一元素，知道当前插入位置。  
 **(3)erase**  
-```
+``` cpp
 public  iterator erase(iterator __first, iterator __last) {
     iterator __i = copy(__last, _M_finish, __first);
     destroy(__i, _M_finish);

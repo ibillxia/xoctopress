@@ -45,7 +45,7 @@ RB-tree是另一种被广泛使用的平衡二叉搜索树，也是SGI STL唯一
 上面的这些约束保证了这个树大致上是平衡的，这也决定了红黑树的插入、删除、查询等操作是比较快速的。 根据规则5，新增节点必须为红色；根据规则4，新增节点之父节点必须为黑色。当新增节点根据二叉搜索树的规则到达其插入点时，却未能符合上述条件时，就必须调整颜色并旋转树形。下图是一个典型的RB-tree（来自wiki）：  
 {% img /images/2014/IMAG2014080302.png%}  
 SGI STL中RB-tree的数据结构比较简单，其中每个节点的数据结构如下：
-```
+``` cpp
 typedef bool _Rb_tree_Color_type;
 const _Rb_tree_Color_type _S_rb_tree_red = false;
 const _Rb_tree_Color_type _S_rb_tree_black = true;
@@ -75,7 +75,7 @@ template <class _Value> struct _Rb_tree_node : public _Rb_tree_node_base { // �
 ```
 其中每个节点主要包含一个标志颜色的bool变量 `_M_color`，3个节点指针 `_M_parent` , `_M_left` , `_M_right`，2个成员函数 `_S_minimum` 和 `_S_maximum` （分别求取最小（最左）、最大（最右）节点）。  
 而RB-tree的定义如下：  
-```
+``` cpp
 template <class _Tp, class _Alloc> struct _Rb_tree_base { // RB-tree的定义
   typedef _Alloc allocator_type;
   allocator_type get_allocator() const { return allocator_type(); }
@@ -99,7 +99,7 @@ class _Rb_tree : protected _Rb_tree_base<_Value, _Alloc> {
 
 ## 3. RB-tree的迭代器
 要将RB-tree实现为一个泛型容器并用作set、map的低层容器，迭代器的设计是一个关键。RB-tree的迭代器是一个双向迭代器，但不具备随机访问能力，其引用（dereference）和访问（access）操作与list十分类似，较为特殊的是自增（operator++）和自减（operator--）操作，这里的自增/自减操作是指将迭代器移动到RB-tree按键值大小排序后当前节点的下一个/上一个节点，也即按中序遍历RB-tree时当前节点的下一个/上一个节点。RB-tree的迭代器的定义如下：   
-```
+``` cpp
 struct _Rb_tree_base_iterator {
   typedef _Rb_tree_node_base::_Base_ptr _Base_ptr;
   typedef bidirectional_iterator_tag iterator_category;
@@ -113,7 +113,7 @@ struct _Rb_tree_iterator : public _Rb_tree_base_iterator {
 };
 ```
 可以看到RB-tree的自增和自减操作是使用基迭代器的increment和decrement来实现的，这里仅分析自增操作的实现（自减操作类似的）。RB-tree的自增操作实际上是寻找中序遍历下当前节点的后一个节点，其代码如下：  
-```
+``` cpp
   void _M_increment()  { // 自增操作，中序遍历的下一个节点
     if (_M_node->_M_right != 0) { // 当前节点有右子树
       _M_node = _M_node->_M_right;
@@ -135,7 +135,7 @@ struct _Rb_tree_iterator : public _Rb_tree_base_iterator {
 ## 4. RB-tree的插入操作
 #### 4.1 基本插入操作
 RB-tree提供两种插入操作，`insert_unique()` 和 `insert_equal()`，顾名思义，前者表示被插入的节点的键值在树中是唯一的（如果已经存在，就不需要插入了），后者表示可以存在键值相同的节点。这两个函数都有多个版本，下面以后者的最简单版本（单一参数：被插入的节点的键值）为实例进行介绍。下面是 `insert_equal` 的实现：
-```
+``` cpp
 _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc> ::insert_equal(const _Value& __v) {
   _Link_type __y = _M_header;
   _Link_type __x = _M_root(); // 从根节点开始
@@ -215,7 +215,7 @@ RB-tree的调整与AVL-tree类似但更复杂，因为不仅仅需要旋转，�
 
 ## 6. RB-tree的查询操作
 RB-tree是一个二叉搜索树，元素的查询是其拿手项目，非常简单，以下是RB-tree提供的查询操作：
-```
+``` cpp
 template <class _Key, class _Value, class _KeyOfValue, class _Compare, class _Alloc>
 typename _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>::iterator 
 _Rb_tree<_Key,_Value,_KeyOfValue,_Compare,_Alloc>::find(const _Key& __k) {

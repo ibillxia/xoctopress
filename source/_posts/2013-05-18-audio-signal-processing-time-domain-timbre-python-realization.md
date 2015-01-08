@@ -30,7 +30,7 @@ import进来，因为ms与numpy的版本有冲突，出现了什么“numpy.dtyp
 
 <p>
 闲话少说了，上代码吧，其实看看这代码也挺简单的，就调一个matplotlib.pyplot.specgram()就可以了。
-{% codeblock %}
+``` py3
 import wave
 import numpy as np
 import matplotlib.pyplot as plt
@@ -51,7 +51,7 @@ plt.specgram(soundInfo,Fs = f, scale_by_freq = True, sides = 'default')
 plt.ylabel('Frequency')
 plt.xlabel('time(seconds)')
 plt.show()
-{% endcodeblock %}
+```
 </p>
 
 <p>程序运行的效果如下图：

@@ -13,7 +13,7 @@ tags: Octopress CSS jQuery
 ## Design & CSS
 相关的 HTML 代码很简单，在source/_include/custom/footer.html中添加如下代码：
 
-```
+``` html
 <p id = "back-top">
 	<a href="#top"><span></span>Back to Top</a>
 </p>
@@ -23,7 +23,7 @@ tags: Octopress CSS jQuery
 
 对应的 CSS 样式的设置如下：（这段代码同样的放在source/_include/custom/footer.html文件中）
 
-```
+``` css
 <style type="text/css">
 #back-top {
 	position: fixed;
@@ -82,7 +82,7 @@ tags: Octopress CSS jQuery
 ## jQuery部分
 HTML 和 CSS 样式设置好了之后，最后就是添加 JavaScript 事件响应代码了，这里是基于 jQuery 实现的。代码如下：（这段代码还是放在source/_include/custom/footer.html文件中）
 
-```
+``` js
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){

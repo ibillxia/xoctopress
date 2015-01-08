@@ -32,7 +32,7 @@ tags: STL Permutation Leetcode Recursive
 
  一个简单的实现如下：
 
-```
+``` cpp
 void recursive_permute(int A[],int i,int n){
 	if(i==n-1){
 		for(int j=0;j<n;j++)
@@ -58,7 +58,7 @@ void recursive_permute(int A[],int i,int n){
 
 添加这个限制的递归实现代码如下：
 
-```
+``` cpp
 void recursive_permute2(int A[],int i,int n){
 	if(i==n-1){
 		for(int j=0;j<n;j++)
@@ -93,7 +93,7 @@ void recursive_permute2(int A[],int i,int n){
 
 上面的说明已经很接近伪代码了，具体实现如下：
 
-```
+``` cpp
 bool next_permute(int A[],int n){
 	int i,j;
 	// step .1
@@ -134,7 +134,7 @@ void non_recursive_permute(int A[],int n){
 ## STL 中 next permute 的实现
 下面来分析一下 STL 中是如何实现 next permute 的，在 stl_algo.h 中我们可以找到 next_permutation 的实现，基本思路也是按照上面的四步走来实现的，具体见如下代码及注释：
 
-```
+``` cpp
 /**
  *  @brief  Permute range into the next @a dictionary ordering.
  *  @ingroup sorting_algorithms
@@ -189,7 +189,7 @@ next_permutation(_BidirectionalIterator __first,
 
 这里是用双向迭代器对容器中的元素进行操作的，一个调用的实例如下：
 
-```
+``` cpp
 vector<vector<int> > permute(vector<int> &num) {
 	vector<vector<int> > ans;
 	sort(num.begin(),num.end());

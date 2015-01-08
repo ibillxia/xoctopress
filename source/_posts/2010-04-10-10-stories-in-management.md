@@ -4,7 +4,7 @@ title: "管理的十个寓言故事"
 date: 2010-04-10 12:36
 comments: true
 categories: Life
-tags: Management Story
+tags: 管理 寓言
 ---
 <h2>▲ (一)相信自己是一只雄鹰 ▲</h2>
 <p>一个人在高山之巅的鹰巢里，抓到了一只幼鹰，他把幼鹰带回家，养在鸡笼里。这只幼鹰和鸡一起啄食、嬉闹和休息。它以为自己是一只鸡。 

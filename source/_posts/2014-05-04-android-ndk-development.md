@@ -22,33 +22,33 @@ tags: Android NDK JNI
 
 下面重点讲讲 Android 相关 SDK 的安装和配置，主要涉及到 Android SDK，ADT，NDK等。要进行 Android 开发，首先需要安装 Android SDK，要在 Eclipse 中进行开发的话，还需在 Eclipse 中安装 ADT(Android Develop Tools)，在 Android 官网上提供了 SDK 和 包含 ADT 的 Eclipse 的集成开发包，可以一起下载：[adt-bundle-linux-x86-20140321.zip](http://dl.google.com/android/adt/22.6.2/adt-bundle-linux-x86-20140321.zip)。另外，还需要安装 NDK，下载地址：[android-ndk-r9d-linux-x86.tar.bz2](http://dl.google.com/android/ndk/android-ndk-r9d-linux-x86.tar.bz2)。下载完这两个压缩包后解压并移动到 /usr/local 目录下：
 
-``` 
+```
 sudo mv Downloads/adt-bundle-x86-20140321/ /usr/local/adt-x86-20140321 
 mv Downloads/android-ndk-r9d/ /usr/local/adt-x86-20140321/ndk-r9d 
-``` 
+```
 
 然后配置环境变量： 
 
-``` 
+```
 sudo vim /etc/profile 
 ``` 
 
 在 /etc/profile 最后添加如下两行： 
 
-``` 
+```
 export PATH=/usr/local/adt-x86-20140321/sdk/tools:/usr/local/adt-x86-20140321/sdk/platform-tools:$PATH 
 export PATH=/usr/local/adt-x86-20140321/ndk-r9d:$PATH 
 ``` 
 
 保存并退出，并用如下命令使设置生效： 
 
-``` 
+```
 source /etc/profile 
 ``` 
 
 完了可以执行如下命令看看设置是否生效： 
 
-``` 
+```
 echo $PATH 
 adb --version 
 emulator -version 
@@ -70,7 +70,7 @@ ndk-build --version
 #### 3.4 编写 java API 
 原本按照图一中的流程我们需要先编写一些 C/C++ 原生的代码，但实际中，为了简便起见，我们可以使用 jdk 的 javah 工具（如果没有， `sudo apt-get update` 一下）来根据 java 调用 C/C++ API 的接口类来自动生成 jni 的头文件。因此，我们需要先做第3步的内容，这里编写的 Java API 接口 HelloCal 类（在 `src/io.ibillxia.hellojni` 路径下）如下： 
 
-```
+``` java
 //HelloCal.java
 package io.ibillxia.hellojni; 
 
@@ -90,7 +90,7 @@ public class HelloCal {
 #### 3.5 使用 javah 生成 jni 格式的 C/C++ API 
 编写完 java API 后在 Eclipse 中 build 一下生成对应 .class 文件，然后使用 javah 工具根据该 class 文件自动生成 jni API 的头文件。在 HelloJni App 根目录下执行如下命令： 
 
-``` 
+```
 javah -classpath ./bin/classes -d jni io.ibillxia.hellojni.HelloCal 
 ``` 
 
@@ -115,7 +115,7 @@ javah -classpath ./bin/classes -d jni io.ibillxia.hellojni.HelloCal
 #### 3.6 编写 Android App 
 最后是编写 Android App，并在 App 中调用 Jni 接口函数。在 `io.ibillxia.hellojni` 包中新建一个 Java 类 HelloJni ，编写如下代码（import 内容省略，具体见源码压缩包）： 
 
-```
+``` java
 //HelloJni.java
 public class HelloJni extends Activity {
     /** Called when the activity is first created. */

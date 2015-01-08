@@ -60,7 +60,7 @@ tags: Pitch PitchTracking Python ACF
 其中$\tau$是一个延迟的时间间隔。在某个区间使得$acf(\tau)$取得最大值的那个$\tau$值就选为pitch的起止点，如下图所示：
 <center>{% img /images/2013/IMAG2013052902.png %}</center>
 也就是说，我们将原始语音信号与其平移延迟信号的重叠（时间上重叠）部分进行内积运算，从而得到ACF。下面看一个具体的实例，其代码如下：
-{% codeblock %}
+``` py3
 import wave
 import numpy as np
 import pylab as pl
@@ -114,7 +114,7 @@ pl.plot(np.arange(frameSize),acf,'g')
 pl.xlabel("index in 1 frame")
 pl.ylabel("ACF")
 pl.show()
-{% endcodeblock %}
+```
 程序运行结果如下图所示：
 <center>{% img /images/2013/IMAG2013052903.png %}</center>
 </p>

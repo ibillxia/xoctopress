@@ -13,7 +13,7 @@ tags: C C++ Pointer STL
 我们先直接看一个例子吧。这个例子比较全面而且简单，其中的函数指针是带参数且有返回值的函数指针，而且还有把函数指针作为参数来传递的代码。这个例子来自 [jobbole伯乐在线](http://blog.jobbole.com/44639/)，代码如下：
 <!-- more -->
 
-```
+``` c
 #include <stdio.h>
  
 // 函数原型
@@ -50,15 +50,15 @@ int main() {
 在函数 `domath` 中，我们可以根据传入的 `mathop` 函数指针来做不同的计算操作。另外，在该文中，最后提到函数名会被隐式的转换为函数指针，就像作为参数传递的时候，数组名被隐式的转换为指针一样。在函数指针被要求当作输入的任何地方，都能够使用函数名，解引用符 `*` 和取地址符 `&` 用在函数名之前基本上都是多余的。这个之前还真不知道，新技能get，哈哈
 
 #### 使用typedef
-在C语言中，对于函数指针，我们可以使用 `typedef` 将其定义为一种数据类型，这样我们就可以定义这种类型的变量了，就像使用普通的变量类型一样。下面是一个具体的定义（来自[stackoverflow](http://stackoverflow.com/questions/4295432/typedef-function-pointer)）：
+在C语言中，对于函数指针，我们可以使用 `typedef` 将其定义为一种数据类型，这样我们就可以定义这种类型的变量了，就像使用普通的变量类型一样。下面是一个具体的定义（来自[stackoverflow](http://stackoverflow.com/questions/4295432/typedef-function-pointer) Jacob的回答）：
 
-> typedef   void      (*FunctionFunc)  ( );
-> //         ^                ^         ^
-> //     return type      type name  arguments
+        typedef   void      (*FunctionFunc)  ( );
+       //         ^                ^         ^
+       //     return type      type name  arguments
 
 这里 `typedef` 的使用方法与一般的 `typedef A B` 的使用方式不不大一样的，如果没有接触过这种用法，可能开起来很别扭（在很多开源库中可能经常会碰到）。下面是其具体使用的实例（不完整代码）：
 
-```
+``` c
 FunctionFunc x;
 void doSomething() { printf("Hello there\n"); }
 x = &doSomething;
@@ -72,7 +72,7 @@ x(); //prints "Hello there"
 
 在C++中，对应于C中函数指针的东西是仿函数（functor），使用起来就像函数一样。其实现方法是对某个 class 进行 `operator()` 重载，他就成为一个仿函数。而要成为一个可适配（adaptable）的仿函数，还需要其他的一些努力（在《STL源码剖析》一书的第8章，关于适配器（adaptor）的内容）。这里，我们只拿书中的那个例子来简单的看一下仿函数的定义和使用方法吧。代码如下：
 
-```
+``` cpp
 #include <iostream>
 using namespace std;
 
@@ -107,7 +107,7 @@ int main(){
 ## 在快排中使用函数调用操作符
 为了加深对函数调用操作符的理解，并将其真正用到实际中，这里拿快排这个非常典型的例子，并充分利用C++及STL的特性。下面是核心代码：
 
-```
+``` cpp
 template<typename InIt,typename FuncType>
 void myqsort(InIt begin, InIt end, FuncType cmp){
 	if(begin==end||begin==end-1)return;
@@ -138,17 +138,9 @@ class Test{
 public:
 	double m_lf;
 	string m_str;
-
 public:
-	void set(){
-		cin>>m_lf;
-		cin>>m_str;
-	}
-
-	void print(){
-		cout<<m_lf<<" ";
-		cout<<m_str<<endl;
-	}
+	void set(){ cin>>m_lf>>m_str; }
+	void print(){ cout<<m_lf<<" "<<m_str<<endl; }
 };
 
 struct cmpd{

@@ -8,7 +8,7 @@ Jekyll::HighlightBlock.class_eval do
 	if defined?(PYGMENTS_CACHE_DIR)
 		path = File.join(PYGMENTS_CACHE_DIR, "#{@lang}-#{Digest::MD5.hexdigest(code)}.html")
 		if File.exist?(path)
-			highlighted_code = File.read(path)
+			highlighted_code = File.read(path, :encoding => "utf-8")
 		else
 			highlighted_code = Albino.new(code, @lang).to_s(@options)
 			File.open(path, 'w') {|f| f.print(highlighted_code) }

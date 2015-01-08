@@ -39,8 +39,8 @@
 /* back_to_top style */
 #back-top {
 	position: fixed;
-	bottom: 50px;
-	right: 100px;
+	bottom: 60px;
+	right: 10px;
 }
 
 #back-top a {
@@ -50,7 +50,7 @@
 	font: 11px/100% Arial, Helvetica, sans-serif;
 	text-transform: uppercase;
 	text-decoration: none;
-	color: #bbb;
+	color: #888;
 
 	/* transition */
 	-webkit-transition: 1s;
@@ -58,7 +58,7 @@
 	transition: 1s;
 }
 #back-top a:hover {
-	color: #000;
+	color: #fff;
 }
 
 /* arrow icon (span tag) */
@@ -88,22 +88,37 @@ code ::selection {
 }
 */
 
+.navbar{
+	background-color: #ffffff;
+}
+
 .navbar .navbar-inner .container a:hover {
 	color: black;
 	background: #eee;
 }
 
 body {
-	background: #333 url(../../images/octicons-bg1.png) repeat;
+	padding-bottom: 0px;
+	background-color: #222222;
+	background-image: url(../../images/octicons-bg1.png);
+	background-repeat: repeat;
+	background-position: top center;
+	background-attachment: fixed;
+	font-family: "Microsoft YaHei",Helvetica,Arial,sans-serif;
 }
 
 .container {
-	background: #ffffff;
+	background-color: #ffffff;
 	padding-left: 20px;
 	padding-right: 20px;
 }
 
 footer.page-footer {
-	background: #ffffff;
 	min-height: 60px;
+	background-color: #ffffff;
 }
+
+.line-numbers {
+	font-size: 14px;
+}
+

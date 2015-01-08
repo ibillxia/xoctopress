@@ -23,7 +23,7 @@ C++ 程序的存储空间可以分为静态/全局存储区、栈区和堆区。
 #### 2.1 C++内置new/delete的原型
 一般来说 C++ 的运行库提供了默认的全局 `new/new[]` 和 `delete/delete[]` 的实现，程序也可以用自定义的实现来取代运行库的实现。 下面是 C++ 标准中定义的 `new/new[]` 和 `delete/delete[]` 的声明（位于 `include/c++/new` 文件中）：
 
-```
+``` cpp
 namespace std {
   class bad_alloc : public exception {
     public:
@@ -62,7 +62,7 @@ inline void  operator delete[](void*, void*) throw() { }
 #### 2.2 使用 `new_handler` 自定义异常处理
 下面看一个例子，看看如何使用 `new_handler` 处理内存分配失败的情况：
 
-```
+``` cpp
 #include<new>
 #include<cstdio>
 #include<Windows.h>
@@ -121,7 +121,7 @@ Please contact the application's support team for more information.
 #### 2.3 使用 placement new
 在 C++ 内置 `new/delete` 中最后的一种是 placement 形式的 `new/delete` ，即分配的内存地址有用户给定。下面是一个最简单的实例：
 
-```
+``` cpp
 #include <cstdio>
 #include <new>
 using namespace std;
@@ -141,7 +141,7 @@ int main()
 #### 2.4 重载 placement new
 在 `new` 操作符中，除了可以使用自定义申请的内存的大小及位置，我们还可以通过重载系统的 `new/delete` 操作符来加入其它一些附加参数，但仍称之为 `placement new` 。例如：
 
-```
+``` cpp
 #include<cstdio>
 #include<new>
 using namespace std;
@@ -176,7 +176,7 @@ int main(){
 
 更新：关于 `placement new` 的 demo 改为如下代码后就没问题了：
 
-```
+``` cpp
 #include<cstdio>
 #include<new>
 using namespace std;

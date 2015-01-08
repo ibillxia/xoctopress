@@ -16,7 +16,7 @@ tags: Pitch Python
 </p>
 <!--more-->
 <p>其代码如下：
-{% codeblock %}
+``` py3
 import wave
 import numpy as np
 import pylab as pl
@@ -62,7 +62,7 @@ pl.plot(np.arange(512),waveData[15000:15512],'g')
 pl.xlabel("index in 1 frame")
 pl.ylabel("Amplitude")
 pl.show()
-{% endcodeblock %}
+```
 </p>
 
 <p>根据参考[1]，可以通过观察一帧的波形图来计算基音频率（感觉这种方法有点奇葩，不过很直观。例如这里的基频为：1/( (169-59)*1.0/framerate )=145.45Hz），

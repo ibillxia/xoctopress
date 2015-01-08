@@ -13,7 +13,7 @@ tags: C++ STL container deque stack queue
 没错，与我们在数据结构中学到的固定连续空间的双端队列不同，STL中的deque是分段连续的空间通过list链接而成的序列容器，它结合了vector与list的存储特性，但与vector和list都不同的是deque只能在首部或尾部进行插入和删除操作，这个限制在一定程度上简化了deque实现的难度。由于使用分段连续空间链接的方式，所以deque不存在vector那样“因旧空间不足而重新配置新的更大的空间，然后复制元素，再释放原空间”的情形，也不会有list那样每次都只配置一个元素的空间而导致时间性能和空间的利用率低下。  
 ## 2. deque 的数据结构  
 deque由一段一段连续空间串接而成，一旦有必要在deque的头部或尾端增加新的空间，便配置一段定量连续的空间，串接在deque的头部或尾端。deque的最大任务，就是在这些分段连续的空间上维护其整体连续的假象，并提供随机存取的接口。deque采用一块所谓的map（注意：不是STL中map容器，而是类似于vector）作为主控（为什么不使用list呢？），这块map是一个连续空间，其中每个元素都是一个指针，指向一段连续的空间，称为缓冲区，它才是deque的真正存储空间。SGI中允许指定缓冲区的大小，默认是512字节。除此之外，还有start和finish两个指针，分别指向第一个缓冲区的第一个元素和最后一个缓冲区的最后一个元素。其数据结构如下：  
-```
+``` cpp
 inline size_t __deque_buf_size(size_t __size) { // 计算缓冲区的大小
   return __size < 512 ? size_t(512 / __size) : size_t(1);
 }
@@ -33,7 +33,7 @@ protected:  // Internal typedefs
 <!-- more -->
 ## 3. deque 的配置器  
 由于deque涉及到两种类型（map和buffer）数据的空间配置，因此deque定义了两个专属的配置器 `_Map_alloc_type` 和 `_Node_alloc_type`:  
-```
+``` cpp
 template <class _Tp, class _Alloc> class _Deque_base {
 protected:
   typedef simple_alloc<_Tp, _Alloc>  _Node_alloc_type;
@@ -44,7 +44,7 @@ class deque : protected _Deque_base<_Tp, _Alloc> { };
 ```
 而这里的 `_Alloc` 使用的都是STL默认的 `alloc` 这个配置器，因此这两个配置器实际上都是 `alloc` 类型的配置器，即SGI的第二级配置器。  
 在定义一个deque时，默认调用基类的构造函数，产生一个map大小为0的空的deque，随着第一次插入元素，由于map大小不够，需要调用`_M_push_back_aux` 进而调用 `_M_reallocate_map` 进行map的空间配置，如果初始的map不为空，还需要对map进行“分配新空间，复制，释放元空间”的操作，如果从头部插入同样的道理，这是就是map的配置逻辑（实际中，还有一种情况，就是map的前后剩余的node数不同，例如前部分都空着，而后面插入后溢出了，这时可以考虑在map内部移动，即将后半部分整体往前移动一定距离）。其中`_M_reallocate_map`的实现如下：  
-```
+``` cpp
 template <class _Tp, class _Alloc>
 void deque<_Tp,_Alloc>::_M_reallocate_map(size_type __nodes_to_add, bool __add_at_front){
   size_type __old_num_nodes = _M_finish._M_node - _M_start._M_node + 1;
@@ -71,7 +71,7 @@ void deque<_Tp,_Alloc>::_M_reallocate_map(size_type __nodes_to_add, bool __add_a
 ```
 那么每个连续的缓冲区buffer（或node）是在什么时候配置呢？它是在map中实际使用到的最后一个node不够用时但map还可以继续在这个node后面加入node时（即map非满而node满时），在 `_M_push_back_aux` 中调用 `_M_allocate_node` 来分配，相关函数都比较简单，这里就不贴了。  
 以上主要是空间分配相关的，那么在 `pop` 的时候，空间的释放又是怎样的呢？这里也需要判断是否当前node全部被 `pop` 了，如果是的则需要释放这个node所占用的空间。如下：  
-```
+``` cpp
 void pop_back() { // deque内部实现的成员函数，inline的
     if (_M_finish._M_cur != _M_finish._M_first) { // 整个node还没有pop完
       --_M_finish._M_cur;
@@ -88,7 +88,7 @@ void deque<_Tp,_Alloc>::_M_pop_back_aux() { // 整个node被pop完了的情况
 ```
 ## 4. deque 的迭代器  
 deque是分段连续空间，前面也提到了deque使用的是Bidirectional Iterators，因此deque的迭代器主要需要实现`operator++`和`operator--`。要实现这两个操作，需要考虑当前指针是否处于buffer的头/尾，如果在buffer的头部而需要前移（或尾部需要后移），就需要将buffer往前/后移一个，在SGI中是通过调用 `_M_set_node` 来实现的。具体代码如下：  
-```
+``` cpp
 template <class _Tp, class _Ref, class _Ptr> struct _Deque_iterator {
   typedef _Tp** _Map_pointer;
   _Tp* _M_cur; // 几个成员变量
@@ -115,7 +115,7 @@ template <class _Tp, class _Ref, class _Ptr> struct _Deque_iterator {
 deque中最常用的莫过于 `push` 和 `pop` 操作了，这些操作在前面的空间配置中基本已经介绍了，这里就主要介绍一下 `clear`、 `erase` 和 `insert` 操作吧。  
 **（1）clear**  
 该函数的作用是清除整个deque，释放所有空间而只保留一个缓冲区：  
-```
+``` cpp
 template <class _Tp, class _Alloc> void deque<_Tp,_Alloc>::clear() {
   for (_Map_pointer __node = _M_start._M_node + 1; __node < _M_finish._M_node; ++__node) { // 从第二个node开始，遍历每个缓冲区（node）
     destroy(*__node, *__node + _S_buffer_size()); // 析构每个元素
@@ -131,7 +131,7 @@ template <class _Tp, class _Alloc> void deque<_Tp,_Alloc>::clear() {
 ```
 **（2）erase**  
 该函数的作用是清除 [first,last) 间的所有元素：  
-```
+``` cpp
 typename deque<_Tp,_Alloc>::iterator 
 deque<_Tp,_Alloc>::erase(iterator __first, iterator __last) {
   if (__first == _M_start && __last == _M_finish) { // erase 所有元素，直接调用clear
@@ -159,7 +159,7 @@ deque<_Tp,_Alloc>::erase(iterator __first, iterator __last) {
 ```
 **（3）insert**  
 该函数的作用是在某个位置插入一个元素：  
-```
+``` cpp
 iterator insert(iterator position, const value_type& __x) {
   if (position._M_cur == _M_start._M_cur) { // 在头部插入，用push_front
     push_front(__x);
@@ -198,7 +198,7 @@ deque原本只能在头部或尾部插入元素的，提供了insert之后，就
 ## 6. 基于deque 的 stack 和 queue  
 由于deque可以从首位两端插入或剔除元素，所以只需要对其进行简单的封装就可以分别实现先进先出（FIFO）的stack和先进后出（FILO）的queue了。stack和queue中都有一个deque类型的成员，用做数据存储的容器，然后对deque的部分接口进行简单的封装，例如stack只提供从末端插入和删除的接口以及获取末端元素的接口，而queue则只提供从尾部插入而从头部删除的接口以及获取首位元素的接口。像这样具有“修改某物接口，形成另一种风貌”的性质的，称为配接器（adapter），因此STL中stack和queue往往不被归类为容器（container），而被归类为容器配接器（container adapter）。（关于配接器后面文章还会具体介绍）  
 下面只给出stack的基本实现，并加以注解。  
-```
+``` cpp
 template <class _Tp, class _Sequence __STL_DEPENDENT_DEFAULT_TMPL(deque<_Tp>) >
 class stack; // 原型声明
 template <class _Tp, class _Sequence> class stack {
@@ -216,7 +216,7 @@ public: // 向外部提供的接口，都是调用deque的接口来实现的
 };
 ```
 值得一提的是，stack和queue都没有迭代器，因此不能对stack或queue进行遍历。但他们提供了 `operator ==` 和 `operator<` 这两个比较大小的操作符：  
-```
+``` cpp
 template <class _Tp, class _Seq>
 bool operator==(const stack<_Tp,_Seq>& __x, const stack<_Tp,_Seq>& __y) {
   return __x.c == __y.c;
@@ -227,7 +227,7 @@ bool operator<(const stack<_Tp,_Seq>& __x, const stack<_Tp,_Seq>& __y) {
 }
 ```
 另外，除了使用默认的deque作为stack和queue的容器之外，我们还可以使用list或其他自定义的容器，只需要实现了stack或queue需要的接口，使用方法很简单：  
-```
+``` cpp
 stack<int,vector<int> > ist;
 queue<char,list<char> > cq;
 ```

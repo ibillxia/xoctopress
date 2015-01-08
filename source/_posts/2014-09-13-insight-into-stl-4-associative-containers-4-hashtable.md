@@ -21,7 +21,7 @@ tags: C++ STL container hashtable
 ## 2. hashtable 的数据结构  
 由于使用开链的方法解决冲突，所以要维护两种数据结构，一个是 hash table，在 STL 中称为 buckets，用 vector 作为容器；另一个是链表，这里没有使用 list 或 slist 这些现成的数据结构，而是使用自定义 `__hashtable_node` ，相关定义具体如下：  
 <!-- more -->
-```
+``` cpp
 template <class _Val>
 struct _Hashtable_node { // 链表节点的定义
   _Hashtable_node* _M_next; // 指向下一个节点
@@ -45,7 +45,7 @@ private:
 > _Alloc: 空间配置器，默认使用 std::alloc
 
 虽然开链法并不要求哈希表的大小为质数，但 SGI STL 仍然以质数来设计表的大小，并将28个质数（大约2倍依次递增）计算好，并提供函数来查询其中最接近某数并大于某数的质数，如下：  
-```
+``` cpp
 enum { __stl_num_primes = 28 };
 static const unsigned long __stl_prime_list[__stl_num_primes] = {
   53ul,         97ul,         193ul,       389ul,       769ul,
@@ -65,7 +65,7 @@ inline unsigned long __stl_next_prime(unsigned long __n) {
 ## 3. hashtable 的空间配置  
 #### 节点空间配置  
 首先只考虑比较简单的情况，即哈希表的大小不需要调整，此时空间配置主要是链表节点的配置，而 hashtable 使用 vector 作为容器，链表节点的空间配置（分配和释放）如下：  
-```
+``` cpp
 typedef simple_alloc<_Node, _Alloc> _M_node_allocator_type;
 _Node* _M_get_node() { return _M_node_allocator_type::allocate(1); } // 分配一个节点的空间
 void _M_put_node(_Node* __p) { _M_node_allocator_type::deallocate(__p, 1); } // 释放一个节点的空间
@@ -86,7 +86,7 @@ void _M_delete_node(_Node* __n) {
 
 #### 插入操作表格重新整理  
 哈希表的插入操作有两个问题要考虑，一个是 是否允许插入相同键值的元素，另一个是 是否需要扩充表的大小。在 STL 中，首先是判断新插入一个元素后是否需要扩充，判断的条件是插入后元素的个数大于当前哈希表的大小；而是否允许元素重复则通过提供 `insert_unique` 和 `insert_equal` 来解决。相关代码如下：  
-```
+``` cpp
 pair<iterator, bool> insert_unique(const value_type& __obj) { 
 	resize(_M_num_elements + 1); // 先进行扩充（如有必要）
 	return insert_unique_noresize(__obj); // 然后插入
@@ -135,7 +135,7 @@ hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>::insert_unique_noresize(const value_type& 
 允许键值重复的插入操作类似的，只是为了确保相同键值的挨在一起，先要找到相同键值的位置，然后插入。  
 #### 整体复制和清空  
 复制和清空时分别涉及空间的分配和释放，所以在这里也介绍一下。首先是复制操作，需要先将目标 hashtable 清空，然后将源 hashtable 的 buckets 中的每个链表一一复制，如下：  
-```
+``` cpp
 template <class _Val, class _Key, class _HF, class _Ex, class _Eq, class _All>
 void hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>::_M_copy_from(const hashtable& __ht) {
   _M_buckets.clear(); // 先清空目标 hashtable
@@ -162,7 +162,7 @@ void hashtable<_Val,_Key,_HF,_Ex,_Eq,_All>::_M_copy_from(const hashtable& __ht) 
 
 ## 4. hashtable 的迭代器  
 hashtable 的迭代器是前向的单向迭代器，遍历的方式是先遍历完一个 list 然后切换到下一个 bucket 指向的 list 进行遍历。以下是 hashtable 的迭代器的定义：  
-```
+``` cpp
 template <class _Val, class _Key, class _HashFcn, class _ExtractKey, class _EqualKey, class _Alloc>
 struct _Hashtable_iterator {
   typedef hashtable<_Val,_Key,_HashFcn,_ExtractKey,_EqualKey,_Alloc> _Hashtable;
@@ -196,7 +196,7 @@ _Hashtable_iterator<_Val,_Key,_HF,_ExK,_EqK,_All>::operator++(){
 ```
 ## 5. 哈希函数  
 在第三节中介绍 hashtable 的数据结构时，提到了一个哈希函数类型的模板参数，从键值到索引位置的映射由这个哈希函数来完成，实际中是通过函数 `_M_bkt_num_key` 来完成这个映射的，如下：  
-```
+``` cpp
 size_type _M_bkt_num_key(const key_type& __key) const {
 	return _M_bkt_num_key(__key, _M_buckets.size());
 }
@@ -205,7 +205,7 @@ size_type _M_bkt_num_key(const key_type& __key, size_t __n) const {
 }
 ```
 这里的 `_M_hash` 是一个哈希函数类型的成员，可以看做是一个函数指针，真正的函数的定义在 `<stl_hash_fun.h>` 中，针对 char，int，long 等整数型别，这里大部分的 hash function 什么也没做，只是重视返回原始值，但对字符串（const char* ）设计了一个转换函数，如下：  
-```
+``` cpp
 template <class _Key> struct hash { }; // 仿函数 hash
 inline size_t __stl_hash_string(const char* __s) { // 将字符串映射为整型
   unsigned long __h = 0; 

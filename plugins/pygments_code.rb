@@ -11,6 +11,7 @@ module HighlightCode
     lang = 'objc' if lang == 'm'
     lang = 'perl' if lang == 'pl'
     lang = 'yaml' if lang == 'yml'
+	# str = Iconv.conv("utf-8", "gbk", str) 
     str = pygments(str, lang).match(/<pre>(.+)<\/pre>/m)[1].to_s.gsub(/ *$/, '') #strip out divs <div class="highlight">
     tableize_code(str, lang)
   end
@@ -19,7 +20,7 @@ module HighlightCode
     if defined?(PYGMENTS_CACHE_DIR)
       path = File.join(PYGMENTS_CACHE_DIR, "#{lang}-#{Digest::MD5.hexdigest(code)}.html")
       if File.exist?(path)
-        highlighted_code = File.read(path)
+        highlighted_code = File.read(path, :encoding => "utf-8")
       else
         highlighted_code = Pygments.highlight(code, :lexer => lang, :formatter => 'html', :options => {:encoding => 'utf-8'})
         File.open(path, 'w') {|f| f.print(highlighted_code) }

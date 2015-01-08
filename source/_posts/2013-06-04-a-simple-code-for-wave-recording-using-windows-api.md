@@ -13,7 +13,7 @@ tags: Windows API Record
 <!--more-->
 
 <p>实例程序</p>
-{% codeblock %}
+``` c
 // ******************* FileName: WinMain.cpp *****************************
 // 该源程序需要加入到 VC6 的 Win32 Application 的 empty Project 中
 // 对于工程的 Link 选项，至少要包含以下库: msvcrt.lib Winmm.lib
@@ -205,7 +205,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	return 0;
 }
 // ******************* End of File ************************
-{% endcodeblock %}
+```
 
 <p>这里提供的代码有点杂乱，现已整理成一个小的接口，并提供了一个简单的示例，放在GitHub上：https://github.com/ibillxia/Demo/tree/master/DemoSpeechRecord</p>
 

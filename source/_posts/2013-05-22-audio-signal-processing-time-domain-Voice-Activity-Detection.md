@@ -28,7 +28,7 @@ tags: VAD Python
 被认为是静音（silence）。这种方法的关键在于如何选取这个阈值，一种常用的方法是使用一些带标签的数据来训练得到一个阈值，使得误差最小。</p>
 
 <p>下面我们来看看最简单的、不需要训练的方法，其代码如下：
-{% codeblock %}
+``` py3
 import wave
 import numpy as np
 import matplotlib.pyplot as plt
@@ -82,7 +82,7 @@ plt.legend()
 plt.ylabel('Volume(absSum)')
 plt.xlabel('time(seconds)')
 plt.show()
-{% endcodeblock %}
+```
 其中计算音量的函数calVolume参见<a href="http://ibillxia.github.io/blog/2013/05/15/audio-signal-process-time-domain-volume-python-realization/">
 音量及其Python实现</a>一文。程序的运行结果如下图：
 <center>{% img /images/2013/IMAG2013052201.png %}</center>

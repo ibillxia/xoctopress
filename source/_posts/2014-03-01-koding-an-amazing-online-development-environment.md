@@ -25,7 +25,7 @@ tags: Technics Cloud Online Programing
 除了和在本地编程开发一样的功能以外，还可以自行配置和添加vm，设置自己的独立域名等。下面我们来看看vm的一些硬件参数，主要是cpu、内存、硬盘、网络等。</p>
 
 硬件信息概要，要加sudo使用根权限并输入密码，不加short参数可以查看详细信息
-{% codeblock %}
+``` sh
 ibillxia@vm-0:~$ sudo lshw -short 
 [sudo] password for ibillxia:         
 H/W path    Device   Class      Description
@@ -52,9 +52,9 @@ H/W path    Device   Class      Description
 /0/100/5             memory     RAM memory
 /1          eth0     network    Ethernet interface
 /2          gretap0  network    Ethernet interface
-{% endcodeblock %}
+```
 查看cpu信息，E5-2630 8核2.30GHz，本文只摘取第1个核的信息 
-{% codeblock %}
+``` sh
 ibillxia@vm-0:~$ cat /proc/cpuinfo 
 processor       : 0
 vendor_id       : GenuineIntel
@@ -82,9 +82,9 @@ clflush size    : 64
 cache_alignment : 64
 address sizes   : 40 bits physical, 48 bits virtual
 power management:
-{% endcodeblock %}
+```
 查看内存信息，共16GB内存 
-{% codeblock %}
+``` sh
 ibillxia@vm-0:~$ cat /proc/meminfo                                                                                                                                                                                                                             
 MemTotal:       16433708 kB
 MemFree:         8506472 kB
@@ -129,16 +129,16 @@ Hugepagesize:       2048 kB
 DirectMap4k:      245748 kB
 DirectMap2M:     7094272 kB
 DirectMap1G:     9437184 kB
-{% endcodeblock %}
+```
 硬盘测速，才219kB/s，不是一般的慢啊
-{% codeblock %}
+``` sh
 ibillxia@vm-0:~$ dd if=/dev/zero of=test bs=64k count=2k oflag=dsync
 2048+0 records in
 2048+0 records out
 134217728 bytes (134 MB) copied, 612.942 s, 219 kB/s
-{% endcodeblock %}
+```
 网速测试，一般般
-{% codeblock %}
+``` sh
 ibillxia@vm-0:~$ ping www.github.com  # 测试1
 PING github.com (192.30.252.129) 56(84) bytes of data.
 64 bytes from ip1b-lb3-prd.iad.github.com (192.30.252.129): icmp_req=1 ttl=54 time=73.2 ms
@@ -174,11 +174,11 @@ PING star.c10r.facebook.com (31.13.77.81) 56(84) bytes of data.
 --- star.c10r.facebook.com ping statistics ---
 6 packets transmitted, 5 received, 16% packet loss, time 5006ms
 rtt min/avg/max/mdev = 153.577/153.740/153.951/0.449 ms
-{% endcodeblock %}
+```
 
 <p>再来看看一些系统和软件信息。</p>
 查看linux内核版本、系统体系结构及预安装软件版本
-{% codeblock %}
+``` sh
 ibillxia@vm-0:~$ uname -a 
 Linux vm-0.ibillxia.koding.kd.io 3.13.0-5-generic #20 SMP Mon Jan 20 19:56:12 PST 2014 x86_64 x86_64 x86_64 GNU/Linux
 ibillxia@vm-0:~$ git --version
@@ -188,9 +188,9 @@ mysql  Ver 14.14 Distrib 5.5.32, for debian-linux-gnu (x86_64) using readline 6.
 ibillxia@vm-0:~$ apache2 -v
 Server version: Apache/2.2.22 (Ubuntu)
 Server built:   Jul 12 2013 13:18:14
-{% endcodeblock %}
+```
 常用编程语言版本
-{% codeblock %}
+``` sh
 ibillxia@vm-0:~$ gcc --version
 gcc (Ubuntu/Linaro 4.7.3-1ubuntu1) 4.7.3
 Copyright (C) 2012 Free Software Foundation, Inc.
@@ -230,7 +230,7 @@ GNU General Public License, which may be found in the Perl 5 source kit.
 Complete documentation for Perl, including FAQ lists, should be found on
 this system using "man perl" or "perldoc perl".  If you have access to the
 Internet, point your browser at http://www.perl.org/, the Perl Home Page.
-{% endcodeblock %}
+```
 
 <h2>Installing and Using KDApps</h2>
 <p>除了系统已安装的基本应用外，用户还可以在<a href="https://koding.com/Apps">Koding/Apps</a>上选择一些官方的apps安装到自己的vm上。可以

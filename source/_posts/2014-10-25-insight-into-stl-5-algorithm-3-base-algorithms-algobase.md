@@ -4,10 +4,10 @@ title: "深入理解STL源码(5.3) 算法之基本算法algobase"
 date: 2014-10-25 21:13
 comments: true
 categories: Program
-tags: C++ STL algorithm numeric
+tags: C++ STL algorithm
 ---
 
-本文主要介绍STL中的数值算法，主要涉及到的源码文件有 `stl_algobase.h` 等。
+本文主要介绍STL中的基本算法，主要涉及到的源码文件有 `stl_algobase.h` 等。
 
 在 `stl_algobase.h` 中定义的算法都比较简单基础，主要涉及区间相等判断、区间填充、求极值、交换、拷贝、字典序比较等算法，而其他诸如查找、计数、排序、旋转等算法则在文件 `stl_algo.h` 中实现。在algobase基本算法中，除了字典序比较、复制/拷贝算法外，其他都比较简单，这里先依次介绍这些简单的算法，然后再介绍字典序比较和拷贝算法。
 
@@ -37,7 +37,7 @@ tags: C++ STL algorithm numeric
 - 同时到达last1和last2，返回false。
 
 源码如下：
-```
+``` cpp
 template <class _InputIter1, class _InputIter2>
 bool lexicographical_compare(_InputIter1 __first1, _InputIter1 __last1, _InputIter2 __first2, _InputIter2 __last2) {
   for ( ; __first1 != __last1 && __first2 != __last2; ++__first1, ++__first2) {
@@ -52,7 +52,7 @@ bool lexicographical_compare(_InputIter1 __first1, _InputIter1 __last1, _InputIt
 
 除了这个默认的版本外，还有一个版本提供比较方法（仿函数）的参数。另外，对于纯字符串的比较，SGI STL还做了进一步优化，使用原生指针和C标准函数 `memcmp()` 进行比较，如下：
 
-```
+``` cpp
 inline bool 
 lexicographical_compare(const unsigned char* __first1, const unsigned char* __last1,
                         const unsigned char* __first2,const unsigned char* __last2) {
@@ -73,7 +73,7 @@ lexicographical_compare(const unsigned char* __first1, const unsigned char* __la
 
 在介绍 copy 算法的源码具体实现前，根据源码及其注释再做一个简单的小结：copy 算法中的一些辅助函数有两个目的，其一是对于简单的数据类型尽量使用 memmove，其二是对于具有 RandomAccessIterators 的对象使用一个计数器来进行循环；除此之外，SGI STL针对编译器是否具有函数模板偏特化、类模板偏特化等进行了适配。下面是 copy 的源码，其中添加了比较详细具体的注释：
 
-```
+``` cpp
 // 首先是几个与偏特化无关的公用的3个函数
 template <class _InputIter, class _OutputIter, class _Distance>
 inline _OutputIter 

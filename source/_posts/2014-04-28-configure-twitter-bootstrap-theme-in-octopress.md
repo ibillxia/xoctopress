@@ -12,13 +12,13 @@ tags: Octopress Bootstrap Jekyll Liquid
 ## Bootstrap 主题的安装
 首先下载适用于 Octopress 的 [Bootstrap主题](https://github.com/bkutil/bootstrap-theme) 并解压缩到博客的 .theme 目录，然后安装：
 
-```
+``` sh
 rake install['bootstrap']
 ```
 
 安装的过程中可能会提示有 sass 或其他依赖库的语法错误神马的，这是因为 sass 的版本过低，可以通过如下命令来跟新：
 
-```
+``` sh
 bundle update sass
 ```
 
@@ -39,7 +39,7 @@ tag_dir: blog/tags
 
 这些配置好了后，你就可以先运行 rake generate 和 rake preview 来看看效果。可以发现 Tags 归档页的显示还是不太友好。那么我们需要加入一些自己的 css 样式。这里我参考了 pluskid 师兄的博客的 css 代码并略有修改，在我新建的 $BLOG_HOME/source/stylesheets/style.css 文件中加入如下代码：
 
-```
+``` css
 /* tag_box */
 .tag_box {
   list-style:none;
@@ -77,7 +77,7 @@ tag_dir: blog/tags
 
 注意，这里由于新加了 css 文件，要让其生效，需要在 html 模板中加入引用，具体我是在 $BLOG_HOME/source/_includes/head.html 文件中加入如下代码：
 
-```
+``` html
 <link href="{{ root_url }}/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
 ```
 

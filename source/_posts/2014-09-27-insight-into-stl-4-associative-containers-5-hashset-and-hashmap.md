@@ -14,7 +14,7 @@ tags: C++ STL container hashset hashmap
 和 set 一样，hashset 的键值（key）和实值（value）是同一个字段，不同的是 set 默认是自动排序的，而 hashset 则是无序的。除此之外，hashset 与 set 的对外接口完全相同。  
 这里还有一种称为 hash_multi_set 的集合，它同 multiset 类似，允许键值重复，而上面的 hashset 则不允许。下面是 hashset 的定义的主要代码：  
 <!-- more -->
-```
+``` cpp
 template <class _Value, class _HashFcn, class _EqualKey, class _Alloc>
 class hash_set {
 private:

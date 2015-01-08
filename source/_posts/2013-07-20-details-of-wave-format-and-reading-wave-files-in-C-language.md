@@ -4,7 +4,7 @@ title: "PCM WAVE格式详解及用C语言实现wave文件的读取"
 date: 2013-07-20 20:07
 comments: true
 categories: ASSP Program
-tags: PCM Wave C
+tags: PCM Wave C语言
 ---
 <h2>1.PCM Wave格式详解</h2>
 <p>WAVE文件格式是微软RIFF(Resource Interchange File Format,资源交换文件标准)的一种，是针对于多媒体文件存储的一种文件格式和标准。
@@ -27,7 +27,7 @@ Format: 4字节，内容为“WAVE”的ASCII码(0x57415645)，以大端存储�
 0x4000:   0x34</br>
 0x4001:   0x12</br>
 用程序在区别的话，可以考虑：
-{% codeblock %}
+``` c
 #include <stdio.h>
 #include <stdlib.h>
 int main(int argc, char *argv[])
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
       system("PAUSE"); 
       return 0;
 }
-{% endcodeblock %}
+```
 </p>
 
 <p>"WAVE"格式由两个子数据块构成：“fmt”块和“data”块，其中“fmt”块的详细解释如下：
@@ -61,7 +61,7 @@ ExtraParams: 扩展段其他自定义的一些参数的具体内容，大小由�
 </p>
 
 <p>其中，对于每个采样点的bit数，不同的bit数读取数据的方式不同：
-{% codeblock %}
+``` c
 // data 为读取到的采样点的值，speech为原始数据流，
 //对应于下面的"WAVE"格式文件的第二个子数据块“data”块的“Data”部分。
 for(i=0;i<NumSample;i++){
@@ -72,7 +72,7 @@ for(i=0;i<NumSample;i++){
 	else if(BitsPerSample==32)
 		data[i] = (int)*((int*)speech+i);
 }
-{% endcodeblock %}
+```
 </p>
 
 <p>"WAVE"格式文件的第二个子数据块是“data”，其个字段的详细解释如下：</br>
@@ -83,11 +83,11 @@ Data: 真正的语音数据部分。</br>
 
 <h2>一个Wave文件头的实例</h2>
 <p>设一个wave文件的前72个字节的十六进制内容如下(可以使用Ultra Edit等工具查看wave文件头)：
-{% codeblock %}
+```
 52 49 46 46 24 08 00 00 57 41 56 45 66 6d 74 20 10 00 00 00 01 00 02 00 
 22 56 00 00 88 58 01 00 04 00 10 00 64 61 74 61 00 08 00 00 00 00 00 00 
 24 17 1e f3 3c 13 3c 14 16 f9 18 f9 34 e7 23 a6 3c f2 24 f2 11 ce 1a 0d 
-{% endcodeblock %}
+```
 则其个字段的解析如下图：
 <center>{% img /images/2013/IMAG2013072002.gif %}</center>
 </p>
@@ -95,7 +95,7 @@ Data: 真正的语音数据部分。</br>
 
 <h2>C语言实现wave文件的读取</h2>
 <p>这里给出一个用基本的C语言文件操作库函数实现的Wave文件读取的实例代码，可以跨Windows和Linux平台。</p>
-{% codeblock %}
+``` c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -175,7 +175,7 @@ char* wavread(char *fname, WAVEFORMATEX *wf){
 	fclose(fp);
 	return speech;
 }
-{% endcodeblock %}
+```
 
 <h2>参考</h2>
 <p>

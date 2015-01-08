@@ -18,7 +18,7 @@ tags: swap overflow
 ## 加减法
 加减法最简单、最好理解了，设待交换的两个变量分别为 a 和 b ，首先将两者的和赋给 a ；然后将 a 与 b的差赋给 b ，这样 b 就是 a 原来的值了；最后再将 a 与 b 的差赋给 a ，这样 a 就是 b 原来的值了。具体代码如下：
 
-```
+``` cpp
 inline template <class T>
 void xswap(T &a,T &b){
     a=a+b;
@@ -32,7 +32,7 @@ void xswap(T &a,T &b){
 
 当然也可以先减后加：
 
-```
+``` cpp
 inline template <class T>
 void xswap2(T &a,T &b){
     a=a-b;
@@ -44,7 +44,7 @@ void xswap2(T &a,T &b){
 
 这里实现的原理与先加后减类似。粗一看，这样实现两个变量的原地交换很简单有效。但是，这其中有一个很隐秘的bug，就是溢出的问题，在先加后减的实现中，如果 a 与 b 的和大于该类型的能表示的最大值，会发生神马捏？我写了一个 main 函数来简单的测试了一下：
 
-```
+``` cpp
 int main()
 {
     unsigned char a=255,b=1;
@@ -68,7 +68,7 @@ a=1,b=255
 ## 异或法
 异或法的基本原理类似，但还利用了异或的如下两个特性： a ^ 0 = a, a ^ a = 0. 用异或来实现两个变量的交换如下：
 
-```
+``` cpp
 template <class T>
 inline void xswap3(T &a,T &b){
     a=a^b;
@@ -82,7 +82,7 @@ inline void xswap3(T &a,T &b){
 ## 原地交换多个变量
 实际上，我们还可以利用上面的思想，将两个变量扩展到多个变量的原地交换，例如三个变量的交换：
 
-```
+``` cpp
 template <class T>
 inline void swap3(T &a,T &b,T &c){
     a=a^b;
@@ -99,7 +99,7 @@ inline void swap3(T &a,T &b,T &c){
 ## STL是如何实现swap的
 最后，我们来看看STL标准库是如何实现swap的（这里的实现版本是 move.h 文件中的一个，在 STL 中还有针对 vector, string, tree, map, multimap, deque 的 swap 函数）。
 
-```
+``` cpp
 /**
 *  @brief Swaps two values.
 *  @ingroup mutating_algorithms

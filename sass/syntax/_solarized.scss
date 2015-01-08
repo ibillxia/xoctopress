@@ -1,11 +1,11 @@
 $base03:          #002b36 !default; //darkest blue
 $base02:          #073642 !default; //dark blue
-$base01:          #586e75 !default; //darkest gray
+$base01:          #fdf6e3 !default; // #586e75 //darkest gray
 $base00:          #657b83 !default; //dark gray
 $base0:           #839496 !default; //medium gray
 $base1:           #93a1a1 !default; //medium light gray
 $base2:           #eee8d5 !default; //cream
-$base3:           #fdf6e3 !default; //white
+$base3:           #222 !default; //#fdf6e3  //white
 $solar-yellow:    #b58900 !default;
 $solar-orange:    #cb4b16 !default;
 $solar-red:       #dc322f !default;
@@ -15,8 +15,8 @@ $solar-blue:      #268bd2 !default;
 $solar-cyan:      #2aa198 !default;
 $solar-green:     #859900 !default;
 
-$solarized: bootstrap !default;
-
+//$solarized: bootstrap !default;
+$solarized: light !default;
 @if $solarized == light {
 
   $_base03: $base03;
@@ -33,7 +33,7 @@ $solarized: bootstrap !default;
   $base01:  $_base1;
   $base00:  $_base0;
   $base0:   $_base00;
-  $base1:   $_base01;
+  $base1:   #fdf6e3;  //$_base01;
   $base2:   $_base02;
   $base3:   $_base03;
 } @else if $solarized == bootstrap {

@@ -17,7 +17,7 @@ tags: C++ STL algorithm sort set heap
 **2. for_each**  
 也很简单，就是对区间 [first, last) 中的每一个元素执行一个给定函数的运算，就一行语句：
 
-```
+``` cpp
 for ( ; __first != __last; ++__first) __f(*__first);
 ```
 
@@ -28,7 +28,7 @@ for ( ; __first != __last; ++__first) __f(*__first);
 **3. 查找 find**  
 函数 `find` 查找特定值的元素，函数 `find_if` 查找经过用户的指定函数 func（STL中的pred函数） 运算后结果为 true 的元素。主要代码也只有一行：
 
-```
+``` cpp
 while (__first != __last && !(*__first == __val)) ++__first;
 ```
 
@@ -41,7 +41,7 @@ while (__first != __last && !(*__first == __val)) ++__first;
 **4. 计数 count**  
 该算法查找序列中值与给定值相等的元素的个数，即进行计数，返回为void，计数结果通过传入的引用参数 `_Size& __n` 来返回给用户，主要代码如下：
 
-```
+``` cpp
 for ( ; __first != __last; ++__first)
     if (*__first == __value) ++__n;
 ```
@@ -56,7 +56,7 @@ for ( ; __first != __last; ++__first)
 **6. 区间置换 swap_ranges**  
 交换两个长度相等的区间：
 
-```
+``` cpp
 for ( ; __first1 != __last1; ++__first1, ++__first2)
     iter_swap(__first1, __first2); // 迭代器的交换，使用iter_swap
 ```
@@ -64,14 +64,14 @@ for ( ; __first1 != __last1; ++__first1, ++__first2)
 **7. 区间变换运算 transform**  
 对区间的每个元素进行opr运算，结果放在result中，仅这一点与 `for_each` 不同：
 
-```
+``` cpp
 for ( ; __first != __last; ++__first, ++__result)
     *__result = __opr(*__first);
 ```
 
 还有一个版本是两个等长序列的运算，结果放在result中：
 
-```
+``` cpp
 for ( ; __first1 != __last1; ++__first1, ++__first2, ++__result)
     *__result = __binary_op(*__first1, *__first2);
 ```
@@ -81,7 +81,7 @@ for ( ; __first1 != __last1; ++__first1, ++__first2, ++__result)
 **8. 替换 replace**  
 将序列中所有值为oldval的元素值都改为newval：
 
-```
+``` cpp
 for ( ; __first != __last; ++__first)
    if (*__first == __old_value) *__first = __new_value;
 ```
@@ -91,7 +91,7 @@ for ( ; __first != __last; ++__first)
 **9.生成 generate**  
 将序列中的元素的值按给定函数赋值：
 
-```
+``` cpp
 for ( ; __first != __last; ++__first) *__first = __gen();
 ```
 
@@ -100,7 +100,7 @@ for ( ; __first != __last; ++__first) *__first = __gen();
 **10.移除 remove**  
 移除序列中值为val的元素，与 replace 算法类似，有4个版本，其中 `remove` 和 `remove_if` 分别通过 `remove_copy`、`remove_copy_if` 实现，只需将后者中的result参数设为该序列的起点first。
 
-```
+``` cpp
 __first = find(__first, __last, __value);
 _ForwardIter __i = __first;
 return __first == __last ? __first 
@@ -115,7 +115,7 @@ return __first == __last ? __first
 **12.反转 reverse**  
 将区间中元素进行反转，一下是迭代器为随机存取迭代器时的实现：
 
-```
+``` cpp
 while (__first < __last) iter_swap(__first++, --__last);
 ```
 
@@ -129,7 +129,7 @@ while (__first < __last) iter_swap(__first++, --__last);
 **14.随机相关算法 random**  
 `random_shuffle` 算法将序列随机重排，具体实现是对序列中每个位置的元素与序列中一个随机的元素进行对调：
 
-```
+``` cpp
 for (_RandomAccessIter __i = __first + 1; __i != __last; ++__i)
     iter_swap(__i, __first + __random_number((__i - __first) + 1));
 ```
@@ -144,12 +144,63 @@ for (_RandomAccessIter __i = __first + 1; __i != __last; ++__i)
 **16. 排序 sort**  
 排序算法是STL中最重要也最复杂的算法，总代码量大概是600行（实际上还不止，因为还有调用其他函数，如partition、merge等），占整个文件的1/5。该算法接受两个随机存取迭代器参数，将区间内的元素以渐增的顺序排列，重载版本则允许用户指定一个仿函数作为排序标准。STL的所有关系型容器都拥有自动排序功能（因为底层是RB-tree，属于有序搜索树），不需要用到这个sort算法，而序列式容器中的stack、queue和priority-queue都有特定的出入限制，不允许排序，剩下vector、deque和list、slist，前两者的迭代器都是随机存取迭代器，可以使用sort算法，而list是双向迭代器，slist是前向迭代器，都不适合使用sort算法，如果要对list或slist排序，需要使用list或slist自己实现的sort函数。
 
-`insert_sort` 插入排序：在序列长度较小时（STL中设置的是长度小于16时），使用线性插入排序。
+`insert_sort` 插入排序：在序列长度较小时（STL中设置的是长度小于16时），使用线性（而不是二分）插入排序。
 
-`sort` 快速排序：在序列较长时，将序列分割为一个个小的区间，使得区间整体上有序，然后使用插入排序对整体进行排序。
+`sort` 排序：在序列较长时，将序列分割为一个个小的区间，使得区间与区间之间整体上有序，然后使用线性插入排序对整体进行排序。（这与我们通常所理解的快速排序还是有很大区别的，最后整体上进行直接插入排序，实际效果与对每个子区间分别进行插入排序的效果是一样的，效率依然是非常高的）
 
-`stable_sort` 稳定排序：一种思路实际上为归并排序，时间复杂度仍为 $O(nlogn)$，另外还有一种是所谓的merge sort，我表示没看懂%>_<%。
+`stable_sort` 稳定排序：实际上为归并排序，或称为merge sort，时间复杂度仍为 $O(nlogn)$。当子区间长度小于15时，让然是直接用插入排序；当子能够申请到O(n)的buffer时，借助buffer进行merge sort，否则使用inplace merge进行stable sort。而关于两种（with buffer和inplace的）merge的算法的内容，在后文中介绍。
 
-`partial_sort` 使用堆进行排序，但具体原理还没完全弄明白，给跪了。
+`partial_sort` 部分排序：使用堆进行排序，功能是将序列 `[first, last)` 中的较小的 middle-first 个元素排序并放在区间 `[first, middle)` 中，而其余的 last-middle 个元素仍然是无序的。整个算法分为两个大的步骤，首先是将middle前的元素构建一个max-heap，将middle及之后的元素中比max-heap堆顶小的元素与堆顶对调并调整堆，从而得到middle前的元素都比middle后的元素小；然后使用heap sort对middle之前的元素进行排序。
 
-先看到这儿吧，后面再继续补充，这两天看得实在是要吐了-_-#
+**17. 第n大的数 nth_element**  
+该算法的功能是求一个序列中排行第n大的元素，具体实现时是使用 partition 将搜索范围逐步缩小，直到不足3个元素的区间后，进行insert-sort，最后第n大的元素就位于序列的第n个位置（该算法的迭代器也要求是随机存取的迭代器）。
+
+**18. 二分查找 binary_search**  
+该系列算法的前提条件是序列已经**有序**，迭代器至少是ForwardIterators。
+
+`lower_bound` ：二分查找 val，存在则返回指向该元素的迭代器，否则返回最小的不小于 val 的元素的迭代器，即在不破坏次序的情况下val可插入的第一个位置。
+
+`upper_bound` ： 二分查找 val，存在则返回该元素的下一个元素的迭代器，否则返回最小的不小于 val的元素的迭代器，及在不破坏次序的前提下，val可插入的最后一个位置。
+
+`equal_range` ：二分查找 val，返回值为 val 的区间 `[i,j)`，其中 i 是 `lower_bound`，而 j 是 `upper_bound`。
+
+`binary_search` ：二分查找，找到返回true，否则返回false。实际上使用的是 `lower_bound` 来实现的。
+
+**19. 合并 merge**  
+`merge` ：两个**有序**序列合并为一个有序序列，输入为5个参数，分别为两个序列的首尾迭代器、结果的首迭代器，算法返回结果序列的尾迭代器。基本思路是同时访问两个序列，取较小者放入结果序列并后移，最后必然是一个序列结束而另一个序列还有剩余元素，只需要将剩余部分copy的结果序列的尾部即可。
+
+`inplace_merge`：原地将一个序列的两个有序子序列合并，实际上并不一定是原地进行，当可以申请到 O(n)的内存时借助buffer来进行merge，否则进行原地合并。原地合并的基本思路如下：先比较两个有序子序列的长度，将其中较长的序列分成两等分，取该序列的中间元素 `first_cut` 作为基准，然后得到第二个子序列以该基准分割的位置 `second_cut`，再然后进行原地旋转，将两个cut之间大于基准的数据旋转到两个cut之间小于基准的数据的后面，这样两个序列就被分成了两对有序子序列，最后分别将小于和大于基准的每对有序子序列进行merge。
+
+**20. 集合算法 set**  
+由于集合的低层容器是红黑树，因此集合中的元素是有序的，这样在遍历两个集合时，复杂度不是O(mn)，而是O(m+n)。
+
+`includes`：判断集合1是否包含集合2. 基本思想是，遍历两个集合，依次判断集合2中的元素是否均在集合1中出现了。
+
+`set_union`：求两个集合的并集，如果两个集合中出现了相同的元素，则只算一次。
+
+`set_intersection`：求两个集合的交集，即只保留两个集合中都存在的元素。
+
+`set_difference`：两个集合的差集，即集合1中存在而集合2中不存在的元素。
+
+`set_symmetric_difference`：两个集合的对称差，即集合1中存在而2中不存在的元素或集合2中存在而集合1中不存在的元素。
+
+**21. 求极值 max/min element**  
+遍历整个区间，找到其中最大/小的元素的值，返回的是指向最大/小值的迭代器。
+
+**22. 排列的后继和前驱 next/pre permutation**  
+关于该算法在之前的一篇文章中有详细介绍，请参见 [全排列及某排列的后继的求解及其STL实现的分析](http://ibillxia.github.io/blog/2014/04/24/next-permutation-and-analysis-of-its-stl-implementation/) .
+
+**23. 找第一次出现的位置 find first of**  
+在第一个序列中依次查找第二个序列中某个元素第一次出现的位置，使用一个双重循环，外循环遍历第一个序列，内循环遍历第二个序列，只要找到一个就立即返回在序列1中的位置，没有找到则返回序列1的尾迭代器。
+
+**24. 查找序列中的子序列 find end**  
+在序列1中查找是否存在序列2这样的子序列，返回最后一次查找结果。还有一个版本是针对双向迭代器的类偏特化版本。
+
+**25. 判断序列是否为堆 is heap**  
+判断一个序列是否为堆，即不断地判断父节点是否大于其孩子节点，如果不大于则返回false，否则返回true。
+
+**26. 判断序列是否有序 is sorted**  
+判断一个序列是否有序，只需要遍历序列并判断相邻的两个元素的大小关系是否一致即可。
+
+Well Done！终于看完了这些算法了！其中旋转、排序、查找、合并算法是稍微复杂的，且做了一些优化，是需要仔细阅读和体会的。
+2014.11.09 更新。

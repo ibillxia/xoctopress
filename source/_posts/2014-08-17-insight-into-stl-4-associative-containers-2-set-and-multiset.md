@@ -16,7 +16,7 @@ set 即集合，相比于其他容器有些特别。首先是它的每个元素�
 ## 2. set 的实现  
 前面多次提到 set 的底层采用 RB-tree 容器，这是因为 RB-tree 是一种比较高效的平衡二叉搜索树，能够很好的满足元素值唯一的条件，而且查找效率高。由于 RB-tree 已实现了很多操作，因此 set 基本上只是对 RB-tree 进行了一层简单的封装。下面是其实现的主要代码：  
 <!-- more -->
-```
+``` cpp
 template <class _Key, class _Compare, class _Alloc>
 class set {
 public:
@@ -55,7 +55,7 @@ inline bool operator<(const set<_Key,_Compare,_Alloc>& __x,
 可以看到基本都是调用 `_M_t` 的方法来实现的，而这里的 `_M_t` 是一个红黑树对象。  
 ## 3. multiset
 multiset 的特性和用法与 set 基本相同，唯一差别在于它允许有重复的键值，因此它的插入操作使用的底层机制是 RB-tree 的 `insert_equal()` 而不是 `insert_unique()` ，下面是 multiset 的主要代码，主要列出了与 set 不同的部分。  
-```
+``` cpp
 template <class _Key, class _Compare, class _Alloc>
 class multiset {
 public:

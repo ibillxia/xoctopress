@@ -37,7 +37,7 @@ tags: C++ STL iterators traits
 在 `stl_iterator.h` 文件中，设计了 `back_insert_iterator`, `front_insert_iterator`, `insert_iterator`, `reverse_bidirectional_iterator`, `reverse_iterator`, `istream_iterator`, `ostream_iterator`,  等标准的迭代器，其中前3中都使用 `output_iterator` 的只写特性（只进行插入操作，只是插入的位置不同而已），而第4种使用的是 `bidirectional_iterator` 的双向访问特性，第5种使用的是 `random_access_iterator` 的随机访问特性。而最后两种标准迭代器分别是使用 `input_iterator` 和 `output_iterator` 特性的迭代器。从这几个标准的迭代器的定义中可以看出，主要是实现了 `operator=`, `operator*`, `operator->`, `operator==`, `operator++`, `operator--`, `operator+`, `operator-`, `operator+=`, `operator-=` 等指针操作的标准接口。根据定义的操作符的不同，就是不同类型的迭代器了。  
 
 例如，下面是 `back_insert_iterator` 的标准定义：
-```
+``` cpp
 template <class _Container>
 class back_insert_iterator {
 protected:
@@ -66,7 +66,7 @@ public:
 ## 3. 迭代器相应型别与Traits编程技巧
 ### 3.1 迭代器相应型别
 在算法中运用迭代器是，很可能需要获取器相应型别，即迭代器所指对象的类型。此时需要使用到 function template 的参数推导（argument deducation）机制，在传入迭代器模板类型的同时，传入迭代器所指对象的模板类型，例如：  
-```
+``` cpp
 template<class I, class T>
 void func_impl(I iter, T t){
     // TODO: Add your code here
@@ -84,7 +84,7 @@ void func_impl(I iter, T t){
 
 ### 3.2 Traits 编程技巧
 在STL的每个标准迭代器中，都定义了5个迭代器相应型别的成员变量，在STL定义了一个统一的接口：  
-```
+``` cpp
 // In file stl_iterator_base.h
 template <class _Category, class _Tp, class _Distance = ptrdiff_t,
           class _Pointer = _Tp*, class _Reference = _Tp&>
@@ -99,7 +99,7 @@ struct iterator {
 其他的迭代器都可以继承这个标注类，由于后面3个模板参数都有默认值，因此新的迭代器只需提供前两个参数即可（但在SGI STL中并没有使用继承机制）。这样在使用该迭代器的泛型算法中，可以返回这5种类型中的任意一种，而不需要依赖于 template 参数推导的机制。  
 
 在SGI STL中，如果启用 `__STL_CLASS_PARTIAL_SPECIALIZATION` 这个宏定义，还有这样一个标准的 `iterator_traits` ：  
-```
+``` cpp
 // In file stl_iterator_base.h
 template <class _Iterator>
 struct iterator_traits {

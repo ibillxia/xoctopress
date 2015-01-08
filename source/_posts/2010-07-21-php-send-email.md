@@ -10,7 +10,8 @@ tags: PHP Email
 就可以随意的发送邮件，速度也不慢哦。</p>
 
 <p>先给一个具体的使用示例：</p>
-{% codeblock %}
+
+``` php
 <? 
 require (FILE_DIR."smtp.php"); 
 $smtpserver = "smtp.xxx.com";//SMTP服务器 
@@ -26,11 +27,13 @@ $smtp = new smtp($smtpserver,$smtpserverport,true,$smtpuser,$smtppass);//这里�
 $smtp->debug = TRUE;//是否显示发送的调试信息 
 $smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype); 
 ?>
-{% endcodeblock %}
+```
+
 <!--more-->
 
 <p>下面是一个基于SMTP协议的邮件发送类：</p>
-{% codeblock %}
+
+``` php
 <?php 
 class smtp { 
 	/* Public Variables */ 
@@ -264,4 +267,4 @@ class smtp {
 } 
 
 ?> 
-{% endcodeblock %}
+```

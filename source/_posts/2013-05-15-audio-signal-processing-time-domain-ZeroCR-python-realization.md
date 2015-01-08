@@ -26,7 +26,7 @@ tags: ZCR Python
 
 <h2>ZCR的Python实现</h2>
 <p>ZCR的Python实现如下：
-{% codeblock %}
+``` py3
 import math
 import numpy as np
 
@@ -42,11 +42,11 @@ def ZeroCR(waveData,frameSize,overLap):
         curFrame = curFrame - np.mean(curFrame) # zero-justified
         zcr[i] = sum(curFrame[0:-1]*curFrame[1::]<=0)
     return zcr
-{% endcodeblock %}
+```
 </p>
 
 <p>对于给定语音文件aeiou.wav，利用上面的函数计算ZCR的代码如下：
-{% codeblock %}
+``` py3
 import math
 import wave
 import numpy as np
@@ -80,7 +80,7 @@ pl.plot(time2, zcr)
 pl.ylabel("ZCR")
 pl.xlabel("time (seconds)")
 pl.show()
-{% endcodeblock %}
+```
 </p>
 
 <p>运行以上程序得到下图：

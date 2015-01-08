@@ -1,5 +1,5 @@
 ## XOctopress
-XOctopress is [my(Bill Xia) blog](http://ibillxia.github.io) source forked from [Octopress](http://octopress.org/), which is a static blogging system. You can refer to my personal blog for more detailed view.  
+XOctopress is [my(Bill Xia) blog](http://ibillxia.github.io) source forked from [Octopress](https://github.com/imathis/octopress), which is a static blogging system. You can refer to my personal blog for more detailed view.  
 
 ## What is Octopress?
 

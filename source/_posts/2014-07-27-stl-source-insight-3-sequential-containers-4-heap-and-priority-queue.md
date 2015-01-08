@@ -11,7 +11,7 @@ tags: C++ STL container heap
 前面分别介绍了三种各具特色的序列式容器 —— vector、list和deque，他们几乎可以涵盖所有类型的序列式容器了，但本文要介绍的heap则是一种比较特殊的容器。其实，在STL中heap并没有被定义为一个容器，而只是一组算法，提供给priority queue（优先队列）。故名思议，priority queue 允许用户以任何次序将元素放入容器内，但取出时一定是从优先权最高的元素开始取，binary max heap（二元大根堆）即具有这样的特性，因此如果学过max-heap再看STL中heap的算法和priority queue 的实现就会比较简单。  
 ## 2. priority queue 的数据结构   
 要实现priority queue的功能，binary search tree（BST）也可以作为其底层机制，但这样的话元素的插入就需要O(logN)的平均复杂度，而且要求元素的大小比较随机，才能使树比较平衡。而binary heap是一种完全二叉树的结构，而且可以使用vector来存储：  
-```
+``` cpp
 template <class _Tp, class _Sequence __STL_DEPENDENT_DEFAULT_TMPL(vector<_Tp>), 
 			class _Compare __STL_DEPENDENT_DEFAULT_TMPL(less<typename _Sequence::value_type>) >
 class priority_queue { // in stl_queue.h 文件中
@@ -24,7 +24,7 @@ protected:
 <!-- more -->
 ## 3. push heap 算法  
 为了满足完全二叉树的特性，新加入的元素一定要放在vector的最后面；又为了满足max-heap的条件（每个节点的键值不小于其叶子节点的键值），还需要执行上溯过程，将新插入的元素与其父节点进行比较，直到不大于父节点：  
-```
+``` cpp
 template <class _RandomAccessIterator, class _Distance, class _Tp>
 void __push_heap(_RandomAccessIterator __first, _Distance __holeIndex, _Distance __topIndex, _Tp __value){
   _Distance __parent = (__holeIndex - 1) / 2; //  新节点的父节点
@@ -48,7 +48,7 @@ inline void push_heap(_RandomAccessIterator __first, _RandomAccessIterator __las
 ```
 ## 4. pop heap 算法  
 对heap进行pop操作就是取顶部的元素，取走后要对heap进行调整，是之满足max-heap的特性。调整的策略是，首先将最末尾的元素放到堆顶，然后进行下溯操作，将对顶元素下移到适当的位置：  
-```
+``` cpp
 template <class _RandomAccessIterator, class _Distance, class _Tp>
 void __adjust_heap(_RandomAccessIterator __first, _Distance __holeIndex, _Distance __len, _Tp __value) { // 调整堆
   _Distance __topIndex = __holeIndex; // 堆顶
@@ -83,7 +83,7 @@ inline void pop_heap(_RandomAccessIterator __first, _RandomAccessIterator __last
 ```
 ## 5. make heap 算法  
 最后，我们来看看如何从一个初始序列来创建一个heap，有了前面的 `adjust_heap` ，创建heap也就很简单了，只需要从最后一个非叶子节点开始，不断调用堆调整函数，即可使得整个序列称为一个heap：  
-```
+``` cpp
 template <class _RandomAccessIterator, class _Compare, class _Tp, class _Distance>
 void __make_heap(_RandomAccessIterator __first, _RandomAccessIterator __last, _Compare __comp, _Tp*, _Distance*) {
   if (__last - __first < 2) return;
@@ -103,7 +103,7 @@ inline void make_heap(_RandomAccessIterator __first, _RandomAccessIterator __las
 ```
 ## 6. 基于 heap 的 priority queue  
 上一篇文章中讲到stack和queue都是基于deque实现的，这里的priority queue是基于vector和heap来实现的，默认使用vector作为容器，而使用heap的算法来维持其priority的特性，因此priority queue也被归类为container adapter。其具体实现的主要代码如下:  
-```
+``` cpp
 template <class _Tp, class _Sequence __STL_DEPENDENT_DEFAULT_TMPL(vector<_Tp>), class _Compare __STL_DEPENDENT_DEFAULT_TMPL(less<typename _Sequence::value_type>) >
 class priority_queue {
 protected:

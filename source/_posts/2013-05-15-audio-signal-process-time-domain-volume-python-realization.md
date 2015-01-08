@@ -25,7 +25,7 @@ tags: Volume Python
 </p>
 <!--more-->
 <p>音量计算的Python实现如下：</p>
-{% codeblock %}
+``` py3
 import math
 import numpy as np
 
@@ -52,10 +52,10 @@ def calVolumeDB(waveData, frameSize, overLap):
         curFrame = curFrame - np.mean(curFrame) # zero-justified
         volume[i] = 10*np.log10(np.sum(curFrame*curFrame))
     return volume
-{% endcodeblock %}
+```
 
 <p>对于给定语音文件aeiou.wav，利用上面的函数计算音量曲线的代码如下：</p>
-{% codeblock %}
+``` py3
 import wave
 import pylab as pl
 import numpy as np
@@ -92,7 +92,7 @@ pl.plot(time2, volume12, c="g")
 pl.ylabel("Decibel(dB)")
 pl.xlabel("time (seconds)")
 pl.show()
-{% endcodeblock %}
+```
 <p>运行以上程序得到下图：
 <center>{% img /images/2013/IMAG2013051501.png %}</center>
 </p>
