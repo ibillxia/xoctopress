@@ -4,7 +4,7 @@ title: "神经网络模型分类"
 date: 2013-03-24 23:07
 comments: true
 categories: PRML
-tags: NeuralNetworks Perceptron BPNN Hopfield Boltzmann 
+tags: 神经网络 感知机
 ---
 <p>本文主要介绍一下几种不同类型的神经网络模型，主要有前馈神经网络，反馈神经网络，自组织神经网络，随机神经网络</p>
 

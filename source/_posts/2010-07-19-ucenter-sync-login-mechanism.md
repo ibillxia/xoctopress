@@ -9,11 +9,11 @@ tags: UCenter PHP
 <h2>UC同步登陆机制</h2>
 <p>以用户登录为例介绍UC的同步机制，其它注销，改密码，消息，头像，好友均类同。UC同步登陆的过程如下：</p>
 
-<p>1.从用户xxx在某一应用程序的login.php，输入用户名，密码讲起。</br>
-先用uc_user_login函数到uc server验证此用户和密码，如正确，则写入session,写入cookies，并更新应用程序会员表中的登录ip，
+<p>1.从用户xxx在某一应用程序的`login.php`，输入用户名，密码讲起。</br>
+先用`uc_user_login`函数到`uc server`验证此用户和密码，如正确，则写入session,写入cookies，并更新应用程序会员表中的登录ip，
 登录时间。用户感觉不到这个过程。</p>
 
-<p>2.然后通过uc_user_synlogin通知uc server 用户xxx登录成功,这个过程可能使用ajax，用户感觉不到通知过程。</p>
+<p>2.然后通过`uc_user_synlogin`通知uc server 用户xxx登录成功,这个过程可能使用ajax，用户感觉不到通知过程。</p>
 
 <p>3.uc server收到这个消息后，马上命令手下，把xxx登录的消息，像令牌环一样，发给所有愿意接收（后台中那个是否开启同步登录）
 这个消息的其它应用程序。其实就是带参数访问一下各应用程序的uc.php,用户感觉不到这个过程。</p>

@@ -4,7 +4,7 @@ title: "伪造IP地址的原理"
 date: 2010-08-31 09:41
 comments: true
 categories: Technics
-tags: IP
+tags: 伪造IP
 ---
 <p>入侵者使用假IP地址发送包，利用基于IP地址证实的应用程序。其结果是未授权的远端用户进入带有防火墙的主机系统。</p>
 

@@ -4,7 +4,7 @@ title: "C语言断言简介"
 date: 2011-05-03 10:31
 comments: true
 categories: Program
-tags: C assert debug
+tags: C语言 断言
 ---
 <h2>1.概述</h2>
 <p> 断言是对某种假设条件进行检查（可理解为若条件成立则无动作，否则应报告），它可以快速发现并定位软件问题，
@@ -13,7 +13,7 @@ tags: C assert debug
 
 <h2>2.标准断言机制</h2>
 <p>原型定义：</p>
-{% codeblock %}
+{% codeblock lang:c %}
 #include <assert.h>
 void assert( int expression_r_r_r );
 {% endcodeblock %}
@@ -23,7 +23,7 @@ void assert( int expression_r_r_r );
 <!-- more -->
 <h2>3.简单实例</h2>
 <p>下面给一个断言的简单实例：</p>
-{% codeblock %}
+{% codeblock lang:c %}
 #include <stdio.h>  
 #include <assert.h>  
 #include <stdlib.h>  
@@ -44,7 +44,7 @@ int main( void )
 
 <h2>4.断言用法详解</h2>
 <p>1)在函数开始处检验传入参数的合法性，如:</p>
-{% codeblock %}
+{% codeblock lang:c %}
 int resetBufferSize(int nNewSize)
 {
   //功能:改变缓冲区大小,
@@ -58,18 +58,18 @@ int resetBufferSize(int nNewSize)
 {% endcodeblock %}
 
 <p>2)每个assert只检验一个条件,因为同时检验多个条件时,如果断言失败,无法直观的判断是哪个条件失败</p>
-{% codeblock %}
+{% codeblock lang:c %}
 assert(nOffset>=0 && nOffset+nSize<=m_nInfomationSize);  //不好
 assert(nOffset >= 0);   //好
 assert(nOffset+nSize <= m_nInfomationSize);
 {% endcodeblock %}
 
 <p>3)不能使用改变环境的语句,因为assert只在DEBUG个生效,如果这么做,会使用程序在真正运行时遇到问题</p>
-{% codeblock %}
+{% codeblock lang:c %}
 assert(i++ < 100);  //错误
 {% endcodeblock %}
 <p>这是因为如果出错，比如在执行之前i=100,那么这条语句就不会执行，那么i++这条命令就没有执行。</p>
-{% codeblock %}
+{% codeblock lang:c %}
 assert(i < 100);    //正确
 i++;
 {% endcodeblock %}
@@ -82,7 +82,7 @@ i++;
 <p>1).使用assert的缺点是，频繁的调用会极大的影响程序的性能，增加额外的开销。
 在调试结束后，可以通过在包含#include <assert.h>的语句之前插入 #define NDEBUG 来禁用assert调用，
 示例代码如下：</p>
-{% codeblock %}
+{% codeblock lang:c %}
 #include <stdio.h>
 #define NDEBUG
 #include <assert.h>

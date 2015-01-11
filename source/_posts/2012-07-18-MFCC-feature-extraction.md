@@ -52,7 +52,7 @@ tags: Audio Speech MFCC Matlab
 输出的对数能量(log energy)，k = 1,2,… N。 再将此N个参数进行余弦变换(cosine transform)求出L阶的Mel-scale cepstrum参数。</p>
 
 <h2>4.Matlab程序实现</h2>
-{% codeblock %}
+``` matlab
 function r = mfcc(s, fs)
 % MFCC参数提取
 % Reference: 论文《MFCC和LPCC特征参数在说话人识别中的研究》
@@ -122,7 +122,7 @@ r = [fp(b2:b4) 1+fp(1:b3)];
 c = [b2:b4 1:b3] + 1;
 v = 2 * [1-pm(b2:b4) pm(1:b3)];
 m = sparse(r, c, v, p, 1+fn2);
-{% endcodeblock %}
+```
 
 <h2>参考文献</h2>
 <p>[1] <a href="http://www.semxi.com/TechnologyDetail.aspx?nID=27">http://www.semxi.com/TechnologyDetail.aspx?nID=27</a> </br>

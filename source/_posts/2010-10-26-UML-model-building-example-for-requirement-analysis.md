@@ -4,7 +4,7 @@ title: "UML需求分析步骤实例解析"
 date: 2010-10-26 13:08
 comments: true
 categories: Engineering
-tags: UML
+tags: UML 需求分析
 ---
 <p>本节向大家介绍一下UML需求分析的一般步骤，本节用实例向大家介绍，相信通过本节的介绍你对UML需求分析有一定的认识。下面让我们一起来学习具体介绍吧。</p>
 <h2>基于UML需求分析</h2>

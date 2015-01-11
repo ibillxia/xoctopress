@@ -4,7 +4,7 @@ title: "07年浙大复试机试题解"
 date: 2012-03-03 22:05
 comments: true
 categories: Program
-tags: ZJU ProgramTest QuickSort Prim DP
+tags: ZJU 机试 快排 Prim 动态规划
 ---
 <p>
 07年浙大研究生复试机试题解
@@ -12,7 +12,7 @@ tags: ZJU ProgramTest QuickSort Prim DP
 
 <h3>A题：最小长方形（hdoj1859）（九度1020）</h3>
 <p>水题，不解释，代码如下：</p>
-{% codeblock Problem A %}
+{% codeblock lang:cpp Problem A %}
 #include <stdio.h>
 int main()
 {
@@ -39,7 +39,7 @@ int main()
 <!-- more -->
 <h3>B题：统计字符（hdoj1860）（九度1021）</h3>
 <p>继续水题，代码如下：</p>
-{% codeblock Problem B %}
+{% codeblock lang:cpp Problem B %}
 #include <stdio.h>
 #include <string.h>
 #include <memory.h>
@@ -67,7 +67,7 @@ int main()
 <h3>C题：游船出租（hdoj1861）（九度1022）</h3>
 <p>模拟题，水题。代码如下：</p>
 
-{% codeblock Problem C %}
+{% codeblock lang:cpp Problem C %}
 #include <stdio.h>
 #include <memory.h>
 int d[101],f[101];
@@ -103,7 +103,7 @@ int main()
 <h3>D题：Excel排序（hdoj1862）（九度1023）</h3>
 <p>排序题，水题，直接上代码：</p>
 
-{% codeblock Problem D %}
+{% codeblock lang:cpp Problem D %}
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -152,7 +152,7 @@ int main()
 <h3>E题：畅通工程（hdoj1863）（九度1024）</h3>
 <p>模板题，prim算法</p>
 
-{% codeblock Problem E %}
+{% codeblock lang:cpp Problem E %}
 #include <stdio.h>
 #include <memory.h>
 #define INF 0x7fffffff
@@ -200,7 +200,7 @@ int main()
 <h3>F题：最大报销额（hdoj1864）（九度1025）</h3>
 <p>典型的背包问题，DP</p>
 
-{% codeblock Problem F %}
+{% codeblock lang:cpp Problem F %}
 #include <stdio.h>
 #define PRE 0.0001
 int main()

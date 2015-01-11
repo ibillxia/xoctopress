@@ -4,7 +4,7 @@ title: "10年浙大复试机试题解"
 date: 2012-03-07 12:08
 comments: true
 categories: Program
-tags: ZJU ProgramTest QuickSort UnionFindSet
+tags: ZJU 机试 快排 并查集
 ---
 <p>
 10年浙大研究生复试机试题解
@@ -12,7 +12,7 @@ tags: ZJU ProgramTest QuickSort UnionFindSet
 
 <h3>A题：A+B（hdoj3787）（九度1003）</h3>
 <p>水题，不解释，直接上代码：</p>
-{% codeblock Problem A %}
+{% codeblock lang:cpp Problem A %}
 #include <stdio.h>
 long a,b;
 int main()
@@ -50,7 +50,7 @@ int main()
 设a为第一个z前o的个数，b为z和j之间o的个数，c为j之后o的个数，
 则有c=a*b，其中b>0.代码如下：
 </p>
-{% codeblock Problem B %}
+{% codeblock lang:cpp Problem B %}
 #include <stdio.h>
 #include <string.h>
 char s[1001];
@@ -84,7 +84,7 @@ int main()
 （2）最后输出结果要按输入的顺序给出（hdoj，但在九度上是要按照国家的编号小到大顺序输出）。
 hdoj AC的代码如下：</p>
 
-{% codeblock Problem C %}
+{% codeblock lang:cpp Problem C %}
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -158,7 +158,7 @@ int main()
 
 <h3>D题：最短路径问题（hdoj3790）（九度1008）</h3>
 <p>双重最短路问题，用dijkstra算法（模板题）。代码如下：</p>
-{% codeblock Problem D %}
+{% codeblock lang:cpp Problem D %}
 #include <stdio.h>
 #include <memory.h>
 #define INF 0x1fffffff
@@ -221,7 +221,7 @@ int main()
 <h3>E题：二叉搜索树（hdoj3791）（九度1009）</h3>
 <p>题目给的数据的范围很小，一开始就考虑用数组来存储树，提交后RE了。
 没办法，改用指针实现，果断AC了，代码如下：</p>
-{% codeblock Problem E %}
+{% codeblock lang:cpp Problem E %}
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

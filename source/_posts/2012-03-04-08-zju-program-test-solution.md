@@ -4,7 +4,7 @@ title: "08年浙大复试机试题解"
 date: 2012-03-04 22:42
 comments: true
 categories: Program
-tags: ZJU ProgramTest EulerCircuit Prim DP
+tags: ZJU 机试 Prim 动态规划
 ---
 <p>
 08年浙大研究生复试机试题解
@@ -13,7 +13,7 @@ tags: ZJU ProgramTest EulerCircuit Prim DP
 <h3>A题：又一版A+B（hdoj1877）（九度1026）</h3>
 <p>水题，直接上代码：</p>
 
-{% codeblock Problem A %}
+{% codeblock lang:cpp Problem A %}
 #include <stdio.h>
 char out[34];
 unsigned int m,a,b,c;
@@ -42,7 +42,7 @@ int main()
 <p>对于无向图，存在欧拉回路的条件是：图连通，顶点的度为偶数。
 对于有向图，存在欧拉回路的条件是：图强连通，顶点的入度等于出度。代码如下：</p>
 
-{% codeblock Problem B %}
+{% codeblock lang:cpp Problem B %}
 #include <stdio.h>
 #include <memory.h>
 int m,n,v[1000],g[1000][1000];
@@ -81,7 +81,7 @@ int main()
 <h3>C题：继续畅通工程（hdoj1879）（九度1028）</h3>
 <p>模板题，prim算法</p>
 
-{% codeblock Problem C %}
+{% codeblock lang:cpp Problem C %}
 #include <stdio.h>
 #include <memory.h>
 #define INF 0x1fffffff
@@ -122,7 +122,7 @@ int main()
 
 <h3>D题：魔咒词典（hdoj1880）（九度1029）</h3>
 <p>水题，字符串处理，注意不需要排序，不然会超时。</p>
-{% codeblock Problem D %}
+{% codeblock lang:cpp Problem D %}
 #include <stdio.h>
 #include <string.h>
 typedef struct node{
@@ -168,7 +168,7 @@ int main()
 <h3>E题：毕业bg（hdoj1881）（九度1030）</h3>
 <p>可看做背包问题，将截止时间看做背包的容量，将bg看做重物，构建DP状态方程。代码如下：</p>
 
-{% codeblock Problem E %}
+{% codeblock lang:cpp Problem E %}
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>

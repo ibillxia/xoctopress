@@ -4,7 +4,7 @@ title: "深度学习简介"
 date: 2013-03-16 21:36
 comments: true
 categories: PRML
-tags: MachineLearning DeepLearning NeuralNetworks AutoEncoder SparseCoding RBM
+tags: 机器学习 深度学习 神经网络 AutoEncoder SparseCoding RBM
 ---
 ##0.概述
 <p>

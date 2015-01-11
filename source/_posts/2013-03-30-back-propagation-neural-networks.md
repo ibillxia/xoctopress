@@ -4,7 +4,7 @@ title: "反向传播(BP)神经网络"
 date: 2013-03-30 21:37
 comments: true
 categories: PRML
-tags: NeuralNetworks BPNN GradientDescent
+tags: BPNN 神经网络 梯度下降
 ---
 <p>前面几篇文章中对神经网络和深度学习进行一些简介，包括神经网络的发展历史、基本概念和常见的几种神经网络以及神经网络的学习方法等，
 本文具体来介绍一下一种非常常见的神经网络模型——反向传播(Back Propagation)神经网络。</p>

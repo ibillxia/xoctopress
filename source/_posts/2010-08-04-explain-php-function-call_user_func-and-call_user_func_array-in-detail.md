@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "PHP函数call_user_func和call_user_func_array详解"
+title: "PHP函数`call_user_func`和`call_user_func_array`详解"
 date: 2010-08-04 21:38
 comments: true
 categories: Program
 tags: PHP 库函数
 ---
-<p>call\_user_func函数类似于一种特别的调用函数的方法，使用方法如下：</p>
+<p>`call_user_func`函数类似于一种特别的调用函数的方法，使用方法如下：</p>
 
 ``` php
 function a($b,$c) 
@@ -33,7 +33,7 @@ call_user_func(array("a", "b"),"111");
 //显示 111
 ```
 
-<p>call_user_func_array函数和call_user_func很相似，只不过是换了一种方式传递了参数，让参数的结构更清晰:</p>
+<p>`call_user_func_array`函数和`call_user_func`很相似，只不过是换了一种方式传递了参数，让参数的结构更清晰:</p>
 
 ``` php
 unction a($b, $c) 
@@ -45,7 +45,7 @@ call_user_func_array('a', array("111", "222"));
 //显示 111 222
 ```
 
-<p>call_user_func_array函数也可以调用类内部的方法的</p>
+<p>`call_user_func_array`函数也可以调用类内部的方法的</p>
 
 ``` php
 Class ClassA {
@@ -58,7 +58,7 @@ call_user_func_array(array('ClassA','bc'), array("111", "222"));
 //显示 333
 ```
 
-<p>call_user_func函数和call_user_func_array函数都支持引用，这让他们和普通的函数调用更趋于功能一致:</p>
+<p>`call_user_func`函数和`call_user_func_array`函数都支持引用，这让他们和普通的函数调用更趋于功能一致:</p>
 
 ``` php
 function a(&$b)

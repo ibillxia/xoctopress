@@ -4,7 +4,7 @@ title: "09年浙大复试机试题解"
 date: 2012-03-05 16:48
 comments: true
 categories: Program
-tags: ZJU ProgramTest DFS
+tags: ZJU 机试 DFS
 ---
 <p>
 09年浙大研究生复试机试题解
@@ -13,7 +13,7 @@ tags: ZJU ProgramTest DFS
 <h3>A题：xxx定律（hdoj3782）（九度1031）</h3>
 <p>水题，直接上代码：</p>
 
-{% codeblock Problem A %}
+{% codeblock lang:cpp Problem A %}
 #include <stdio.h>
 int main()
 {
@@ -35,7 +35,7 @@ int main()
 <!-- more -->
 <h3>B题：ZOJ（hdoj3783）（九度1032）</h3>
 <p>继续水题</p>
-{% codeblock Problem B %}
+{% codeblock lang:cpp Problem B %}
 #include <stdio.h>
 char s[102];
 int main()
@@ -68,7 +68,7 @@ int main()
 如果在前面是关简数，而后面却是作为覆盖数的数，一律当做覆盖数而不是关键数。
 代码如下：</p>
 
-{% codeblock Problem C %}
+{% codeblock lang:cpp Problem C %}
 #include <stdio.h>
 #include <memory.h>
 int n,a[510];
@@ -104,7 +104,7 @@ int main()
 
 <h3>D题：寻找大富翁（hdoj3785）（九度1034）</h3>
 <p>水题，注意不要进行排序，不然就可能会超时。</p>
-{% codeblock Problem D %}
+{% codeblock lang:cpp Problem D %}
 #include <stdio.h>
 #include <memory.h>
 int m,n,a[100002],b[10];
@@ -133,7 +133,7 @@ int main()
 
 <h3>E题：找出直系血亲（hdoj3786）（九度1035）</h3>
 <p>水题，直接用DFS即可</p>
-{% codeblock Problem E %}
+{% codeblock lang:cpp Problem E %}
 #include <stdio.h>
 #include <memory.h>
 int m,n;

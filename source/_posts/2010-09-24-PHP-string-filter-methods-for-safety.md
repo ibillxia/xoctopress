@@ -4,19 +4,19 @@ title: "PHP字符串安全过滤全攻略"
 date: 2010-09-24 13:28
 comments: true
 categories: Program
-tags: PHP Safety String
+tags: PHP 安全
 ---
-<p>php安全过滤是防止注入的第一道防线，不得大意。提到PHP的安全过滤，不得不提的两个东西是set_magic_quotes_runtime 和 magic_quotes_gpc。</p>
+<p>php安全过滤是防止注入的第一道防线，不得大意。提到PHP的安全过滤，不得不提的两个东西是`set_magic_quotes_runtime` 和 `magic_quotes_gpc`。</p>
 
-<p>set_magic_quotes_runtime() 可以让程序员在代码中动态开启或关闭 magic_quotes_runtime，set_magic_quotes_runtime(1) 表示开启，
-set_magic_quotes_runtime(0) 则表示关闭。当set_magic_quotes_runtime(1)时，从数据库或通过fread之类的函数读取的文本，将自动对' "和\自动
+<p>`set_magic_quotes_runtime()` 可以让程序员在代码中动态开启或关闭 `magic_quotes_runtime`，`set_magic_quotes_runtime(1)` 表示开启，
+`set_magic_quotes_runtime(0)` 则表示关闭。当`set_magic_quotes_runtime(1)`时，从数据库或通过`fread`之类的函数读取的文本，将自动对' "和\自动
 加上反斜杠\进行转义，防止溢出。这在对数据库的数据进行转移的时候非常有用。但在一般情况下，应当将其关闭，否则从数据库读取出来的数据单引
-号、双引号和反斜杠都会被加上\，导致显示不正常。像Discuz，PHPWind都在公共文件的头部加上一句 set_magic_quotes_runtime(0); 强制关闭 
-magic_quotes_runtime 。</p>
+号、双引号和反斜杠都会被加上\，导致显示不正常。像Discuz，PHPWind都在公共文件的头部加上一句 `set_magic_quotes_runtime(0);` 强制关闭 
+`magic_quotes_runtime` 。</p>
 
-<p>magic_quotes_gpc 和 magic_quotes_runtime 的区别在于，magic_quotes_gpc 是对通过GET、POST、COOKIE传递的数据进行转义，一般在数据入库前
-要先进行转义，magic_quotes_gpc不能在代码中动态开启或关 闭，需要到php.ini将magic_quotes_gpc设置为on或off，代码中可以用get_magic_quotes_gpc
-获取 magic_quotes_gpc的状态。当magic_quotes_gpc为off时，需要手工对数据进行addslashes，代码如下：</p>
+<p>`magic_quotes_gpc` 和 `magic_quotes_runtime` 的区别在于，`magic_quotes_gpc` 是对通过GET、POST、COOKIE传递的数据进行转义，一般在数据入库前
+要先进行转义，`magic_quotes_gpc`不能在代码中动态开启或关 闭，需要到`php.ini`将`magic_quotes_gpc`设置为on或off，代码中可以用`get_magic_quotes_gpc`
+获取 `magic_quotes_gpc`的状态。当`magic_quotes_gpc`为off时，需要手工对数据进行addslashes，代码如下：</p>
 <!--more-->
 {% codeblock %}
 if (!get_magic_quotes_gpc()) {    
@@ -38,7 +38,7 @@ function add_slashes($string) {
 {% endcodeblock %}
 
 <p>php防注入函数,字符过滤函数</p>
-{% codeblock %}
+{% codeblock lang:php %}
 //解码
 function htmldecode($str)
 {

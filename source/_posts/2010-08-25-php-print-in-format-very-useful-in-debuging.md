@@ -4,10 +4,10 @@ title: "PHP格式化打印数组，调试有用"
 date: 2010-08-25 10:08
 comments: true
 categories: Program
-tags: PHP Print Debug FleaPHP
+tags: PHP FleaPHP 调试
 ---
 <p>以下是从FleaPHP上挖来的，感谢FleaPHP的开发者们。</p>
-{% codeblock %}
+{% codeblock lang:php %}
 /**
 * 输出变量的内容，通常用于调试
 *

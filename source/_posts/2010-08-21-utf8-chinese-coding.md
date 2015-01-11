@@ -4,7 +4,7 @@ title: "UTF8中文编码范围"
 date: 2010-08-21 10:31
 comments: true
 categories: Technics
-tags: UTF8 Unicode BOM
+tags: UTF8 Unicode 编码
 ---
 <p>UTF-8有点类似于Haffman编码，它将Unicode编码为： </br>
 00000000-0000007F的字符，用单个字节来表示； </br>

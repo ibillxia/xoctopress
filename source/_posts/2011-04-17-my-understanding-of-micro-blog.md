@@ -4,7 +4,7 @@ title: "我是如何理解微博的 "
 date: 2011-04-17 13:31
 comments: true
 categories: View
-tags: MicroBlog SNS
+tags: 社交网络 微博
 ---
 <h3>微博首先是媒体</h3>
 <center>{% img /images/2011/IMAG2011041701.jpg %}</center>

@@ -4,7 +4,7 @@ title: "超好的HTML解析工具PHP Simple HTML DOM Parser"
 date: 2010-08-28 20:49
 comments: true
 categories: Program
-tags: PHP HTML DOM Parser
+tags: PHP HTML DOM 解析
 ---
 <p>采用PHP5+ 开发的一个简单的 PHP HTML DOM 分析，支持 invalid HTML 并提供非常简单的方式来操作 HTML 元素。在 HMTL 页面
 上查找标签所使用的语法与 jQuery （一个轻量级，实用的 javascript 框架） 相似，从页面中抽取内容只需要一行代码。开源代码：
@@ -42,7 +42,7 @@ foreach($result as $v) {echo $v->outertext . '<br>';}
 {% endcodeblock %}
 
 <p>如何修改 HTML 元素 </p>
-{% codeblock %}
+{% codeblock lang:php %}
 <? 
 include('html_dom_parser.php');
 $dom = file_get_dom('http://www.google.com/');
@@ -58,7 +58,7 @@ echo $dom->save();
 {% endcodeblock %}
 
 <p>Slashdot网站内容抓取</p>
-{% codeblock %}
+{% codeblock lang:php %}
 // Create DOM from URL
 $html = file_get_html('http://slashdot.org/');
 // Find all article blocks

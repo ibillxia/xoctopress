@@ -4,7 +4,7 @@ title: "11年浙大复试机试题解"
 date: 2012-03-07 19:56
 comments: true
 categories: Program
-tags: ZJU ProgramTest QuickSort
+tags: ZJU 机试 快排
 ---
 <p>
 11年浙大研究生复试机试题解
@@ -12,7 +12,7 @@ tags: ZJU ProgramTest QuickSort
 
 <h3>A题：A+B for Matrices （ 九度1001）</h3>
 <p>水题</p>
-{% codeblock Problem A %}
+{% codeblock lang:cpp Problem A %}
 #include <stdio.h>
 int m,n,a[10][10],b[10][10];
 int main()
@@ -48,7 +48,7 @@ int main()
 <!-- more -->
 <h3>B题：Grading（ 九度 1002 ）</h3>
 <p>继续水题！</p>
-{% codeblock Problem B %}
+{% codeblock lang:cpp Problem B %}
 #include <stdio.h>
 int main()
 {
@@ -74,7 +74,7 @@ int main()
 <h3>C题：Median（ 九度 1004）</h3>
 <p>再继续水题！</p>
 
-{% codeblock Problem C %}
+{% codeblock lang:cpp Problem C %}
 #include <stdio.h>
 long m,n,a[1000000],b[1000000];
 int main()
@@ -105,7 +105,7 @@ int main()
 
 <h3>D题：Graduate Admission（ 九度 1005）</h3>
 <p>有点麻烦，要细心！</p>
-{% codeblock Problem D %}
+{% codeblock lang:cpp Problem D %}
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>

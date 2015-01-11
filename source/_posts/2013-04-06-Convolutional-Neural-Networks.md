@@ -4,7 +4,7 @@ title: "卷积神经网络（CNN）"
 date: 2013-04-06 23:34
 comments: true
 categories: PRML
-tags: NeuralNetworks CNN LeNet
+tags: 神经网络 CNN LeNet
 ---
 <h2>1. 概述</h2>
 <p>卷积神经网络是一种特殊的深层的神经网络模型，它的特殊性体现在两个方面，一方面它的神经元间的连接是<strong>非全连接</strong>的，
@@ -91,7 +91,7 @@ tags: NeuralNetworks CNN LeNet
 <p>卷积层的前馈运算是通过如下算法实现的：</br>
 <center>卷积层的输出= Sigmoid( Sum(卷积) +偏移量) </center>
 其中卷积核和偏移量都是可训练的。下面是其核心代码：
-{% codeblock %}
+``` cpp
 ConvolutionLayer::fprop(input,output) {
 	//取得卷积核的个数
 	int n=kernel.GetDim(0);
@@ -111,13 +111,13 @@ ConvolutionLayer::fprop(input,output) {
 	//调用Sigmoid函数
 	output = Sigmoid(sum);
 }
-{% endcodeblock %}
+```
 其中，input是 n1×n2×n3 的矩阵，n1是输入层特征映射的个数，n2是输入层特征映射的宽度，n3是输入层特征映射的高度。output, sum, convolution,
 bias是n1×(n2-kw+1)×(n3-kh+1)的矩阵，kw,kh是卷积核的宽度高度(图中是5×5)。kernel是卷积核矩阵。table是连接表，即如果第a输入和第b个输出之间
 有连接，table里就会有[a,b]这一项，而且每个连接都对应一个卷积核。</p>
 
 <p>卷积层的反馈运算的核心代码如下：
-{% codeblock %}
+``` cpp
 ConvolutionLayer::bprop(input,output,in_dx,out_dx) {
 	//梯度通过DSigmoid反传
 	sum_dx = DSigmoid(out_dx);
@@ -136,7 +136,7 @@ ConvolutionLayer::bprop(input,output,in_dx,out_dx) {
 		kernel_dx[i] += DConv(sum_dx[b],input[a]);
 	}
 }
-{% endcodeblock %}
+```
 其中in_dx,out_dx 的结构和 input,output 相同，代表的是相应点的梯度。
 </p>
 <p></p>
@@ -148,7 +148,7 @@ ConvolutionLayer::bprop(input,output,in_dx,out_dx) {
 <p>类似的字采样层的输出的计算式为：</br>
 <center>输出= Sigmoid( 采样*权重 +偏移量)</center>
 其核心代码如下：
-{% codeblock %}
+``` cpp
 SubSamplingLayer::fprop(input,output) {
 	int n1= input.GetDim(0);
 	int n2= input.GetDim(1);
@@ -167,11 +167,11 @@ SubSamplingLayer::fprop(input,output) {
 	}
 	output = Sigmoid(sum);
 }
-{% endcodeblock %}
+```
 </p>
 
 <p>子采样层的反馈运算的核心代码如下：
-{% codeblock %}
+``` cpp
 SubSamplingLayer::bprop(input,output,in_dx,out_dx) {
 	//梯度通过DSigmoid反传
 	sum_dx = DSigmoid(out_dx);
@@ -192,7 +192,7 @@ SubSamplingLayer::bprop(input,output,in_dx,out_dx) {
 			}
 	}
 }
-{% endcodeblock %}
+```
 </p>
 
 <h3>3.3 全连接层的学习</h3>

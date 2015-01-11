@@ -4,7 +4,7 @@ title: "为什么要进行傅立叶变换"
 date: 2013-04-04 10:42
 comments: true
 categories: Math ASSP
-tags: Fourier FFT
+tags: FFT
 ---
 <h2>一、傅立叶变换的由来</h2>
 <p>关于傅立叶变换，无论是书本还是在网上可以很容易找到关于傅立叶变换的描述，但是大都是些故弄玄虚的文章，太过抽象，

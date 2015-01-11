@@ -4,7 +4,7 @@ title: "神经网络简介"
 date: 2013-03-20 23:21
 comments: true
 categories: PRML
-tags: NeuralNetworks ANN Perceptron
+tags: 神经网络 感知机
 ---
 <p>Deep Learning的本质是多层的神经网络，因此在深入学习Deep Learning之前，有必要了解一些神经网络的基本知识。
 本文首先对神经网络的发展历史进行简要的介绍，然后给出神经元模型的形式化描述，接着是神经网络模型的定义、特性，

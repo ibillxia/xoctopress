@@ -4,7 +4,7 @@ title: "LinkedIn十年来路：低调而沉稳的商业SNS鼻祖 "
 date: 2011-03-12 22:57
 comments: true
 categories: View
-tags: Linkedin SNS
+tags: Linkedin 社交网络
 ---
 <p>作为一家商业社交网站，LinkedIn显得低调而沉稳。与Facebook以宽泛社交为宗旨，被各种分享、聚会、礼物以及“动他（她）一下”等好玩的程序渲染的热闹相比，
 LinkedIn有着商业范儿的严肃简洁，只有一些基本的联络和互动功能。但也正是这种专注的定位和扎实的发展路线，让LinkedIn最终成为世界上最大的专业网站之一，

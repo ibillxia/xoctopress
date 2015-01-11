@@ -4,7 +4,7 @@ title: "让你心静的七十五条经典修心格言"
 date: 2011-07-19 10:07
 comments: true
 categories: Life
-tags: Calm Motto
+tags: 格言 修心
 ---
 <p>
 <center>{% img /images/2011/IMAG2011071901.jpg %}</center>

@@ -4,7 +4,7 @@ title: "基于能量的模型和波尔兹曼机"
 date: 2013-04-12 22:12
 comments: true
 categories: PRML
-tags: EBM BM RBM NeuralNetworks
+tags: RBM 神经网络
 ---
 <p>由于深度置信网络（Deep Belief Networks，DBN）是基于限制性玻尔兹曼机（Restricted Boltzmann Machines，RBM）的深层网络结构，
 所以本文重点讨论一下玻尔兹曼机（BM），以及它的学习算法——对比散度（Contrastive Divergence，CD）算法。在介绍BM前，我们首先介绍一下
@@ -99,7 +99,7 @@ $\theta = \{c, b, W\}$的值。</p>
 
 <p>在RBM中，可见单元一般等于训练数据的特征维数，而隐层单元数需要事先给定，这里设可见单元数和隐单元数分别为$n$和$m$，令$W$表示可见层与隐层间的链接权重
 矩阵(m×n阶)，$a$(n维列向量)和$b$(m维列向量)分别表示可见层与隐层的偏置向量。RBM的基于CD的快速学习算法主要步骤如下：
-{% codeblock %}
+```
 //输入：一个训练样本x0; 隐层单元个数m; 学习率alpha; 最大训练周期T
 //输出：链接权重矩阵W, 可见层的偏置向量a, 隐层的偏置向量b
 //训练阶段
@@ -124,7 +124,7 @@ For t=1,2,...,T
 	a = a + alpha *(v1-v2);
 	b = b + alpha *(P(h1=1|v1) - P(h2=1|v2));
 EndFor
-{% endcodeblock %}
+```
 上述基于CD的学习算法是针对RBM的可见单元和隐层单元均为二值变量的情形，我们可以很容易的推广到这些单元为高斯变量的情形。
 </p>
 

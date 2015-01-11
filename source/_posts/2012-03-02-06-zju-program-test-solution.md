@@ -4,7 +4,7 @@ title: "06年浙大复试机试题解"
 date: 2012-03-02 12:12
 comments: true
 categories: Program
-tags: ZJU ProgramTest Prim Stack
+tags: ZJU 机试 Prim Stack
 ---
 <p>
 06年浙大研究生复试机试题解
@@ -12,7 +12,7 @@ tags: ZJU ProgramTest Prim Stack
 
 <h3>A题：还是A+B（hdoj1229）（九度1015）</h3>
 <p>水题，简直水得不能再水</p>
-{% codeblock Problem A %}
+{% codeblock lang:cpp Problem A %}
 #include <stdio.h>
 #include <string.h>
 int main()
@@ -35,7 +35,7 @@ int main()
 虽然不难，但九度居然将其标为五星题，表示很费解。
 代码如下：
 </p>
-{% codeblock Problem B %}
+{% codeblock lang:cpp Problem B %}
 #include<stdio.h>
 int d[]={2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101};
 int main()
@@ -77,7 +77,7 @@ int main()
 <h3>C题：还是畅通工程（hdoj1233）（九度1017）</h3>
 <p>模板题，prim算法，代码如下：</p>
 
-{% codeblock Problem C %}
+{% codeblock lang:cpp Problem C %}
 #include <stdio.h>
 #include <memory.h>
 #define INF 0x7fffffff
@@ -125,7 +125,7 @@ int main()
 
 <h3>D题：统计同成绩学生人数（hdoj1235）（九度1018）</h3>
 <p>水题，同样很水，代码如下：</p>
-{% codeblock Problem D %}
+{% codeblock lang:cpp Problem D %}
 #include <stdio.h>
 int n,d[1001],t,cnt;
 int main()
@@ -149,7 +149,7 @@ int main()
 <h3>E题：简单计算器（hdoj1237）（九度1019）</h3>
 <p>有一点难度，但如果对此比较有研究，就不难了。
 主要思路是利用栈，得到表达式的逆波兰式，再进行计算，代码如下：</p>
-{% codeblock Problem E %}
+{% codeblock lang:cpp Problem E %}
 #include <stdio.h>
 #include <string.h>
 char in[202],cstk[80];

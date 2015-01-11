@@ -4,7 +4,7 @@ title: "05年浙大复试机试题解"
 date: 2012-03-01 11:41
 comments: true
 categories: Program
-tags: ZJU ProgramTest QuickSort UnionFindSet
+tags: ZJU 机试 快排
 ---
 <p>
 以下是05年浙大研究生复试机试题解，感觉题目与ACM题相比，难度还相差很远，
@@ -14,7 +14,7 @@ tags: ZJU ProgramTest QuickSort UnionFindSet
 
 <h3>A题：A+B （hdoj1228）（ 九度1010）</h3>
 <p>水题，不解释，直接上代码：</p>
-{% codeblock Problem A %}
+{% codeblock lang:cpp Problem A %}
 #include <stdio.h> 
 #include <string.h> 
 char map[][8] = {"zero","one","two","three","four","five","six","seven","eight","nine"};
@@ -47,7 +47,7 @@ int main()
 <h3>B题：最大连续子序列 (hdoj1231)（ 九度 1011 ）</h3>
 <p>这道题做过很多遍了，但用过的最好的方法还是用二重循环，在OJ上难免TLE了。
 Google了下才知道，可以用DP在O(N)内实现，代码如下：</p>
-{% codeblock Problem B %}
+{% codeblock lang:cpp Problem B %}
 #include<stdio.h> 
 int main() 
 {
@@ -95,7 +95,7 @@ int main()
 悲剧的是一直TLE，最后还是看了下并查集的知识，才发现用C数组很容易就可以实现。
 使用了并查集后，果断AC了，呵呵。代码如下：</p>
 
-{% codeblock Problem C %}
+{% codeblock lang:cpp Problem C %}
 #include <stdio.h> 
 #include <memory.h> 
 int m,n,min,set[1002];
@@ -140,7 +140,7 @@ int main()
 
 <h3>D题：开门人和关门人(hdoj1234)（ 九度 1013）</h3>
 <p>水题，直接上代码：</p>
-{% codeblock Problem D %}
+{% codeblock lang:cpp Problem D %}
 #include <stdio.h> 
 #include <memory.h> 
 int m,n; char temp[16],first[16],last[16];
@@ -180,7 +180,7 @@ int main()
 
 <h3>E题：排名(hdoj1236)（ 九度 1014）</h3>
 <p>简单题，直接调用系统的快排函数，代码如下：</p>
-{% codeblock Problem E %}
+{% codeblock lang:cpp Problem E %}
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <string.h> 

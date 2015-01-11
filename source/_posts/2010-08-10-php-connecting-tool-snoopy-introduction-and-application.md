@@ -4,7 +4,7 @@ title: "PHP采集利器snoopy应用详解"
 date: 2010-08-10 19:34
 comments: true
 categories: Program
-tags: PHP Snoopy Crawler
+tags: PHP Snoopy 爬虫
 ---
 <p>Snoopy是一个php类，用来模拟浏览器的功能，可以获取网页内容，发送表单。Snoopy正确运行需要你的服务器的PHP版本在4以上，
 并且支持PCRE（Perl Compatible Regular Expressions），基本的LAMP服务都支持。</p>
@@ -75,7 +75,7 @@ submitlinks(\$URI) </br>
 
 <h2>四、以下是demo</h2>
 <p>Demo 1：抓取百度首页示例</p>
-{% codeblock %}
+{% codeblock lang:php %}
 <?
 include "Snoopy.class.php"; 
 $snoopy = new Snoopy;
@@ -101,7 +101,7 @@ echo "error fetching document: ".$snoopy->error."\n";
 {% endcodeblock %}
 
 <p>Demo 2: snoopy登录并采集phpchina示例 </p>
-{% codeblock %}
+{% codeblock lang:php %}
 <?php
 //采集phpchina 
 set_time_limit(0); 

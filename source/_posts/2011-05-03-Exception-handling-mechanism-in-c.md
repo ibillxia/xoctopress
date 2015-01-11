@@ -4,7 +4,7 @@ title: "C语言中的异常处理机制"
 date: 2011-05-03 11:09
 comments: true
 categories: Program
-tags: C Exception goto setjmp longjmp
+tags: C语言 异常
 ---
 <h2>1.概述</h2>
 <p>什么是异常？异常一般指的是程序运行期（Run-Time）发生的非正常情况。异常一般是不可预测的，如：内存不足、打开文件失败、
@@ -27,7 +27,7 @@ tags: C Exception goto setjmp longjmp
 <p>goto语句有非常多的用途或优点，例如，它特别适合于在编写系统程序中被使用，它能使编写出来的代码非常简练。另外，goto语句
 另外一个最重要的作用就是，它实际上是一种对异常处理编程，最初也最原始的支持手段或方法。它能把错误处理模块的代码有效与其
 它代码分离开来。例程如下</p>
-{% codeblock %}
+{% codeblock lang:c %}
 void main(int argc, char* argv[])  
 {  
 　　if (Call_Func1(in, param out) {  
@@ -74,7 +74,7 @@ Error:
 <h4>jmp_buf 异常结构</h4>
 <p>使用 setjmp() 及 longjmp() 函数前，需要先认识一下 jmp_buf 异常结构。jmp_buf 将使用在 setjmp() 函数中，用于保存当前程序现场（保存
 当前需要用到的寄存器的值），jmp_buf 结构在 setjmp.h 文件内声明：</p>
-{% codeblock %}
+{% codeblock lang:c %}
 typedef struct
 {
 	unsigned j_sp;  // 堆栈指针寄存器
@@ -93,7 +93,7 @@ typedef struct
 
 <h4>setjmp() 与 longjmp() 函数详细说明</h4>
 <p>setjmp() 与 longjmp() 函数原型如下：</p>
-{% codeblock %}
+{% codeblock lang:c %}
 void _Cdecl longjmp(jmp_buf jmpb, int retval);
 int _Cdecl setjmp(jmp_buf jmpb);
 {% endcodeblock %}
@@ -101,7 +101,7 @@ int _Cdecl setjmp(jmp_buf jmpb);
 <p>_Cdecl 声明函数的参数使用标准C的进栈方式（由右向左）压栈，_Cdecl 是C语言的一种调用约定，除此以外，PASCAL 也是
 调用约定之一。C标准调用约定（_Cdecl）所声明的函数不自动清除堆栈，这一事务由调用者自行负责——这也是C可以支持不固定
 个数的参数的原因。此外，这一调用约定将在函数名前添加一个下划线字符，如某一函数声明为：</p>
-{% codeblock %}
+{% codeblock lang:c %}
 int cdecl DoSomething(void);
 {% endcodeblock %}
 <p>编译时将自动为 DoSomething 加上下划线前缀，即函数名变为：_DoSomething。</p>
@@ -128,7 +128,7 @@ int cdecl DoSomething(void);
 <p>C中如何实现，或者明确地说是模拟这一功能？下面介绍的是一些简单的方法。现在假设 longjmp() 第二个值为1，即 setjmp() 
 第二次将返回1。我们使用一组简单的宏来替代 setjmp() 和 longjmp() 以便使用：</br>
 首先定义一个全局的异常：</p>
-{% codeblock %}
+{% codeblock lang:c %}
 jmp_buf Jump_Buffer;
 {% endcodeblock %}
 
@@ -138,7 +138,7 @@ jmp_buf Jump_Buffer;
 {% endcodeblock %}
 
 <p> 当 setjmp() 函数第一次0 时，取非为真，则执行 try 块内的代码，如：</p>
-{% codeblock %}
+{% codeblock lang:c %}
 try {
 	Test();
 }
@@ -147,12 +147,12 @@ try {
 <p>当因为调用 longjmp() 抛出异常而导致 setjmp() 第二次返回时（程序将会转到 setjmp() 函数处返回，这时，这时应该执行
 的是异常处理代码。longjmp() 使 setjmp() 函数返回非0，if(!setjmp(JumpBuffer)) 中将值取非则为假，是以，异常处理放在
 其后应该使用一个 else：</p>
-{% codeblock %}
+{% codeblock lang:c %}
 #define catch else
 {% endcodeblock %}
 
 <p>如此看起来便跟 C++ 相似了，setjmp() 函数的第二次返回导致 if() 中表达式值为假，刚好使 catch 块得以执行，如：</p>
-{% codeblock %}
+{% codeblock lang:c %}
 try  {
 	Test();
 } catch {
@@ -161,12 +161,12 @@ try  {
 {% endcodeblock %}
 
 <p>实现如 C++ 的 throw 语句，事实上以宏替换 longjmp(jmp_buf, int) 的调用：</p>
-{% codeblock %}
+{% codeblock lang:c %}
 #define throw longjmp(Jump_Buffer, 1)
 {% endcodeblock %}
 
 <p>下面的例程解释如何使用这些宏：</p>
-{% codeblock %}
+{% codeblock lang:c %}
 #include"stdio.h"  
 #include"conio.h"  
 #include"setjmp.h"  

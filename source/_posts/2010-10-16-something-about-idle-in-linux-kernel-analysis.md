@@ -4,7 +4,7 @@ title: "分析linux内核的idle的知识 "
 date: 2010-10-16 14:24
 comments: true
 categories: Linux
-tags: Linux Kernel idle
+tags: Linux Kernel
 ---
 <p>Linux系统越来越受到电脑用户的欢迎，于是很多人开始学习Linux时，学习linux，你可能会遇到linux内核问题，这里将介绍linux内核中idle知识，
 在这里拿出来和大家分享一下。</p>
@@ -20,20 +20,20 @@ tags: Linux Kernel idle
 <p>我们知道系统是从BIOS加电自检，载入MBR中的引导程序(LILO/GRUB),再加载linux内核开始运行的，一直到指定shell开始运行告一段落，这时用户开始操作Linux。
 而大致是在vmlinux的入口startup_32(head.S)中为pid号为0的原始进程设置了执行环境，然后原是进程开始执行start_kernel()完成Linux内核的初始化工作。包括
 初始化页表，初始化中断向量表，初始化系统时间等。继而调用 fork(),创建第一个用户进程:</p>
-{% codeblock %}
+{% codeblock lang:c %}
 　　kernel_thread(kernel_init, NULL, CLONE_FS | CLONE_SIGHAND);
 {% endcodeblock %}
 
 <p>这个进程就是着名的pid为1的init进程，它会继续完成剩下的初始化工作，然后execve(/sbin/init), 成为系统中的其他所有进程的祖先。关于init我们这次先不研究，
 回过头来看pid=0的进程，在创建了init进程后，pid=0的进程调用 cpu_idle()演变成了idle进程。</p>
-{% codeblock %}
+{% codeblock lang:c %}
 　　current_thread_info()->status |= TS_POLLING;
 {% endcodeblock %}
 
 <p>在 smp系统中，除了上面刚才我们讲的主处理器(执行初始化工作的处理器)上idle进程的创建，还有从处理器(被主处理器activate的处理器)上的idle进程，他们又是
 怎么创建的呢?接着看init进程，init在演变成/sbin/init之前，会执行一部分初始化工作，其中一个就是 smp_prepare_cpus()，初始化SMP处理器，在这过程中会在处理
 每个从处理器时调用</p>
-{% codeblock %}
+{% codeblock lang:c %}
 　　task = copy_process(CLONE_VM, 0, idle_regs(?s), 0, NULL, NULL, 0);
 　　init_idle(task, cpu);
 {% endcodeblock %}
@@ -54,7 +54,7 @@ tags: Linux Kernel idle
 <p>因为idle进程中并不执行什么有意义的任务，所以通常考虑的是两点：1.节能，2.低退出延迟。</p>
 
 <p>其核心代码如下：</p>
-{% codeblock %}
+{% codeblock lang:c %}
 void cpu_idle(void) {
 	int cpu = smp_processor_id();
 	current_thread_info()->status |= TS_POLLING;   /* endless idle loop with no priority at all */
