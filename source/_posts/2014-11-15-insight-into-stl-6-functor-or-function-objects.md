@@ -4,7 +4,7 @@ title: "深入理解STL源码(6) 仿函数|函数对象"
 date: 2014-11-15 10:06
 comments: true
 categories: Program
-tags: C++ STL functor
+tags: C++ STL 函数对象
 ---
 
 ## 1. 仿函数|函数对象概述  

@@ -4,7 +4,7 @@ title: "深入理解STL源码(5.1) 算法"
 date: 2014-10-12 21:30
 comments: true
 categories: Program
-tags: C++ STL algorithm
+tags: C++ STL 算法
 ---
 
 ## 1. 算法概述  

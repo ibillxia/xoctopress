@@ -4,7 +4,7 @@ title: "语音信号处理之时域分析-音高及其Python实现"
 date: 2013-05-16 23:10
 comments: true
 categories: ASSP
-tags: Pitch Python
+tags: Speech Python 信号处理 音高
 ---
 <h2>音高（Pitch）</h2>
 <p>概念：音高（Pitch）是语音信号的一个很重要的特征，直觉上而言它表示声音频率的高低，这个频率是指基本频率（基频），也即基本周期的倒数。

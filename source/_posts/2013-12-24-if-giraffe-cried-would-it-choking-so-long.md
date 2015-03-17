@@ -4,7 +4,7 @@ title: "如果长颈鹿哭了，它会不会要哽咽好久"
 date: 2013-12-24 19:29
 comments: true
 categories: Life
-tags: Love Youth Pain
+tags: 生活 豆瓣 
 ---
 一篇很唯美的文章，来自豆瓣相册：[如果长颈鹿哭了，它会不会要哽咽好久](http://www.douban.com/photos/album/63673280/?start=0)，有微小删改。  
 在酷我调频的莫萱日记“[关于我爱你这件小事](http://www.kuwo.cn/yinyue/3619660/)”这一期中听到的，分享给大家，顺祝大家圣诞快乐！

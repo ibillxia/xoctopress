@@ -4,7 +4,7 @@ title: "06年浙大复试机试题解"
 date: 2012-03-02 12:12
 comments: true
 categories: Program
-tags: ZJU 机试 Prim Stack
+tags: ZJU 机试 Prim 栈
 ---
 <p>
 06年浙大研究生复试机试题解

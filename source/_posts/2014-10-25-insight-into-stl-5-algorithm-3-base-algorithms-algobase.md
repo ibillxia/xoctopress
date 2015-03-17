@@ -4,7 +4,7 @@ title: "深入理解STL源码(5.3) 算法之基本算法algobase"
 date: 2014-10-25 21:13
 comments: true
 categories: Program
-tags: C++ STL algorithm
+tags: C++ STL 算法
 ---
 
 本文主要介绍STL中的基本算法，主要涉及到的源码文件有 `stl_algobase.h` 等。

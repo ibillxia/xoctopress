@@ -4,7 +4,7 @@ title: "“毕业时刻”中的经典台词"
 date: 2012-02-19 22:32
 comments: true
 categories: Life
-tags: 台词
+tags: 生活 经典台词
 ---
 <h2>励志</h2>
 <p>1、既然我们向往光明，那就要同时学会拥抱黑夜。</br>

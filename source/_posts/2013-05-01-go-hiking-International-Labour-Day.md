@@ -4,7 +4,7 @@ title: "五一登高远足"
 date: 2013-05-01 22:01
 comments: true
 categories: Life
-tags: Life ZJU Hiking
+tags: ZJU 生活 运动
 ---
 <p>五一天晴气爽，登高望远，强身健体！只可惜“不畏浮云遮望眼，只缘身在最高层” 这句诗在空气严重污染的今天已不适用了！</p>
 

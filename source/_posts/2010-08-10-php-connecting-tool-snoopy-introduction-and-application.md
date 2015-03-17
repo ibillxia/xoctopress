@@ -4,7 +4,7 @@ title: "PHP采集利器snoopy应用详解"
 date: 2010-08-10 19:34
 comments: true
 categories: Program
-tags: PHP Snoopy 爬虫
+tags: PHP Snoopy 网络爬虫
 ---
 <p>Snoopy是一个php类，用来模拟浏览器的功能，可以获取网页内容，发送表单。Snoopy正确运行需要你的服务器的PHP版本在4以上，
 并且支持PCRE（Perl Compatible Regular Expressions），基本的LAMP服务都支持。</p>

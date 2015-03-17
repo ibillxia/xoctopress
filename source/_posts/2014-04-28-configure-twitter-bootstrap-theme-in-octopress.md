@@ -4,7 +4,7 @@ title: "给Octopress博客配置Twitter Bootstrap主题"
 date: 2014-04-28 22:37
 comments: true
 categories: Program
-tags: Octopress Bootstrap Jekyll Liquid
+tags: Octopress Bootstrap Jekyll
 ---
 
 很长一段时间以来就看到各种基于 Twitter Bootstrap 主题的博客很清爽，而且对 Tag 的归档也做得很赞，于是很想将自己的博客也换成 Bootstrap 的主题，随着看到的博客越来越多，自己的 Octopress 主题先得越来越臃肿，而 Tags 归档功能也相形见绌，更换主题的欲望越来越强烈了。于是乎，趁这个周末捣鼓了一番，最终大功告成，在这里分享一下具体过程。

@@ -4,7 +4,7 @@ title: "The Log Sum Inequality"
 date: 2012-08-14 21:42
 comments: true
 categories: Math
-tags: Convex Jensen Inequality
+tags: JensenInequality
 ---
 <p>In  mathematics, the log sum inequality is very useful for proving several theorems in information theory.</p>
 

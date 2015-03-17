@@ -4,7 +4,7 @@ title: "人的听觉系统生理结构（2）——中枢部分"
 date: 2012-12-21 21:55
 comments: true
 categories: Intelligence
-tags: Audio Intelligence Neural
+tags: Audio Intelligence 听觉
 ---
 <h2>0.概述</h2>
 <p>大脑中与听觉相关的部分称为听觉中枢，它纵跨脑干、中脑、丘脑的大脑皮层，是感觉系统中最长的中枢通路之一。自下向上，

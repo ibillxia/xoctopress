@@ -4,7 +4,7 @@ title: "深入理解STL源码(3.1) 序列式容器之vector"
 date: 2014-06-29 23:26
 comments: true
 categories: Program
-tags: C++ STL container vector
+tags: C++ STL 容器 vector
 ---
 本文涉及到 SGI STL 源码的文件有`vector`、`stl_vector.h`、`vector.h` 等几个文件。  
 

@@ -4,7 +4,7 @@ title: "深入理解C语言的define和内联函数"
 date: 2014-05-17 22:43
 comments: true
 categories: Program
-tags: C define inline
+tags: C语言 宏定义 内联函数
 ---
 ## 概述
 在 `Robert C.Searcord` 的 *The* *Cert* *C* *Secure* *Coding* *Standard* 一书中，关于宏定义的规范中第一条就是

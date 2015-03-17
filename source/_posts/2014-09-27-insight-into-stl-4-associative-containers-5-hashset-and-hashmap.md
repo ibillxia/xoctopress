@@ -4,7 +4,7 @@ title: "深入理解STL源码(4.5) 关联式容器之hashset和hashmap"
 date: 2014-09-27 21:30
 comments: true
 categories: Program
-tags: C++ STL container hashset hashmap
+tags: C++ STL 容器 hashset hashmap
 ---
 
 本文涉及到 SGI STL 源码的文件主要是 `stl_hash_set.h`、`stl_hash_map.h` 等文件。  

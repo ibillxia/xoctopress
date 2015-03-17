@@ -4,7 +4,7 @@ title: "深入理解STL源码(4.1) 关联式容器之红黑树"
 date: 2014-08-03 21:30
 comments: true
 categories: Program
-tags: C++ STL container RB-Tree
+tags: C++ STL 容器 红黑树
 ---
 
 本文涉及到 SGI STL 源码的文件主要是 `stl_tree.h` 这个文件。  

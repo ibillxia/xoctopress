@@ -4,7 +4,7 @@ title: "Matlab代码优化方法几则"
 date: 2012-04-25 20:07
 comments: true
 categories: Program
-tags: Matlab
+tags: Matlab 性能优化
 ---
 <p>1.计算向量、矩阵化，尽量减少for循环</br>
 因为MATLAB本来就是矩阵实验室的意思，他提供了极其强大而灵活的矩阵运算能力，你就没必要自己再用自己编写的for循环去实现矩阵运算的功能了。

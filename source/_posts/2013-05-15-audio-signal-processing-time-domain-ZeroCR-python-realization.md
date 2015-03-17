@@ -4,7 +4,7 @@ title: "语音信号处理之时域分析-过零率及其Python实现"
 date: 2013-05-15 21:44
 comments: true
 categories: ASSP
-tags: ZCR Python
+tags: Speech Python 信号处理 过零率
 ---
 <h2>过零率（Zero Crossing Rate）</h2>
 <p>概念：过零率（Zero Crossing Rate，ZCR）是指在每帧中，语音信号通过零点（从正变为负或从负变为正）的次数。

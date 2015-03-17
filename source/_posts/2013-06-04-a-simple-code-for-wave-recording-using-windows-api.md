@@ -4,7 +4,7 @@ title: "用Windows API实现一个简单的录音程序"
 date: 2013-06-04 23:59
 comments: true
 categories: ASSP Program
-tags: Windows API Record
+tags: Speech 信号处理 wave
 ---
 <p>本文介绍如何使用Windows API来录制语音信号兵保存到wave文件中，主要用到三个结构体和几个wave开头的API函数（在Winmm.lib文件中）。其中三个结构体是WAVEFORMATEX、WAVEHDR、MMTIME，其详细定义都在MMSystem.h中定义，
 可以转到定义看其详细内容及每一项的英文注释。用到的API函数的详细用法可以参见MSDN： http://msdn.microsoft.com/en-us/library/windows/desktop/dd743847(v=vs.85).aspx

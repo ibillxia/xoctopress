@@ -4,7 +4,7 @@ title: "MFCC参数提取及Matalab实现"
 date: 2012-07-18 20:10
 comments: true
 categories: ASSP
-tags: Audio Speech MFCC Matlab
+tags: Audio Speech MFCC Matlab 信号处理
 ---
 <h2>1.概述</h2>
 <p>Mel倒谱系数（Mel-frequency cepstral coefficients，MFCC）是受人的听觉系统研究成果推动而导出的声学特征。

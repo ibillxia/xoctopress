@@ -4,7 +4,7 @@ title: "蛙泳、自由泳、仰泳、蝶泳图解动画教你游泳"
 date: 2013-06-28 21:37
 comments: true
 categories: Life
-tags: Swimming
+tags: ZJU 生活 运动
 ---
 <p>最近在室友的带领下，开始去cjl游泳馆学游泳，这里转载一篇游泳教程，分享给初学游泳的网友们</p>
 

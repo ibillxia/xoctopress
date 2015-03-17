@@ -3,7 +3,7 @@ layout: post
 title: "你不可不知道的音乐大师及其名作"
 date: 2014-12-06 20:17
 comments: true
-categories: Music
+categories: Music Reading
 tags: 音乐 古典 钢琴 交响曲
 ---
 

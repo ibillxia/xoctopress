@@ -4,7 +4,7 @@ title: "语音信号处理之时域分析-音色及其Python实现"
 date: 2013-05-18 21:57
 comments: true
 categories: ASSP
-tags: Timbre Spectrogram Python
+tags: Speech Python 信号处理 音色
 ---
 <h2>音色（Timbre）</h2>
 <p>音色是一个很模糊的概念，它泛指语音的内容，例如“天书”这两个字的发音，虽然都是一声（即他们的音高应该是相同或接近的），

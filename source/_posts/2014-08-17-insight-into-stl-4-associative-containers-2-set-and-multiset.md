@@ -4,7 +4,7 @@ title: "深入理解STL源码(4.2) 关联式容器之set和multiset"
 date: 2014-08-17 21:30
 comments: true
 categories: Program
-tags: C++ STL container set
+tags: C++ STL 容器 集合
 ---
 
 本文涉及到 SGI STL 源码的文件主要有 `stl_set.h`、 `stl_multiset.h`、 `set.h`、 `multiset.h`、 `set` 等文件。  

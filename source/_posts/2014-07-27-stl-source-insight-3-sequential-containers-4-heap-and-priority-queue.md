@@ -4,7 +4,7 @@ title: "深入理解STL源码(3.4) 序列式容器之heap和priority queue"
 date: 2014-07-27 21:31
 comments: true
 categories: Program
-tags: C++ STL container heap
+tags: C++ STL 容器 堆
 ---
 本文涉及到 SGI STL 源码的文件有`heap`、`stl_heap.h`、`heap.h`、`stl_queue.h`、`queue` 等几个文件。  
 ## 1. 概述  

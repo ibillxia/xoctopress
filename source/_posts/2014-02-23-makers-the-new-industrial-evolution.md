@@ -3,8 +3,8 @@ layout: post
 title: "互联网引发的制造业革命——读《创客》"
 date: 2014-02-23 22:07
 comments: true
-categories: View Technics
-tags: Internet Maker Innovation DIY 3DPrint Crowdfunding
+categories: View Reading
+tags: 互联网 创业 众筹 长尾效应
 ---
 <p>其实很早之前就买了这本书，是在13年6月份和『看见』、『黑客与画家』等一起买的吧，看完这两本书后也就开始看『创客』了，
 但都是断断续续的看，没有花比较集中的时间，而且感觉前面几章将的内容没有那么大的吸引力。后来双11做活动，又买了10来本书，

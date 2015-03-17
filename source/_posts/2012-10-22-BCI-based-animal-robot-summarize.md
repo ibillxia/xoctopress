@@ -4,7 +4,7 @@ title: "基于BCI的动物机器人研究分析与展望"
 date: 2012-10-22 23:09
 comments: true
 categories: Intelligence
-tags: BCI robot rat
+tags: BCI 机器人
 ---
 <h3>摘  要</h3>
 <p>动物机器人已经成为机器人技术领域的重要研究方向之一，动物运动制导是当今神经、信息和机器人等科学交叉研究的一个热点。

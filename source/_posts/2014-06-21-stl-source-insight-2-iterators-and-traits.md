@@ -4,7 +4,7 @@ title: "深入理解STL源码(2) 迭代器(Iterators)和Traits"
 date: 2014-06-21 21:46
 comments: true
 categories: Program
-tags: C++ STL iterators traits
+tags: C++ STL 迭代器
 ---
 本文涉及到 SGI STL 源码的文件有 `iterator.h`, `stl_iterator_base.h`, `concept_checks.h`, `stl_iterator.h`, `type_traits.h`, `stl_construct.h`, `stl_raw_storage_iter.h` 等7个文件。  
 

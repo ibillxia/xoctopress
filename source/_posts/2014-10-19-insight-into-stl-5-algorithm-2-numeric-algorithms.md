@@ -4,7 +4,7 @@ title: "深入理解STL源码(5.2) 算法之数值算法"
 date: 2014-10-19 20:28
 comments: true
 categories: Program
-tags: C++ STL algorithm numeric
+tags: C++ STL 算法
 ---
 
 本文主要介绍STL中的数值算法，主要涉及到的源码文件有 `stl_numberic.h`、`numeric`、`stl_relops.h` 等。

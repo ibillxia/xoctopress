@@ -4,7 +4,7 @@ title: "GMM-SVM-NAP Method in Speaker Recognition"
 date: 2012-08-13 22:38
 comments: true
 categories: ASSP
-tags: GMM SVM NAP SpeakerRecognition Alize
+tags: 说话人识别 GMM SVM Alize
 ---
 <h2>1.Gaussian Mixture Models(GMM)</h2>
 <p>For a D-dimensional feature vector, x, the mixture density used for the likelihood function is deﬁned as</br>

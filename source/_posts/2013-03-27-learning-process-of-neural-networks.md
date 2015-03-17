@@ -4,7 +4,7 @@ title: "神经网络的学习方法概述"
 date: 2013-03-27 23:51
 comments: true
 categories: PRML
-tags: 神经网络 参数学习
+tags: 神经网络 机器学习
 ---
 <p>本文主要讨论一下神经网络的一般学习方法，主要有error-correction learning，memory-based learning， Hebbian learning，competitive learning，
 Boltzmann learning等。然后介绍一些学习的方式，如监督学习、非监督学习、强化学习等。最后是一些具体的应用领域和实际问题。</p>

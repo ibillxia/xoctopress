@@ -4,7 +4,7 @@ title: "语音信号处理之时域分析-音量及其Python实现"
 date: 2013-05-15 19:36
 comments: true
 categories: ASSP
-tags: Volume Python
+tags: Speech Python 信号处理 音量
 ---
 <h2>1.概述（Introduction）</h2>
 <p>本系列文主要介绍语音信号时域的4个基本特征及其Python实现，这4个基本特征是：</br>

@@ -4,7 +4,7 @@ title: "深入理解STL源码(7) 配接器adaptor"
 date: 2014-11-23 20:21
 comments: true
 categories: Program
-tags: C++ STL adaptor
+tags: C++ STL 适配器
 ---
 
 ## 1. 概述  

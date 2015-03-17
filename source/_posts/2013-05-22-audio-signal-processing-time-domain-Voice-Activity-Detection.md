@@ -4,7 +4,7 @@ title: "语音信号处理之时域分析-端点检测及Python实现"
 date: 2013-05-22 22:22
 comments: true
 categories: ASSP
-tags: VAD Python
+tags: Speech Python 信号处理 端点检测
 ---
 <h2>端点检测</h2>
 <p>端点检测（End-Point Detection，EPD）的目标是要决定信号的语音开始和结束的位置，所以又可以称为Speech Detection或Voice Activity Detection（VAD）。

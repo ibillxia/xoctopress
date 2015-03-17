@@ -4,7 +4,7 @@ title: "语音信号处理之时域分析-音高追踪及其Python实现"
 date: 2013-05-29 21:37
 comments: true
 categories: ASSP
-tags: Pitch PitchTracking Python ACF
+tags: Speech Python 信号处理 音高追踪
 ---
 <h2>1.概述</h2>
 <p>在<a href="http://ibillxia.github.io/blog/2013/05/16/audio-signal-processing-time-domain-pitch-python-realization/">音高及其Python实现</a>一文

@@ -4,7 +4,7 @@ title: "C++ 应用程序性能优化之 new/delete 操作符"
 date: 2014-05-11 20:33
 comments: true
 categories: Program
-tags: C++ Optimization Memory Pointer
+tags: C++ 性能优化 内存管理
 ---
 ## 1.概述
 C++ 程序的存储空间可以分为静态/全局存储区、栈区和堆区。下图展示了一个典型的Linux C/C++ 程序内存空间布局：

@@ -4,7 +4,7 @@ title: "深入理解STL源码(3.2) 序列式容器之list"
 date: 2014-07-06 22:03
 comments: true
 categories: Program
-tags: C++ STL container list
+tags: C++ STL 容器 list
 ---
 本文涉及到 SGI STL 源码的文件有`list`、`stl_list.h`、`list.h` 等几个文件。  
 

@@ -4,7 +4,7 @@ title: "协方差矩阵和相关系数矩阵"
 date: 2012-07-17 12:35
 comments: true
 categories: Math
-tags: Covariance Correlation Matrix
+tags: 矩阵 协方差
 ---
 <h2>1.概述</h2>
 <p>首先从随机变量的方差的性质讲起。</br>

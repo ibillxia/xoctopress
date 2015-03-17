@@ -4,7 +4,7 @@ title: "卷积神经网络（CNN）"
 date: 2013-04-06 23:34
 comments: true
 categories: PRML
-tags: 神经网络 CNN LeNet
+tags: CNN 神经网络 机器学习
 ---
 <h2>1. 概述</h2>
 <p>卷积神经网络是一种特殊的深层的神经网络模型，它的特殊性体现在两个方面，一方面它的神经元间的连接是<strong>非全连接</strong>的，

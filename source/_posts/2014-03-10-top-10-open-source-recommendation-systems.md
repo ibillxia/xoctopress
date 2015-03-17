@@ -4,7 +4,7 @@ title: "TOP 10开源的推荐系统简介"
 date: 2014-03-10 22:29
 comments: true
 categories: PRML
-tags: Recommendation SVD FM CF KDD    
+tags: 机器学习 数据挖掘 推荐系统 矩阵分解
 ---
 <p>最近这两年推荐系统特别火，本文搜集整理了一些比较好的开源推荐系统，即有轻量级的适用于做研究的SVDFeature、LibMF、LibFM等，也有重量级的适用于工业系统的
 Mahout、Oryx、EasyRecd等，供大家参考。PS：这里的top 10仅代表个人观点。</p>

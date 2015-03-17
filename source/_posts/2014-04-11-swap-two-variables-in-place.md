@@ -5,7 +5,7 @@ date: 2014-04-11 22:27
 update: 2014-04-21 23:31
 comments: true
 categories: Program
-tags: swap overflow
+tags: swap C语言 C++
 ---
 
 ## 引子

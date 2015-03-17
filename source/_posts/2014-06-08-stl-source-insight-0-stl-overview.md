@@ -4,7 +4,7 @@ title: "深入理解STL源码(0) STL简介"
 date: 2014-06-08 21:39
 comments: true
 categories: Program
-tags: C++ STL Framework
+tags: C++ STL
 ---
 ## 0. 两个问题
 在介绍 STL 之前，先讨论两个问题：为什么要剖析 STL 源代码？如何剖析 STL 源代码？  

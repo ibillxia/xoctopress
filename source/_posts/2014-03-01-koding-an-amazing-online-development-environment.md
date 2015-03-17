@@ -4,7 +4,7 @@ title: "Koding——一个惊艳的在线编程开发平台"
 date: 2014-03-01 22:43
 comments: true
 categories: Technics
-tags: Technics Cloud Online Programing
+tags: 云协作 云端开发
 ---
 <p>最近在v2ex上发现了一个非常酷的云编程发开平台——Koding，与大家分享一下，主要介绍一下它的基本功能和操作。</p>
 <h2>What is Koding?</h2>

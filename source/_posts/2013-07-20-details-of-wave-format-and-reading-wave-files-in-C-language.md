@@ -4,7 +4,7 @@ title: "PCM WAVE格式详解及用C语言实现wave文件的读取"
 date: 2013-07-20 20:07
 comments: true
 categories: ASSP Program
-tags: PCM Wave C语言
+tags: Speech wave C语言 信号处理
 ---
 <h2>1.PCM Wave格式详解</h2>
 <p>WAVE文件格式是微软RIFF(Resource Interchange File Format,资源交换文件标准)的一种，是针对于多媒体文件存储的一种文件格式和标准。

@@ -4,7 +4,7 @@ title: "深入理解STL源码(1) 空间配置器(allocator)"
 date: 2014-06-13 22:04
 comments: true
 categories: Program
-tags: C++ STL allocator
+tags: C++ STL 内存管理
 ---
 在STL中，Memory Allocator 处于最底层的位置，为一切的 Container 提供存储服务，是一切其他组件的基石。对于一般使用 STL 的用户而言，Allocator 是不可见的，如果需要对 STL 进行扩展，如编写自定义的容器，就需要调用 Allocator 的内存分配函数进行空间配置。本文涉及到的 SGI STL 源代码文件有 `alloc.h`, `stl_config.h`, `stl_alloc.h`, `stl_threads.h` 这4个。  
 

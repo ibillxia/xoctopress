@@ -4,7 +4,7 @@ title: "分析linux内核的idle的知识 "
 date: 2010-10-16 14:24
 comments: true
 categories: Linux
-tags: Linux Kernel
+tags: Linux 内核
 ---
 <p>Linux系统越来越受到电脑用户的欢迎，于是很多人开始学习Linux时，学习linux，你可能会遇到linux内核问题，这里将介绍linux内核中idle知识，
 在这里拿出来和大家分享一下。</p>

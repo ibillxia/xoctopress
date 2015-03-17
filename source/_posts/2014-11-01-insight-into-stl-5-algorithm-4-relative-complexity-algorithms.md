@@ -4,7 +4,7 @@ title: "深入理解STL源码(5.4) 算法之复杂算法algorithm"
 date: 2014-11-01 10:33
 comments: true
 categories: Program
-tags: C++ STL algorithm sort set heap
+tags: C++ STL 算法 排序 集合 堆
 ---
 
 本文主要介绍STL中的稍微复杂的算法，主要涉及到的源码文件有 `stl_algo.h` 等。

@@ -4,7 +4,7 @@ title: "大白鼠听人话"
 date: 2013-05-24 22:59
 comments: true
 categories: Intelligence
-tags: Ratbot
+tags: 机器人
 ---
 <p>最近一直忙着准备给媒体展示的音控大鼠机器人一不小心上了CCTV了，虽然自己感觉没什么了不起的，也不知道网络上是什么评论。
 但既然上了CCTV，还是发博纪念一下吧</p>

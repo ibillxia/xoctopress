@@ -4,7 +4,7 @@ title: "Go并发编程初探"
 date: 2014-03-16 23:35
 comments: true
 categories: Program
-tags: Go Concurrent goroutine
+tags: Go 并发
 ---
 ## 概述
 <p>最近在做的一个项目，需要对大量数据进行一些基本的统计和处理，整个程序的思路很简单，但处理起来却很慢，特别是有二重循环的地方，龟速前进，眼看着16核32线程

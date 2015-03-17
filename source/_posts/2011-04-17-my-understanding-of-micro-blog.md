@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "我是如何理解微博的 "
+title: "我是如何理解微博的"
 date: 2011-04-17 13:31
 comments: true
 categories: View

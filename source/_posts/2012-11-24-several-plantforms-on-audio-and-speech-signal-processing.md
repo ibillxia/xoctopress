@@ -4,7 +4,7 @@ title: "几个常见的语音交互平台的简介和比较"
 date: 2012-11-24 18:54
 comments: true
 categories: ASSP
-tags: ASR VPR TTS SAPI viaVoice Nuance iFly Sphinx HTK Julius RWTH
+tags: 语音识别 说话人识别 语音合成 Nuance Sphinx HTK
 ---
 <h2>1.概述</h2>
 <p>最近做了两个与语音识别相关的项目，两个项目的主要任务虽然都是语音识别，或者更确切的说是关键字识别，但开发的平台不同，

@@ -4,7 +4,7 @@ title: "全排列及某排列的后继的求解及其STL实现的分析"
 date: 2014-04-24 23:24
 comments: true
 categories: Program
-tags: STL Permutation Leetcode Recursive
+tags: C++ STL Leetcode 排列组合
 ---
 
 在Leetcode上有好几道全排列相关的题，一直以来只是会写基于递归的全排列生成算法，遇到这几道题后，搜了下一些非递归的实现方法，发现其实全排列的生成还是很有规律的有木有！这里就总结一下递归和非递归的全排列生成方法，并分析一下 STL 的实现。

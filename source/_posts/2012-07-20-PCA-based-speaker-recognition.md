@@ -4,7 +4,7 @@ title: "基于主成分分析分类器的说话人识别"
 date: 2012-07-20 22:08
 comments: true
 categories: ASSP
-tags: PCA SpeakerRecognition
+tags: PCA 说话人识别
 ---
 <h2>1.说话人分类常用算法</h2>
 <p>说话人分类是说话人识别中的一大主题，目前已经发展了很多方法，这些方法大致可以分为两类：</br>

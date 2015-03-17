@@ -4,7 +4,7 @@ title: "Google PageRank 算法"
 date: 2012-07-08 xx:xx
 comments: true
 categories: PRML
-tags: Google PageRank 
+tags: Google PageRank
 ---
 <h2>1.概述</h2>
 <p>互联网发展早期的搜索引擎，对web页面的排序，是根据搜索的词组（短语）在页面中的出现次数（occurence ），

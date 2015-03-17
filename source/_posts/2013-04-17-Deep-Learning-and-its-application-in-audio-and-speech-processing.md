@@ -4,7 +4,7 @@ title: "深度学习及其在语音方面的应用"
 date: 2013-04-17 22:43
 comments: true
 categories: PRML
-tags: DeepLearning Audio Speech NeuralNetworks
+tags: Audio Speech 深度学习 神经网络 机器学习
 ---
 <p>以下是今天在组会上讲的内容，与大家分享一下。有些地方我也没有完全理解，欢迎大家一起来讨论。</p>
 <p><center>

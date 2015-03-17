@@ -4,7 +4,7 @@ title: "Linux的OSS和ALSA声音系统简介及其比较"
 date: 2013-09-08 19:46
 comments: true
 categories: Linux
-tags: OSS ALSA Audio Device HTK
+tags: Audio HTK Linux
 ---
 <h2>概述</h2>
 <p>昨天想在Ubuntu上用一下HTK工具包来绘制语音信号的频谱图和提取MFCC的结果，但由于前段时间把Ubuntu升级到13.04，系统的声卡驱动

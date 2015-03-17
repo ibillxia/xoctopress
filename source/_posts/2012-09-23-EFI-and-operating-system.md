@@ -4,7 +4,7 @@ title: "EFI和操作系统"
 date: 2012-09-23 23:03
 comments: true
 categories: Technics
-tags: EFI OS BIOS
+tags: 操作系统 EFI BIOS
 ---
 前两天在98上看到一个帖子 windows 8 没法和linux共存？ 里面有一个概念就是EFI
 <h2>什么是EFI？</h2>

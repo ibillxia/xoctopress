@@ -4,7 +4,7 @@ title: "凸优化简介"
 date: 2012-09-26 23:03
 comments: true
 categories: Math
-tags: Convex Optimization Programing MachineLearning
+tags: 凸优化 机器学习
 ---
 在machine learning 的很多问题中，我们最终往往要求解某个函数的最优值。用数学术语表示就是，
 给定一个函数 $f: R^{n} \rightarrow R$，求 $ x \in R^{n} $使得$f(x)$ 取得最小（大）值。例如least-square, 

@@ -4,7 +4,7 @@ title: "深入理解STL源码(3.3) 序列式容器之deque和stack、queue"
 date: 2014-07-13 20:46
 comments: true
 categories: Program
-tags: C++ STL container deque stack queue
+tags: C++ STL 容器 队列 栈
 ---
 本文涉及到 SGI STL 源码的文件有`deque`、`stl_deque.h`、`deque.h`、`stack`、`stl_stack.h`、`queue`、`stl_queue.h` 等几个文件。    
 ## 1. deque 概述  

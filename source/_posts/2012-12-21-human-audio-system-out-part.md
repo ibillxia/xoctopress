@@ -4,7 +4,7 @@ title: "人的听觉系统生理结构（1）——外周部分"
 date: 2012-12-21 21:43
 comments: true
 categories: Intelligence
-tags: Audio Cochlea 
+tags: Audio Intelligence 听觉
 ---
 <h2>概述</h2>
 <p>人的听觉系统是一个十分巧妙的音频信号处理器，它具有良好的抗噪声识别能力，它对声音信号的处理能力就来源于其巧妙的生理结构。</p>

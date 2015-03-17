@@ -4,7 +4,7 @@ title: "开源网络爬虫介绍及其比较"
 date: 2010-08-20 18:53
 comments: true
 categories: Technics
-tags: 爬虫 Lucene Nutch Heritrix 
+tags: 网络爬虫
 ---
 <h2>主流的爬虫</h2>
 <p><strong>Nutch</strong></br>
