@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "About Me"
-date: 2013-03-03 23:40
+date: 2015-03-31 20:51
 comments: true
 sharing: true
 footer: true
@@ -11,26 +11,26 @@ footer: true
 I am a postgraduate student in Computer Science Department, Zhejiang University since Sep.6, 2012. My research area is Biometric via Voice Print Recognition(VPR). I also do some projects related to speech recognition. And recently, I'm doing a research project related to bio-robots based on Brain-Computer Interfaces.  
 
 ## 教育经历   
-2012.07 ~ Now: ZJU，计算机学院，CCNT实验室，研究方向为动物机器人导航、语音处理与识别，关注机器学习与模式识别、脑机接口与穿戴式设备.  
+2012.07 ~ 2015.03: ZJU，计算机学院，CCNT实验室，研究方向为动物机器人导航、语音处理与识别，关注机器学习与模式识别、脑机接口与穿戴式设备.  
 2008.09 ~ 2012.06：HZAU，理学院，计算机专业.  
 2004.09 ~ 2008.06: MCYZ.  
 
 
-## 实习/工作经历
+## 实习经历
 2014.07 ~ 2014.09： 腾讯公司/社交网络事业群/QQ音乐音频基础开发组，基于内容的音乐情感分类  
 2011.07 ~ 2011.08： Linux 平台， C/C++ 开发专题的实习
 
-## 我的技能
+## 专业技能
 * C/C++/C#:  比较熟悉C，用C++（VC/QT）/C#也做过一些大大小小的项目。  
 * PHP/MySQL:  和小伙伴们一起做过网站，对前端的html/css/js略有了解。  
 * Linux/Perl:  熟悉Linux开发环境，会使用Shell/Perl等脚本语言。
 * Python/Matlab:  做数据分析与建模，能用Python做基本的语音信号处理。
 * Speech/Machine Learning： 熟悉基本的分类和聚类算法，熟练掌握语音信号处理、语音识别相关模型和方法，了解深度学习。  
 
-## 我的工具箱
-* 编辑器： Notepad++, vim, Sublime Text, CTex(Latex)  
+## 工具箱
+* 编辑器： Notepad++, vim, Sublime Text 2, CTex(Latex)  
 * 网络工具： Chrome, Free Gate, Putty, Git, EverNote  
-* 语音处理： HTK, CMU-Sphinx/pocket-sphinx, Alize, Marsyars, Cool Edit  
+* 语音处理： HTK, CMU-Sphinx/pocket-sphinx, Alize, Marsyars, Cool Edit, etc.  
 
 ## 我的网络社交  
 #### 关注我：  
