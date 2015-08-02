@@ -35,7 +35,7 @@ code_dir: upload/code
 category_dir: blog/categories
 tag_dir: blog/tags
 markdown: rdiscount
-pygments: false  # default python pygments have been replaced by pygments.rb
+highlighter: pygments  # default python pygments have been replaced by pygments.rb
 # encoding: utf-8
 
 paginate: 10          # Posts per page on the blog index
