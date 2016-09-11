@@ -56,22 +56,22 @@ titlecase: true       # Converts page and post titles to titlecase
 # blog_index_asides: [asides/category_list.html, asides/tags.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
 # post_asides: [asides/category_list.html, asides/tags.html, asides/recent_posts.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
 # page_asides: [asides/category_list.html, asides/recent_posts.html, asides/recent_comments.html, asides/sina_weibo.html, asides/douban.html, asides/copyleft.html]
-# blog_index_asides: [asides/recent_comments.html, asides/copyleft.html]
-# post_asides: [asides/recent_posts.html, asides/recent_comments.html, asides/copyleft.html]
-# page_asides: [asides/recent_comments.html, asides/copyleft.html]
-blog_index_asides: false
-post_asides: false
-page_asides: false
+#blog_index_asides: [asides/category_list.html, asides/recent_comments.html, asides/github.html, asides/copyleft.html]
+#post_asides: [asides/recent_posts.html, asides/recent_comments.html, asides/copyleft.html]
+#page_asides: [asides/recent_posts.html, asides/recent_comments.html]
+#blog_index_asides: true
+#post_asides: true
+#page_asides: true
 
 # ----------------------- #
 #   3rd Party Settings    #
 # ----------------------- #
 
 # Github repositories
-# github_user: ibillxia
-# github_repo_count: 5
-# github_show_profile_link: true
-# github_skip_forks: true
+#github_user: ibillxia
+#github_repo_count: 5
+#github_show_profile_link: true
+#github_skip_forks: true
 
 # Twitter
 # twitter_user: ibillxia
@@ -103,7 +103,7 @@ disqus_short_name: ibillxia
 disqus_show_comment_count: true
 
 # Google Analytics
-# google_analytics_tracking_id: UA-39460228-1
+google_analytics_tracking_id: UA-39460228-1
 
 # Facebook Like
 # facebook_like: true
