@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://ibillxia.github.io
-title: Bill's Blog
-subtitle: Program Hard, Play Hard, Live Crazy!
-author: Bill Xia
+url: http://biubiuds.github.io
+title: Biubiu's Data Science Blog
+subtitle: Data Science, Financial and Music
+author: BiubiuDS
 simple_search: http://www.google.com/
 description: Yesterday is History, Tomorrow a Mystery, Today is a Gift, Thats why it's called the Present！
 
@@ -103,7 +103,7 @@ disqus_short_name: ibillxia
 disqus_show_comment_count: true
 
 # Google Analytics
-google_analytics_tracking_id: UA-39460228-1
+google_analytics_tracking_id: 258417518
 
 # Facebook Like
 # facebook_like: true
