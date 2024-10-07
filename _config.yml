@@ -30,7 +30,7 @@ root: /
 permalink: /blog/:year/:month/:day/:title/
 source: source
 destination: public
-plugins: plugins
+plugins_dir: plugins
 code_dir: upload/code
 category_dir: blog/categories
 tag_dir: blog/tags
@@ -38,6 +38,7 @@ markdown: rdiscount
 highlighter: pygments  # default python pygments have been replaced by pygments.rb
 # encoding: utf-8
 
+gems: [jekyll-paginate]
 paginate: 10          # Posts per page on the blog index
 pagination_dir: "/page:num/"  # Directory base for pagination URLs eg. /blog/page/2/
 recent_posts: 10       # Posts in the sidebar Recent Posts section
@@ -103,7 +104,7 @@ disqus_short_name: ibillxia
 disqus_show_comment_count: true
 
 # Google Analytics
-google_analytics_tracking_id: UA-39460228-1
+google_analytics_tracking_id: G-34DJ0T23LB
 
 # Facebook Like
 # facebook_like: true
