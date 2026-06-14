@@ -10,3 +10,5 @@ source.old
 vendor
 node_modules
 _cache
+_stash
+.claude

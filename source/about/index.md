@@ -17,7 +17,8 @@ I am a postgraduate student in Computer Science Department, Zhejiang University 
 * 2008.09 ~ 2012.06：HZAU，理学院，计算机专业.  
 
 ## 实习工作经历
-* 2015.04 ~ Now: 腾讯公司/社交网络事业群/数字音乐部/数据分析  
+* 2016.10 ~ Now： 腾讯音乐/QQ音乐业务线/平台产品部，数据科学
+* 2015.04 ~ 2016.09: 腾讯公司/社交网络事业群/数字音乐部，数据分析  
 * 2014.07 ~ 2014.09： 腾讯公司/社交网络事业群/数字音乐部/音频基础开发组，基于内容的音乐情感分类  
 * 2011.07 ~ 2011.08： Linux 平台， C/C++ 开发专题的实习
 
@@ -34,11 +35,12 @@ I am a postgraduate student in Computer Science Department, Zhejiang University 
 用 C#+SQL Server开发，负责部分功能模块的开发，主要是数据的增删查改排等   
 
 ## 专业技能
+* Go: 高性能后台服务开发，推荐系统后台，AI Agent后台  
 * C/C++/C#:  比较熟悉C，用C++（VC/QT）/C#也做过一些大大小小的项目  
-* PHP/MySQL:  和小伙伴们一起做过网站，对前端的html/css/js略有了解  
-* Linux/Perl:  熟悉Linux开发环境，会使用Shell/Perl等脚本语言
-* Python/Matlab:  做数据分析与建模，能用Python做基本的语音信号处理
+* Python/TensorFlow/Pytorch:  做数据分析与建模，能用Python做基本的语音信号处理，基于tf构建推荐算法  
 * Speech/Machine Learning： 熟悉基本的分类和聚类算法，熟练掌握语音信号处理、语音识别相关模型和方法，了解深度学习  
+* PHP/MySQL:  和小伙伴们一起做过网站，对前端的html/css/js略有了解  
+* Linux/Perl:  熟悉Linux开发环境，会使用Shell/Perl等脚本语言  
 
 ## 我的网络社交  
 【[StackOverFlow](http://stackoverflow.com/users/1602285/bill-xia)】  【[GitHub](https://github.com/ibillxia)】  【[Facebook](https://www.facebook.com/ibillxia)】   【[Tiwtter](https://twitter.com/ibillxia)】   

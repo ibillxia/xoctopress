@@ -3,7 +3,7 @@ source "http://rubygems.org"
 group :development do
   gem 'rake', '~> 10.5.0' # 0.9.6
   gem 'rack', '~> 1.4.1' # 1.4.1
-  gem 'jekyll', '~> 3.0.1'  # 2.0/1.4.3/0.12.1
+  gem 'jekyll', '~> 3.9.5'  # 3.9.x 修复了 Ruby 3.x 兼容问题 (原: 3.0.1)
   gem 'jekyll-paginate'
   gem 'octopress-hooks', '~> 2.2'
   gem 'octopress-date-format', '~> 3.0.3'
@@ -13,13 +13,18 @@ group :development do
   gem 'RedCloth', '~> 4.2.9'
   gem 'haml', '~> 4.0' # 3.1.7
   gem 'compass', '~> 1.0.1' # 0.12.6
-  # gem 'sass-globbing', '~> 1.0.0'
+  gem 'sass-globbing', '~> 1.0.0'
   gem 'rubypants', '~> 0.2.0'
   gem 'rb-fsevent', '~> 0.9.4'
   gem 'stringex', '~> 1.4.0'
-  # gem 'liquid', '~> 2.5.5'
+  gem 'liquid', '~> 4.0' # 3.x → 4.x 配合 Jekyll 3.9.x
   gem 'execjs', '~>2.5.2'
-  gem 'therubyracer', '~> 0.12.2'
+  # therubyracer 在 Apple Silicon 上无法编译，使用系统 Node.js 作为 execjs 运行时
+  # gem 'therubyracer', '~> 0.12.2'
 end
 
 gem 'sinatra', '~> 1.4.2' # 1.3.3
+
+# Ruby 3.x 将 rexml/webrick 从标准库移除，需显式声明
+gem 'rexml'
+gem 'webrick'

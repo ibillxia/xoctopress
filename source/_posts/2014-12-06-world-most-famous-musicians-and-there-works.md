@@ -1,13 +1,14 @@
 ---
 layout: post
-title: "你不可不知道的音乐大师及其名作"
+title: "《你不可不知道的音乐大师及其名作》读书笔记"
 date: 2014-12-06 20:17
 comments: true
-categories: Music Reading
+categories: Reading
 tags: 音乐 古典 钢琴 交响曲
 ---
 
-<center>{% img http://img3.douban.com/mpic/s1222113.jpg %}</center>
+<center>{% img /images/2014/IMAG2014120601.jpg %}</center>
+
 豆瓣链接：[你不可不知道的音乐大师及其名作](http://book.douban.com/subject/1263924/)  
 
 花了接近两个月的时间，终于把这本厚达623页的书看完了，这本书主要讲述了31位在音乐史上赫赫有名、贡献卓著的音乐大师的生平及其著名代表作，主要是西方古典音乐大师，包括我们耳熟能详的巴赫、海顿、莫扎特、贝多芬、舒伯特、肖邦等等，本文整理一下书中这些音乐大师及其代表作。

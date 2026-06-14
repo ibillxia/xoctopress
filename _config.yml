@@ -38,7 +38,7 @@ markdown: rdiscount
 highlighter: pygments  # default python pygments have been replaced by pygments.rb
 # encoding: utf-8
 
-gems: [jekyll-paginate]
+plugins: [jekyll-paginate]
 paginate: 10          # Posts per page on the blog index
 pagination_dir: "/page:num/"  # Directory base for pagination URLs eg. /blog/page/2/
 recent_posts: 10       # Posts in the sidebar Recent Posts section
