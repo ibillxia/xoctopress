@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 group :development do
-  gem 'rake', '~> 10.5.0' # 0.9.6
+  gem 'rake', '~> 13.0' # Ruby 3.x 兼容 (原: ~> 10.5.0)
   gem 'rack', '~> 1.4.1' # 1.4.1
   gem 'jekyll', '~> 3.9.5'  # 3.9.x 修复了 Ruby 3.x 兼容问题 (原: 3.0.1)
   gem 'jekyll-paginate'
