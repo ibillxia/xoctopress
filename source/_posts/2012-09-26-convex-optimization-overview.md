@@ -19,7 +19,7 @@ logistic regression, linear regression, svm, etc. 这类问题统称为优化问
 <p><strong>凸集的定义</strong>：一个集合$C$是凸集，当且仅当对任意$x,y\in C$和$\theta \in R$且$0\leq \theta \leq 1$，都有</br>
 <center>$\theta x + (1-\theta)y \in C$.</center>
 其几何意义在于，在集合C中任取两个点，连接两点的直线段上的任一点也在集合C中。下图是凸集和非凸集的例子：</br>
-{% img /images/201209026/IMAG20120902601.jpg %}
+<center>{% img /images/2012/IMAG2012092601.jpg %}</center>   
 </p>
 
 <!-- more -->
@@ -37,7 +37,7 @@ logistic regression, linear regression, svm, etc. 这类问题统称为优化问
 且对任意的$x,y\in D(f)$和$\theta \in R$且$0\leq \theta \leq 1$，都有</br>
 <center>$f(\theta x + (1-\theta)y \leq \theta f(x) + (1-\theta) f(y))$.</center>
 设$f(x)$为一元函数，那么上式的几何意义在于，曲线上任意两点处的割线在函数曲线的上方，如下图所示：</br>
-{% img /images/2012/IMAG20120902602.jpg %}
+<center>{% img /images/2012/IMAG2012092602.jpg %}</center>   
 </p>
 
 <p>常见的凸函数有指数函数（$f(x) = a^{x}，a>1$）、负对数函数（$f(x)=-log_{a}x，a>1，x>0$）、开口向上的二次函数等。</p>
