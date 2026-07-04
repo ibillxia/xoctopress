@@ -254,8 +254,9 @@ multitask :push do
   cd "#{deploy_dir}" do
     system "git add ."
     system "git add -u"
-    puts "\n## Commiting: Site updated at #{Time.now.utc}"
-    message = "Site updated at #{Time.now.utc}"
+    deploy_time = Time.now.strftime('%Y-%m-%d %H:%M:%S %z')
+    puts "\n## Commiting: Site updated at #{deploy_time}"
+    message = "Site updated at #{deploy_time}"
     system "git commit -m \"#{message}\""
     puts "\n## Pushing generated #{deploy_dir} website"
     system "git push origin #{deploy_branch} --force"
