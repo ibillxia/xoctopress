@@ -131,7 +131,7 @@ module Jekyll
 
 
   # Adds some extra filters used during the category creation process.
-  module Filters
+  module CategoryFilters
 
     # Outputs a list of categories as comma-separated <a> links. This is used
     # to output the category list for each post on a category page.
@@ -141,7 +141,7 @@ module Jekyll
     # Returns string
     #
     def category_links(categories)
-      categories = categories.sort!.map { |c| category_link c }
+      categories = categories.sort.map { |c| category_link c }
 
       case categories.length
       when 0
@@ -179,4 +179,6 @@ module Jekyll
   end
 
 end
+
+Liquid::Template.register_filter(Jekyll::CategoryFilters)
 

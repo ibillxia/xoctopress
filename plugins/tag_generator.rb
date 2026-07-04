@@ -129,7 +129,7 @@ module Jekyll
 
 
   # Adds some extra filters used during the tag creation process.
-  module Filters
+  module TagFilters
 
     # Outputs a list of tags as comma-separated <a> links. This is used
     # to output the tag list for each post on a tag page.
@@ -140,7 +140,7 @@ module Jekyll
     #
     def tag_links(tags)
       dir = @context.registers[:site].config['tag_dir'] || 'tags'
-      tags = tags.sort!.map do |item|
+      tags = tags.sort.map do |item|
         "<a class='tag' href='/#{dir}/#{item.to_url}/'>#{item}</a>"
       end
 
@@ -169,3 +169,5 @@ module Jekyll
   end
 
 end
+
+Liquid::Template.register_filter(Jekyll::TagFilters)
