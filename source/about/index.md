@@ -79,10 +79,10 @@ footer: true
 •	技术栈: 计算 HiveSQL / Flink · 存储 ES / HBase / MySQL · 可视化 HTML / D3.js / Echarts。   
    
 ## 其他项目 Selected Side Projects   
-### Sovits-SVC AI 翻唱(LoRA微调):    
+### Sovits-SVC AI 翻唱:    
 RTX 4060 本地全流程 hands-on，涵盖人声 / 伴奏分离、切片、训练、推理，生成周杰伦 / 孙燕姿等音色微调模型。   
    
-### 基于 Gemma 的端侧音乐 App(Kotliln):    
+### 基于 Gemma 的端侧音乐 App(Kotlin):    
 Gemma 4 端侧模型解析多模态(摄像头 + 麦克风 + GPS)输入，对话式推荐 + AI DJ 电台 TTS，整合 iTunes / Deezer / Last.fm等平台API，支持本地音乐扫描与听歌周报生成。   
    
 ### 跨端 AI 日报 App (TypeScript):    
