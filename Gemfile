@@ -2,7 +2,8 @@ source "http://rubygems.org"
 
 group :development do
   gem 'rake', '~> 13.0' # Ruby 3.x 兼容 (原: ~> 10.5.0)
-  gem 'rack', '~> 1.4.1' # 1.4.1
+  gem 'rack', '>= 2.2.23' # 1.4.1
+  gem 'rackup', '~> 2.2' # Rack 3.x 将 rackup 可执行文件移到独立 gem
   gem 'jekyll', '~> 3.9.5'  # 3.9.x 修复了 Ruby 3.x 兼容问题 (原: 3.0.1)
   gem 'jekyll-paginate'
   gem 'octopress-hooks', '~> 2.2'
@@ -23,7 +24,7 @@ group :development do
   # gem 'therubyracer', '~> 0.12.2'
 end
 
-gem 'sinatra', '~> 1.4.2' # 1.3.3
+gem 'sinatra', '>= 4.2.0' # 1.3.3
 
 # Ruby 3.x 将 rexml/webrick 从标准库移除，需显式声明
 gem 'rexml'
