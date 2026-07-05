@@ -11,8 +11,8 @@ group :development do
   gem 'jekyll-sitemap'
   gem 'rdiscount', '~> 2.0' # 1.6.8
   gem 'pygments.rb', '~> 3.0.0'  # 0.3.7
-  gem 'RedCloth', '~> 4.2.9'
-  gem 'haml', '~> 4.0' # 3.1.7
+  gem 'RedCloth', '>= 4.3.3'
+  gem 'haml', '>= 5.0.0' # 3.1.7
   gem 'compass', '~> 1.0.1' # 0.12.6
   gem 'sass-globbing', '~> 1.0.0'
   gem 'rubypants', '~> 0.2.0'
