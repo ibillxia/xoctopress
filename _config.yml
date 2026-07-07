@@ -2,11 +2,11 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://ibillxia.github.io
+url: https://ibillxia.github.io
 title: Bill's Blog
 subtitle: Program Hard, Play Hard, Live Crazy!
 author: Bill Xia
-simple_search: http://www.google.com/
+simple_search: https://www.google.com/
 description: Yesterday is History, Tomorrow a Mystery, Today is a Gift, Thats why it's called the Present！
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
