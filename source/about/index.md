@@ -23,13 +23,13 @@ footer: true
    
 - **Data Science & Engineering**   
 通过爆款潜力评估模型挖掘并推火《一路生花》等现象级歌曲；   
-从 0 到 1 搭建离线 + 流式数据管道，支撑实时音乐榜单。      
+从 0 到 1 搭建离线 + 流式数据管道，支撑离线、实时更新的音乐榜单。      
    
 ## 核心技能 Core Skills   
-•	GenAI & Agent: ReAct、Tool Calling、Multi-Agent、RAG、Prompt 工程、评测 Pipeline、全链路可观测、Skill / Workflow 工程化。  
-•	推荐与机器学习: 召回 / 精排 / 重排 · DeepFM / DIN / DCN / MMOE / EPNet / OneTrans · CLIP, Qwen3-Embedding · Faiss 向量检索 · 冷启动推荐 · Go服务开发。    
+•	GenAI & Agent: ReAct、Tool Calling、Multi-Agent、Prompt 工程、评测 Pipeline、全链路可观测、Skill、Go服务开发。  
+•	推荐算法与机器学习: 召回 / 精排 / 重排 · DeepFM / DIN / DCN / EPNet / OneTrans · CLIP, Qwen3-Embedding · Faiss 向量检索 · 冷启动。    
 •	实验设计&因果推断: 双边市场的A/B 实验设计 · 倾向得分匹配 / IPW · Uplift Modeling。   
-•	数据栈: SQL (HiveSQL) · Python (pandas, scikit-learn, PyTorch / TensorFlow)  · Spark / Flink / Kafka · Elasticsearch / HBase / MySQL。   
+•	数据栈: SQL (Hive) · Python (pandas, scikit-learn, PyTorch / TensorFlow) · Spark / Flink / Kafka · Elasticsearch / HBase / MySQL。   
    
 ## 技术影响力 Speaking & Influence   
 •	2025.06 · 开源贡献 · 发现HuggingFace transformers项目的一个 TorchTensorParallelPlugin 相关的bug [issue](https://github.com/huggingface/transformers/issues/39077)    
@@ -63,7 +63,7 @@ footer: true
    
 ### 4. 推荐系统流量调控  ·  流量调控内容中台	2019 – 2026   
 •	业务成果: 优势版权内容、付费内容播放份额提升x%，用户留存、会员转化提升x%；翻唱、盗版等内容份额下降x%；价值评估结果作为推荐模型重要特征，消融实验显示对时长影响1%+；多次获公司级奖项。   
-•	内容价值评估: 构建离线、实时统计的内容互动转化效率、拉新拉活能力、商业化驱动价值等多维度评估体系，融合内容的语种、年代、流派、厂牌等基础属性。
+•	内容价值评估: 构建离线、实时统计的内容互动转化效率、拉新拉活能力、商业化驱动价值等多维度评估体系，融合内容的语种、年代、流派、厂牌等基础属性。   
 •	流量调控中台：支持内容池配置、内容加权公式配置、流量调控点位配置等，实现对推荐等可控点位在粗精排阶段内容打分的干预，扶持或打压相关属性的内容。   
    
 ### 5. 潜力热歌挖掘  ·  多模态内容理解 + 前瞻行为画像	2019 – 2021   
